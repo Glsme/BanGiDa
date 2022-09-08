@@ -13,7 +13,7 @@ class HomeTableView: UITableView {
     let calendarView: CalendarView = {
         let view = CalendarView()
         view.clipsToBounds = true
-        view.layer.cornerRadius = 10
+        view.layer.cornerRadius = 15
         view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner, .layerMinXMaxYCorner)
         
         return view

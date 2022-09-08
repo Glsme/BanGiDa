@@ -28,6 +28,7 @@ class HomeView: BaseView {
     
     let homeTableView: HomeTableView = {
         let view = HomeTableView(frame: .zero, style: .insetGrouped)
+        view.rowHeight = 60
         return view
     }()
     
@@ -80,7 +81,7 @@ class HomeView: BaseView {
         }
         
         todayButton.snp.makeConstraints { make in
-            make.top.equalTo(homeTableView.calendarView.snp.top).offset(10)
+            make.centerY.equalTo(homeTableView.calendarView.calendarHeaderView.snp.centerY)
             make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-10)
             make.height.equalTo(20)
             make.width.equalTo(50)
