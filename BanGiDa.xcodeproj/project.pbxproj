@@ -20,6 +20,11 @@
 		857541FA28C9C0B1004DD880 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541F928C9C0B1004DD880 /* SettingViewController.swift */; };
 		857541FD28C9C957004DD880 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 857541FC28C9C957004DD880 /* SnapKit */; };
 		8575420028C9C985004DD880 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 857541FF28C9C985004DD880 /* FSCalendar */; };
+		8575420228C9C9CF004DD880 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575420128C9C9CF004DD880 /* HomeView.swift */; };
+		8575420528C9CC8E004DD880 /* HomeTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575420428C9CC8E004DD880 /* HomeTableView.swift */; };
+		8575422728C9D197004DD880 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575422628C9D197004DD880 /* HomeTableViewCell.swift */; };
+		8575422A28C9D1C3004DD880 /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575422928C9D1C3004DD880 /* ReusableProtocol.swift */; };
+		8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575422B28C9D8C6004DD880 /* CalendarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +41,11 @@
 		857541F528C9C074004DD880 /* HomeViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewViewController.swift; sourceTree = "<group>"; };
 		857541F728C9C099004DD880 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		857541F928C9C0B1004DD880 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		8575420128C9C9CF004DD880 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		8575420428C9CC8E004DD880 /* HomeTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableView.swift; sourceTree = "<group>"; };
+		8575422628C9D197004DD880 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		8575422928C9D1C3004DD880 /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
+		8575422B28C9D8C6004DD880 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +81,7 @@
 		857541D328C9BBF1004DD880 /* BanGiDa */ = {
 			isa = PBXGroup;
 			children = (
+				8575422828C9D1AC004DD880 /* Protocol */,
 				857541EE28C9BF3D004DD880 /* Utility */,
 				857541EA28C9BEF5004DD880 /* Home */,
 				857541EB28C9BEFA004DD880 /* Search */,
@@ -88,6 +99,7 @@
 		857541EA28C9BEF5004DD880 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				8575420328C9CA74004DD880 /* View */,
 				857541F528C9C074004DD880 /* HomeViewViewController.swift */,
 			);
 			path = Home;
@@ -124,6 +136,25 @@
 				857541F228C9BF84004DD880 /* BaseView.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		8575420328C9CA74004DD880 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8575420128C9C9CF004DD880 /* HomeView.swift */,
+				8575420428C9CC8E004DD880 /* HomeTableView.swift */,
+				8575422628C9D197004DD880 /* HomeTableViewCell.swift */,
+				8575422B28C9D8C6004DD880 /* CalendarView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8575422828C9D1AC004DD880 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				8575422928C9D1C3004DD880 /* ReusableProtocol.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,11 +236,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8575420228C9C9CF004DD880 /* HomeView.swift in Sources */,
 				857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */,
+				8575422A28C9D1C3004DD880 /* ReusableProtocol.swift in Sources */,
 				857541F828C9C099004DD880 /* SearchViewController.swift in Sources */,
 				857541F128C9BF56004DD880 /* BaseViewController.swift in Sources */,
 				857541FA28C9C0B1004DD880 /* SettingViewController.swift in Sources */,
+				8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */,
+				8575422728C9D197004DD880 /* HomeTableViewCell.swift in Sources */,
 				857541F328C9BF84004DD880 /* BaseView.swift in Sources */,
+				8575420528C9CC8E004DD880 /* HomeTableView.swift in Sources */,
 				857541D728C9BBF1004DD880 /* SceneDelegate.swift in Sources */,
 				857541F628C9C074004DD880 /* HomeViewViewController.swift in Sources */,
 				857541E928C9BD0E004DD880 /* Documentation.docc in Sources */,
