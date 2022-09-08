@@ -15,8 +15,6 @@ class HomeTableView: UITableView {
         
         configureUI()
         setConstraints()
-        
-        self.backgroundColor = .green
     }
     
     required init?(coder: NSCoder) {
