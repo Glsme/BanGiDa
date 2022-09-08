@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8556329428CA2D110055159E /* HomeSelectCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556329328CA2D110055159E /* HomeSelectCollectionView.swift */; };
+		8556329628CA2EB00055159E /* HomeSelectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556329528CA2EB00055159E /* HomeSelectCollectionViewCell.swift */; };
 		857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541D428C9BBF1004DD880 /* AppDelegate.swift */; };
 		857541D728C9BBF1004DD880 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541D628C9BBF1004DD880 /* SceneDelegate.swift */; };
 		857541DC28C9BBF1004DD880 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 857541DA28C9BBF1004DD880 /* Main.storyboard */; };
@@ -28,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8556329328CA2D110055159E /* HomeSelectCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSelectCollectionView.swift; sourceTree = "<group>"; };
+		8556329528CA2EB00055159E /* HomeSelectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSelectCollectionViewCell.swift; sourceTree = "<group>"; };
 		857541D128C9BBF1004DD880 /* BanGiDa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BanGiDa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		857541D428C9BBF1004DD880 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		857541D628C9BBF1004DD880 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,7 +148,9 @@
 				8575420128C9C9CF004DD880 /* HomeView.swift */,
 				8575420428C9CC8E004DD880 /* HomeTableView.swift */,
 				8575422628C9D197004DD880 /* HomeTableViewCell.swift */,
+				8556329328CA2D110055159E /* HomeSelectCollectionView.swift */,
 				8575422B28C9D8C6004DD880 /* CalendarView.swift */,
+				8556329528CA2EB00055159E /* HomeSelectCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -245,7 +251,9 @@
 				8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */,
 				8575422728C9D197004DD880 /* HomeTableViewCell.swift in Sources */,
 				857541F328C9BF84004DD880 /* BaseView.swift in Sources */,
+				8556329428CA2D110055159E /* HomeSelectCollectionView.swift in Sources */,
 				8575420528C9CC8E004DD880 /* HomeTableView.swift in Sources */,
+				8556329628CA2EB00055159E /* HomeSelectCollectionViewCell.swift in Sources */,
 				857541D728C9BBF1004DD880 /* SceneDelegate.swift in Sources */,
 				857541F628C9C074004DD880 /* HomeViewViewController.swift in Sources */,
 				857541E928C9BD0E004DD880 /* Documentation.docc in Sources */,

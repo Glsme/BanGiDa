@@ -12,9 +12,19 @@ class HomeView: BaseView {
     
     let headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .red
+        view.backgroundColor = .darkGray
         return view
     }()
+    
+    let imageView: UIImageView = {
+        let view = UIImageView()
+        view.backgroundColor = .darkGray
+        view.clipsToBounds = true
+        view.layer.cornerRadius = UIScreen.main.bounds.width * 0.2 / 2
+        return view
+    }()
+    
+    let selectCollectionView = HomeSelectCollectionView(frame: .zero, collectionViewLayout: selectCollectionViewLayout())
     
     let homeTableView: HomeTableView = {
         let view = HomeTableView(frame: .zero, style: .insetGrouped)
@@ -31,7 +41,9 @@ class HomeView: BaseView {
     }
     
     override func configureUI() {
-        [headerView, homeTableView].forEach {
+        headerView.addSubview(selectCollectionView)
+        
+        [headerView, homeTableView, imageView].forEach {
             self.addSubview($0)
         }
     }
@@ -41,10 +53,34 @@ class HomeView: BaseView {
             make.top.leading.trailing.equalTo(self.safeAreaLayoutGuide)
             make.height.equalTo(60)
         }
-        
+
         homeTableView.snp.makeConstraints { make in
             make.bottom.trailing.leading.equalTo(self.safeAreaLayoutGuide)
             make.top.equalTo(headerView.snp.bottom)
         }
+        
+        imageView.snp.makeConstraints { make in
+            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.2)
+            make.leadingMargin.equalTo(5)
+            make.top.equalTo(self.safeAreaLayoutGuide).offset(10)
+        }
+        
+        selectCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.trailing.bottom.equalTo(headerView)
+            make.width.equalTo(self).multipliedBy(0.72)
+        }
+    }
+    
+    static func selectCollectionViewLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        let width = 50
+        let spacing: CGFloat = 8
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: width, height: width)
+        layout.minimumLineSpacing = spacing
+        layout.minimumInteritemSpacing = spacing
+        
+        return layout
     }
 }

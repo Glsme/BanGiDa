@@ -29,6 +29,10 @@ class HomeViewViewController: BaseViewController {
         
         mainView.homeTableView.calendarView.delegate = self
         mainView.homeTableView.calendarView.dataSource = self
+        
+        mainView.selectCollectionView.delegate = self
+        mainView.selectCollectionView.dataSource = self
+        mainView.selectCollectionView.register(HomeSelectCollectionViewCell.self, forCellWithReuseIdentifier: HomeSelectCollectionViewCell.reuseIdentifier)
     }
 }
 
@@ -60,5 +64,21 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
+    
+}
+
+extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 6
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeSelectCollectionViewCell.reuseIdentifier, for: indexPath) as? HomeSelectCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.backgroundColor = .lightGray
+        
+        return cell
+    }
+    
     
 }

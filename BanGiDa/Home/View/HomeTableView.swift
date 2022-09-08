@@ -32,7 +32,7 @@ class HomeTableView: UITableView {
     
     func configureUI() {
         self.tableHeaderView = calendarView
-        self.tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.35
+        self.tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.4
         self.backgroundColor = .lightGray
     }
     
