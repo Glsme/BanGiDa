@@ -33,6 +33,12 @@ class HomeViewViewController: BaseViewController {
         mainView.selectCollectionView.delegate = self
         mainView.selectCollectionView.dataSource = self
         mainView.selectCollectionView.register(HomeSelectCollectionViewCell.self, forCellWithReuseIdentifier: HomeSelectCollectionViewCell.reuseIdentifier)
+        
+        mainView.todayButton.addTarget(self, action: #selector(todayButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func todayButtonClicked() {
+        mainView.homeTableView.calendarView.setCurrentPage(Date(), animated: true)
     }
 }
 

@@ -31,6 +31,13 @@ class HomeView: BaseView {
         return view
     }()
     
+    let todayButton: UIButton = {
+        let view = UIButton()
+        view.setTitle("오늘", for: .normal)
+        view.backgroundColor = .orange
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -42,6 +49,7 @@ class HomeView: BaseView {
     
     override func configureUI() {
         headerView.addSubview(selectCollectionView)
+        homeTableView.calendarView.addSubview(todayButton)
         
         [headerView, homeTableView, imageView].forEach {
             self.addSubview($0)
@@ -69,6 +77,13 @@ class HomeView: BaseView {
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.trailing.bottom.equalTo(headerView)
             make.width.equalTo(self).multipliedBy(0.72)
+        }
+        
+        todayButton.snp.makeConstraints { make in
+            make.top.equalTo(homeTableView.calendarView.snp.top).offset(10)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-10)
+            make.height.equalTo(20)
+            make.width.equalTo(50)
         }
     }
     
