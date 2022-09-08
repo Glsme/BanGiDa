@@ -13,6 +13,7 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
 
         configureUI()
+        view.backgroundColor = .white
     }
     
     func configureUI() {

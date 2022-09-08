@@ -19,6 +19,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: scene)
+        
+        let homeVC = UINavigationController(rootViewController: HomeViewViewController())
+        let searchVC = SearchViewController()
+        let settingVC = UINavigationController(rootViewController: SettingViewController())
+        
+        let tabBarController = UITabBarController()
+        tabBarController.setViewControllers([homeVC, searchVC, settingVC], animated: true)
+        tabBarController.tabBar.tintColor = .black
+//        tabBarController.tabBar.backgroundColor = .lightGray
+        
+        if let items = tabBarController.tabBar.items {
+            items[0].image = UIImage(systemName: "house")
+            items[1].image = UIImage(systemName: "magnifyingglass")
+            items[2].image = UIImage(systemName: "gearshape")
+        }
+        
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -15,6 +15,9 @@
 		857541E928C9BD0E004DD880 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 857541E828C9BD0E004DD880 /* Documentation.docc */; };
 		857541F128C9BF56004DD880 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541F028C9BF56004DD880 /* BaseViewController.swift */; };
 		857541F328C9BF84004DD880 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541F228C9BF84004DD880 /* BaseView.swift */; };
+		857541F628C9C074004DD880 /* HomeViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541F528C9C074004DD880 /* HomeViewViewController.swift */; };
+		857541F828C9C099004DD880 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541F728C9C099004DD880 /* SearchViewController.swift */; };
+		857541FA28C9C0B1004DD880 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541F928C9C0B1004DD880 /* SettingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		857541E828C9BD0E004DD880 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		857541F028C9BF56004DD880 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		857541F228C9BF84004DD880 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		857541F528C9C074004DD880 /* HomeViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewViewController.swift; sourceTree = "<group>"; };
+		857541F728C9C099004DD880 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		857541F928C9C0B1004DD880 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +84,7 @@
 		857541EA28C9BEF5004DD880 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				857541F528C9C074004DD880 /* HomeViewViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -85,6 +92,7 @@
 		857541EB28C9BEFA004DD880 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				857541F728C9C099004DD880 /* SearchViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -92,6 +100,7 @@
 		857541EC28C9BF1E004DD880 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				857541F928C9C0B1004DD880 /* SettingViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -185,9 +194,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */,
+				857541F828C9C099004DD880 /* SearchViewController.swift in Sources */,
 				857541F128C9BF56004DD880 /* BaseViewController.swift in Sources */,
+				857541FA28C9C0B1004DD880 /* SettingViewController.swift in Sources */,
 				857541F328C9BF84004DD880 /* BaseView.swift in Sources */,
 				857541D728C9BBF1004DD880 /* SceneDelegate.swift in Sources */,
+				857541F628C9C074004DD880 /* HomeViewViewController.swift in Sources */,
 				857541E928C9BD0E004DD880 /* Documentation.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
