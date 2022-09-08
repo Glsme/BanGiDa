@@ -9,21 +9,25 @@
 /* Begin PBXBuildFile section */
 		857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541D428C9BBF1004DD880 /* AppDelegate.swift */; };
 		857541D728C9BBF1004DD880 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541D628C9BBF1004DD880 /* SceneDelegate.swift */; };
-		857541D928C9BBF1004DD880 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541D828C9BBF1004DD880 /* ViewController.swift */; };
 		857541DC28C9BBF1004DD880 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 857541DA28C9BBF1004DD880 /* Main.storyboard */; };
 		857541DE28C9BBF2004DD880 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 857541DD28C9BBF2004DD880 /* Assets.xcassets */; };
 		857541E128C9BBF2004DD880 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 857541DF28C9BBF2004DD880 /* LaunchScreen.storyboard */; };
+		857541E928C9BD0E004DD880 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 857541E828C9BD0E004DD880 /* Documentation.docc */; };
+		857541F128C9BF56004DD880 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541F028C9BF56004DD880 /* BaseViewController.swift */; };
+		857541F328C9BF84004DD880 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541F228C9BF84004DD880 /* BaseView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		857541D128C9BBF1004DD880 /* BanGiDa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BanGiDa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		857541D428C9BBF1004DD880 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		857541D628C9BBF1004DD880 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		857541D828C9BBF1004DD880 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		857541DB28C9BBF1004DD880 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		857541DD28C9BBF2004DD880 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		857541E028C9BBF2004DD880 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		857541E228C9BBF2004DD880 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		857541E828C9BD0E004DD880 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
+		857541F028C9BF56004DD880 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		857541F228C9BF84004DD880 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +44,7 @@
 		857541C828C9BBF1004DD880 = {
 			isa = PBXGroup;
 			children = (
+				857541E828C9BD0E004DD880 /* Documentation.docc */,
 				857541D328C9BBF1004DD880 /* BanGiDa */,
 				857541D228C9BBF1004DD880 /* Products */,
 			);
@@ -56,15 +61,56 @@
 		857541D328C9BBF1004DD880 /* BanGiDa */ = {
 			isa = PBXGroup;
 			children = (
+				857541EE28C9BF3D004DD880 /* Utility */,
+				857541EA28C9BEF5004DD880 /* Home */,
+				857541EB28C9BEFA004DD880 /* Search */,
+				857541EC28C9BF1E004DD880 /* Setting */,
 				857541D428C9BBF1004DD880 /* AppDelegate.swift */,
 				857541D628C9BBF1004DD880 /* SceneDelegate.swift */,
-				857541D828C9BBF1004DD880 /* ViewController.swift */,
 				857541DA28C9BBF1004DD880 /* Main.storyboard */,
 				857541DD28C9BBF2004DD880 /* Assets.xcassets */,
 				857541DF28C9BBF2004DD880 /* LaunchScreen.storyboard */,
 				857541E228C9BBF2004DD880 /* Info.plist */,
 			);
 			path = BanGiDa;
+			sourceTree = "<group>";
+		};
+		857541EA28C9BEF5004DD880 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		857541EB28C9BEFA004DD880 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		857541EC28C9BF1E004DD880 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		857541EE28C9BF3D004DD880 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				857541EF28C9BF48004DD880 /* Base */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		857541EF28C9BF48004DD880 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				857541F028C9BF56004DD880 /* BaseViewController.swift */,
+				857541F228C9BF84004DD880 /* BaseView.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +184,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				857541D928C9BBF1004DD880 /* ViewController.swift in Sources */,
 				857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */,
+				857541F128C9BF56004DD880 /* BaseViewController.swift in Sources */,
+				857541F328C9BF84004DD880 /* BaseView.swift in Sources */,
 				857541D728C9BBF1004DD880 /* SceneDelegate.swift in Sources */,
+				857541E928C9BD0E004DD880 /* Documentation.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,11 +338,14 @@
 				DEVELOPMENT_TEAM = 3K4KWAG7KD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BanGiDa/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "반기다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,7 +355,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -318,11 +369,14 @@
 				DEVELOPMENT_TEAM = 3K4KWAG7KD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BanGiDa/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "반기다";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -332,7 +386,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
