@@ -27,6 +27,7 @@ class CalendarView: FSCalendar {
         appearance.headerDateFormat = "yyyy년 M월"
         appearance.headerTitleColor = .black
         appearance.weekdayTextColor = .black
+        backgroundColor = .white
     }
     
     func setContraints() {
