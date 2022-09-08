@@ -6,22 +6,9 @@
 //
 
 import UIKit
-import SnapKit
 import FSCalendar
 
-class CalendarView: UIView {
-    
-    let calendar: FSCalendar = {
-        let view = FSCalendar()
-        view.scrollDirection = .vertical
-        view.locale = Locale(identifier: "ko_KR")
-        view.appearance.headerDateFormat = "yyyy년 M월"
-        view.appearance.headerTitleColor = .black
-        view.appearance.weekdayTextColor = .black
-        view.appearance.todayColor = .systemPink
-        
-        return view
-    }()
+class CalendarView: FSCalendar {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,13 +22,14 @@ class CalendarView: UIView {
     }
     
     func configureUI() {
-        self.addSubview(calendar)
+        scrollDirection = .vertical
+        locale = Locale(identifier: "ko_KR")
+        appearance.headerDateFormat = "yyyy년 M월"
+        appearance.headerTitleColor = .black
+        appearance.weekdayTextColor = .black
     }
     
     func setContraints() {
-        calendar.snp.makeConstraints { make in
-            make.center.bottom.top.equalTo(self)
-            make.width.equalTo(self.snp.width).multipliedBy(0.8)
-        }
+        
     }
 }

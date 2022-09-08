@@ -10,6 +10,8 @@ import SnapKit
 
 class HomeTableView: UITableView {
     
+    let calendarView = CalendarView()
+    
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         
@@ -22,7 +24,7 @@ class HomeTableView: UITableView {
     }
     
     func configureUI() {
-        self.tableHeaderView = CalendarView()
+        self.tableHeaderView = calendarView
         self.tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.35
     }
     

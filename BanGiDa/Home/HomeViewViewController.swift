@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FSCalendar
 
 class HomeViewViewController: BaseViewController {
     
@@ -25,10 +26,23 @@ class HomeViewViewController: BaseViewController {
         mainView.homeTableView.delegate = self
         mainView.homeTableView.dataSource = self
         mainView.homeTableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.reuseIdentifier)
+        
+        mainView.homeTableView.calendarView.delegate = self
+        mainView.homeTableView.calendarView.dataSource = self
     }
 }
 
 extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 66
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.text = "Header View"
+        return label
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -43,4 +57,8 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+}
+
+extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
+    
 }
