@@ -12,6 +12,15 @@ class HomeViewViewController: BaseViewController {
     
     let mainView = HomeView()
     
+    let selectButtonImageList = [
+        UIImage(systemName: "highlighter"),
+        UIImage(systemName: "alarm.fill"),
+        UIImage(systemName: "cross.case.fill"),
+        UIImage(systemName: "drop.fill"),
+        UIImage(systemName: "pills.fill"),
+        UIImage(systemName: "stethoscope")
+    ]
+    
     override func loadView() {
         self.view = mainView
     }
@@ -82,6 +91,8 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeSelectCollectionViewCell.reuseIdentifier, for: indexPath) as? HomeSelectCollectionViewCell else { return UICollectionViewCell() }
         
         cell.backgroundColor = .lightGray
+        cell.selectButton.setImage(selectButtonImageList[indexPath.item], for: .normal)
+        cell.selectButton.tintColor = .black
         
         return cell
     }

@@ -27,6 +27,7 @@
 		8575422728C9D197004DD880 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575422628C9D197004DD880 /* HomeTableViewCell.swift */; };
 		8575422A28C9D1C3004DD880 /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575422928C9D1C3004DD880 /* ReusableProtocol.swift */; };
 		8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575422B28C9D8C6004DD880 /* CalendarView.swift */; };
+		859BBCE528CB7035006EF18A /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859BBCE428CB7035006EF18A /* Observable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		8575422628C9D197004DD880 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		8575422928C9D1C3004DD880 /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 		8575422B28C9D8C6004DD880 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		859BBCE428CB7035006EF18A /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				857541EC28C9BF1E004DD880 /* Setting */,
 				857541D428C9BBF1004DD880 /* AppDelegate.swift */,
 				857541D628C9BBF1004DD880 /* SceneDelegate.swift */,
+				859BBCE428CB7035006EF18A /* Observable.swift */,
 				857541DA28C9BBF1004DD880 /* Main.storyboard */,
 				857541DD28C9BBF2004DD880 /* Assets.xcassets */,
 				857541DF28C9BBF2004DD880 /* LaunchScreen.storyboard */,
@@ -103,8 +106,8 @@
 		857541EA28C9BEF5004DD880 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				859BBCE628CB729A006EF18A /* ViewModel */,
 				8575420328C9CA74004DD880 /* View */,
-				857541F528C9C074004DD880 /* HomeViewViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -145,11 +148,12 @@
 		8575420328C9CA74004DD880 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				857541F528C9C074004DD880 /* HomeViewViewController.swift */,
 				8575420128C9C9CF004DD880 /* HomeView.swift */,
+				8575422B28C9D8C6004DD880 /* CalendarView.swift */,
 				8575420428C9CC8E004DD880 /* HomeTableView.swift */,
 				8575422628C9D197004DD880 /* HomeTableViewCell.swift */,
 				8556329328CA2D110055159E /* HomeSelectCollectionView.swift */,
-				8575422B28C9D8C6004DD880 /* CalendarView.swift */,
 				8556329528CA2EB00055159E /* HomeSelectCollectionViewCell.swift */,
 			);
 			path = View;
@@ -161,6 +165,13 @@
 				8575422928C9D1C3004DD880 /* ReusableProtocol.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		859BBCE628CB729A006EF18A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,6 +253,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				859BBCE528CB7035006EF18A /* Observable.swift in Sources */,
 				8575420228C9C9CF004DD880 /* HomeView.swift in Sources */,
 				857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */,
 				8575422A28C9D1C3004DD880 /* ReusableProtocol.swift in Sources */,
