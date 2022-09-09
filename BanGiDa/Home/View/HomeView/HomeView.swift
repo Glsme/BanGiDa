@@ -12,7 +12,7 @@ class HomeView: BaseView {
     
     let headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -29,11 +29,17 @@ class HomeView: BaseView {
         view.setImage(UIImage(systemName: "plus"), for: .normal)
         view.backgroundColor = .white
         view.clipsToBounds = true
+        view.sizeToFit()
+        view.tintColor = .black
         view.layer.cornerRadius = ((UIScreen.main.bounds.width * 0.2) - 10) / 2
         return view
     }()
     
-    let selectCollectionView = HomeSelectCollectionView(frame: .zero, collectionViewLayout: selectCollectionViewLayout())
+    let selectCollectionView: HomeSelectCollectionView = {
+        let view = HomeSelectCollectionView(frame: .zero, collectionViewLayout: selectCollectionViewLayout())
+        
+        return view
+    }()
     
     let homeTableView: HomeTableView = {
         let view = HomeTableView(frame: .zero, style: .insetGrouped)
@@ -104,12 +110,13 @@ class HomeView: BaseView {
     
     static func selectCollectionViewLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
-        let width = 50
+        let width = 44
         let spacing: CGFloat = 8
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: width, height: width)
         layout.minimumLineSpacing = spacing
         layout.minimumInteritemSpacing = spacing
+        layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
         
         return layout
     }
