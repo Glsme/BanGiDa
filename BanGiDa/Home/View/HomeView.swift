@@ -24,6 +24,15 @@ class HomeView: BaseView {
         return view
     }()
     
+    let imageButton: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage(systemName: "plus"), for: .normal)
+        view.backgroundColor = .white
+        view.clipsToBounds = true
+        view.layer.cornerRadius = ((UIScreen.main.bounds.width * 0.2) - 10) / 2
+        return view
+    }()
+    
     let selectCollectionView = HomeSelectCollectionView(frame: .zero, collectionViewLayout: selectCollectionViewLayout())
     
     let homeTableView: HomeTableView = {
@@ -51,7 +60,7 @@ class HomeView: BaseView {
     override func configureUI() {
         headerView.addSubview(selectCollectionView)
         homeTableView.calendarView.addSubview(todayButton)
-        
+        imageView.addSubview(imageButton)
         [headerView, homeTableView, imageView].forEach {
             self.addSubview($0)
         }
@@ -85,6 +94,11 @@ class HomeView: BaseView {
             make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-10)
             make.height.equalTo(20)
             make.width.equalTo(50)
+        }
+        
+        imageButton.snp.makeConstraints { make in
+            make.center.equalTo(imageView)
+            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.2).offset(-10)
         }
     }
     
