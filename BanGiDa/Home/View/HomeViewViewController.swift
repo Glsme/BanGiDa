@@ -22,6 +22,12 @@ class HomeViewViewController: BaseViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
     override func configureUI() {
         self.navigationController?.navigationBar.isHidden = true
         mainView.homeTableView.delegate = self
@@ -43,7 +49,7 @@ class HomeViewViewController: BaseViewController {
     }
     
     @objc func pushNavigationController() {
-//        self.transViewController(ViewController: <#T##T#>, type: <#T##UIViewController.Transition#>)
+        self.transViewController(ViewController: WriteViewController(), type: .push)
     }
 }
 
