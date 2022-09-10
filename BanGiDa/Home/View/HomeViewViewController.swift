@@ -11,15 +11,7 @@ import FSCalendar
 class HomeViewViewController: BaseViewController {
     
     let mainView = HomeView()
-    
-    let selectButtonImageList = [
-        UIImage(systemName: "highlighter"),
-        UIImage(systemName: "alarm.fill"),
-        UIImage(systemName: "cross.case.fill"),
-        UIImage(systemName: "drop.fill"),
-        UIImage(systemName: "pills.fill"),
-        UIImage(systemName: "stethoscope")
-    ]
+    let viewModel = HomeViewModel()
     
     override func loadView() {
         self.view = mainView
@@ -47,7 +39,11 @@ class HomeViewViewController: BaseViewController {
     }
     
     @objc func todayButtonClicked() {
-        mainView.homeTableView.calendarView.setCurrentPage(Date(), animated: true)
+        viewModel.todayButtonClicked(calendar: mainView.homeTableView.calendarView)
+    }
+    
+    @objc func pushNavigationController() {
+//        self.transViewController(ViewController: <#T##T#>, type: <#T##UIViewController.Transition#>)
     }
 }
 
@@ -91,12 +87,13 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeSelectCollectionViewCell.reuseIdentifier, for: indexPath) as? HomeSelectCollectionViewCell else { return UICollectionViewCell() }
         
 //        cell.backgroundColor = .lightGray
-        cell.selectButton.setImage(selectButtonImageList[indexPath.item], for: .normal)
+        cell.selectButton.setImage(viewModel.selectButtonImageList[indexPath.item], for: .normal)
         cell.selectButton.tintColor = .black
         cell.clipsToBounds = true
         cell.layer.borderWidth = 2
         cell.layer.borderColor = UIColor.darkGray.cgColor
         cell.layer.cornerRadius = cell.frame.height / 2
+        cell.selectButton.addTarget(self, action: #selector(pushNavigationController), for: .touchUpInside)
         
         return cell
     }
