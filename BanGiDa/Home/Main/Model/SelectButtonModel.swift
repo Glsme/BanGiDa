@@ -8,17 +8,15 @@
 import UIKit
 
 struct SelectButtonModel {
-//    let imageString: String
-//    let redColor: Double
-//    let greenColor: Double
-//    let blueColor: Double
-//    let alpha: Double
+    let title: String
     let image: UIImage
     let color: UIColor
     
     /// R, G, B Input 0 ~ 255
-    init(imageString: String, r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat) {
-        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .default)
+    init(title: String, imageString: String, r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat) {
+        self.title = title
+        
+        let config = UIImage.SymbolConfiguration(pointSize: 22, weight: .regular, scale: .default)
         self.image = UIImage(systemName: imageString, withConfiguration: config) ?? UIImage()
         
         let red: CGFloat = r/255

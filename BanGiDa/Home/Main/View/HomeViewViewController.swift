@@ -48,8 +48,10 @@ class HomeViewViewController: BaseViewController {
         viewModel.todayButtonClicked(calendar: mainView.homeTableView.calendar)
     }
     
-    @objc func pushNavigationController() {
-        self.transViewController(ViewController: WriteViewController(), type: .push)
+    @objc func pushNavigationController(_ sender: UIButton) {
+        let vc = WriteViewController()
+        vc.navigationItem.title = viewModel.selectButtonList[sender.tag].title
+        self.transViewController(ViewController: vc, type: .push)
     }
 }
 
@@ -100,7 +102,8 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
         cell.backgroundColor = viewModel.selectButtonList[indexPath.row].color
         cell.clipsToBounds = true
         cell.layer.cornerRadius = cell.frame.height / 2
-        cell.selectButton.addTarget(self, action: #selector(pushNavigationController), for: .touchUpInside)
+        cell.tag = indexPath.item
+        cell.selectButton.addTarget(self, action: #selector(pushNavigationController(_:)), for: .touchUpInside)
         
         return cell
     }

@@ -13,12 +13,12 @@ import FSCalendar
 class HomeViewModel {
     
     let selectButtonList = [
-        SelectButtonModel(imageString: "note.text", r: 133, g: 204, b: 204, alpha: 1),
-        SelectButtonModel(imageString: "alarm", r: 252, g: 200, b: 141, alpha: 1),
-        SelectButtonModel(imageString: "cross.case", r: 169, g: 223, b: 225, alpha: 1),
-        SelectButtonModel(imageString: "drop", r: 250, g: 227, b: 175, alpha: 1),
-        SelectButtonModel(imageString: "pills", r: 168, g: 215, b: 177, alpha: 1),
-        SelectButtonModel(imageString: "bandage", r: 228, g: 167, b: 180, alpha: 1)
+        SelectButtonModel(title: "메모", imageString: "note.text", r: 133, g: 204, b: 204, alpha: 1),
+        SelectButtonModel(title: "알람", imageString: "alarm", r: 252, g: 200, b: 141, alpha: 1),
+        SelectButtonModel(title: "병원 기록", imageString: "cross.case", r: 169, g: 223, b: 225, alpha: 1),
+        SelectButtonModel(title: "목욕", imageString: "drop", r: 250, g: 227, b: 175, alpha: 1),
+        SelectButtonModel(title: "알약", imageString: "pills", r: 168, g: 215, b: 177, alpha: 1),
+        SelectButtonModel(title: "이상 증상", imageString: "bandage", r: 228, g: 167, b: 180, alpha: 1)
     ]
     
     @objc func todayButtonClicked(calendar: FSCalendar) {
