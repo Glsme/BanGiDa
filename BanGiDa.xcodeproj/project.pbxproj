@@ -35,6 +35,7 @@
 		85A8D00E28CF0AA000F22A80 /* Jalnan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A8D00D28CF0AA000F22A80 /* Jalnan.ttf */; };
 		85A8D01028CF0DBF00F22A80 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D00F28CF0DBF00F22A80 /* UIColor+Extension.swift */; };
 		85A8D01428CF611400F22A80 /* SelectButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D01328CF611400F22A80 /* SelectButtonModel.swift */; };
+		85A8D01928CF89F900F22A80 /* MemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D01828CF89F900F22A80 /* MemoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		85A8D00D28CF0AA000F22A80 /* Jalnan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jalnan.ttf; sourceTree = "<group>"; };
 		85A8D00F28CF0DBF00F22A80 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		85A8D01328CF611400F22A80 /* SelectButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonModel.swift; sourceTree = "<group>"; };
+		85A8D01828CF89F900F22A80 /* MemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 		85075C5C28CC920F00FAF6BA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				85A8D01728CF89DA00F22A80 /* MemoView */,
 				85075C5E28CC923500FAF6BA /* WriteViewController.swift */,
 			);
 			path = View;
@@ -259,6 +262,14 @@
 			path = Presentation;
 			sourceTree = "<group>";
 		};
+		85A8D01728CF89DA00F22A80 /* MemoView */ = {
+			isa = PBXGroup;
+			children = (
+				85A8D01828CF89F900F22A80 /* MemoView.swift */,
+			);
+			path = MemoView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -346,6 +357,7 @@
 				859BBCE528CB7035006EF18A /* Observable.swift in Sources */,
 				8575420228C9C9CF004DD880 /* HomeView.swift in Sources */,
 				857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */,
+				85A8D01928CF89F900F22A80 /* MemoView.swift in Sources */,
 				85075C6128CC93CE00FAF6BA /* WriteViewModel.swift in Sources */,
 				8575422A28C9D1C3004DD880 /* ReusableProtocol.swift in Sources */,
 				857541F828C9C099004DD880 /* SearchViewController.swift in Sources */,

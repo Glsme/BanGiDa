@@ -10,12 +10,17 @@ import UIKit
 class WriteViewController: BaseViewController {
     
     let viewModel = WriteViewModel()
+    let memoView = MemoView()
     
     lazy var saveButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButtonClicked))
+    
+    override func loadView() {
+        self.view = memoView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
     
     override func configureUI() {

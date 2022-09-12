@@ -34,7 +34,7 @@ class HomeSelectCollectionViewCell: UICollectionViewCell {
     func setConstraints() {
         imageView.snp.makeConstraints { make in
             make.center.equalTo(self)
-            make.height.width.equalTo(self).multipliedBy(0.58)
+            make.height.width.equalTo(self).multipliedBy(0.5)
         }
     }
 }
