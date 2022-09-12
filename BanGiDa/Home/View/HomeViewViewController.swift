@@ -19,7 +19,16 @@ class HomeViewViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // 폰트 체크 하기
+        UIFont.familyNames.sorted().forEach { familyName in
+            print("*** \(familyName) ***")
+            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
+                print("\(fontName)")
+            }
+            print("---------------------")
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,8 +43,8 @@ class HomeViewViewController: BaseViewController {
         mainView.homeTableView.dataSource = self
         mainView.homeTableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.reuseIdentifier)
         
-        mainView.homeTableView.calendarView.delegate = self
-        mainView.homeTableView.calendarView.dataSource = self
+        mainView.homeTableView.calendar.delegate = self
+        mainView.homeTableView.calendar.dataSource = self
         
         mainView.selectCollectionView.delegate = self
         mainView.selectCollectionView.dataSource = self
@@ -45,7 +54,7 @@ class HomeViewViewController: BaseViewController {
     }
     
     @objc func todayButtonClicked() {
-        viewModel.todayButtonClicked(calendar: mainView.homeTableView.calendarView)
+        viewModel.todayButtonClicked(calendar: mainView.homeTableView.calendar)
     }
     
     @objc func pushNavigationController() {
@@ -61,7 +70,8 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
-        label.text = "Header View"
+        label.font = UIFont(name: FontList.jalnan.rawValue, size: 20)
+        label.text = "헤더뷰"
         return label
     }
     

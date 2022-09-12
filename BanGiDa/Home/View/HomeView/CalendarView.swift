@@ -23,11 +23,25 @@ class CalendarView: FSCalendar {
     
     func configureUI() {
         scrollDirection = .vertical
-        locale = Locale(identifier: "ko_KR")
-        appearance.headerDateFormat = "yyyy년 M월"
+//        locale = Locale(identifier: "ko_KR")
+        appearance.headerDateFormat = "yyyy.MM"
         appearance.headerTitleColor = .black
-        appearance.weekdayTextColor = .black
+        appearance.weekdayTextColor = .lightGray
         backgroundColor = .white
+        appearance.headerTitleFont = UIFont(name: "HelveticaNeue-CondensedBold", size: 30)
+        appearance.weekdayFont = UIFont(name: "HelveticaNeue-Medium", size: 12)
+        appearance.titleFont = UIFont(name: "HelveticaNeue-Light", size: 16)
+        headerHeight = 66
+        
+        calendarWeekdayView.weekdayLabels[0].text = "Sun"
+        calendarWeekdayView.weekdayLabels[1].text = "Mon"
+        calendarWeekdayView.weekdayLabels[2].text = "Tue"
+        calendarWeekdayView.weekdayLabels[3].text = "Wen"
+        calendarWeekdayView.weekdayLabels[4].text = "Thu"
+        calendarWeekdayView.weekdayLabels[5].text = "Fri"
+        calendarWeekdayView.weekdayLabels[6].text = "Sat"
+        
+        placeholderType = .none
     }
     
     func setContraints() {

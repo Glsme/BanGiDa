@@ -16,24 +16,24 @@ class HomeView: BaseView {
         return view
     }()
     
-    let imageView: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = .darkGray
-        view.clipsToBounds = true
-        view.layer.cornerRadius = UIScreen.main.bounds.width * 0.2 / 2
-        return view
-    }()
+//    let imageView: UIImageView = {
+//        let view = UIImageView()
+//        view.backgroundColor = .darkGray
+//        view.clipsToBounds = true
+//        view.layer.cornerRadius = UIScreen.main.bounds.width * 0.2 / 2
+//        return view
+//    }()
     
-    let imageButton: UIButton = {
-        let view = UIButton()
-        view.setImage(UIImage(systemName: "plus"), for: .normal)
-        view.backgroundColor = .white
-        view.clipsToBounds = true
-        view.sizeToFit()
-        view.tintColor = .black
-        view.layer.cornerRadius = ((UIScreen.main.bounds.width * 0.2) - 10) / 2
-        return view
-    }()
+//    let imageButton: UIButton = {
+//        let view = UIButton()
+//        view.setImage(UIImage(systemName: "plus"), for: .normal)
+//        view.backgroundColor = .white
+//        view.clipsToBounds = true
+//        view.sizeToFit()
+//        view.tintColor = .black
+//        view.layer.cornerRadius = ((UIScreen.main.bounds.width * 0.2) - 10) / 2
+//        return view
+//    }()
     
     let selectCollectionView: HomeSelectCollectionView = {
         let view = HomeSelectCollectionView(frame: .zero, collectionViewLayout: selectCollectionViewLayout())
@@ -66,8 +66,8 @@ class HomeView: BaseView {
     override func configureUI() {
         headerView.addSubview(selectCollectionView)
         homeTableView.calendarView.addSubview(todayButton)
-        imageView.addSubview(imageButton)
-        [headerView, homeTableView, imageView].forEach {
+//        imageView.addSubview(imageButton)
+        [headerView, homeTableView].forEach {
             self.addSubview($0)
         }
     }
@@ -83,37 +83,26 @@ class HomeView: BaseView {
             make.top.equalTo(headerView.snp.bottom)
         }
         
-        imageView.snp.makeConstraints { make in
-            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.2)
-            make.leadingMargin.equalTo(5)
-            make.top.equalTo(self.safeAreaLayoutGuide).offset(10)
-        }
-        
         selectCollectionView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.trailing.bottom.equalTo(headerView)
-            make.width.equalTo(self).multipliedBy(0.72)
+            make.width.equalTo(self)
         }
         
         todayButton.snp.makeConstraints { make in
-            make.centerY.equalTo(homeTableView.calendarView.calendarHeaderView.snp.centerY)
+            make.centerY.equalTo(homeTableView.calendar.calendarHeaderView.snp.centerY)
             make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-10)
             make.height.equalTo(20)
             make.width.equalTo(50)
-        }
-        
-        imageButton.snp.makeConstraints { make in
-            make.center.equalTo(imageView)
-            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.2).offset(-10)
         }
     }
     
     static func selectCollectionViewLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
-        let width = 44
+        let width = 55
         let spacing: CGFloat = 8
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: width, height: width)
+        layout.itemSize = CGSize(width: width, height: 44)
         layout.minimumLineSpacing = spacing
         layout.minimumInteritemSpacing = spacing
         layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)

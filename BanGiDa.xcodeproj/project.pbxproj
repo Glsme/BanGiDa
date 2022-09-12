@@ -32,6 +32,8 @@
 		8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575422B28C9D8C6004DD880 /* CalendarView.swift */; };
 		859BBCE528CB7035006EF18A /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859BBCE428CB7035006EF18A /* Observable.swift */; };
 		859BBCE928CB7473006EF18A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859BBCE828CB7473006EF18A /* HomeViewModel.swift */; };
+		85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D00828CEFA4400F22A80 /* FontList.swift */; };
+		85A8D00E28CF0AA000F22A80 /* Jalnan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A8D00D28CF0AA000F22A80 /* Jalnan.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +62,8 @@
 		8575422B28C9D8C6004DD880 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		859BBCE428CB7035006EF18A /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		859BBCE828CB7473006EF18A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		85A8D00828CEFA4400F22A80 /* FontList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontList.swift; sourceTree = "<group>"; };
+		85A8D00D28CF0AA000F22A80 /* Jalnan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jalnan.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +132,7 @@
 		857541D328C9BBF1004DD880 /* BanGiDa */ = {
 			isa = PBXGroup;
 			children = (
+				85A8D00328CEF8BF00F22A80 /* Resource */,
 				85075C5828CC90DA00FAF6BA /* Extension */,
 				8575422828C9D1AC004DD880 /* Protocol */,
 				857541EE28C9BF3D004DD880 /* Utility */,
@@ -226,6 +231,15 @@
 			path = HomeView;
 			sourceTree = "<group>";
 		};
+		85A8D00328CEF8BF00F22A80 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				85A8D00D28CF0AA000F22A80 /* Jalnan.ttf */,
+				85A8D00828CEFA4400F22A80 /* FontList.swift */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -292,6 +306,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85A8D00E28CF0AA000F22A80 /* Jalnan.ttf in Resources */,
 				857541E128C9BBF2004DD880 /* LaunchScreen.storyboard in Resources */,
 				857541DE28C9BBF2004DD880 /* Assets.xcassets in Resources */,
 				857541DC28C9BBF1004DD880 /* Main.storyboard in Resources */,
@@ -316,6 +331,7 @@
 				857541F828C9C099004DD880 /* SearchViewController.swift in Sources */,
 				857541F128C9BF56004DD880 /* BaseViewController.swift in Sources */,
 				857541FA28C9C0B1004DD880 /* SettingViewController.swift in Sources */,
+				85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */,
 				8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */,
 				8575422728C9D197004DD880 /* HomeTableViewCell.swift in Sources */,
 				857541F328C9BF84004DD880 /* BaseView.swift in Sources */,
