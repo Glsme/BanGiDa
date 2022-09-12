@@ -11,7 +11,7 @@ class WriteViewController: BaseViewController {
     
     let viewModel = WriteViewModel()
     
-    let saveButton = UIBarButtonItem(title: "저장", style: .plain, target: nil, action: #selector(saveButtonClicked))
+    lazy var saveButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButtonClicked))
 
     override func viewDidLoad() {
         super.viewDidLoad()
