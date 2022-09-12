@@ -48,10 +48,10 @@ class HomeViewViewController: BaseViewController {
         viewModel.todayButtonClicked(calendar: mainView.homeTableView.calendar)
     }
     
-    @objc func pushNavigationController(_ sender: UIButton) {
+    func pushNavigationController(index: Int) {
         let vc = WriteViewController()
-        vc.navigationItem.title = viewModel.selectButtonList[sender.tag].title
-        self.transViewController(ViewController: vc, type: .push)
+        vc.navigationItem.title = viewModel.selectButtonList[index].title
+        transViewController(ViewController: vc, type: .push)
     }
 }
 
@@ -97,14 +97,17 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeSelectCollectionViewCell.reuseIdentifier, for: indexPath) as? HomeSelectCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.selectButton.setImage(viewModel.selectButtonList[indexPath.row].image, for: .normal)
-        cell.selectButton.tintColor = .white
         cell.backgroundColor = viewModel.selectButtonList[indexPath.row].color
         cell.clipsToBounds = true
         cell.layer.cornerRadius = cell.frame.height / 2
-        cell.tag = indexPath.item
-        cell.selectButton.addTarget(self, action: #selector(pushNavigationController(_:)), for: .touchUpInside)
+        cell.imageView.image = viewModel.selectButtonList[indexPath.item].image
+        cell.tintColor = .white
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(#function, indexPath.item)
+        pushNavigationController(index: indexPath.item)
     }
 }

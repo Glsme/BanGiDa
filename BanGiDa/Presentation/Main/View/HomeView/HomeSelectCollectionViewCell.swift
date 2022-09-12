@@ -10,11 +10,9 @@ import SnapKit
 
 class HomeSelectCollectionViewCell: UICollectionViewCell {
     
-    let selectButton: UIButton = {
-        let view = UIButton()
-        view.backgroundColor = .clear
-        view.clipsToBounds = true
-        view.sizeToFit()
+    let imageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFit
         return view
     }()
     
@@ -30,13 +28,13 @@ class HomeSelectCollectionViewCell: UICollectionViewCell {
     }
     
     func configureUI() {
-        self.addSubview(selectButton)
+        self.addSubview(imageView)
     }
     
     func setConstraints() {
-        selectButton.snp.makeConstraints { make in
-            make.edges.equalTo(self)
+        imageView.snp.makeConstraints { make in
+            make.center.equalTo(self)
+            make.height.width.equalTo(self).multipliedBy(0.58)
         }
     }
-    
 }

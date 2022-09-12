@@ -29,6 +29,8 @@ class HomeView: BaseView {
     let todayButton: UIButton = {
         let view = UIButton()
         view.setTitle("Today", for: .normal)
+        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
+        view.setTitleColor(UIColor.black, for: .normal)
         return view
     }()
     
@@ -70,7 +72,7 @@ class HomeView: BaseView {
         
         todayButton.snp.makeConstraints { make in
             make.centerY.equalTo(homeTableView.calendar.calendarHeaderView.snp.centerY)
-            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-10)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
             make.height.equalTo(20)
             make.width.equalTo(50)
         }

@@ -16,8 +16,7 @@ struct SelectButtonModel {
     init(title: String, imageString: String, r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat) {
         self.title = title
         
-        let config = UIImage.SymbolConfiguration(pointSize: 22, weight: .regular, scale: .default)
-        self.image = UIImage(systemName: imageString, withConfiguration: config) ?? UIImage()
+        self.image = UIImage(systemName: imageString) ?? UIImage()
         
         let red: CGFloat = r/255
         let green: CGFloat = g/255
