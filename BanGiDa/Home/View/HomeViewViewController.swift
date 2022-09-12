@@ -20,15 +20,6 @@ class HomeViewViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 폰트 체크 하기
-        UIFont.familyNames.sorted().forEach { familyName in
-            print("*** \(familyName) ***")
-            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
-                print("\(fontName)")
-            }
-            print("---------------------")
-        }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,6 +76,8 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.reuseIdentifier, for: indexPath) as? HomeTableViewCell else { return UITableViewCell() }
+        
+        cell.backgroundColor = .bananaYellow
         
         return cell
     }

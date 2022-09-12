@@ -16,25 +16,6 @@ class HomeView: BaseView {
         return view
     }()
     
-//    let imageView: UIImageView = {
-//        let view = UIImageView()
-//        view.backgroundColor = .darkGray
-//        view.clipsToBounds = true
-//        view.layer.cornerRadius = UIScreen.main.bounds.width * 0.2 / 2
-//        return view
-//    }()
-    
-//    let imageButton: UIButton = {
-//        let view = UIButton()
-//        view.setImage(UIImage(systemName: "plus"), for: .normal)
-//        view.backgroundColor = .white
-//        view.clipsToBounds = true
-//        view.sizeToFit()
-//        view.tintColor = .black
-//        view.layer.cornerRadius = ((UIScreen.main.bounds.width * 0.2) - 10) / 2
-//        return view
-//    }()
-    
     let selectCollectionView: HomeSelectCollectionView = {
         let view = HomeSelectCollectionView(frame: .zero, collectionViewLayout: selectCollectionViewLayout())
         

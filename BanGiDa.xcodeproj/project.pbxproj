@@ -34,6 +34,7 @@
 		859BBCE928CB7473006EF18A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859BBCE828CB7473006EF18A /* HomeViewModel.swift */; };
 		85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D00828CEFA4400F22A80 /* FontList.swift */; };
 		85A8D00E28CF0AA000F22A80 /* Jalnan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A8D00D28CF0AA000F22A80 /* Jalnan.ttf */; };
+		85A8D01028CF0DBF00F22A80 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D00F28CF0DBF00F22A80 /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		859BBCE828CB7473006EF18A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		85A8D00828CEFA4400F22A80 /* FontList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontList.swift; sourceTree = "<group>"; };
 		85A8D00D28CF0AA000F22A80 /* Jalnan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jalnan.ttf; sourceTree = "<group>"; };
+		85A8D00F28CF0DBF00F22A80 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				85075C5928CC90E900FAF6BA /* UIViewController+Extension.swift */,
+				85A8D00F28CF0DBF00F22A80 /* UIColor+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				85075C5A28CC90E900FAF6BA /* UIViewController+Extension.swift in Sources */,
 				85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */,
 				859BBCE928CB7473006EF18A /* HomeViewModel.swift in Sources */,
+				85A8D01028CF0DBF00F22A80 /* UIColor+Extension.swift in Sources */,
 				859BBCE528CB7035006EF18A /* Observable.swift in Sources */,
 				8575420228C9C9CF004DD880 /* HomeView.swift in Sources */,
 				857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */,

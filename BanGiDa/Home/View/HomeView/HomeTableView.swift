@@ -12,10 +12,6 @@ class HomeTableView: UITableView {
     
     let calendar: CalendarView = {
         let view = CalendarView()
-        //        view.clipsToBounds = true
-        //        view.layer.cornerRadius = 15
-        //        view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner, .layerMinXMaxYCorner)
-        //        view.backgroundColor = .green
         return view
     }()
     
@@ -25,6 +21,12 @@ class HomeTableView: UITableView {
         view.clipsToBounds = true
         view.layer.cornerRadius = 15
         view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner, .layerMinXMaxYCorner)
+        
+        view.layer.shadowColor = UIColor.black.cgColor // 색깔
+        view.layer.masksToBounds = false
+        view.layer.shadowOffset = CGSize(width: 0, height: 4) // 위치조정
+        view.layer.shadowRadius = 2 // 반경
+        view.layer.shadowOpacity = 0.1 // alpha값
         return view
     }()
     
@@ -44,7 +46,7 @@ class HomeTableView: UITableView {
         self.tableHeaderView = calendarView
         
         self.tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.42
-        self.backgroundColor = .lightGray
+        backgroundColor = .white
     }
     
     func setConstraints() {
