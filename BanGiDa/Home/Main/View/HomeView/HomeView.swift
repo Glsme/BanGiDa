@@ -12,13 +12,11 @@ class HomeView: BaseView {
     
     let headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .clear
         return view
     }()
     
     let selectCollectionView: HomeSelectCollectionView = {
         let view = HomeSelectCollectionView(frame: .zero, collectionViewLayout: selectCollectionViewLayout())
-        
         return view
     }()
     
@@ -30,8 +28,7 @@ class HomeView: BaseView {
     
     let todayButton: UIButton = {
         let view = UIButton()
-        view.setTitle("오늘", for: .normal)
-        view.backgroundColor = .orange
+        view.setTitle("Today", for: .normal)
         return view
     }()
     
@@ -67,7 +64,8 @@ class HomeView: BaseView {
         selectCollectionView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.trailing.bottom.equalTo(headerView)
-            make.width.equalTo(self)
+            make.width.equalTo(self).multipliedBy(0.95)
+            make.centerX.equalTo(self)
         }
         
         todayButton.snp.makeConstraints { make in
@@ -80,13 +78,13 @@ class HomeView: BaseView {
     
     static func selectCollectionViewLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
-        let width = 55
-        let spacing: CGFloat = 8
+        let spacing: CGFloat = 10
+        let width = (UIScreen.main.bounds.width * 0.95) - (spacing * 5)
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: width, height: 44)
+        layout.itemSize = CGSize(width: width / 6, height: width / 6)
         layout.minimumLineSpacing = spacing
-        layout.minimumInteritemSpacing = spacing
-        layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
+        layout.minimumInteritemSpacing = 0
+//        layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
         
         return layout
     }

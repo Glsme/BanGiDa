@@ -19,7 +19,7 @@ class HomeTableView: UITableView {
         let view = UIView()
         view.backgroundColor = .white
         view.clipsToBounds = true
-        view.layer.cornerRadius = 15
+        view.layer.cornerRadius = 20
         view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner, .layerMinXMaxYCorner)
         
         view.layer.shadowColor = UIColor.black.cgColor // 색깔

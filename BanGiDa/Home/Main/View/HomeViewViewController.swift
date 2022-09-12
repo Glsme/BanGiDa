@@ -95,17 +95,13 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeSelectCollectionViewCell.reuseIdentifier, for: indexPath) as? HomeSelectCollectionViewCell else { return UICollectionViewCell() }
         
-//        cell.backgroundColor = .lightGray
-        cell.selectButton.setImage(viewModel.selectButtonImageList[indexPath.item], for: .normal)
-        cell.selectButton.tintColor = .black
+        cell.selectButton.setImage(viewModel.selectButtonList[indexPath.row].image, for: .normal)
+        cell.selectButton.tintColor = .white
+        cell.backgroundColor = viewModel.selectButtonList[indexPath.row].color
         cell.clipsToBounds = true
-        cell.layer.borderWidth = 2
-        cell.layer.borderColor = UIColor.darkGray.cgColor
         cell.layer.cornerRadius = cell.frame.height / 2
         cell.selectButton.addTarget(self, action: #selector(pushNavigationController), for: .touchUpInside)
         
         return cell
     }
-    
-    
 }

@@ -35,6 +35,7 @@
 		85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D00828CEFA4400F22A80 /* FontList.swift */; };
 		85A8D00E28CF0AA000F22A80 /* Jalnan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A8D00D28CF0AA000F22A80 /* Jalnan.ttf */; };
 		85A8D01028CF0DBF00F22A80 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D00F28CF0DBF00F22A80 /* UIColor+Extension.swift */; };
+		85A8D01428CF611400F22A80 /* SelectButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D01328CF611400F22A80 /* SelectButtonModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		85A8D00828CEFA4400F22A80 /* FontList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontList.swift; sourceTree = "<group>"; };
 		85A8D00D28CF0AA000F22A80 /* Jalnan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jalnan.ttf; sourceTree = "<group>"; };
 		85A8D00F28CF0DBF00F22A80 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		85A8D01328CF611400F22A80 /* SelectButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,9 +158,8 @@
 		857541EA28C9BEF5004DD880 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				85A8D01128CF60ED00F22A80 /* Main */,
 				85075C5B28CC91F200FAF6BA /* Write */,
-				859BBCE628CB729A006EF18A /* ViewModel */,
-				8575420328C9CA74004DD880 /* View */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -243,6 +244,24 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		85A8D01128CF60ED00F22A80 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				85A8D01228CF60F700F22A80 /* Model */,
+				859BBCE628CB729A006EF18A /* ViewModel */,
+				8575420328C9CA74004DD880 /* View */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		85A8D01228CF60F700F22A80 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				85A8D01328CF611400F22A80 /* SelectButtonModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -324,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				85075C5A28CC90E900FAF6BA /* UIViewController+Extension.swift in Sources */,
+				85A8D01428CF611400F22A80 /* SelectButtonModel.swift in Sources */,
 				85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */,
 				859BBCE928CB7473006EF18A /* HomeViewModel.swift in Sources */,
 				85A8D01028CF0DBF00F22A80 /* UIColor+Extension.swift in Sources */,
