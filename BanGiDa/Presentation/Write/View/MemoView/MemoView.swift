@@ -13,6 +13,7 @@ class MemoView: BaseView {
     let imageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .bananaYellow
+        view.layer.cornerRadius = 10
         return view
     }()
     
@@ -21,6 +22,7 @@ class MemoView: BaseView {
         view.setImage(UIImage(systemName: "photo"), for: .normal)
         view.tintColor = .black
         view.backgroundColor = .lightGray
+        view.layer.cornerRadius = 25
         return view
     }()
     
@@ -28,9 +30,10 @@ class MemoView: BaseView {
         let view = UITextView()
         view.backgroundColor = .bananaYellow
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
-        
+        view.layer.cornerRadius = 10
         let spacing: CGFloat = 10
         view.textContainerInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
+        view.textColor = .lightGray
         return view
     }()
     
@@ -50,13 +53,13 @@ class MemoView: BaseView {
     
     override func setConstraints() {
         imageView.snp.makeConstraints { make in
-            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.65)
+            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
             make.centerX.equalTo(self)
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
         }
         
         imageButton.snp.makeConstraints { make in
-            make.width.height.equalTo(imageView.snp.width).multipliedBy(0.2)
+            make.width.height.equalTo(50)
             make.bottom.equalTo(imageView.snp.bottom).offset(-10)
             make.trailing.equalTo(imageView.snp.trailing).offset(-10)
         }

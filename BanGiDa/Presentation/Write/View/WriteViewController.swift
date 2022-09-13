@@ -35,3 +35,16 @@ class WriteViewController: BaseViewController {
         self.navigationController?.popViewController(animated: true)
     }
 }
+
+extension WriteViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        
+    }
+}

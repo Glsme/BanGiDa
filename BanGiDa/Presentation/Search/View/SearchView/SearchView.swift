@@ -1,14 +1,14 @@
 //
-//  HomeView.swift
+//  SearchView.swift
 //  BanGiDa
 //
-//  Created by Seokjune Hong on 2022/09/08.
+//  Created by Seokjune Hong on 2022/09/13.
 //
 
 import UIKit
 import SnapKit
 
-class HomeView: BaseView {
+class SearchView: BaseView {
     
     let headerView: UIView = {
         let view = UIView()
@@ -20,23 +20,8 @@ class HomeView: BaseView {
         return view
     }()
     
-    let homeTableView: HomeTableView = {
-        let view = HomeTableView(frame: .zero, style: .insetGrouped)
-        view.rowHeight = 60
-        return view
-    }()
-    
-    let todayButton: UIButton = {
-        let view = UIButton()
-        view.setTitle("Today", for: .normal)
-        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 14)
-        view.setTitleColor(UIColor.black, for: .normal)
-        return view
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -45,9 +30,7 @@ class HomeView: BaseView {
     
     override func configureUI() {
         headerView.addSubview(selectCollectionView)
-        homeTableView.calendarView.addSubview(todayButton)
-//        imageView.addSubview(imageButton)
-        [headerView, homeTableView].forEach {
+        [headerView].forEach {
             self.addSubview($0)
         }
     }
@@ -57,24 +40,12 @@ class HomeView: BaseView {
             make.top.leading.trailing.equalTo(self.safeAreaLayoutGuide)
             make.height.equalTo(60)
         }
-
-        homeTableView.snp.makeConstraints { make in
-            make.bottom.trailing.leading.equalTo(self.safeAreaLayoutGuide)
-            make.top.equalTo(headerView.snp.bottom)
-        }
         
         selectCollectionView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.trailing.bottom.equalTo(headerView)
             make.width.equalTo(self).multipliedBy(0.95)
             make.centerX.equalTo(self)
-        }
-        
-        todayButton.snp.makeConstraints { make in
-            make.centerY.equalTo(homeTableView.calendar.calendarHeaderView.snp.centerY)
-            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
-            make.height.equalTo(20)
-            make.width.equalTo(50)
         }
     }
     

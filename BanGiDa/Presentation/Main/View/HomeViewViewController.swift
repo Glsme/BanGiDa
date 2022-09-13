@@ -39,7 +39,7 @@ class HomeViewViewController: BaseViewController {
         
         mainView.selectCollectionView.delegate = self
         mainView.selectCollectionView.dataSource = self
-        mainView.selectCollectionView.register(HomeSelectCollectionViewCell.self, forCellWithReuseIdentifier: HomeSelectCollectionViewCell.reuseIdentifier)
+        mainView.selectCollectionView.register(SelectButtonCollectionViewCell.self, forCellWithReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier)
         
         mainView.todayButton.addTarget(self, action: #selector(todayButtonClicked), for: .touchUpInside)
     }
@@ -51,6 +51,7 @@ class HomeViewViewController: BaseViewController {
     func pushNavigationController(index: Int) {
         let vc = WriteViewController()
         vc.navigationItem.title = viewModel.selectButtonList[index].title
+        vc.memoView.textView.text = viewModel.selectButtonList[index].placeholder
         transViewController(ViewController: vc, type: .push)
     }
 }
@@ -91,11 +92,11 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
 
 extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return viewModel.selectButtonList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeSelectCollectionViewCell.reuseIdentifier, for: indexPath) as? HomeSelectCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return UICollectionViewCell() }
         
         cell.backgroundColor = viewModel.selectButtonList[indexPath.row].color
         cell.clipsToBounds = true

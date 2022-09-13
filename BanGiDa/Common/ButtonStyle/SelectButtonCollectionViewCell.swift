@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class HomeSelectCollectionViewCell: UICollectionViewCell {
+class SelectButtonCollectionViewCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let view = UIImageView()

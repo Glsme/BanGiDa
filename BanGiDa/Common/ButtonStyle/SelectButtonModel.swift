@@ -11,9 +11,10 @@ struct SelectButtonModel {
     let title: String
     let image: UIImage
     let color: UIColor
+    let placeholder: String
     
     /// R, G, B Input 0 ~ 255
-    init(title: String, imageString: String, r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat) {
+    init(title: String, imageString: String, r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat, placeholder: String) {
         self.title = title
         
         self.image = UIImage(systemName: imageString) ?? UIImage()
@@ -24,5 +25,6 @@ struct SelectButtonModel {
         let alpha: CGFloat = alpha
         
         self.color = UIColor(red: red, green: green, blue: blue, alpha: alpha)
+        self.placeholder = placeholder
     }
 }
