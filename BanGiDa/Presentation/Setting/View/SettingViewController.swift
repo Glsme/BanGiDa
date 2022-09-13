@@ -24,6 +24,7 @@ class SettingViewController: BaseViewController {
         settingView.settingTableView.delegate = self
         settingView.settingTableView.dataSource = self
         settingView.settingTableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reuseIdentifier)
+        self.navigationItem.title = "설정"
     }
 }
 

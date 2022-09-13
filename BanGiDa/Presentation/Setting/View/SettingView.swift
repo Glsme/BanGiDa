@@ -11,7 +11,7 @@ import SnapKit
 class SettingView: BaseView {
     
     let settingTableView: UITableView = {
-        let view = UITableView()
+        let view = UITableView(frame: .zero, style: .grouped)
         return view
     }()
     

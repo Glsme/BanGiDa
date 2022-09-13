@@ -34,6 +34,13 @@ class HomeView: BaseView {
         return view
     }()
     
+    let dateSelectButton: UIButton = {
+        let view = UIButton()
+        view.setImage(UIImage(systemName: "calendar"), for: .normal)
+        view.tintColor = .black
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -46,6 +53,7 @@ class HomeView: BaseView {
     override func configureUI() {
         headerView.addSubview(selectCollectionView)
         homeTableView.calendarView.addSubview(todayButton)
+        homeTableView.calendarView.addSubview(dateSelectButton)
 //        imageView.addSubview(imageButton)
         [headerView, homeTableView].forEach {
             self.addSubview($0)
@@ -71,10 +79,16 @@ class HomeView: BaseView {
         }
         
         todayButton.snp.makeConstraints { make in
-            make.centerY.equalTo(homeTableView.calendar.calendarHeaderView.snp.centerY)
+            make.centerY.equalTo(homeTableView.calendar.calendarHeaderView.snp.centerY).multipliedBy(1.1)
             make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
             make.height.equalTo(20)
             make.width.equalTo(50)
+        }
+        
+        dateSelectButton.snp.makeConstraints { make in
+            make.centerY.equalTo(homeTableView.calendar.calendarHeaderView.snp.centerY).multipliedBy(1.2)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
+            make.height.width.equalTo(50)
         }
     }
     
