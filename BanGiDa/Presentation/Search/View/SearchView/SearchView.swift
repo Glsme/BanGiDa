@@ -20,6 +20,13 @@ class SearchView: BaseView {
         return view
     }()
     
+    let filterTableView: UITableView = {
+        let view = UITableView(frame: .zero, style: .insetGrouped)
+        view.rowHeight = 60
+        view.backgroundColor = .white
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -30,7 +37,7 @@ class SearchView: BaseView {
     
     override func configureUI() {
         headerView.addSubview(selectCollectionView)
-        [headerView].forEach {
+        [headerView, filterTableView].forEach {
             self.addSubview($0)
         }
     }
@@ -46,6 +53,11 @@ class SearchView: BaseView {
             make.trailing.bottom.equalTo(headerView)
             make.width.equalTo(self).multipliedBy(0.95)
             make.centerX.equalTo(self)
+        }
+        
+        filterTableView.snp.makeConstraints { make in
+            make.top.equalTo(headerView.snp.bottom)
+            make.bottom.leading.trailing.equalTo(self.safeAreaLayoutGuide)
         }
     }
     

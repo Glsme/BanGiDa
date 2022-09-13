@@ -38,6 +38,7 @@
 		85A8D01928CF89F900F22A80 /* MemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D01828CF89F900F22A80 /* MemoView.swift */; };
 		85A8D01F28D0763500F22A80 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D01E28D0763500F22A80 /* SearchView.swift */; };
 		85A8D02228D0798200F22A80 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02128D0798200F22A80 /* SearchViewModel.swift */; };
+		85A8D02428D0865400F22A80 /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02328D0865400F22A80 /* MemoTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		85A8D01828CF89F900F22A80 /* MemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoView.swift; sourceTree = "<group>"; };
 		85A8D01E28D0763500F22A80 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		85A8D02128D0798200F22A80 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		85A8D02328D0865400F22A80 /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				85A8D01E28D0763500F22A80 /* SearchView.swift */,
+				85A8D02328D0865400F22A80 /* MemoTableViewCell.swift */,
 			);
 			path = SearchView;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 				857541FA28C9C0B1004DD880 /* SettingViewController.swift in Sources */,
 				85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */,
 				85A8D01F28D0763500F22A80 /* SearchView.swift in Sources */,
+				85A8D02428D0865400F22A80 /* MemoTableViewCell.swift in Sources */,
 				8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */,
 				8575422728C9D197004DD880 /* HomeTableViewCell.swift in Sources */,
 				85A8D02228D0798200F22A80 /* SearchViewModel.swift in Sources */,

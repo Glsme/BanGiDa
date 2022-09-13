@@ -15,16 +15,20 @@ class SearchViewController: BaseViewController {
     override func loadView() {
         self.view = searchView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
     
     override func configureUI() {
         searchView.selectCollectionView.delegate = self
         searchView.selectCollectionView.dataSource = self
         searchView.selectCollectionView.register(SelectButtonCollectionViewCell.self, forCellWithReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier)
+        
+        searchView.filterTableView.delegate = self
+        searchView.filterTableView.dataSource = self
+        searchView.filterTableView.register(MemoTableViewCell.self, forCellReuseIdentifier: MemoTableViewCell.reuseIdentifier)
     }
 }
 
@@ -48,8 +52,39 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return }
         
-        cell.backgroundColor = viewModel.selectButtonList[indexPath.item].color
-        collectionView.reloadData()
+        print(indexPath.item)
+        cell.backgroundColor = .bananaYellow
+        searchView.selectCollectionView.reloadData()
+    }
+}
+
+extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 66
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = UILabel()
+        label.font = UIFont(name: FontList.jalnan.rawValue, size: 20)
+        label.text = "헤더뷰"
+        return label
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.reuseIdentifier, for: indexPath) as? MemoTableViewCell else { return UITableViewCell() }
+        
+        cell.backgroundColor = .bananaYellow
+        
+        return cell
     }
     
     
