@@ -40,7 +40,13 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return UICollectionViewCell() }
         
+        
         cell.backgroundColor = .lightGray
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = viewModel.selectButtonList[indexPath.item].color
+        cell.selectedBackgroundView = backgroundView
+        
         cell.clipsToBounds = true
         cell.layer.cornerRadius = cell.frame.height / 2
         cell.imageView.image = viewModel.selectButtonList[indexPath.item].image
@@ -50,11 +56,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return }
         
-        print(indexPath.item)
-        cell.backgroundColor = .bananaYellow
-        searchView.selectCollectionView.reloadData()
     }
 }
 

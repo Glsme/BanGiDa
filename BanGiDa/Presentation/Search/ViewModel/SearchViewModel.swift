@@ -16,4 +16,5 @@ class SearchViewModel {
         SelectButtonModel(title: "약", imageString: "pills", r: 168, g: 215, b: 177, alpha: 1, placeholder: "약 복용 기록을 적어주세요."),
         SelectButtonModel(title: "이상 증상", imageString: "bandage", r: 228, g: 167, b: 180, alpha: 1, placeholder: "이상 증상을 적어주세요.")
     ]
+    
 }
