@@ -26,7 +26,6 @@
 		8575420028C9C985004DD880 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 857541FF28C9C985004DD880 /* FSCalendar */; };
 		8575420228C9C9CF004DD880 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575420128C9C9CF004DD880 /* HomeView.swift */; };
 		8575420528C9CC8E004DD880 /* HomeTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575420428C9CC8E004DD880 /* HomeTableView.swift */; };
-		8575422728C9D197004DD880 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575422628C9D197004DD880 /* HomeTableViewCell.swift */; };
 		8575422A28C9D1C3004DD880 /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575422928C9D1C3004DD880 /* ReusableProtocol.swift */; };
 		8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8575422B28C9D8C6004DD880 /* CalendarView.swift */; };
 		859BBCE528CB7035006EF18A /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859BBCE428CB7035006EF18A /* Observable.swift */; };
@@ -38,7 +37,6 @@
 		85A8D01928CF89F900F22A80 /* MemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D01828CF89F900F22A80 /* MemoView.swift */; };
 		85A8D01F28D0763500F22A80 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D01E28D0763500F22A80 /* SearchView.swift */; };
 		85A8D02228D0798200F22A80 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02128D0798200F22A80 /* SearchViewModel.swift */; };
-		85A8D02428D0865400F22A80 /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02328D0865400F22A80 /* MemoTableViewCell.swift */; };
 		85A8D02828D0BE6D00F22A80 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02728D0BE6D00F22A80 /* SettingViewModel.swift */; };
 		85A8D02A28D0BE8000F22A80 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02928D0BE8000F22A80 /* SettingView.swift */; };
 		85A8D02C28D0C08900F22A80 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02B28D0C08900F22A80 /* SettingTableViewCell.swift */; };
@@ -66,7 +64,6 @@
 		857541F928C9C0B1004DD880 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		8575420128C9C9CF004DD880 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		8575420428C9CC8E004DD880 /* HomeTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableView.swift; sourceTree = "<group>"; };
-		8575422628C9D197004DD880 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		8575422928C9D1C3004DD880 /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 		8575422B28C9D8C6004DD880 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		859BBCE428CB7035006EF18A /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
@@ -78,7 +75,6 @@
 		85A8D01828CF89F900F22A80 /* MemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoView.swift; sourceTree = "<group>"; };
 		85A8D01E28D0763500F22A80 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		85A8D02128D0798200F22A80 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
-		85A8D02328D0865400F22A80 /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
 		85A8D02728D0BE6D00F22A80 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		85A8D02928D0BE8000F22A80 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		85A8D02B28D0C08900F22A80 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
@@ -235,7 +231,6 @@
 				8575420128C9C9CF004DD880 /* HomeView.swift */,
 				8575422B28C9D8C6004DD880 /* CalendarView.swift */,
 				8575420428C9CC8E004DD880 /* HomeTableView.swift */,
-				8575422628C9D197004DD880 /* HomeTableViewCell.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -309,7 +304,6 @@
 			isa = PBXGroup;
 			children = (
 				85A8D01E28D0763500F22A80 /* SearchView.swift */,
-				85A8D02328D0865400F22A80 /* MemoTableViewCell.swift */,
 			);
 			path = SearchView;
 			sourceTree = "<group>";
@@ -456,10 +450,8 @@
 				85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */,
 				85A8D02828D0BE6D00F22A80 /* SettingViewModel.swift in Sources */,
 				85A8D01F28D0763500F22A80 /* SearchView.swift in Sources */,
-				85A8D02428D0865400F22A80 /* MemoTableViewCell.swift in Sources */,
 				8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */,
 				85A8D02E28D0CA1600F22A80 /* BaseTableViewCell.swift in Sources */,
-				8575422728C9D197004DD880 /* HomeTableViewCell.swift in Sources */,
 				85A8D02228D0798200F22A80 /* SearchViewModel.swift in Sources */,
 				857541F328C9BF84004DD880 /* BaseView.swift in Sources */,
 				8556329428CA2D110055159E /* SelectButtonCollectionView.swift in Sources */,

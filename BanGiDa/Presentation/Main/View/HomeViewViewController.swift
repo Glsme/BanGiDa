@@ -32,7 +32,7 @@ class HomeViewViewController: BaseViewController {
         self.navigationController?.navigationBar.isHidden = true
         mainView.homeTableView.delegate = self
         mainView.homeTableView.dataSource = self
-        mainView.homeTableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.reuseIdentifier)
+        mainView.homeTableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.reuseIdentifier)
         
         mainView.homeTableView.calendar.delegate = self
         mainView.homeTableView.calendar.dataSource = self
@@ -78,7 +78,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.reuseIdentifier, for: indexPath) as? HomeTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
         
         cell.backgroundColor = .bananaYellow
         
