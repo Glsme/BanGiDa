@@ -43,6 +43,7 @@
 		85A8D02A28D0BE8000F22A80 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02928D0BE8000F22A80 /* SettingView.swift */; };
 		85A8D02C28D0C08900F22A80 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02B28D0C08900F22A80 /* SettingTableViewCell.swift */; };
 		85A8D02E28D0CA1600F22A80 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02D28D0CA1600F22A80 /* BaseTableViewCell.swift */; };
+		85A8D03228D0DB6400F22A80 /* MemoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,7 @@
 		85A8D02928D0BE8000F22A80 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		85A8D02B28D0C08900F22A80 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		85A8D02D28D0CA1600F22A80 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -315,8 +317,8 @@
 		85A8D02028D0776400F22A80 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				85A8D02F28D0DAE700F22A80 /* Style */,
 				857541EE28C9BF3D004DD880 /* Utility */,
-				85A8D01228CF60F700F22A80 /* ButtonStyle */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -337,6 +339,23 @@
 				85A8D02728D0BE6D00F22A80 /* SettingViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		85A8D02F28D0DAE700F22A80 /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				85A8D03028D0DB0600F22A80 /* MemoListStyle */,
+				85A8D01228CF60F700F22A80 /* ButtonStyle */,
+			);
+			path = Style;
+			sourceTree = "<group>";
+		};
+		85A8D03028D0DB0600F22A80 /* MemoListStyle */ = {
+			isa = PBXGroup;
+			children = (
+				85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */,
+			);
+			path = MemoListStyle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -421,6 +440,7 @@
 				85075C5A28CC90E900FAF6BA /* UIViewController+Extension.swift in Sources */,
 				85A8D01428CF611400F22A80 /* SelectButtonModel.swift in Sources */,
 				85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */,
+				85A8D03228D0DB6400F22A80 /* MemoListTableViewCell.swift in Sources */,
 				859BBCE928CB7473006EF18A /* HomeViewModel.swift in Sources */,
 				85A8D01028CF0DBF00F22A80 /* UIColor+Extension.swift in Sources */,
 				859BBCE528CB7035006EF18A /* Observable.swift in Sources */,

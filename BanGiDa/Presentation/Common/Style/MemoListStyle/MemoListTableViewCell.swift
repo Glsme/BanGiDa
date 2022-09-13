@@ -1,15 +1,13 @@
 //
-//  MemoTableViewCell.swift
+//  MemoListTableViewCell.swift
 //  BanGiDa
 //
-//  Created by Seokjune Hong on 2022/09/13.
+//  Created by Seokjune Hong on 2022/09/14.
 //
 
 import UIKit
-import SnapKit
 
-class MemoTableViewCell: BaseTableViewCell {
-    
+class MemoListTableViewCell: BaseTableViewCell {
     let memoImageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .darkGray
