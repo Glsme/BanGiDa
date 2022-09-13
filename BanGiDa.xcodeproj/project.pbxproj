@@ -42,6 +42,7 @@
 		85A8D02828D0BE6D00F22A80 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02728D0BE6D00F22A80 /* SettingViewModel.swift */; };
 		85A8D02A28D0BE8000F22A80 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02928D0BE8000F22A80 /* SettingView.swift */; };
 		85A8D02C28D0C08900F22A80 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02B28D0C08900F22A80 /* SettingTableViewCell.swift */; };
+		85A8D02E28D0CA1600F22A80 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02D28D0CA1600F22A80 /* BaseTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		85A8D02728D0BE6D00F22A80 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		85A8D02928D0BE8000F22A80 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		85A8D02B28D0C08900F22A80 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		85A8D02D28D0CA1600F22A80 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,7 +156,6 @@
 				85A8D00328CEF8BF00F22A80 /* Resource */,
 				85075C5828CC90DA00FAF6BA /* Extension */,
 				8575422828C9D1AC004DD880 /* Protocol */,
-				857541EE28C9BF3D004DD880 /* Utility */,
 				857541D428C9BBF1004DD880 /* AppDelegate.swift */,
 				857541D628C9BBF1004DD880 /* SceneDelegate.swift */,
 				859BBCE428CB7035006EF18A /* Observable.swift */,
@@ -196,6 +197,7 @@
 			children = (
 				857541F028C9BF56004DD880 /* BaseViewController.swift */,
 				857541F228C9BF84004DD880 /* BaseView.swift */,
+				85A8D02D28D0CA1600F22A80 /* BaseTableViewCell.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -313,6 +315,7 @@
 		85A8D02028D0776400F22A80 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				857541EE28C9BF3D004DD880 /* Utility */,
 				85A8D01228CF60F700F22A80 /* ButtonStyle */,
 			);
 			path = Common;
@@ -435,6 +438,7 @@
 				85A8D01F28D0763500F22A80 /* SearchView.swift in Sources */,
 				85A8D02428D0865400F22A80 /* MemoTableViewCell.swift in Sources */,
 				8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */,
+				85A8D02E28D0CA1600F22A80 /* BaseTableViewCell.swift in Sources */,
 				8575422728C9D197004DD880 /* HomeTableViewCell.swift in Sources */,
 				85A8D02228D0798200F22A80 /* SearchViewModel.swift in Sources */,
 				857541F328C9BF84004DD880 /* BaseView.swift in Sources */,

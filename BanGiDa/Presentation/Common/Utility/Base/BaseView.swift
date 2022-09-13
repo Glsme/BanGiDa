@@ -20,12 +20,8 @@ class BaseView: UIView {
         super.init(coder: coder)
     }
     
-    func configureUI() {
-        
-    }
+    func configureUI() { }
     
-    func setConstraints() {
-        
-    }
+    func setConstraints() { }
 
 }

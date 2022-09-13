@@ -22,7 +22,7 @@ class HomeView: BaseView {
     
     let homeTableView: HomeTableView = {
         let view = HomeTableView(frame: .zero, style: .insetGrouped)
-        view.rowHeight = 60
+        view.rowHeight = 100
         return view
     }()
     
