@@ -12,8 +12,8 @@ class BaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureUI()
         view.backgroundColor = .white
+        configureUI()
     }
     
     func configureUI() { }

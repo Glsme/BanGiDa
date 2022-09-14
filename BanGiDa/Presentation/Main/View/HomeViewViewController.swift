@@ -57,6 +57,7 @@ class HomeViewViewController: BaseViewController {
         let vc = WriteViewController()
         vc.navigationItem.title = viewModel.selectButtonList[index].title
         vc.memoView.textView.text = viewModel.selectButtonList[index].placeholder
+        vc.viewModel.currentIndex = index
         transViewController(ViewController: vc, type: .push)
     }
 }

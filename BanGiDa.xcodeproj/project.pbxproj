@@ -42,6 +42,7 @@
 		85A8D02C28D0C08900F22A80 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02B28D0C08900F22A80 /* SettingTableViewCell.swift */; };
 		85A8D02E28D0CA1600F22A80 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02D28D0CA1600F22A80 /* BaseTableViewCell.swift */; };
 		85A8D03228D0DB6400F22A80 /* MemoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */; };
+		85A8D03828D1A45F00F22A80 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85A8D03728D1A45F00F22A80 /* IQKeyboardManagerSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +90,7 @@
 			files = (
 				857541FD28C9C957004DD880 /* SnapKit in Frameworks */,
 				8575420028C9C985004DD880 /* FSCalendar in Frameworks */,
+				85A8D03828D1A45F00F22A80 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +373,7 @@
 			packageProductDependencies = (
 				857541FC28C9C957004DD880 /* SnapKit */,
 				857541FF28C9C985004DD880 /* FSCalendar */,
+				85A8D03728D1A45F00F22A80 /* IQKeyboardManagerSwift */,
 			);
 			productName = BanGiDa;
 			productReference = 857541D128C9BBF1004DD880 /* BanGiDa.app */;
@@ -403,6 +406,7 @@
 			packageReferences = (
 				857541FB28C9C957004DD880 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				857541FE28C9C985004DD880 /* XCRemoteSwiftPackageReference "FSCalendar" */,
+				85A8D03628D1A45F00F22A80 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 857541D228C9BBF1004DD880 /* Products */;
 			projectDirPath = "";
@@ -692,6 +696,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		85A8D03628D1A45F00F22A80 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -704,6 +716,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 857541FE28C9C985004DD880 /* XCRemoteSwiftPackageReference "FSCalendar" */;
 			productName = FSCalendar;
+		};
+		85A8D03728D1A45F00F22A80 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85A8D03628D1A45F00F22A80 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
