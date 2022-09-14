@@ -32,11 +32,14 @@ class MemoView: BaseView {
         return view
     }()
     
-    let dateButton: UIButton = {
-        let view = UIButton()
-        view.setTitle("날짜를 선택해주세요", for: .normal)
-        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 12)
-        view.setTitleColor(UIColor.black, for: .normal)
+    let dateTextField: UITextField = {
+        let view = UITextField()
+        view.placeholder = "클릭하여 날짜를 선택해주세요"
+        view.font = UIFont(name: "HelveticaNeue-Light", size: 14)
+        view.textAlignment = .center
+        view.layer.borderWidth = 3
+        view.layer.borderColor = UIColor.bananaYellow.cgColor
+        view.layer.cornerRadius = 5
 //        view.backgroundColor = .black
         return view
     }()
@@ -64,9 +67,12 @@ class MemoView: BaseView {
     
     override func configureUI() {
         self.addSubview(memoView)
-        [imageView, imageButton, dateButton, textView].forEach {
+        [imageView, imageButton, dateTextField, textView].forEach {
             memoView.addSubview($0)
         }
+        
+        dateTextField.inputView = configureDatePicker()
+        dateTextField.inputAccessoryView = configureDateToolbar()
     }
     
     override func setConstraints() {
@@ -86,8 +92,8 @@ class MemoView: BaseView {
             make.trailing.equalTo(imageView.snp.trailing).offset(-10)
         }
         
-        dateButton.snp.makeConstraints { make in
-            make.height.equalTo(20)
+        dateTextField.snp.makeConstraints { make in
+            make.height.equalTo(30)
             make.width.equalTo(textView.snp.width)
             make.centerX.equalTo(self.safeAreaLayoutGuide)
             make.top.equalTo(imageView.snp.bottom).offset(20)
@@ -96,8 +102,49 @@ class MemoView: BaseView {
         textView.snp.makeConstraints { make in
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
-            make.top.equalTo(dateButton.snp.bottom).offset(20)
+            make.top.equalTo(dateTextField.snp.bottom).offset(20)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-10)
         }
+    }
+    
+    let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MM월 dd일 EEEE"
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter
+    }()
+    
+    func configureDatePicker() -> UIDatePicker {
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.locale = Locale(identifier: "ko_KR")
+        datePicker.addTarget(self, action: #selector(datePickerValueDidChange(_:)), for: .valueChanged)
+        dateTextField.text = formatter.string(from: Date())
+        return datePicker
+    }
+    
+    func configureDateToolbar() -> UIToolbar {
+        let width = self.bounds.width
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: width, height: 44))
+        let cancel = UIBarButtonItem(title: "취소", style: .plain, target: nil, action: #selector(cancelButtonClicked))
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let ok = UIBarButtonItem(title: "선택", style: .plain, target: nil, action: #selector(okButtonClicked))
+        toolbar.setItems([cancel,flexible, ok], animated: false)
+        
+        return toolbar
+    }
+    
+    @objc func datePickerValueDidChange(_ datePicker: UIDatePicker) {
+        
+        dateTextField.text = formatter.string(from: datePicker.date)
+    }
+    
+    @objc func okButtonClicked(_ datePicker: UIDatePicker) {
+        dateTextField.endEditing(true)
+    }
+    
+    @objc func cancelButtonClicked() {
+        dateTextField.endEditing(true)
     }
 }

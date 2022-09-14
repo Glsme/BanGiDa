@@ -32,12 +32,10 @@ class WriteViewController: BaseViewController {
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
         self.navigationItem.rightBarButtonItem = saveButton
-//        self.navigationController?.navigationBar.backgroundColor = currentColor
+//        self.navigationController?.navigationBar.backgroundColor = .clear
         self.view.backgroundColor = currentColor
         
         memoView.textView.delegate = self
-        
-        
     }
     
     @objc func saveButtonClicked() {
