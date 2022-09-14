@@ -16,9 +16,9 @@ class WriteViewController: BaseViewController {
     
     override func loadView() {
         self.view = memoView
-
+        
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,11 +38,10 @@ class WriteViewController: BaseViewController {
         if #available(iOS 15.0, *) {
             let navigationBarAppearance = UINavigationBarAppearance()
             navigationBarAppearance.configureWithDefaultBackground()
-            navigationBarAppearance.backgroundColor = currentColor
+            // navigationBarAppearance.backgroundColor = currentColor
             
             self.navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
         }
-        
         
         memoView.textView.delegate = self
     }
@@ -62,6 +61,9 @@ extension WriteViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        
+        if textView.text.isEmpty {
+            textView.textColor = .lightGray
+            textView.text = viewModel.setCurrentMemoType().placeholder
+        }
     }
 }
