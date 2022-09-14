@@ -32,8 +32,17 @@ class WriteViewController: BaseViewController {
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
         self.navigationItem.rightBarButtonItem = saveButton
-//        self.navigationController?.navigationBar.backgroundColor = .clear
+        self.navigationController?.navigationBar.backgroundColor = currentColor
         self.view.backgroundColor = currentColor
+        
+        if #available(iOS 15.0, *) {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.configureWithDefaultBackground()
+            navigationBarAppearance.backgroundColor = currentColor
+            
+            self.navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+        }
+        
         
         memoView.textView.delegate = self
     }

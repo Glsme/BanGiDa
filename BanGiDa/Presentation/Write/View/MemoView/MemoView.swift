@@ -12,7 +12,6 @@ class MemoView: BaseView {
     
     let memoView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
         return view
     }()
     
@@ -37,9 +36,9 @@ class MemoView: BaseView {
         view.placeholder = "클릭하여 날짜를 선택해주세요"
         view.font = UIFont(name: "HelveticaNeue-Light", size: 14)
         view.textAlignment = .center
-        view.layer.borderWidth = 3
-        view.layer.borderColor = UIColor.bananaYellow.cgColor
-        view.layer.cornerRadius = 5
+//        view.layer.borderWidth = 3
+//        view.layer.borderColor = UIColor.bananaYellow.cgColor
+//        view.layer.cornerRadius = 5
 //        view.backgroundColor = .black
         return view
     }()
@@ -58,7 +57,7 @@ class MemoView: BaseView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = .white
+        self.backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {
