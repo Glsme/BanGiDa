@@ -43,6 +43,10 @@
 		85A8D02E28D0CA1600F22A80 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02D28D0CA1600F22A80 /* BaseTableViewCell.swift */; };
 		85A8D03228D0DB6400F22A80 /* MemoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */; };
 		85A8D03828D1A45F00F22A80 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85A8D03728D1A45F00F22A80 /* IQKeyboardManagerSwift */; };
+		85A8D03F28D216A000F22A80 /* UserMemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D03E28D216A000F22A80 /* UserMemoRepository.swift */; };
+		85A8D04128D216B300F22A80 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D04028D216B300F22A80 /* RealmModel.swift */; };
+		85A8D04428D21BAA00F22A80 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 85A8D04328D21BAA00F22A80 /* Realm */; };
+		85A8D04628D21BAA00F22A80 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85A8D04528D21BAA00F22A80 /* RealmSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +85,8 @@
 		85A8D02B28D0C08900F22A80 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		85A8D02D28D0CA1600F22A80 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
+		85A8D03E28D216A000F22A80 /* UserMemoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMemoRepository.swift; sourceTree = "<group>"; };
+		85A8D04028D216B300F22A80 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +96,8 @@
 			files = (
 				857541FD28C9C957004DD880 /* SnapKit in Frameworks */,
 				8575420028C9C985004DD880 /* FSCalendar in Frameworks */,
+				85A8D04428D21BAA00F22A80 /* Realm in Frameworks */,
+				85A8D04628D21BAA00F22A80 /* RealmSwift in Frameworks */,
 				85A8D03828D1A45F00F22A80 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,6 +160,7 @@
 		857541D328C9BBF1004DD880 /* BanGiDa */ = {
 			isa = PBXGroup;
 			children = (
+				85A8D03D28D2167800F22A80 /* Realm */,
 				85A8D01628CF777F00F22A80 /* Presentation */,
 				85A8D00328CEF8BF00F22A80 /* Resource */,
 				85075C5828CC90DA00FAF6BA /* Extension */,
@@ -354,6 +363,15 @@
 			path = MemoListStyle;
 			sourceTree = "<group>";
 		};
+		85A8D03D28D2167800F22A80 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				85A8D03E28D216A000F22A80 /* UserMemoRepository.swift */,
+				85A8D04028D216B300F22A80 /* RealmModel.swift */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -374,6 +392,8 @@
 				857541FC28C9C957004DD880 /* SnapKit */,
 				857541FF28C9C985004DD880 /* FSCalendar */,
 				85A8D03728D1A45F00F22A80 /* IQKeyboardManagerSwift */,
+				85A8D04328D21BAA00F22A80 /* Realm */,
+				85A8D04528D21BAA00F22A80 /* RealmSwift */,
 			);
 			productName = BanGiDa;
 			productReference = 857541D128C9BBF1004DD880 /* BanGiDa.app */;
@@ -407,6 +427,7 @@
 				857541FB28C9C957004DD880 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				857541FE28C9C985004DD880 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				85A8D03628D1A45F00F22A80 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				85A8D04228D21BAA00F22A80 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 857541D228C9BBF1004DD880 /* Products */;
 			projectDirPath = "";
@@ -448,8 +469,10 @@
 				85A8D01928CF89F900F22A80 /* MemoView.swift in Sources */,
 				85075C6128CC93CE00FAF6BA /* WriteViewModel.swift in Sources */,
 				8575422A28C9D1C3004DD880 /* ReusableProtocol.swift in Sources */,
+				85A8D04128D216B300F22A80 /* RealmModel.swift in Sources */,
 				857541F828C9C099004DD880 /* SearchViewController.swift in Sources */,
 				857541F128C9BF56004DD880 /* BaseViewController.swift in Sources */,
+				85A8D03F28D216A000F22A80 /* UserMemoRepository.swift in Sources */,
 				857541FA28C9C0B1004DD880 /* SettingViewController.swift in Sources */,
 				85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */,
 				85A8D02828D0BE6D00F22A80 /* SettingViewModel.swift in Sources */,
@@ -704,6 +727,14 @@
 				minimumVersion = 6.5.0;
 			};
 		};
+		85A8D04228D21BAA00F22A80 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -721,6 +752,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 85A8D03628D1A45F00F22A80 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
+		};
+		85A8D04328D21BAA00F22A80 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85A8D04228D21BAA00F22A80 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		85A8D04528D21BAA00F22A80 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85A8D04228D21BAA00F22A80 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class WriteViewController: BaseViewController {
     
@@ -44,11 +45,23 @@ class WriteViewController: BaseViewController {
         }
         
         memoView.textView.delegate = self
+        memoView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
     }
     
     @objc func saveButtonClicked() {
         print(#function)
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func imageButtonClicked() {
+        print(#function)
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .any(of: [.images])
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        
+        present(picker, animated: true, completion: nil)
     }
 }
 
@@ -64,6 +77,22 @@ extension WriteViewController: UITextViewDelegate {
         if textView.text.isEmpty {
             textView.textColor = .lightGray
             textView.text = viewModel.setCurrentMemoType().placeholder
+        }
+    }
+}
+
+extension WriteViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        let itemProvider = results.first?.itemProvider
+        
+        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                DispatchQueue.main.async {
+                    self.memoView.imageView.image = image as? UIImage
+                }
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ import SnapKit
 class WriteViewModel {
     
     let memoView = MemoView()
+    var currentIndex = 0
     
     let selectButtonList = [
         SelectButtonModel(title: "메모", imageString: "note.text", r: 133, g: 204, b: 204, alpha: 1, placeholder: "오늘 있었던 일을 적어주세요."),
@@ -20,8 +21,6 @@ class WriteViewModel {
         SelectButtonModel(title: "약", imageString: "pills", r: 168, g: 215, b: 177, alpha: 1, placeholder: "약 복용 기록을 적어주세요."),
         SelectButtonModel(title: "이상 증상", imageString: "bandage", r: 228, g: 167, b: 180, alpha: 1, placeholder: "이상 증상을 적어주세요.")
     ]
-    
-    var currentIndex = 0
     
     func setCurrentMemoType() -> SelectButtonModel {
         return selectButtonList[self.currentIndex]

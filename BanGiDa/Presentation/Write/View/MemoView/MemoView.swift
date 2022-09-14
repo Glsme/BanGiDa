@@ -19,6 +19,7 @@ class MemoView: BaseView {
         let view = UIImageView()
         view.backgroundColor = .bananaYellow
         view.layer.cornerRadius = 10
+        view.contentMode = .scaleAspectFit
         return view
     }()
     
