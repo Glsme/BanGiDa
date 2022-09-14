@@ -26,6 +26,15 @@ class MemoView: BaseView {
         return view
     }()
     
+    let dateButton: UIButton = {
+        let view = UIButton()
+        view.setTitle("날짜를 선택해주세요", for: .normal)
+        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 12)
+        view.setTitleColor(UIColor.black, for: .normal)
+//        view.backgroundColor = .black
+        return view
+    }()
+    
     let textView: UITextView = {
         let view = UITextView()
         view.backgroundColor = .bananaYellow
@@ -46,7 +55,7 @@ class MemoView: BaseView {
     }
     
     override func configureUI() {
-        [imageView, imageButton, textView].forEach {
+        [imageView, imageButton, dateButton, textView].forEach {
             self.addSubview($0)
         }
     }
@@ -64,10 +73,17 @@ class MemoView: BaseView {
             make.trailing.equalTo(imageView.snp.trailing).offset(-10)
         }
         
+        dateButton.snp.makeConstraints { make in
+            make.height.equalTo(20)
+            make.width.equalTo(textView.snp.width)
+            make.centerX.equalTo(self.safeAreaLayoutGuide)
+            make.top.equalTo(imageView.snp.bottom).offset(20)
+        }
+        
         textView.snp.makeConstraints { make in
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
-            make.top.equalTo(imageView.snp.bottom).offset(40)
+            make.top.equalTo(dateButton.snp.bottom).offset(20)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-10)
         }
     }

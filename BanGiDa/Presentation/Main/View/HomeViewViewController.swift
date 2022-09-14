@@ -42,10 +42,15 @@ class HomeViewViewController: BaseViewController {
         mainView.selectCollectionView.register(SelectButtonCollectionViewCell.self, forCellWithReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier)
         
         mainView.todayButton.addTarget(self, action: #selector(todayButtonClicked), for: .touchUpInside)
+        mainView.dateSelectButton.addTarget(self, action: #selector(dateSelectButtonClcicked), for: .touchUpInside)
     }
     
     @objc func todayButtonClicked() {
         viewModel.todayButtonClicked(calendar: mainView.homeTableView.calendar)
+    }
+    
+    @objc func dateSelectButtonClcicked() {
+        print(#function)
     }
     
     func pushNavigationController(index: Int) {
