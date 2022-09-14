@@ -16,6 +16,7 @@ class WriteViewController: BaseViewController {
     
     override func loadView() {
         self.view = memoView
+
     }
 
     override func viewDidLoad() {
@@ -25,15 +26,18 @@ class WriteViewController: BaseViewController {
     
     override func configureUI() {
         
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.configureWithDefaultBackground()
+        let currentColor = viewModel.setCurrentMemoType().color
         
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
         self.navigationItem.rightBarButtonItem = saveButton
-        self.navigationController?.navigationBar.backgroundColor = viewModel.setCurrentMemoType().color
+//        self.navigationController?.navigationBar.backgroundColor = currentColor
+        self.view.backgroundColor = currentColor
+        
         memoView.textView.delegate = self
+        
+        
     }
     
     @objc func saveButtonClicked() {

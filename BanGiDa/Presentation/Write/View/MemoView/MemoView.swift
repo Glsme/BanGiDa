@@ -10,6 +10,12 @@ import SnapKit
 
 class MemoView: BaseView {
     
+    let memoView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
     let imageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .bananaYellow
@@ -48,6 +54,8 @@ class MemoView: BaseView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
@@ -55,12 +63,17 @@ class MemoView: BaseView {
     }
     
     override func configureUI() {
+        self.addSubview(memoView)
         [imageView, imageButton, dateButton, textView].forEach {
-            self.addSubview($0)
+            memoView.addSubview($0)
         }
     }
     
     override func setConstraints() {
+        memoView.snp.makeConstraints { make in
+            make.edges.equalTo(self.safeAreaLayoutGuide)
+        }
+        
         imageView.snp.makeConstraints { make in
             make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
             make.centerX.equalTo(self)
