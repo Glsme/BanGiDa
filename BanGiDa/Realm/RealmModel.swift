@@ -13,14 +13,16 @@ class UserDiary: Object {
     @Persisted var date = Date()
     @Persisted var animalName: String
     @Persisted var diaryContent: String?
+    @Persisted var photo: String?
     
     @Persisted(primaryKey: true) var objectId: ObjectId
     
-    convenience init(diaryType: String, date: Date, animalName: String, diaryContent: String?) {
+    convenience init(diaryType: String, date: Date, animalName: String, diaryContent: String?, photo: String?) {
         self.init()
         self.diaryType = diaryType
         self.date = date
         self.animalName = animalName
         self.diaryContent = diaryContent
+        self.photo = photo
     }
 }
