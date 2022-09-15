@@ -67,17 +67,11 @@ class WriteViewController: BaseViewController {
 
 extension WriteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray {
-            textView.text = nil
-            textView.textColor = UIColor.black
-        }
+        viewModel.checkTextViewPlaceHolder(textView)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.textColor = .lightGray
-            textView.text = viewModel.setCurrentMemoType().placeholder
-        }
+        viewModel.checkTextViewIsEmpty(textView)
     }
 }
 
