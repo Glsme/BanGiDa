@@ -23,6 +23,7 @@ class WriteViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bindValue()
     }
     
     override func configureUI() {
@@ -48,9 +49,33 @@ class WriteViewController: BaseViewController {
         memoView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
     }
     
+    func bindValue() {
+        viewModel.diaryContent.bind { text in
+            self.memoView.textView.text = self.viewModel.setCurrentMemoType().placeholder
+            self.memoView.textView.textColor = .lightGray
+        }
+        
+        viewModel.dateText.bind { text in
+            self.memoView.dateTextField.text = self.viewModel.dateFormatter.string(from: Date())
+        }
+    }
+    
     @objc func saveButtonClicked() {
         print(#function)
-        self.navigationController?.popViewController(animated: true)
+        
+        guard let dateText = memoView.dateTextField.text else {
+            showAlert(message: "날짜를 선택해주세요.")
+            return
+        }
+        
+        guard let contentText = memoView.textView.text, memoView.textView.textColor != .lightGray else {
+            showAlert(message: "텍스트를 입력해주세요")
+            return
+        }
+        
+        viewModel.saveData(image: nil, content: contentText, dateText: dateText)
+//        self.navigationController?.popViewController(animated: true)
+
     }
     
     @objc func imageButtonClicked() {

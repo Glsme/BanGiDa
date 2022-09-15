@@ -56,7 +56,6 @@ class HomeViewViewController: BaseViewController {
     func pushNavigationController(index: Int) {
         let vc = WriteViewController()
         vc.navigationItem.title = viewModel.selectButtonList[index].title
-        vc.memoView.textView.text = viewModel.selectButtonList[index].placeholder
         vc.viewModel.currentIndex.value = index
         transViewController(ViewController: vc, type: .push)
     }
