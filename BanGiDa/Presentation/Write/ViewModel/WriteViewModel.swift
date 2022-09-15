@@ -11,10 +11,10 @@ import SnapKit
 class WriteViewModel: CommonViewModel {
     
     let memoView = MemoView()
-    var currentIndex = 0
+    var currentIndex: Observable<Int> = Observable(0)
     
     func setCurrentMemoType() -> SelectButtonModel {
-        return selectButtonList[self.currentIndex]
+        return selectButtonList[self.currentIndex.value]
     }
     
 
