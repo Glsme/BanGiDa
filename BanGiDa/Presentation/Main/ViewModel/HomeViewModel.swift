@@ -15,12 +15,6 @@ class HomeViewModel: CommonViewModel {
     
     let homeView = HomeView()
     
-    var tasks: Results<Diary>! {
-        didSet {
-            print("Tasks Changed")
-        }
-    }
-    
     var memoTaskList: Results<Diary>!
     var alarmTaskList: Results<Diary>!
     var hospitalTaskList: Results<Diary>!
@@ -33,7 +27,8 @@ class HomeViewModel: CommonViewModel {
     }
     
     func fetchData() {
-        tasks = UserDiaryRepository.shared.fetch()
+        inputDataIntoArray()
+        homeView.homeTableView.reloadData()
     }
     
     func inputDataIntoArray() {
@@ -47,7 +42,25 @@ class HomeViewModel: CommonViewModel {
     
     func addDeleteSwipeAction(indexPath: IndexPath) -> UISwipeActionsConfiguration {
         let delete = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
-            let task = self.tasks[indexPath.row]
+            var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil)
+            
+            switch indexPath.section {
+            case 0:
+                task = self.memoTaskList[indexPath.row]
+            case 1:
+                task = self.alarmTaskList[indexPath.row]
+            case 2:
+                task = self.hospitalTaskList[indexPath.row]
+            case 3:
+                task = self.showerTaskList[indexPath.row]
+            case 4:
+                task = self.pillTaskList[indexPath.row]
+            case 5:
+                task = self.abnormalTaskList[indexPath.row]
+            default:
+                break
+            }
+            
             UserDiaryRepository.shared.delete(task)
             self.fetchData()
         }
@@ -125,5 +138,35 @@ class HomeViewModel: CommonViewModel {
         headerView.circle.backgroundColor = selectButtonList[section].color
         
         return headerView
+    }
+    
+    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String) -> () ) {
+        var dateText = ""
+        var contentText = ""
+        
+        switch indexPath.section {
+        case 0:
+            dateText = dateFormatter.string(from: memoTaskList[indexPath.row].date)
+            contentText = memoTaskList[indexPath.row].content
+        case 1:
+            dateText = dateFormatter.string(from: alarmTaskList[indexPath.row].date)
+            contentText = alarmTaskList[indexPath.row].content
+        case 2:
+            dateText = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
+            contentText = hospitalTaskList[indexPath.row].content
+        case 3:
+            dateText = dateFormatter.string(from: showerTaskList[indexPath.row].date)
+            contentText = showerTaskList[indexPath.row].content
+        case 4:
+            dateText = dateFormatter.string(from: pillTaskList[indexPath.row].date)
+            contentText = pillTaskList[indexPath.row].content
+        case 5:
+            dateText = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
+            contentText = abnormalTaskList[indexPath.row].content
+        default:
+            break
+        }
+        
+        completionHandler(dateText, contentText)
     }
 }

@@ -101,8 +101,11 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
         
         cell.backgroundColor = .bananaYellow
-        cell.dateLabel.text = dateFormatter.string(from: viewModel.tasks[indexPath.row].date)
-        cell.contentLabel.text = viewModel.tasks[indexPath.row].content
+        
+        viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText in
+            cell.dateLabel.text = dateText
+            cell.contentLabel.text = contentText
+        }
         
         return cell
     }

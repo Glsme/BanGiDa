@@ -32,7 +32,7 @@ class BaseViewController: UIViewController {
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")
-        formatter.timeZone = TimeZone(identifier: "UTC")
+        formatter.timeZone = TimeZone(identifier: "UTC+9")
         formatter.dateFormat = "yyyy년 MM월 dd일 EEEE"
         return formatter
     }()
