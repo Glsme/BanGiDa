@@ -22,10 +22,6 @@ class HomeViewModel: CommonViewModel {
     var pillTaskList: Results<Diary>!
     var abnormalTaskList: Results<Diary>!
     
-    func pushViewController(completion: @escaping () -> Void ) {
-        completion()
-    }
-    
     func fetchData() {
         inputDataIntoArray()
         homeView.homeTableView.reloadData()
@@ -129,15 +125,6 @@ class HomeViewModel: CommonViewModel {
         }
         
         return value
-    }
-    
-    func setTableViewHeaderView(section: Int) -> UIView {
-        let headerView = MemoHeaderView()
-//        headerView.backgroundColor = .green
-        headerView.headerLabel.text = selectButtonList[section].title
-        headerView.circle.backgroundColor = selectButtonList[section].color
-        
-        return headerView
     }
     
     func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String) -> () ) {

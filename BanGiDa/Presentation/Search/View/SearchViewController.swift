@@ -56,7 +56,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        print(indexPath.item)
     }
 }
 
@@ -67,14 +67,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        label.font = UIFont(name: FontList.jalnan.rawValue, size: 20)
-        label.text = "헤더뷰"
-        return label
+        viewModel.setTableViewHeaderView(section: section)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 6
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

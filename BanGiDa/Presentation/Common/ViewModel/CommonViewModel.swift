@@ -5,7 +5,7 @@
 //  Created by Seokjune Hong on 2022/09/15.
 //
 
-import Foundation
+import UIKit
 
 class CommonViewModel {
     let selectButtonList = [
@@ -24,4 +24,13 @@ class CommonViewModel {
         formatter.dateFormat = "yyyy년 MM월 dd일 EEEE"
         return formatter
     }()
+    
+    func setTableViewHeaderView(section: Int) -> UIView {
+        let headerView = MemoHeaderView()
+//        headerView.backgroundColor = .green
+        headerView.headerLabel.text = selectButtonList[section].title
+        headerView.circle.backgroundColor = selectButtonList[section].color
+        
+        return headerView
+    }
 }
