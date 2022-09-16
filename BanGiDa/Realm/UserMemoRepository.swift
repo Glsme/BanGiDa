@@ -15,19 +15,19 @@ class UserMemoRepository {
     
     let localRealm = try! Realm()
     
-    func write(_ task: UserDiary) {
+    func write(_ task: Diary) {
         try! localRealm.write {
             localRealm.add(task)
         }
     }
     
-    func delete(_ task: UserDiary) {
+    func delete(_ task: Diary) {
         try! localRealm.write {
             localRealm.delete(task)
         }
     }
     
-    func fetch() -> Results<UserDiary> {
-        return localRealm.objects(UserDiary.self).sorted(byKeyPath: "date", ascending: false)
+    func fetch() -> Results<Diary> {
+        return localRealm.objects(Diary.self).sorted(byKeyPath: "regDate", ascending: false)
     }
 }

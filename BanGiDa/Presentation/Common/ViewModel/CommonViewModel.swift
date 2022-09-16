@@ -17,8 +17,6 @@ class CommonViewModel {
         SelectButtonModel(title: "이상 증상", imageString: "bandage", r: 228, g: 167, b: 180, alpha: 1, placeholder: "이상 증상을 적어주세요.")
     ]
     
-    let memoType = ["memo", "alarm", "hospital", "shower", "pill", "abnormal"]
-    
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")
@@ -26,16 +24,4 @@ class CommonViewModel {
         formatter.dateFormat = "yyyy년 MM월 dd일 EEEE"
         return formatter
     }()
-}
-
-extension CommonViewModel {
-    
-    enum MemoType: String {
-        case memo = "memo"
-        case alarm = "alarm"
-        case hospital = "hospital"
-        case shower = "shower"
-        case pill = "pill"
-        case abnormal = "abnormal"
-    }
 }

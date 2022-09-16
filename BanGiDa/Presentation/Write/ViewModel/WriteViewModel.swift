@@ -34,15 +34,13 @@ class WriteViewModel: CommonViewModel {
     
     func saveData(image: String?, content: String, dateText: String) {
         
-        let diaryType = memoType[currentIndex.value]
         let image = image
         let content = content
         let date = dateText.toDate() ?? Date()
         
         print(date)
         
-        let task = UserDiary(diaryType: diaryType, date: date, animalName: "뱅돌이", diaryContent: content, photo: image)
-        
+        let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: image)
         UserMemoRepository.shared.write(task)
     }
 }

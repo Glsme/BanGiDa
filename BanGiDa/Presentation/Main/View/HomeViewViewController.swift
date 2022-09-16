@@ -22,7 +22,7 @@ class HomeViewViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        print("Realm is located at:", UserMemoRepository.shared.localRealm.configuration.fileURL!)
+        print("Realm is located at:", UserMemoRepository.shared.localRealm.configuration.fileURL!)
         
     }
     
@@ -30,6 +30,8 @@ class HomeViewViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         self.navigationController?.navigationBar.isHidden = true
+        viewModel.fetchData()
+        mainView.homeTableView.reloadData()
     }
     
     override func configureUI() {
@@ -55,7 +57,7 @@ class HomeViewViewController: BaseViewController {
     }
     
     @objc func todayButtonClicked() {
-        viewModel.todayButtonClicked(calendar: mainView.homeTableView.calendar)
+        mainView.homeTableView.calendar.setCurrentPage(Date(), animated: true)
     }
     
     @objc func dateSelectButtonClcicked() {
@@ -96,7 +98,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.backgroundColor = .bananaYellow
         cell.dateLabel.text = dateFormatter.string(from: viewModel.tasks[indexPath.row].date)
-        cell.contentLabel.text = viewModel.tasks[indexPath.row].diaryContent
+        cell.contentLabel.text = viewModel.tasks[indexPath.row].content
         
         return cell
     }

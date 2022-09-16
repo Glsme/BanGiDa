@@ -8,21 +8,41 @@
 import Foundation
 import RealmSwift
 
-class UserDiary: Object {
-    @Persisted var diaryType: String
+enum RealmDiaryType: Int, PersistableEnum {
+    case memo = 0
+    case alarm
+    case hospital
+    case shower
+    case pill
+    case abnormal
+}
+
+enum DiaryType: Int {
+    case memo = 0
+    case alarm
+    case hospital
+    case shower
+    case pill
+    case abnormal
+}
+
+class Diary: Object {
+    @Persisted var type: RealmDiaryType?
     @Persisted var date = Date()
+    @Persisted var regDate = Date()
     @Persisted var animalName: String
-    @Persisted var diaryContent: String
+    @Persisted var content: String
     @Persisted var photo: String?
     
     @Persisted(primaryKey: true) var objectId: ObjectId
     
-    convenience init(diaryType: String, date: Date, animalName: String, diaryContent: String, photo: String?) {
+    convenience init(type: RealmDiaryType?, date: Date, regDate: Date, animalName: String, content: String, photo: String?) {
         self.init()
-        self.diaryType = diaryType
+        self.type = type
         self.date = date
+        self.regDate = regDate
         self.animalName = animalName
-        self.diaryContent = diaryContent
+        self.content = content
         self.photo = photo
     }
 }
