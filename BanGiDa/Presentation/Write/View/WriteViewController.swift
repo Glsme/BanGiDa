@@ -74,8 +74,7 @@ class WriteViewController: BaseViewController {
         }
         
         viewModel.saveData(image: nil, content: contentText, dateText: dateText)
-//        self.navigationController?.popViewController(animated: true)
-
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func imageButtonClicked() {

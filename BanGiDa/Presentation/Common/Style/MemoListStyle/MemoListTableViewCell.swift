@@ -10,7 +10,7 @@ import UIKit
 class MemoListTableViewCell: BaseTableViewCell {
     let memoImageView: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = .darkGray
+//        view.backgroundColor = .darkGray
         view.clipsToBounds = true
         view.layer.cornerRadius = 5
         return view
@@ -18,7 +18,7 @@ class MemoListTableViewCell: BaseTableViewCell {
     
     let dateLabel: UILabel = {
         let view = UILabel()
-        view.backgroundColor = .lightGray
+//        view.backgroundColor = .lightGray
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
         view.textColor = .darkGray
         return view
@@ -26,7 +26,7 @@ class MemoListTableViewCell: BaseTableViewCell {
     
     let contentLabel: UILabel = {
         let view = UILabel()
-        view.backgroundColor = .darkGray
+//        view.backgroundColor = .darkGray
         view.numberOfLines = 0
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
         view.textColor = .black

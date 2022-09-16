@@ -13,12 +13,16 @@ class HomeViewViewController: BaseViewController {
     let mainView = HomeView()
     let viewModel = HomeViewModel()
     
+    
+    
     override func loadView() {
         self.view = mainView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        print("Realm is located at:", UserMemoRepository.shared.localRealm.configuration.fileURL!)
         
     }
     
@@ -43,6 +47,11 @@ class HomeViewViewController: BaseViewController {
         
         mainView.todayButton.addTarget(self, action: #selector(todayButtonClicked), for: .touchUpInside)
         mainView.dateSelectButton.addTarget(self, action: #selector(dateSelectButtonClcicked), for: .touchUpInside)
+    }
+    
+    override func setData() {
+        viewModel.fetchData()
+        viewModel.inputDataIntoArray()
     }
     
     @objc func todayButtonClicked() {
@@ -75,17 +84,19 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return viewModel.tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
         
         cell.backgroundColor = .bananaYellow
+        cell.dateLabel.text = dateFormatter.string(from: viewModel.tasks[indexPath.row].date)
+        cell.contentLabel.text = viewModel.tasks[indexPath.row].diaryContent
         
         return cell
     }

@@ -42,6 +42,7 @@ class WriteViewModel: CommonViewModel {
         print(date)
         
         let task = UserDiary(diaryType: diaryType, date: date, animalName: "뱅돌이", diaryContent: content, photo: image)
+        
+        UserMemoRepository.shared.write(task)
     }
-    
 }
