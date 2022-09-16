@@ -43,12 +43,13 @@
 		85A8D02E28D0CA1600F22A80 /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02D28D0CA1600F22A80 /* BaseTableViewCell.swift */; };
 		85A8D03228D0DB6400F22A80 /* MemoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */; };
 		85A8D03828D1A45F00F22A80 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85A8D03728D1A45F00F22A80 /* IQKeyboardManagerSwift */; };
-		85A8D03F28D216A000F22A80 /* UserMemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D03E28D216A000F22A80 /* UserMemoRepository.swift */; };
+		85A8D03F28D216A000F22A80 /* UserDiaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D03E28D216A000F22A80 /* UserDiaryRepository.swift */; };
 		85A8D04128D216B300F22A80 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D04028D216B300F22A80 /* RealmModel.swift */; };
 		85A8D04428D21BAA00F22A80 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 85A8D04328D21BAA00F22A80 /* Realm */; };
 		85A8D04628D21BAA00F22A80 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85A8D04528D21BAA00F22A80 /* RealmSwift */; };
 		85A93CD828D30232006C06D6 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CD728D30232006C06D6 /* CommonViewModel.swift */; };
 		85A93CDA28D31A90006C06D6 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CD928D31A90006C06D6 /* String+Extension.swift */; };
+		85A93CDF28D49623006C06D6 /* MemoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,10 +88,11 @@
 		85A8D02B28D0C08900F22A80 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		85A8D02D28D0CA1600F22A80 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
-		85A8D03E28D216A000F22A80 /* UserMemoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMemoRepository.swift; sourceTree = "<group>"; };
+		85A8D03E28D216A000F22A80 /* UserDiaryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDiaryRepository.swift; sourceTree = "<group>"; };
 		85A8D04028D216B300F22A80 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		85A93CD728D30232006C06D6 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		85A93CD928D31A90006C06D6 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,14 +198,6 @@
 				85A8D02528D0BE5900F22A80 /* View */,
 			);
 			path = Setting;
-			sourceTree = "<group>";
-		};
-		857541EE28C9BF3D004DD880 /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				857541EF28C9BF48004DD880 /* Base */,
-			);
-			path = Utility;
 			sourceTree = "<group>";
 		};
 		857541EF28C9BF48004DD880 /* Base */ = {
@@ -327,9 +321,9 @@
 		85A8D02028D0776400F22A80 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				857541EF28C9BF48004DD880 /* Base */,
 				85A93CD628D30224006C06D6 /* ViewModel */,
 				85A8D02F28D0DAE700F22A80 /* Style */,
-				857541EE28C9BF3D004DD880 /* Utility */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -365,6 +359,7 @@
 			isa = PBXGroup;
 			children = (
 				85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */,
+				85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */,
 			);
 			path = MemoListStyle;
 			sourceTree = "<group>";
@@ -372,7 +367,7 @@
 		85A8D03D28D2167800F22A80 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
-				85A8D03E28D216A000F22A80 /* UserMemoRepository.swift */,
+				85A8D03E28D216A000F22A80 /* UserDiaryRepository.swift */,
 				85A8D04028D216B300F22A80 /* RealmModel.swift */,
 			);
 			path = Realm;
@@ -488,12 +483,13 @@
 				85A8D04128D216B300F22A80 /* RealmModel.swift in Sources */,
 				857541F828C9C099004DD880 /* SearchViewController.swift in Sources */,
 				857541F128C9BF56004DD880 /* BaseViewController.swift in Sources */,
-				85A8D03F28D216A000F22A80 /* UserMemoRepository.swift in Sources */,
+				85A8D03F28D216A000F22A80 /* UserDiaryRepository.swift in Sources */,
 				857541FA28C9C0B1004DD880 /* SettingViewController.swift in Sources */,
 				85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */,
 				85A8D02828D0BE6D00F22A80 /* SettingViewModel.swift in Sources */,
 				85A8D01F28D0763500F22A80 /* SearchView.swift in Sources */,
 				8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */,
+				85A93CDF28D49623006C06D6 /* MemoHeaderView.swift in Sources */,
 				85A8D02E28D0CA1600F22A80 /* BaseTableViewCell.swift in Sources */,
 				85A8D02228D0798200F22A80 /* SearchViewModel.swift in Sources */,
 				857541F328C9BF84004DD880 /* BaseView.swift in Sources */,

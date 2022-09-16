@@ -8,8 +8,8 @@
 import Foundation
 import RealmSwift
 
-class UserMemoRepository {
-    static let shared = UserMemoRepository()
+class UserDiaryRepository {
+    static let shared = UserDiaryRepository()
     
     private init() { }
     
@@ -29,5 +29,9 @@ class UserMemoRepository {
     
     func fetch() -> Results<Diary> {
         return localRealm.objects(Diary.self).sorted(byKeyPath: "regDate", ascending: false)
+    }
+    
+    func filter(index: Int) -> Results<Diary> {
+        return localRealm.objects(Diary.self).filter("type == \(index)").sorted(byKeyPath: "regDate", ascending: false)
     }
 }

@@ -22,15 +22,14 @@ class HomeViewViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("Realm is located at:", UserMemoRepository.shared.localRealm.configuration.fileURL!)
-        
+        print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
+        setData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.navigationController?.navigationBar.isHidden = true
-        viewModel.fetchData()
         mainView.homeTableView.reloadData()
     }
     
@@ -75,22 +74,27 @@ class HomeViewViewController: BaseViewController {
 extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 66
+        return viewModel.setHeaderHeight(section: section)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        label.font = UIFont(name: FontList.jalnan.rawValue, size: 20)
-        label.text = "헤더뷰"
-        return label
+        return viewModel.setTableViewHeaderView(section: section)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        .leastNonzeroMagnitude
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        UIView()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 6
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.tasks.count
+        return viewModel.checkNumberOfRowsInsection(section: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -101,6 +105,10 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
         cell.contentLabel.text = viewModel.tasks[indexPath.row].content
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return viewModel.addDeleteSwipeAction(indexPath: indexPath)
     }
 }
 

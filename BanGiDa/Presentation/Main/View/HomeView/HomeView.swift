@@ -22,6 +22,8 @@ class HomeView: BaseView {
     
     let homeTableView: HomeTableView = {
         let view = HomeTableView(frame: .zero, style: .insetGrouped)
+        view.contentInset = .zero
+        view.contentInsetAdjustmentBehavior = .never
         view.rowHeight = 100
         return view
     }()
