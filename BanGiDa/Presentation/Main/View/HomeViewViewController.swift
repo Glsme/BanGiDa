@@ -29,7 +29,7 @@ class HomeViewViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.isHidden = true
         mainView.homeTableView.reloadData()
     }
     

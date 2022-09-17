@@ -30,19 +30,19 @@ class WriteViewController: BaseViewController {
         
         let currentColor = viewModel.setCurrentMemoType().color
         
-        self.navigationController?.navigationBar.isHidden = false
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.topItem?.title = ""
-        self.navigationItem.rightBarButtonItem = saveButton
-        self.navigationController?.navigationBar.backgroundColor = currentColor
-        self.view.backgroundColor = currentColor
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.topItem?.title = ""
+        navigationItem.rightBarButtonItem = saveButton
+        navigationController?.navigationBar.backgroundColor = currentColor
+        view.backgroundColor = currentColor
         
         if #available(iOS 15.0, *) {
             let navigationBarAppearance = UINavigationBarAppearance()
             navigationBarAppearance.configureWithDefaultBackground()
             // navigationBarAppearance.backgroundColor = currentColor
             
-            self.navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+            navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
         }
         
         memoView.textView.delegate = self
@@ -74,7 +74,7 @@ class WriteViewController: BaseViewController {
         }
         
         viewModel.saveData(image: nil, content: contentText, dateText: dateText)
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func imageButtonClicked() {
