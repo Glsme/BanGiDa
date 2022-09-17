@@ -118,7 +118,7 @@ class MemoView: BaseView {
         textView.snp.makeConstraints { make in
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
-            make.top.equalTo(secondLine.snp.bottom).offset(15)
+            make.top.equalTo(secondLine.snp.bottom).offset(20)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-10)
         }
         

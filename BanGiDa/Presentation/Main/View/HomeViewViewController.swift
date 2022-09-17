@@ -119,6 +119,11 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+        viewModel.enterEditMemo(ViewController: self, indexPath: indexPath)
+    }
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         return viewModel.addDeleteSwipeAction(indexPath: indexPath)
     }

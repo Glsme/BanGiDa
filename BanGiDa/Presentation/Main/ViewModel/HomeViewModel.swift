@@ -140,4 +140,33 @@ class HomeViewModel: CommonViewModel {
         
         completionHandler(dateText, contentText)
     }
+    
+    func enterEditMemo<T: UIViewController>(ViewController vc: T, indexPath: IndexPath) {
+        let writeViewModel = WriteViewModel()
+        let wirteVC = WriteViewController()
+        
+        switch indexPath.section {
+        case 0:
+            writeViewModel.diaryContent.value = memoTaskList[indexPath.row].content
+            writeViewModel.dateText.value = dateFormatter.string(from: memoTaskList[indexPath.row].date)
+        case 1:
+            break
+        case 2:
+            writeViewModel.diaryContent.value = hospitalTaskList[indexPath.row].content
+            writeViewModel.dateText.value = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
+        case 3:
+            writeViewModel.diaryContent.value = showerTaskList[indexPath.row].content
+            writeViewModel.dateText.value = dateFormatter.string(from: showerTaskList[indexPath.row].date)
+        case 4:
+            writeViewModel.diaryContent.value = pillTaskList[indexPath.row].content
+            writeViewModel.dateText.value = dateFormatter.string(from: pillTaskList[indexPath.row].date)
+        case 5:
+            writeViewModel.diaryContent.value = abnormalTaskList[indexPath.row].content
+            writeViewModel.dateText.value = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
+        default:
+            break
+        }
+        
+        vc.transViewController(ViewController: wirteVC, type: .push)
+    }
 }
