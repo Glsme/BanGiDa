@@ -15,25 +15,9 @@ class HomeViewModel: CommonViewModel {
     
     let homeView = HomeView()
     
-    var memoTaskList: Results<Diary>!
-    var alarmTaskList: Results<Diary>!
-    var hospitalTaskList: Results<Diary>!
-    var showerTaskList: Results<Diary>!
-    var pillTaskList: Results<Diary>!
-    var abnormalTaskList: Results<Diary>!
-    
     func fetchData() {
         inputDataIntoArray()
         homeView.homeTableView.reloadData()
-    }
-    
-    func inputDataIntoArray() {
-        memoTaskList = UserDiaryRepository.shared.filter(index: 0)
-        alarmTaskList = UserDiaryRepository.shared.filter(index: 1)
-        hospitalTaskList = UserDiaryRepository.shared.filter(index: 2)
-        showerTaskList = UserDiaryRepository.shared.filter(index: 3)
-        pillTaskList = UserDiaryRepository.shared.filter(index: 4)
-        abnormalTaskList = UserDiaryRepository.shared.filter(index: 5)
     }
     
     func addDeleteSwipeAction(indexPath: IndexPath) -> UISwipeActionsConfiguration {

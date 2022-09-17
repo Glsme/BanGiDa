@@ -40,10 +40,15 @@ class MemoView: BaseView {
         view.placeholder = "클릭하여 날짜를 선택해주세요"
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
         view.textAlignment = .center
-//        view.layer.borderWidth = 3
-//        view.layer.borderColor = UIColor.bananaYellow.cgColor
-//        view.layer.cornerRadius = 5
-//        view.backgroundColor = .black
+//        view.backgroundColor = .greenblue
+        return view
+    }()
+    
+    let dateLabel: UILabel = {
+        let view = UILabel()
+        view.text = "날짜"
+        view.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
+//        view.backgroundColor = .skyBlue
         return view
     }()
     
@@ -58,6 +63,9 @@ class MemoView: BaseView {
         return view
     }()
     
+    let firstLine = LineView()
+    let secondLine = LineView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -69,7 +77,7 @@ class MemoView: BaseView {
     
     override func configureUI() {
         self.addSubview(memoView)
-        [imageView, imageButton, dateTextField, textView].forEach {
+        [imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine].forEach {
             memoView.addSubview($0)
         }
         
@@ -93,6 +101,13 @@ class MemoView: BaseView {
             make.top.equalTo(imageView.snp.bottom).offset(8)
         }
         
+        dateLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(dateTextField)
+            make.leading.equalTo(firstLine.snp.leading).offset(10)
+            make.width.equalTo(50)
+            make.height.equalTo(dateTextField.snp.height)
+        }
+        
         dateTextField.snp.makeConstraints { make in
             make.height.equalTo(30)
             make.width.equalTo(textView.snp.width)
@@ -103,8 +118,22 @@ class MemoView: BaseView {
         textView.snp.makeConstraints { make in
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
-            make.top.equalTo(dateTextField.snp.bottom).offset(20)
+            make.top.equalTo(secondLine.snp.bottom).offset(15)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-10)
+        }
+        
+        firstLine.snp.makeConstraints { make in
+            make.top.equalTo(imageButton.snp.bottom).offset(8)
+            make.height.equalTo(1)
+            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
+        }
+        
+        secondLine.snp.makeConstraints { make in
+            make.top.equalTo(dateTextField.snp.bottom).offset(8)
+            make.height.equalTo(1)
+            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
         }
     }
     

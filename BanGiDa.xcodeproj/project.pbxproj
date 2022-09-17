@@ -50,6 +50,7 @@
 		85A93CD828D30232006C06D6 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CD728D30232006C06D6 /* CommonViewModel.swift */; };
 		85A93CDA28D31A90006C06D6 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CD928D31A90006C06D6 /* String+Extension.swift */; };
 		85A93CDF28D49623006C06D6 /* MemoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */; };
+		85EC496028D6392B0095EEB4 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC495F28D6392B0095EEB4 /* LineView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +94,7 @@
 		85A93CD728D30232006C06D6 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		85A93CD928D31A90006C06D6 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoHeaderView.swift; sourceTree = "<group>"; };
+		85EC495F28D6392B0095EEB4 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,14 +265,14 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		85A8D01228CF60F700F22A80 /* ButtonStyle */ = {
+		85A8D01228CF60F700F22A80 /* Button */ = {
 			isa = PBXGroup;
 			children = (
 				8556329328CA2D110055159E /* SelectButtonCollectionView.swift */,
 				8556329528CA2EB00055159E /* SelectButtonCollectionViewCell.swift */,
 				85A8D01328CF611400F22A80 /* SelectButtonModel.swift */,
 			);
-			path = ButtonStyle;
+			path = Button;
 			sourceTree = "<group>";
 		};
 		85A8D01628CF777F00F22A80 /* Presentation */ = {
@@ -349,19 +351,20 @@
 		85A8D02F28D0DAE700F22A80 /* Style */ = {
 			isa = PBXGroup;
 			children = (
-				85A8D03028D0DB0600F22A80 /* MemoListStyle */,
-				85A8D01228CF60F700F22A80 /* ButtonStyle */,
+				85EC495E28D639070095EEB4 /* View */,
+				85A8D03028D0DB0600F22A80 /* MemoList */,
+				85A8D01228CF60F700F22A80 /* Button */,
 			);
 			path = Style;
 			sourceTree = "<group>";
 		};
-		85A8D03028D0DB0600F22A80 /* MemoListStyle */ = {
+		85A8D03028D0DB0600F22A80 /* MemoList */ = {
 			isa = PBXGroup;
 			children = (
 				85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */,
 				85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */,
 			);
-			path = MemoListStyle;
+			path = MemoList;
 			sourceTree = "<group>";
 		};
 		85A8D03D28D2167800F22A80 /* Realm */ = {
@@ -379,6 +382,14 @@
 				85A93CD728D30232006C06D6 /* CommonViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		85EC495E28D639070095EEB4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				85EC495F28D6392B0095EEB4 /* LineView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -497,6 +508,7 @@
 				8575420528C9CC8E004DD880 /* HomeTableView.swift in Sources */,
 				8556329628CA2EB00055159E /* SelectButtonCollectionViewCell.swift in Sources */,
 				857541D728C9BBF1004DD880 /* SceneDelegate.swift in Sources */,
+				85EC496028D6392B0095EEB4 /* LineView.swift in Sources */,
 				857541F628C9C074004DD880 /* HomeViewViewController.swift in Sources */,
 				85A8D02A28D0BE8000F22A80 /* SettingView.swift in Sources */,
 				857541E928C9BD0E004DD880 /* Documentation.docc in Sources */,

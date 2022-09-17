@@ -6,8 +6,17 @@
 //
 
 import UIKit
+import RealmSwift
 
 class CommonViewModel {
+    
+    var memoTaskList: Results<Diary>!
+    var alarmTaskList: Results<Diary>!
+    var hospitalTaskList: Results<Diary>!
+    var showerTaskList: Results<Diary>!
+    var pillTaskList: Results<Diary>!
+    var abnormalTaskList: Results<Diary>!
+    
     let selectButtonList = [
         SelectButtonModel(title: "메모", imageString: "note.text", r: 133, g: 204, b: 204, alpha: 1, placeholder: "오늘 있었던 일을 적어주세요."),
         SelectButtonModel(title: "알람", imageString: "alarm", r: 252, g: 200, b: 141, alpha: 1, placeholder: ""),
@@ -32,5 +41,14 @@ class CommonViewModel {
         headerView.circle.backgroundColor = selectButtonList[section].color
         
         return headerView
+    }
+    
+    func inputDataIntoArray() {
+        memoTaskList = UserDiaryRepository.shared.filter(index: 0)
+        alarmTaskList = UserDiaryRepository.shared.filter(index: 1)
+        hospitalTaskList = UserDiaryRepository.shared.filter(index: 2)
+        showerTaskList = UserDiaryRepository.shared.filter(index: 3)
+        pillTaskList = UserDiaryRepository.shared.filter(index: 4)
+        abnormalTaskList = UserDiaryRepository.shared.filter(index: 5)
     }
 }
