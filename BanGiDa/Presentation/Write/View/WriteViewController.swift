@@ -47,6 +47,7 @@ class WriteViewController: BaseViewController {
         
         memoView.textView.delegate = self
         memoView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
+        
     }
     
     func bindValue() {

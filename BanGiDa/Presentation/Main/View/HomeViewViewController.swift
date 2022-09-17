@@ -22,6 +22,15 @@ class HomeViewViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        UIFont.familyNames.sorted().forEach { familyName in
+            print("*** \(familyName) ***")
+            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
+                print("\(fontName)")
+            }
+            print("---------------------")
+        }
+        
         print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
         setData()
     }

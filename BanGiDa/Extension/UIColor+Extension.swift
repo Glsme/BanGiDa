@@ -8,5 +8,7 @@
 import UIKit
 
 extension UIColor {
-    static let bananaYellow = UIColor(red: 255/256, green: 248/256, blue: 195/256, alpha: 1)
+    static let bananaYellow = UIColor(red: 255/255, green: 248/255, blue: 195/255, alpha: 1)
+    static let ultraLightGray = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
+    static let unaBlue = UIColor(red: 26/255, green: 198/255, blue: 255/255, alpha: 1)
 }

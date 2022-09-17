@@ -17,25 +17,28 @@ class MemoView: BaseView {
     
     let imageView: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = .bananaYellow
-        view.layer.cornerRadius = 10
-        view.contentMode = .scaleAspectFit
+//        view.image = UIImage(systemName: "photo")
+        view.tintColor = .ultraLightGray
+        view.layer.borderColor = UIColor.ultraLightGray.cgColor
+        view.layer.borderWidth = 2
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
+        view.contentMode = .scaleAspectFill
         return view
     }()
     
     let imageButton: UIButton = {
         let view = UIButton()
-        view.setImage(UIImage(systemName: "photo"), for: .normal)
-        view.tintColor = .black
-        view.backgroundColor = .lightGray
-        view.layer.cornerRadius = 25
+        view.setTitle("이미지 편집", for: .normal)
+        view.setTitleColor(UIColor.unaBlue, for: .normal)
+        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
         return view
     }()
     
     let dateTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "클릭하여 날짜를 선택해주세요"
-        view.font = UIFont(name: "HelveticaNeue-Light", size: 14)
+        view.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
         view.textAlignment = .center
 //        view.layer.borderWidth = 3
 //        view.layer.borderColor = UIColor.bananaYellow.cgColor
@@ -58,7 +61,6 @@ class MemoView: BaseView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {
@@ -81,22 +83,21 @@ class MemoView: BaseView {
         }
         
         imageView.snp.makeConstraints { make in
-            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
+            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.5)
             make.centerX.equalTo(self)
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
         }
         
         imageButton.snp.makeConstraints { make in
-            make.width.height.equalTo(50)
-            make.bottom.equalTo(imageView.snp.bottom).offset(-10)
-            make.trailing.equalTo(imageView.snp.trailing).offset(-10)
+            make.centerX.equalTo(imageView.snp.centerX)
+            make.top.equalTo(imageView.snp.bottom).offset(8)
         }
         
         dateTextField.snp.makeConstraints { make in
             make.height.equalTo(30)
             make.width.equalTo(textView.snp.width)
             make.centerX.equalTo(self.safeAreaLayoutGuide)
-            make.top.equalTo(imageView.snp.bottom).offset(20)
+            make.top.equalTo(imageButton.snp.bottom).offset(20)
         }
         
         textView.snp.makeConstraints { make in
