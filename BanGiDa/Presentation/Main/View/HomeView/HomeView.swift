@@ -31,15 +31,15 @@ class HomeView: BaseView {
     let todayButton: UIButton = {
         let view = UIButton()
         view.setTitle("Today", for: .normal)
-        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 14)
-        view.setTitleColor(UIColor.black, for: .normal)
+        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
+        view.setTitleColor(UIColor.greenblue, for: .normal)
         return view
     }()
     
     let dateSelectButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "calendar"), for: .normal)
-        view.tintColor = .black
+        view.tintColor = .lightGray
         return view
     }()
     
