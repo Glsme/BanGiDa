@@ -33,7 +33,7 @@ class WriteViewModel: CommonViewModel {
         }
     }
     
-    func saveData(image: String?, content: String, dateText: String) {
+    func saveData(image: UIImage?, content: String, dateText: String) {
         
         if let primaryKey = UserDiaryRepository.shared.primaryKey {
             editData(image: image, content: content, dateText: dateText, primaryKey: primaryKey)
@@ -42,12 +42,16 @@ class WriteViewModel: CommonViewModel {
             let content = content
             let date = dateText.toDate() ?? Date()
             
-            let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: image)
+            let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: "")
             UserDiaryRepository.shared.write(task)
+            
+            if let image = image {
+                saveImageToDocument(fileName: "\(task.objectId).jpg", image: image)
+            }
         }
     }
     
-    func editData(image: String?, content: String, dateText: String, primaryKey: ObjectId) {
+    func editData(image: UIImage?, content: String, dateText: String, primaryKey: ObjectId) {
         var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil)
         
         for item in UserDiaryRepository.shared.localRealm.objects(Diary.self) {
@@ -61,8 +65,24 @@ class WriteViewModel: CommonViewModel {
         let date = dateText.toDate() ?? Date()
         let regDate = Date()
         
-        UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: image)
+        UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "")
         
         UserDiaryRepository.shared.primaryKey = nil
+        
+        if let image = image {
+            saveImageToDocument(fileName: "\(task.objectId).jpg", image: image)
+        }
+    }
+    
+    func saveImageToDocument(fileName: String, image: UIImage) {
+        guard let documnetDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        let fileURL = documnetDirectory.appendingPathComponent(fileName)
+        guard let data = image.jpegData(compressionQuality: 0.5) else { return }
+        
+        do {
+            try data.write(to: fileURL)
+        } catch let error {
+            print("file save error", error)
+        }
     }
 }

@@ -26,6 +26,14 @@ class WriteViewController: BaseViewController {
         bindValue()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+//        if memoView.imageView.image != nil {
+//            memoView.imageView.layer.borderWidth = 0
+//        }
+    }
+    
     override func configureUI() {
         
         let currentColor = viewModel.setCurrentMemoType().color
@@ -79,7 +87,7 @@ class WriteViewController: BaseViewController {
             return
         }
         
-        viewModel.saveData(image: nil, content: contentText, dateText: dateText)
+        viewModel.saveData(image: memoView.imageView.image, content: contentText, dateText: dateText)
 
         navigationController?.popViewController(animated: true)
     }

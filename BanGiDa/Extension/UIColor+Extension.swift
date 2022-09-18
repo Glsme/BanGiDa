@@ -14,4 +14,5 @@ extension UIColor {
     static let skyBlue = UIColor(red: 169/255, green: 223/255, blue: 225/255, alpha: 1)
     static let greenblue = UIColor(red: 133/255, green: 204/255, blue: 204/255, alpha: 1)
     static let pastelYellow = UIColor(red: 250/255, green: 227/255, blue: 175/255, alpha: 1)
+    static let softGray = UIColor(red: 242/255, green: 242/255, blue: 242/255, alpha: 1)
 }

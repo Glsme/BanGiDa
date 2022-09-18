@@ -148,24 +148,29 @@ class HomeViewModel: CommonViewModel {
         case 0:
             writeVC.memoView.textView.text = memoTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: memoTaskList[indexPath.row].date)
+            writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = memoTaskList[indexPath.row].objectId
         case 1:
             break
         case 2:
             writeVC.memoView.textView.text = hospitalTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
+            writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = hospitalTaskList[indexPath.row].objectId
         case 3:
             writeVC.memoView.textView.text = showerTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: showerTaskList[indexPath.row].date)
+            writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = showerTaskList[indexPath.row].objectId
         case 4:
             writeVC.memoView.textView.text = pillTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: pillTaskList[indexPath.row].date)
+            writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = pillTaskList[indexPath.row].objectId
         case 5:
             writeVC.memoView.textView.text = abnormalTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
+            writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = abnormalTaskList[indexPath.row].objectId
         default:
             break
@@ -175,5 +180,16 @@ class HomeViewModel: CommonViewModel {
         writeVC.viewModel.currentIndex.value = indexPath.section
         
         vc.transViewController(ViewController: writeVC, type: .push)
+    }
+    
+    func loadImageFromDocument(fileName: String) -> UIImage? {
+        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+        let fileURL = documentDirectory.appendingPathComponent(fileName)
+        
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            return UIImage(contentsOfFile: fileURL.path)
+        } else {
+            return UIImage(named: "BasicDog")
+        }
     }
 }

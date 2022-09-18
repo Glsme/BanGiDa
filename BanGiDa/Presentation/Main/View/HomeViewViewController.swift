@@ -23,13 +23,13 @@ class HomeViewViewController: BaseViewController {
         super.viewDidLoad()
         
         
-        UIFont.familyNames.sorted().forEach { familyName in
-            print("*** \(familyName) ***")
-            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
-                print("\(fontName)")
-            }
-            print("---------------------")
-        }
+//        UIFont.familyNames.sorted().forEach { familyName in
+//            print("*** \(familyName) ***")
+//            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
+//                print("\(fontName)")
+//            }
+//            print("---------------------")
+//        }
         
         print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
         setData()
@@ -109,8 +109,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
         
-        cell.backgroundColor = .bananaYellow
-        
+        cell.backgroundColor = .softGray
         viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText in
             cell.dateLabel.text = dateText
             cell.contentLabel.text = contentText

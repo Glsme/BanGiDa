@@ -47,14 +47,15 @@ class MemoView: BaseView {
     let dateLabel: UILabel = {
         let view = UILabel()
         view.text = "날짜"
-        view.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
-//        view.backgroundColor = .skyBlue
+        view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
+        view.textColor = .darkGray
+//        view.backgroundColor = .ultraLightGray
         return view
     }()
     
     let textView: UITextView = {
         let view = UITextView()
-        view.backgroundColor = .bananaYellow
+        view.backgroundColor = .softGray
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
         view.layer.cornerRadius = 10
         let spacing: CGFloat = 10
@@ -112,7 +113,7 @@ class MemoView: BaseView {
             make.height.equalTo(30)
             make.width.equalTo(textView.snp.width)
             make.centerX.equalTo(self.safeAreaLayoutGuide)
-            make.top.equalTo(imageButton.snp.bottom).offset(20)
+            make.top.equalTo(firstLine.snp.bottom).offset(8)
         }
         
         textView.snp.makeConstraints { make in
@@ -124,14 +125,14 @@ class MemoView: BaseView {
         
         firstLine.snp.makeConstraints { make in
             make.top.equalTo(imageButton.snp.bottom).offset(8)
-            make.height.equalTo(1)
+            make.height.equalTo(0.5)
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
         }
         
         secondLine.snp.makeConstraints { make in
             make.top.equalTo(dateTextField.snp.bottom).offset(8)
-            make.height.equalTo(1)
+            make.height.equalTo(0.5)
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
         }
@@ -139,8 +140,8 @@ class MemoView: BaseView {
     
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 MM월 dd일 EEEE"
-        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "yyyy.MM.dd EE"
+//        formatter.locale = Locale(identifier: "ko_KR")
         return formatter
     }()
     
