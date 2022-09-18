@@ -10,33 +10,76 @@ import UIKit
 class SearchViewModel: CommonViewModel {
     
     var isFiltering: Observable<Bool> = Observable(false)
-    var currentIndex: Observable<Int> = Observable(0)
+    var currentIndex: Observable<Int?> = Observable(nil)
     
-    func setSection(section: Int) -> CGFloat {
-        let height: CGFloat = 66
-        var value: CGFloat = 0
+    func setSelectedTableViewHeaderView() -> UIView {
+        let headerView = MemoHeaderView()
         
-        if isFiltering.value {
-            switch section {
-            case 0:
-                value = height
-            case 1:
-                value = height
-            case 2:
-                value = height
-            case 3:
-                value = height
-            case 4:
-                value = height
-            case 5:
-                value = height
-            default:
-                break
-            }
+        guard let index = currentIndex.value else { return UIView() }
+        headerView.headerLabel.text = selectButtonList[index].title
+        headerView.circle.backgroundColor = selectButtonList[index].color
+        
+        return headerView
+    }
+    
+    func setnumberOfSections() -> Int {
+        if currentIndex.value == nil {
+            return 0
         } else {
-            value = height
+            return 1
+        }
+    }
+    
+    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String) -> () ) {
+        var dateText = ""
+        var contentText = ""
+        
+        switch indexPath.section {
+        case 0:
+            dateText = dateFormatter.string(from: memoTaskList[indexPath.row].date)
+            contentText = memoTaskList[indexPath.row].content
+        case 1:
+            dateText = dateFormatter.string(from: alarmTaskList[indexPath.row].date)
+            contentText = alarmTaskList[indexPath.row].content
+        case 2:
+            dateText = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
+            contentText = hospitalTaskList[indexPath.row].content
+        case 3:
+            dateText = dateFormatter.string(from: showerTaskList[indexPath.row].date)
+            contentText = showerTaskList[indexPath.row].content
+        case 4:
+            dateText = dateFormatter.string(from: pillTaskList[indexPath.row].date)
+            contentText = pillTaskList[indexPath.row].content
+        case 5:
+            dateText = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
+            contentText = abnormalTaskList[indexPath.row].content
+        default:
+            break
         }
         
-        return value
+        completionHandler(dateText, contentText)
+    }
+    
+    func checkNumberOfRowsInsection(section: Int) -> Int {
+        if let index = currentIndex.value {
+            switch index {
+            case 0:
+                return memoTaskList.count
+            case 1:
+                return alarmTaskList.count
+            case 2:
+                return hospitalTaskList.count
+            case 3:
+                return showerTaskList.count
+            case 4:
+                return pillTaskList.count
+            case 5:
+                return abnormalTaskList.count
+            default:
+                return 0
+            }
+        } else {
+            return 0
+        }
     }
 }

@@ -19,12 +19,15 @@ class SearchViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bind()
+        viewModel.inputDataIntoArray()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         searchView.filterTableView.reloadData()
+        
     }
     
     override func configureUI() {
@@ -35,6 +38,12 @@ class SearchViewController: BaseViewController {
         searchView.filterTableView.delegate = self
         searchView.filterTableView.dataSource = self
         searchView.filterTableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.reuseIdentifier)
+    }
+    
+    func bind() {
+        viewModel.currentIndex.bind { index in
+            self.searchView.filterTableView.reloadData()
+        }
     }
 }
 
@@ -71,28 +80,30 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return viewModel.setSection(section: section)
+        return 66
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        viewModel.setTableViewHeaderView(section: section)
+        viewModel.setSelectedTableViewHeaderView()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return viewModel.setnumberOfSections()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return viewModel.checkNumberOfRowsInsection(section: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
         
-        cell.backgroundColor = .bananaYellow
+        cell.backgroundColor = .softGray
+        viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText in
+            cell.dateLabel.text = dateText
+            cell.contentLabel.text = contentText
+        }
         
         return cell
     }
-    
-    
 }
