@@ -39,7 +39,7 @@ class HomeView: BaseView {
     let dateSelectButton: UIButton = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "calendar"), for: .normal)
-        view.tintColor = .darkGray
+        view.tintColor = .memoDarkGray
         return view
     }()
     

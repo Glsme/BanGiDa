@@ -20,6 +20,7 @@ class MemoHeaderView: BaseView {
     let headerLabel: UILabel = {
         let view = UILabel()
         view.font = UIFont(name: FontList.jalnan.rawValue, size: 20)
+        view.textColor = .systemTintColor
         return view
     }()
     

@@ -20,7 +20,7 @@ class MemoListTableViewCell: BaseTableViewCell {
         let view = UILabel()
 //        view.backgroundColor = .lightGray
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
-        view.textColor = .darkGray
+        view.textColor = .memoDarkGray
         return view
     }()
     
@@ -29,7 +29,7 @@ class MemoListTableViewCell: BaseTableViewCell {
 //        view.backgroundColor = .darkGray
         view.numberOfLines = 2
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
-        view.textColor = .black
+        view.textColor = .systemTintColor
         return view
     }()
     

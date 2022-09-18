@@ -15,4 +15,8 @@ extension UIColor {
     static let greenblue = UIColor(red: 133/255, green: 204/255, blue: 204/255, alpha: 1)
     static let pastelYellow = UIColor(red: 250/255, green: 227/255, blue: 175/255, alpha: 1)
     static let softGray = UIColor(red: 242/255, green: 242/255, blue: 242/255, alpha: 1)
+    static let backgroundColor = UIColor(named: "BackgroundColor")
+    static let systemTintColor = UIColor(named: "SystemTintColor")
+    static let memoBackgroundColor = UIColor(named: "MemoBackgroundColor")
+    static let memoDarkGray = UIColor(named: "MemoDateColor")
 }

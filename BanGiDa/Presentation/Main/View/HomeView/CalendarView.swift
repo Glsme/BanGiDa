@@ -25,12 +25,13 @@ class CalendarView: FSCalendar {
         scrollDirection = .vertical
 //        locale = Locale(identifier: "ko_KR")
         appearance.headerDateFormat = "yyyy.MM"
-        appearance.headerTitleColor = .black
+        appearance.headerTitleColor = .systemTintColor
         appearance.weekdayTextColor = .lightGray
-        backgroundColor = .white
+        backgroundColor = .backgroundColor
         appearance.headerTitleFont = UIFont(name: "HelveticaNeue-CondensedBold", size: 30)
         appearance.weekdayFont = UIFont(name: "HelveticaNeue-Medium", size: 12)
         appearance.titleFont = UIFont(name: "HelveticaNeue-Light", size: 16)
+        appearance.titleDefaultColor = .systemTintColor
         appearance.selectionColor = .pastelYellow
         appearance.todayColor = .greenblue
         headerHeight = 66

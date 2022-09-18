@@ -98,7 +98,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
         
-        cell.backgroundColor = .softGray
+        cell.backgroundColor = .memoBackgroundColor
         viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText in
             cell.dateLabel.text = dateText
             cell.contentLabel.text = contentText

@@ -17,7 +17,7 @@ class HomeTableView: UITableView {
     
     let calendarView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         view.clipsToBounds = true
         view.layer.cornerRadius = 20
         view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner, .layerMinXMaxYCorner)
@@ -46,7 +46,7 @@ class HomeTableView: UITableView {
         self.tableHeaderView = calendarView
         
         self.tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.42
-        backgroundColor = .white
+        backgroundColor = .backgroundColor
     }
     
     func setConstraints() {
