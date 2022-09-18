@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 class WriteViewModel: CommonViewModel {
     
@@ -34,15 +35,34 @@ class WriteViewModel: CommonViewModel {
     
     func saveData(image: String?, content: String, dateText: String) {
         
+        if let primaryKey = UserDiaryRepository.shared.primaryKey {
+            editData(image: image, content: content, dateText: dateText, primaryKey: primaryKey)
+        } else {
+            let image = image
+            let content = content
+            let date = dateText.toDate() ?? Date()
+            
+            let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: image)
+            UserDiaryRepository.shared.write(task)
+        }
+    }
+    
+    func editData(image: String?, content: String, dateText: String, primaryKey: ObjectId) {
+        var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil)
+        
+        for item in UserDiaryRepository.shared.localRealm.objects(Diary.self) {
+            if item.objectId == primaryKey {
+                task = item
+            }
+        }
+        
         let image = image
         let content = content
         let date = dateText.toDate() ?? Date()
+        let regDate = Date()
         
-        let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: image)
-        UserDiaryRepository.shared.write(task)
-    }
-    
-    func editData() {
-        guard let primaryKey = UserDiaryRepository.shared.primaryKey else { return }
+        UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: image)
+        
+        UserDiaryRepository.shared.primaryKey = nil
     }
 }

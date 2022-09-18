@@ -51,17 +51,6 @@ class WriteViewController: BaseViewController {
     
     func bindValue() {
         viewModel.diaryContent.bind { text in
-            print(self.viewModel.diaryContent.value, "!!!!!!!!!!")
-//            if text.isEmpty {
-//                print("isEmpty")
-//                self.memoView.textView.text = self.viewModel.setCurrentMemoType().placeholder
-//                self.memoView.textView.textColor = .lightGray
-//            } else {
-//                print("not Empty!!")
-//                self.memoView.textView.text = text
-//                self.memoView.textView.textColor = .black
-//            }
-            
             if !self.memoView.textView.text.isEmpty {
                 self.memoView.textView.textColor = .black
             } else {
@@ -91,6 +80,7 @@ class WriteViewController: BaseViewController {
         }
         
         viewModel.saveData(image: nil, content: contentText, dateText: dateText)
+
         navigationController?.popViewController(animated: true)
     }
     
