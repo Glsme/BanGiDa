@@ -142,31 +142,38 @@ class HomeViewModel: CommonViewModel {
     }
     
     func enterEditMemo<T: UIViewController>(ViewController vc: T, indexPath: IndexPath) {
-        let writeViewModel = WriteViewModel()
-        let wirteVC = WriteViewController()
+        let writeVC = WriteViewController()
         
         switch indexPath.section {
         case 0:
-            writeViewModel.diaryContent.value = memoTaskList[indexPath.row].content
-            writeViewModel.dateText.value = dateFormatter.string(from: memoTaskList[indexPath.row].date)
+            writeVC.memoView.textView.text = memoTaskList[indexPath.row].content
+            writeVC.memoView.dateTextField.text = dateFormatter.string(from: memoTaskList[indexPath.row].date)
+            UserDiaryRepository.shared.primaryKey = memoTaskList[indexPath.row].objectId
         case 1:
             break
         case 2:
-            writeViewModel.diaryContent.value = hospitalTaskList[indexPath.row].content
-            writeViewModel.dateText.value = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
+            writeVC.memoView.textView.text = hospitalTaskList[indexPath.row].content
+            writeVC.memoView.dateTextField.text = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
+            UserDiaryRepository.shared.primaryKey = hospitalTaskList[indexPath.row].objectId
         case 3:
-            writeViewModel.diaryContent.value = showerTaskList[indexPath.row].content
-            writeViewModel.dateText.value = dateFormatter.string(from: showerTaskList[indexPath.row].date)
+            writeVC.memoView.textView.text = showerTaskList[indexPath.row].content
+            writeVC.memoView.dateTextField.text = dateFormatter.string(from: showerTaskList[indexPath.row].date)
+            UserDiaryRepository.shared.primaryKey = showerTaskList[indexPath.row].objectId
         case 4:
-            writeViewModel.diaryContent.value = pillTaskList[indexPath.row].content
-            writeViewModel.dateText.value = dateFormatter.string(from: pillTaskList[indexPath.row].date)
+            writeVC.memoView.textView.text = pillTaskList[indexPath.row].content
+            writeVC.memoView.dateTextField.text = dateFormatter.string(from: pillTaskList[indexPath.row].date)
+            UserDiaryRepository.shared.primaryKey = pillTaskList[indexPath.row].objectId
         case 5:
-            writeViewModel.diaryContent.value = abnormalTaskList[indexPath.row].content
-            writeViewModel.dateText.value = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
+            writeVC.memoView.textView.text = abnormalTaskList[indexPath.row].content
+            writeVC.memoView.dateTextField.text = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
+            UserDiaryRepository.shared.primaryKey = abnormalTaskList[indexPath.row].objectId
         default:
             break
         }
         
-        vc.transViewController(ViewController: wirteVC, type: .push)
+        writeVC.navigationItem.title = selectButtonList[indexPath.section].title
+        writeVC.viewModel.currentIndex.value = indexPath.section
+        
+        vc.transViewController(ViewController: writeVC, type: .push)
     }
 }

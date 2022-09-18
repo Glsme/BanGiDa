@@ -41,4 +41,8 @@ class WriteViewModel: CommonViewModel {
         let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: image)
         UserDiaryRepository.shared.write(task)
     }
+    
+    func editData() {
+        guard let primaryKey = UserDiaryRepository.shared.primaryKey else { return }
+    }
 }

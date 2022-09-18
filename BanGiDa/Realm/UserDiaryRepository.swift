@@ -15,6 +15,8 @@ class UserDiaryRepository {
     
     let localRealm = try! Realm()
     
+    var primaryKey: ObjectId?
+    
     func write(_ task: Diary) {
         try! localRealm.write {
             localRealm.add(task)
