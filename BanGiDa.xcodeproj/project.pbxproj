@@ -50,6 +50,9 @@
 		85A93CD828D30232006C06D6 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CD728D30232006C06D6 /* CommonViewModel.swift */; };
 		85A93CDA28D31A90006C06D6 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CD928D31A90006C06D6 /* String+Extension.swift */; };
 		85A93CDF28D49623006C06D6 /* MemoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */; };
+		85CCEAE828D8978C0086E5CA /* AlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CCEAE728D8978C0086E5CA /* AlarmView.swift */; };
+		85CCEAEC28D89C350086E5CA /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CCEAEB28D89C350086E5CA /* AlarmViewController.swift */; };
+		85CCEAEE28D89CAE0086E5CA /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CCEAED28D89CAE0086E5CA /* AlarmViewModel.swift */; };
 		85EC496028D6392B0095EEB4 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC495F28D6392B0095EEB4 /* LineView.swift */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +97,9 @@
 		85A93CD728D30232006C06D6 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		85A93CD928D31A90006C06D6 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoHeaderView.swift; sourceTree = "<group>"; };
+		85CCEAE728D8978C0086E5CA /* AlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmView.swift; sourceTree = "<group>"; };
+		85CCEAEB28D89C350086E5CA /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
+		85CCEAED28D89CAE0086E5CA /* AlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewModel.swift; sourceTree = "<group>"; };
 		85EC495F28D6392B0095EEB4 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -279,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				85A8D02028D0776400F22A80 /* Common */,
+				85CCEAE628D897800086E5CA /* Alarm */,
 				85075C5B28CC91F200FAF6BA /* Write */,
 				85A8D01128CF60ED00F22A80 /* Main */,
 				857541EB28C9BEFA004DD880 /* Search */,
@@ -384,6 +391,32 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		85CCEAE628D897800086E5CA /* Alarm */ = {
+			isa = PBXGroup;
+			children = (
+				85CCEAE928D897900086E5CA /* ViewModel */,
+				85CCEAEA28D897960086E5CA /* View */,
+			);
+			path = Alarm;
+			sourceTree = "<group>";
+		};
+		85CCEAE928D897900086E5CA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				85CCEAED28D89CAE0086E5CA /* AlarmViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		85CCEAEA28D897960086E5CA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				85CCEAE728D8978C0086E5CA /* AlarmView.swift */,
+				85CCEAEB28D89C350086E5CA /* AlarmViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		85EC495E28D639070095EEB4 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,6 +513,7 @@
 				85A8D01428CF611400F22A80 /* SelectButtonModel.swift in Sources */,
 				85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */,
 				85A8D03228D0DB6400F22A80 /* MemoListTableViewCell.swift in Sources */,
+				85CCEAEE28D89CAE0086E5CA /* AlarmViewModel.swift in Sources */,
 				859BBCE928CB7473006EF18A /* HomeViewModel.swift in Sources */,
 				85A8D01028CF0DBF00F22A80 /* UIColor+Extension.swift in Sources */,
 				859BBCE528CB7035006EF18A /* Observable.swift in Sources */,
@@ -488,6 +522,7 @@
 				85A8D02C28D0C08900F22A80 /* SettingTableViewCell.swift in Sources */,
 				8575420228C9C9CF004DD880 /* HomeView.swift in Sources */,
 				857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */,
+				85CCEAE828D8978C0086E5CA /* AlarmView.swift in Sources */,
 				85A8D01928CF89F900F22A80 /* MemoView.swift in Sources */,
 				85075C6128CC93CE00FAF6BA /* WriteViewModel.swift in Sources */,
 				8575422A28C9D1C3004DD880 /* ReusableProtocol.swift in Sources */,
@@ -499,6 +534,7 @@
 				85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */,
 				85A8D02828D0BE6D00F22A80 /* SettingViewModel.swift in Sources */,
 				85A8D01F28D0763500F22A80 /* SearchView.swift in Sources */,
+				85CCEAEC28D89C350086E5CA /* AlarmViewController.swift in Sources */,
 				8575422C28C9D8C6004DD880 /* CalendarView.swift in Sources */,
 				85A93CDF28D49623006C06D6 /* MemoHeaderView.swift in Sources */,
 				85A8D02E28D0CA1600F22A80 /* BaseTableViewCell.swift in Sources */,

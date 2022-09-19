@@ -64,10 +64,16 @@ class HomeViewViewController: BaseViewController {
     }
     
     func pushNavigationController(index: Int) {
-        let vc = WriteViewController()
-        vc.navigationItem.title = viewModel.selectButtonList[index].title
-        vc.viewModel.currentIndex.value = index
-        transViewController(ViewController: vc, type: .push)
+        if index == 1 {
+            let vc = AlarmViewController()
+            vc.navigationItem.title = viewModel.selectButtonList[index].title
+            transViewController(ViewController: vc, type: .push)
+        } else {
+            let vc = WriteViewController()
+            vc.navigationItem.title = viewModel.selectButtonList[index].title
+            vc.viewModel.currentIndex.value = index
+            transViewController(ViewController: vc, type: .push)
+        }
     }
 }
 

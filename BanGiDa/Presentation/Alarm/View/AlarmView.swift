@@ -1,0 +1,98 @@
+//
+//  AlarmView.swift
+//  BanGiDa
+//
+//  Created by Seokjune Hong on 2022/09/19.
+//
+
+import UIKit
+import SnapKit
+
+class AlarmView: BaseView {
+    
+    let dateLabel: UILabel = {
+        let view = UILabel()
+        view.text = "알람이 울릴 시간을 선택해주세요"
+        view.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
+        view.textColor = .lightGray
+//        view.backgroundColor = .greenblue
+        return view
+    }()
+    
+    let dateTextField: UITextField = {
+        let view = UITextField()
+        view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
+//        view.backgroundColor = .bananaYellow
+        view.textAlignment = .center
+        view.placeholder = "날짜를 선택해주세요."
+        return view
+    }()
+    
+    let line = LineView()
+    
+    let memoLabel: UILabel = {
+        let view = UILabel()
+        view.text = "알람 메모를 입력해주세요"
+        view.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
+        view.textColor = .lightGray
+//        view.backgroundColor = .unaBlue
+        return view
+    }()
+    
+    let memoTextView: UITextView = {
+        let view = UITextView()
+        view.backgroundColor = .softGray
+        view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
+        view.layer.cornerRadius = 10
+        let spacing: CGFloat = 10
+        view.textContainerInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
+        view.textColor = .lightGray
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    override func configureUI() {
+        [dateLabel, dateTextField, line, memoLabel ,memoTextView].forEach {
+            self.addSubview($0)
+        }
+    }
+    
+    override func setConstraints() {
+        dateLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
+            make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading).offset(10)
+        }
+        
+        dateTextField.snp.makeConstraints { make in
+            make.top.equalTo(dateLabel.snp.bottom).offset(10)
+            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.width.equalTo(line.snp.width)
+        }
+        
+        line.snp.makeConstraints { make in
+            make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
+            make.top.equalTo(dateTextField.snp.bottom).offset(8)
+            make.centerX.equalTo(dateTextField.snp.centerX)
+            make.height.equalTo(1)
+        }
+        
+        memoLabel.snp.makeConstraints { make in
+            make.leading.equalTo(dateLabel.snp.leading)
+            make.top.equalTo(line.snp.bottom).offset(15)
+        }
+        
+        memoTextView.snp.makeConstraints { make in
+            make.width.equalTo(line.snp.width)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-10)
+            make.top.equalTo(memoLabel.snp.bottom).offset(10)
+            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+        }
+    }
+}

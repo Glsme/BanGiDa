@@ -209,15 +209,15 @@ class HomeViewModel: CommonViewModel {
         let notificationContent = UNMutableNotificationContent()
 //        notificationContent.title = "test"
         notificationContent.title = "행운숫자 \(Int.random(in: 1...100))"
-        notificationContent.body = "배고프당"
+        notificationContent.body = "배고파"
         
-        var dateComponent = DateComponents()
-        dateComponent.minute = 1
+        var dateComponent = DateComponents(year: 2022, month: 9, day: 19, hour: 21, minute: 25)
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
         
         let request = UNNotificationRequest(identifier: "Hi", content: notificationContent, trigger: trigger)
         
         notificationCenter.add(request)
     }
 }
+
