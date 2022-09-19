@@ -10,6 +10,8 @@ import RealmSwift
 
 class CommonViewModel {
     
+    let notificationCenter = UNUserNotificationCenter.current()
+    
     var memoTaskList: Results<Diary>!
     var alarmTaskList: Results<Diary>!
     var hospitalTaskList: Results<Diary>!
@@ -57,5 +59,35 @@ class CommonViewModel {
         showerTaskList = UserDiaryRepository.shared.filter(index: 3)
         pillTaskList = UserDiaryRepository.shared.filter(index: 4)
         abnormalTaskList = UserDiaryRepository.shared.filter(index: 5)
+    }
+    
+    //MARK: - Notification
+    func requsetAuthorization() {
+        let authorizations = UNAuthorizationOptions(arrayLiteral: .alert, .sound)
+        
+        notificationCenter.requestAuthorization(options: authorizations) { success, error in
+            if success {
+                self.sendNotification()
+            }
+        }
+    }
+    
+    func sendNotification() {
+        let notificationContent = UNMutableNotificationContent()
+//        notificationContent.title = "test"
+        notificationContent.title = "반기다 알림"
+//        notificationContent.body = "제발ㅎㅎㅎㅎㅎㅎㅎㅎㅎ라"
+
+        var now = Date()
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: now)
+        
+        var dateComponent = DateComponents(year: components.year, month: components.month, day: components.day, hour: components.hour, minute: components.minute, second: 30)
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "Hi", content: notificationContent, trigger: trigger)
+        
+        notificationCenter.add(request)
     }
 }

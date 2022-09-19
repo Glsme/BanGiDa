@@ -28,16 +28,26 @@ class AlarmView: BaseView {
         return view
     }()
     
-    let line = LineView()
+    let firstLine = LineView()
+    let secondLine = LineView()
     
-    let memoLabel: UILabel = {
-        let view = UILabel()
-        view.text = "알람 메모를 입력해주세요"
-        view.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
-        view.textColor = .lightGray
-//        view.backgroundColor = .unaBlue
+    let titleTextField: UITextField = {
+        let view = UITextField()
+        view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
+//        view.backgroundColor = .bananaYellow
+        view.textAlignment = .center
+        view.placeholder = "제목을 입력해주세요."
         return view
     }()
+    
+//    let memoLabel: UILabel = {
+//        let view = UILabel()
+//        view.text = "알람 메모를 입력해주세요"
+//        view.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
+//        view.textColor = .lightGray
+////        view.backgroundColor = .unaBlue
+//        return view
+//    }()
     
     let memoTextView: UITextView = {
         let view = UITextView()
@@ -59,7 +69,7 @@ class AlarmView: BaseView {
     }
     
     override func configureUI() {
-        [dateLabel, dateTextField, line, memoLabel ,memoTextView].forEach {
+        [dateLabel, dateTextField, firstLine, titleTextField, secondLine ,memoTextView].forEach {
             self.addSubview($0)
         }
         
@@ -69,32 +79,45 @@ class AlarmView: BaseView {
     
     override func setConstraints() {
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(15)
             make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading).offset(10)
         }
         
         dateTextField.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom).offset(15)
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
-            make.width.equalTo(line.snp.width)
+            make.width.equalTo(firstLine.snp.width)
         }
         
-        line.snp.makeConstraints { make in
+        firstLine.snp.makeConstraints { make in
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
-            make.top.equalTo(dateTextField.snp.bottom).offset(8)
+            make.top.equalTo(dateTextField.snp.bottom).offset(15)
             make.centerX.equalTo(dateTextField.snp.centerX)
             make.height.equalTo(1)
         }
         
-        memoLabel.snp.makeConstraints { make in
-            make.leading.equalTo(dateLabel.snp.leading)
-            make.top.equalTo(line.snp.bottom).offset(15)
+//        memoLabel.snp.makeConstraints { make in
+//            make.leading.equalTo(dateLabel.snp.leading)
+//            make.top.equalTo(line.snp.bottom).offset(15)
+//        }
+        
+        titleTextField.snp.makeConstraints { make in
+            make.width.equalTo(firstLine.snp.width)
+            make.top.equalTo(firstLine.snp.bottom).offset(15)
+            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+        }
+        
+        secondLine.snp.makeConstraints { make in
+            make.top.equalTo(titleTextField.snp.bottom).offset(15)
+            make.width.equalTo(titleTextField.snp.width)
+            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.height.equalTo(1)
         }
         
         memoTextView.snp.makeConstraints { make in
-            make.width.equalTo(line.snp.width)
+            make.width.equalTo(secondLine.snp.width)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-10)
-            make.top.equalTo(memoLabel.snp.bottom).offset(10)
+            make.top.equalTo(secondLine.snp.bottom).offset(15)
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
         }
     }

@@ -28,6 +28,7 @@ class HomeViewViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = true
+        viewModel.requsetAuthorization()
         mainView.homeTableView.reloadData()
     }
     
@@ -46,8 +47,6 @@ class HomeViewViewController: BaseViewController {
         
         mainView.todayButton.addTarget(self, action: #selector(todayButtonClicked), for: .touchUpInside)
         mainView.dateSelectButton.addTarget(self, action: #selector(dateSelectButtonClcicked), for: .touchUpInside)
-        
-        viewModel.requsetAuthorization()
     }
     
     override func setData() {
