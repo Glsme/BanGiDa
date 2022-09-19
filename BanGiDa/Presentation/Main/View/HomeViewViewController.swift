@@ -13,23 +13,12 @@ class HomeViewViewController: BaseViewController {
     let mainView = HomeView()
     let viewModel = HomeViewModel()
     
-    
-    
     override func loadView() {
         self.view = mainView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-//        UIFont.familyNames.sorted().forEach { familyName in
-//            print("*** \(familyName) ***")
-//            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
-//                print("\(fontName)")
-//            }
-//            print("---------------------")
-//        }
         
         print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
         setData()
@@ -57,6 +46,8 @@ class HomeViewViewController: BaseViewController {
         
         mainView.todayButton.addTarget(self, action: #selector(todayButtonClicked), for: .touchUpInside)
         mainView.dateSelectButton.addTarget(self, action: #selector(dateSelectButtonClcicked), for: .touchUpInside)
+        
+        viewModel.requsetAuthorization()
     }
     
     override func setData() {

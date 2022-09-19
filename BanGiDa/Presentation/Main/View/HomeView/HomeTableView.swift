@@ -43,10 +43,11 @@ class HomeTableView: UITableView {
     
     func configureUI() {
         calendarView.addSubview(calendar)
-        self.tableHeaderView = calendarView
+        tableHeaderView = calendarView
         
-        self.tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.42
+        tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.42
         backgroundColor = .backgroundColor
+        separatorColor = .systemTintColor
     }
     
     func setConstraints() {

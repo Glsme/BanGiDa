@@ -14,6 +14,7 @@ import RealmSwift
 class HomeViewModel: CommonViewModel {
     
     let homeView = HomeView()
+    let notificationCenter = UNUserNotificationCenter.current()
     
     func fetchData() {
         inputDataIntoArray()
@@ -191,5 +192,32 @@ class HomeViewModel: CommonViewModel {
         } else {
             return UIImage(named: "BasicDog")
         }
+    }
+    
+    //MARK: - Notification
+    func requsetAuthorization() {
+        let authorizations = UNAuthorizationOptions(arrayLiteral: .alert, .sound)
+        
+        notificationCenter.requestAuthorization(options: authorizations) { success, error in
+            if success {
+                self.sendNotification()
+            }
+        }
+    }
+    
+    func sendNotification() {
+        let notificationContent = UNMutableNotificationContent()
+//        notificationContent.title = "test"
+        notificationContent.title = "행운숫자 \(Int.random(in: 1...100))"
+        notificationContent.body = "배고프당"
+        
+        var dateComponent = DateComponents()
+        dateComponent.minute = 1
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "Hi", content: notificationContent, trigger: trigger)
+        
+        notificationCenter.add(request)
     }
 }
