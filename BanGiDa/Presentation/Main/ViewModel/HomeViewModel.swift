@@ -154,7 +154,7 @@ class HomeViewModel: CommonViewModel {
         case 1:
             let alarmVC = AlarmViewController()
             alarmVC.navigationItem.title = selectButtonList[indexPath.section].title
-            alarmVC.alarmView.dateTextField.text = alarmVC.alarmView.formatter.string(from: alarmTaskList[indexPath.row].date)
+            alarmVC.alarmView.dateTextField.text = dateAndTimeFormatter.string(from: alarmTaskList[indexPath.row].date)
             alarmVC.alarmView.memoTextView.text = alarmTaskList[indexPath.row].content
             vc.transViewController(ViewController: alarmVC, type: .push)
             return

@@ -34,6 +34,13 @@ class CommonViewModel {
         return formatter
     }()
     
+    let dateAndTimeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd EE hh:mm a"
+//        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter
+    }()
+    
     func setTableViewHeaderView(section: Int) -> UIView {
         let headerView = MemoHeaderView()
 //        headerView.backgroundColor = .green

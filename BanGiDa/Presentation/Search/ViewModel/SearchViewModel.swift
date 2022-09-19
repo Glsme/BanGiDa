@@ -34,7 +34,9 @@ class SearchViewModel: CommonViewModel {
         var dateText = ""
         var contentText = ""
         
-        switch indexPath.section {
+        guard let index = currentIndex.value else { return }
+        
+        switch index {
         case 0:
             dateText = dateFormatter.string(from: memoTaskList[indexPath.row].date)
             contentText = memoTaskList[indexPath.row].content
