@@ -62,16 +62,19 @@ class AlarmView: BaseView {
         [dateLabel, dateTextField, line, memoLabel ,memoTextView].forEach {
             self.addSubview($0)
         }
+        
+        dateTextField.inputView = configureDatePicker()
+        dateTextField.inputAccessoryView = configureDateToolbar()
     }
     
     override func setConstraints() {
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(10)
             make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading).offset(10)
         }
         
         dateTextField.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(10)
+            make.top.equalTo(dateLabel.snp.bottom).offset(15)
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(line.snp.width)
         }
@@ -94,5 +97,45 @@ class AlarmView: BaseView {
             make.top.equalTo(memoLabel.snp.bottom).offset(10)
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
         }
+    }
+    
+    let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd EE hh:mm a"
+//        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter
+    }()
+    
+    func configureDatePicker() -> UIDatePicker {
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .dateAndTime
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.locale = Locale(identifier: "ko_KR")
+        datePicker.addTarget(self, action: #selector(datePickerValueDidChange(_:)), for: .valueChanged)
+        dateTextField.text = formatter.string(from: Date())
+        return datePicker
+    }
+    
+    func configureDateToolbar() -> UIToolbar {
+        let width = self.bounds.width
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: width, height: 44))
+        let cancel = UIBarButtonItem(title: "취소", style: .plain, target: nil, action: #selector(cancelButtonClicked))
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let ok = UIBarButtonItem(title: "선택", style: .plain, target: nil, action: #selector(okButtonClicked))
+        toolbar.setItems([cancel,flexible, ok], animated: false)
+        
+        return toolbar
+    }
+    
+    @objc func datePickerValueDidChange(_ datePicker: UIDatePicker) {
+        dateTextField.text = formatter.string(from: datePicker.date)
+    }
+    
+    @objc func okButtonClicked(_ datePicker: UIDatePicker) {
+        dateTextField.endEditing(true)
+    }
+    
+    @objc func cancelButtonClicked() {
+        dateTextField.endEditing(true)
     }
 }

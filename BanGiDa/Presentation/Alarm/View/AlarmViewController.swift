@@ -21,7 +21,7 @@ class AlarmViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        bindValue()
     }
     
     override func configureUI() {
@@ -41,11 +41,52 @@ class AlarmViewController: BaseViewController {
              navigationBarAppearance.backgroundColor = currentColor
             
             navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
+            alarmView.memoTextView.delegate = self
         }
     }
     
     @objc func saveButtonClicked() {
+        print(#function)
         
+        guard let dateText = alarmView.dateTextField.text else {
+            showAlert(message: "날짜를 선택해주세요.")
+            return
+        }
+        
+        guard let contentText = alarmView.memoTextView.text, alarmView.memoTextView.textColor != .lightGray else {
+            showAlert(message: "텍스트를 입력해주세요")
+            return
+        }
+        
+        viewModel.saveData(content: contentText, dateText: dateText)
+
+        navigationController?.popViewController(animated: true)
     }
 
+    func bindValue() {
+        viewModel.diaryContent.bind { text in
+            if !self.alarmView.memoTextView.text.isEmpty {
+                self.alarmView.memoTextView.textColor = .black
+            } else {
+                self.alarmView.memoTextView.text = self.viewModel.selectButtonList[1].placeholder
+                self.alarmView.memoTextView.textColor = .lightGray
+            }
+        }
+        
+        viewModel.dateText.bind { text in
+            if self.alarmView.dateTextField.text!.isEmpty {
+                self.alarmView.dateTextField.text = self.viewModel.dateFormatter.string(from: Date())
+            }
+        }
+    }
+}
+
+extension AlarmViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        viewModel.checkTextViewPlaceHolder(textView)
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        viewModel.checkTextViewIsEmpty(textView)
+    }
 }

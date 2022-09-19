@@ -152,7 +152,12 @@ class HomeViewModel: CommonViewModel {
             writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = memoTaskList[indexPath.row].objectId
         case 1:
-            break
+            let alarmVC = AlarmViewController()
+            alarmVC.navigationItem.title = selectButtonList[indexPath.section].title
+            alarmVC.alarmView.dateTextField.text = alarmVC.alarmView.formatter.string(from: alarmTaskList[indexPath.row].date)
+            alarmVC.alarmView.memoTextView.text = alarmTaskList[indexPath.row].content
+            vc.transViewController(ViewController: alarmVC, type: .push)
+            return
         case 2:
             writeVC.memoView.textView.text = hospitalTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
