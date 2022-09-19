@@ -32,7 +32,7 @@ class AlarmViewModel: CommonViewModel {
             editData(content: content, dateText: dateText, primaryKey: primaryKey)
         } else {
             let content = content
-            let date = dateText.toDate() ?? Date()
+            let date = dateText.toDateAlarm() ?? Date()
             
             let task = Diary(type: RealmDiaryType(rawValue: 1), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: "")
             UserDiaryRepository.shared.write(task)
