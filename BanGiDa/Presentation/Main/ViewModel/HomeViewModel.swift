@@ -22,7 +22,7 @@ class HomeViewModel: CommonViewModel {
     
     func addDeleteSwipeAction(indexPath: IndexPath) -> UISwipeActionsConfiguration {
         let delete = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
-            var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil)
+            var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)
             
             switch indexPath.section {
             case 0:
@@ -155,6 +155,8 @@ class HomeViewModel: CommonViewModel {
             alarmVC.navigationItem.title = selectButtonList[indexPath.section].title
             alarmVC.alarmView.dateTextField.text = dateAndTimeFormatter.string(from: alarmTaskList[indexPath.row].date)
             alarmVC.alarmView.memoTextView.text = alarmTaskList[indexPath.row].content
+            alarmVC.alarmView.titleTextField.text = alarmTaskList[indexPath.row].alarmTitle
+            UserDiaryRepository.shared.primaryKey = alarmTaskList[indexPath.row].objectId
             vc.transViewController(ViewController: alarmVC, type: .push)
             return
         case 2:

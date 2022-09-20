@@ -37,12 +37,13 @@ class UserDiaryRepository {
         return localRealm.objects(Diary.self).filter("type == \(index)").sorted(byKeyPath: "regDate", ascending: false)
     }
     
-    func update(_ task: Diary, date: Date, regDate: Date, content: String, image: String?) {
+    func update(_ task: Diary, date: Date, regDate: Date, content: String, image: String?, alarmTitle: String?) {
         try! localRealm.write {
             task.date = date
             task.regDate = regDate
             task.content = content
             task.photo = image
+            task.alarmTitle = alarmTitle
         }
     }
 }

@@ -28,8 +28,13 @@ class HomeViewViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = true
-        viewModel.requsetAuthorization()
         mainView.homeTableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        viewModel.requsetAuthorization()
     }
     
     override func configureUI() {

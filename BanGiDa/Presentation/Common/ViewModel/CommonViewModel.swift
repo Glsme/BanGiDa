@@ -30,7 +30,7 @@ class CommonViewModel {
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-//        formatter.locale = Locale(identifier: "ko_KR")
+        //        formatter.locale = Locale(identifier: "ko_KR")
         formatter.timeZone = TimeZone(identifier: "UTC+9")
         formatter.dateFormat = "yyyy.MM.dd EE"
         return formatter
@@ -39,13 +39,13 @@ class CommonViewModel {
     let dateAndTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd EE hh:mm a"
-//        formatter.locale = Locale(identifier: "ko_KR")
+        //        formatter.locale = Locale(identifier: "ko_KR")
         return formatter
     }()
     
     func setTableViewHeaderView(section: Int) -> UIView {
         let headerView = MemoHeaderView()
-//        headerView.backgroundColor = .green
+        //        headerView.backgroundColor = .green
         headerView.headerLabel.text = selectButtonList[section].title
         headerView.circle.backgroundColor = selectButtonList[section].color
         
@@ -65,24 +65,28 @@ class CommonViewModel {
     func requsetAuthorization() {
         let authorizations = UNAuthorizationOptions(arrayLiteral: .alert, .sound)
         
-        notificationCenter.requestAuthorization(options: authorizations) { success, error in
-            if success {
-                self.sendNotification()
+        for item in alarmTaskList {
+            notificationCenter.requestAuthorization(options: authorizations) { success, error in
+                if success {
+//                    print(item.alarmTitle)
+//                    print(item.date)
+//                    print(item.content)
+//                    self.sendNotification(title: item.alarmTitle ?? "반기다 알림", body: item.content, date: item.date)
+//                    self.sendNotification(title: "되라제발", body: "제발", date: Date())
+                }
             }
         }
     }
     
-    func sendNotification() {
+    func sendNotification(title: String, body: String, date: Date) {
         let notificationContent = UNMutableNotificationContent()
-//        notificationContent.title = "test"
-        notificationContent.title = "반기다 알림"
-//        notificationContent.body = "제발ㅎㅎㅎㅎㅎㅎㅎㅎㅎ라"
-
-        var now = Date()
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: now)
+        notificationContent.title = title
+        notificationContent.body = body
         
-        var dateComponent = DateComponents(year: components.year, month: components.month, day: components.day, hour: components.hour, minute: components.minute, second: 30)
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+        
+        let dateComponent = DateComponents(year: components.year, month: components.month, day: components.day, hour: components.hour, minute: components.minute, second: 30)
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
         

@@ -33,10 +33,11 @@ class Diary: Object {
     @Persisted var animalName: String
     @Persisted var content: String
     @Persisted var photo: String?
+    @Persisted var alarmTitle: String?
     
     @Persisted(primaryKey: true) var objectId: ObjectId
     
-    convenience init(type: RealmDiaryType?, date: Date, regDate: Date, animalName: String, content: String, photo: String?) {
+    convenience init(type: RealmDiaryType?, date: Date, regDate: Date, animalName: String, content: String, photo: String?, alarmTitle: String?) {
         self.init()
         self.type = type
         self.date = date
@@ -44,5 +45,6 @@ class Diary: Object {
         self.animalName = animalName
         self.content = content
         self.photo = photo
+        self.alarmTitle = alarmTitle
     }
 }

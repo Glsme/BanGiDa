@@ -54,11 +54,16 @@ class AlarmViewController: BaseViewController {
         }
         
         guard let contentText = alarmView.memoTextView.text, alarmView.memoTextView.textColor != .lightGray else {
-            showAlert(message: "텍스트를 입력해주세요")
+            showAlert(message: "메모를 입력해주세요")
             return
         }
         
-        viewModel.saveData(content: contentText, dateText: dateText)
+        guard let titleText = alarmView.titleTextField.text else {
+            showAlert(message: "제목을 입력해주세요.")
+            return
+        }
+        
+        viewModel.saveData(content: contentText, dateText: dateText, titleText: titleText)
 
         navigationController?.popViewController(animated: true)
     }

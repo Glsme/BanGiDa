@@ -26,21 +26,21 @@ class AlarmViewModel: CommonViewModel {
         }
     }
     
-    func saveData(content: String, dateText: String) {
+    func saveData(content: String, dateText: String, titleText: String) {
         
         if let primaryKey = UserDiaryRepository.shared.primaryKey {
-            editData(content: content, dateText: dateText, primaryKey: primaryKey)
+            editData(content: content, dateText: dateText, primaryKey: primaryKey, titleText: titleText)
         } else {
             let content = content
             let date = dateText.toDateAlarm() ?? Date()
             
-            let task = Diary(type: RealmDiaryType(rawValue: 1), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: "")
+            let task = Diary(type: RealmDiaryType(rawValue: 1), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: "", alarmTitle: titleText)
             UserDiaryRepository.shared.write(task)
         }
     }
     
-    func editData(content: String, dateText: String, primaryKey: ObjectId) {
-        var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil)
+    func editData(content: String, dateText: String, primaryKey: ObjectId, titleText: String) {
+        var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: titleText)
         
         for item in UserDiaryRepository.shared.localRealm.objects(Diary.self) {
             if item.objectId == primaryKey {
@@ -48,11 +48,11 @@ class AlarmViewModel: CommonViewModel {
             }
         }
         
-        let content = content
-        let date = dateText.toDate() ?? Date()
+//        let content = content
+        let date = dateText.toDateAlarm() ?? Date()
         let regDate = Date()
         
-        UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "")
+        UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "", alarmTitle: titleText)
         
         UserDiaryRepository.shared.primaryKey = nil
     }

@@ -42,7 +42,7 @@ class WriteViewModel: CommonViewModel {
             let content = content
             let date = dateText.toDate() ?? Date()
             
-            let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: "")
+            let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: "", alarmTitle: nil)
             UserDiaryRepository.shared.write(task)
             
             if let image = image {
@@ -52,7 +52,7 @@ class WriteViewModel: CommonViewModel {
     }
     
     func editData(image: UIImage?, content: String, dateText: String, primaryKey: ObjectId) {
-        var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil)
+        var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)
         
         for item in UserDiaryRepository.shared.localRealm.objects(Diary.self) {
             if item.objectId == primaryKey {
@@ -65,7 +65,7 @@ class WriteViewModel: CommonViewModel {
         let date = dateText.toDate() ?? Date()
         let regDate = Date()
         
-        UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "")
+        UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "", alarmTitle: nil)
         
         UserDiaryRepository.shared.primaryKey = nil
         
