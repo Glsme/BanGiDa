@@ -100,6 +100,7 @@ class CommonViewModel {
         
         notificationContent.title = title
         notificationContent.body = body
+        notificationContent.sound = .default
         
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
@@ -109,7 +110,7 @@ class CommonViewModel {
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
         
-        let request = UNNotificationRequest(identifier: "\(index)", content: notificationContent, trigger: trigger)
+        let request = UNNotificationRequest(identifier: title + body + "\(date) \(index)", content: notificationContent, trigger: trigger)
         
         notificationCenter.add(request)
         print("NotificationCenter Add Success")
@@ -118,4 +119,8 @@ class CommonViewModel {
     func removeAllNotification() {
         notificationCenter.removeAllDeliveredNotifications()
     }
+    
+//    func removeNotification() {
+//        notificationCenter
+//    }
 }

@@ -55,6 +55,7 @@ class HomeViewViewController: BaseViewController {
     }
     
     override func setData() {
+//        calendar(<#T##calendar: FSCalendar##FSCalendar#>, didSelect: <#T##Date#>, at: <#T##FSCalendarMonthPosition#>)
         viewModel.currentDate.value = mainView.homeTableView.calendar.today ?? Date()
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
@@ -67,6 +68,7 @@ class HomeViewViewController: BaseViewController {
     @objc func todayButtonClicked() {
         mainView.homeTableView.calendar.setCurrentPage(Date(), animated: true)
         mainView.homeTableView.calendar.select(Date(), scrollToDate: true)
+        calendar(mainView.homeTableView.calendar, didSelect: mainView.homeTableView.calendar.today ?? Date(), at: .current)
     }
     
     @objc func dateSelectButtonClcicked() {
@@ -120,9 +122,13 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
         
         cell.backgroundColor = .memoBackgroundColor
-        viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText in
+        viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText, alarmTitle in
             cell.dateLabel.text = dateText
-            cell.contentLabel.text = contentText
+            if indexPath.section == 1 {
+                cell.contentLabel.text = alarmTitle
+            } else {
+                cell.contentLabel.text = contentText
+            }
         }
         
         return cell
@@ -143,8 +149,8 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
         print("날짜가 선택되었습니다.")
         
         viewModel.currentDate.value = date
-//        let dateTest = Date()
-//        print("Date: \(date) :: \(dateTest)")
+        let dateTest = Date()
+        print("Date: \(date) :: \(dateTest)")
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         

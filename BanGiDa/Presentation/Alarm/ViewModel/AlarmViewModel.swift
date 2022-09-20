@@ -38,7 +38,7 @@ class AlarmViewModel: CommonViewModel {
             UserDiaryRepository.shared.write(task)
             inputDataIntoArrayToDate(date: currentDate.value)
             
-            sendNotification(title: "titleText", body: "content", date: date, index: alarmTaskList.count - 1)
+            sendNotification(title: titleText, body: content, date: date, index: alarmTaskList.count - 1)
         }
     }
     
@@ -51,7 +51,6 @@ class AlarmViewModel: CommonViewModel {
             }
         }
         
-//        let content = content
         let date = dateText.toDateAlarm() ?? Date()
         let regDate = Date()
         

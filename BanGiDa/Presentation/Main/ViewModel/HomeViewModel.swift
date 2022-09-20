@@ -111,9 +111,10 @@ class HomeViewModel: CommonViewModel {
         return value
     }
     
-    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String) -> () ) {
+    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String, String) -> () ) {
         var dateText = ""
         var contentText = ""
+        var alarmTitle = ""
         
         switch indexPath.section {
         case 0:
@@ -121,6 +122,7 @@ class HomeViewModel: CommonViewModel {
             contentText = memoTaskList[indexPath.row].content
         case 1:
             dateText = dateFormatter.string(from: alarmTaskList[indexPath.row].date)
+            alarmTitle = alarmTaskList[indexPath.row].alarmTitle ?? "알람"
             contentText = alarmTaskList[indexPath.row].content
         case 2:
             dateText = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
@@ -138,7 +140,7 @@ class HomeViewModel: CommonViewModel {
             break
         }
         
-        completionHandler(dateText, contentText)
+        completionHandler(dateText, contentText, alarmTitle)
     }
     
     func enterEditMemo<T: UIViewController>(ViewController vc: T, indexPath: IndexPath) {
