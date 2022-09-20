@@ -56,7 +56,7 @@ class HomeViewViewController: BaseViewController {
     
     override func setData() {
         viewModel.fetchData()
-        viewModel.inputDataIntoArray()
+        viewModel.inputDataIntoArrayToDate(date: Date())
     }
     
     @objc func todayButtonClicked() {
@@ -136,6 +136,11 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
 extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         print("날짜가 선택되었습니다.")
+        
+        viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: date)
+        viewModel.inputDataIntoArrayToDate(date: date)
+        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.hospitalTaskList.count, viewModel.showerTaskList.count, viewModel.pillTaskList.count, viewModel.abnormalTaskList.count)
+        mainView.homeTableView.reloadData()
     }
 }
 

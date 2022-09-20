@@ -65,6 +65,8 @@ class WriteViewModel: CommonViewModel {
         let date = dateText.toDate() ?? Date()
         let regDate = Date()
         
+        print(date, "???")
+        
         UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "", alarmTitle: nil)
         
         UserDiaryRepository.shared.primaryKey = nil

@@ -19,6 +19,8 @@ class CommonViewModel {
     var pillTaskList: Results<Diary>!
     var abnormalTaskList: Results<Diary>!
     
+    var tasks: Results<Diary>!
+    
     var alarmPrivacy: Observable<Bool> = Observable(false)
     
     let selectButtonList = [
@@ -61,6 +63,15 @@ class CommonViewModel {
         showerTaskList = UserDiaryRepository.shared.filter(index: 3)
         pillTaskList = UserDiaryRepository.shared.filter(index: 4)
         abnormalTaskList = UserDiaryRepository.shared.filter(index: 5)
+    }
+    
+    func inputDataIntoArrayToDate(date: Date) {
+        memoTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 0)
+        alarmTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 1)
+        hospitalTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 2)
+        showerTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 3)
+        pillTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 4)
+        abnormalTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 5)
     }
     
     func fetchDate(date: Date) {

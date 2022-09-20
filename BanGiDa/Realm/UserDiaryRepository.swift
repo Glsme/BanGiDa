@@ -41,6 +41,10 @@ class UserDiaryRepository {
         return localRealm.objects(Diary.self).filter("type == \(index)").sorted(byKeyPath: "regDate", ascending: false)
     }
     
+    func filterToDate(date: Date, index: Int) -> Results<Diary> {
+        return localRealm.objects(Diary.self).filter("type == \(index) AND date >= %@ AND date < %@", date, Date(timeInterval: 86400, since: date)).sorted(byKeyPath: "regDate", ascending: false)
+    }
+    
     func update(_ task: Diary, date: Date, regDate: Date, content: String, image: String?, alarmTitle: String?) {
         try! localRealm.write {
             task.date = date
