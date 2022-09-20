@@ -22,7 +22,7 @@ extension String {
     
     func toDateAlarm() -> Date? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.DD EE hh:mm a"
+        dateFormatter.dateFormat = "yyyy.MM.dd EE hh:mm a"
 //        dateFormatter.locale = Locale(identifier: "ko_KR")
         dateFormatter.timeZone = TimeZone(identifier: "UTC+9")
         if let date = dateFormatter.date(from: self) {

@@ -19,6 +19,8 @@ class CommonViewModel {
     var pillTaskList: Results<Diary>!
     var abnormalTaskList: Results<Diary>!
     
+    var alarmPrivacy: Observable<Bool> = Observable(false)
+    
     let selectButtonList = [
         SelectButtonModel(title: "메모", imageString: "note.text", r: 133, g: 204, b: 204, alpha: 1, placeholder: "오늘 있었던 일을 적어주세요."),
         SelectButtonModel(title: "알람", imageString: "alarm", r: 252, g: 200, b: 141, alpha: 1, placeholder: "알람 메모를 적어주세요."),
@@ -61,37 +63,47 @@ class CommonViewModel {
         abnormalTaskList = UserDiaryRepository.shared.filter(index: 5)
     }
     
+    func fetchDate(date: Date) {
+        UserDiaryRepository.shared.fetchDate(date: date)
+    }
+    
     //MARK: - Notification
     func requsetAuthorization() {
         let authorizations = UNAuthorizationOptions(arrayLiteral: .alert, .sound)
         
-        for item in alarmTaskList {
-            notificationCenter.requestAuthorization(options: authorizations) { success, error in
-                if success {
-//                    print(item.alarmTitle)
-//                    print(item.date)
-//                    print(item.content)
-//                    self.sendNotification(title: item.alarmTitle ?? "반기다 알림", body: item.content, date: item.date)
-//                    self.sendNotification(title: "되라제발", body: "제발", date: Date())
-                }
+        notificationCenter.requestAuthorization(options: authorizations) { success, error in
+            if success {
+                print("alarm privacy succeed")
+                self.alarmPrivacy.value = true
+//                self.sendNotification(title: title, body: body, date: date, index: index)
+            } else {
+                print("alarm privacy failed")
+                self.alarmPrivacy.value = false
             }
         }
     }
     
-    func sendNotification(title: String, body: String, date: Date) {
+    func sendNotification(title: String, body: String, date: Date, index: Int) {
         let notificationContent = UNMutableNotificationContent()
+        
         notificationContent.title = title
         notificationContent.body = body
         
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
         
-        let dateComponent = DateComponents(year: components.year, month: components.month, day: components.day, hour: components.hour, minute: components.minute, second: 30)
+        print(components)
+        let dateComponent = DateComponents(year: components.year, month: components.month, day: components.day, hour: components.hour, minute: components.minute)
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
         
-        let request = UNNotificationRequest(identifier: "Hi", content: notificationContent, trigger: trigger)
+        let request = UNNotificationRequest(identifier: "\(index)", content: notificationContent, trigger: trigger)
         
         notificationCenter.add(request)
+        print("NotificationCenter Add Success")
+    }
+    
+    func removeAllNotification() {
+        notificationCenter.removeAllDeliveredNotifications()
     }
 }

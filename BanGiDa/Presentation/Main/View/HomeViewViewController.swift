@@ -34,7 +34,7 @@ class HomeViewViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        viewModel.requsetAuthorization()
+        viewModel.filterNotification()
     }
     
     override func configureUI() {
@@ -61,10 +61,14 @@ class HomeViewViewController: BaseViewController {
     
     @objc func todayButtonClicked() {
         mainView.homeTableView.calendar.setCurrentPage(Date(), animated: true)
+        mainView.homeTableView.calendar.select(Date(), scrollToDate: true)
     }
     
     @objc func dateSelectButtonClcicked() {
         print(#function)
+        mainView.homeTableView.calendar.setCurrentPage(Date(timeIntervalSinceNow: 90000), animated: true)
+        
+        mainView.homeTableView.calendar.select(Date(timeIntervalSinceNow: 90000), scrollToDate: true)
     }
     
     func pushNavigationController(index: Int) {
@@ -130,7 +134,9 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
-    
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        print("날짜가 선택되었습니다.")
+    }
 }
 
 extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewDataSource {

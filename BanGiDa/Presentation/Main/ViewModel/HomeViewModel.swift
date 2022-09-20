@@ -199,4 +199,10 @@ class HomeViewModel: CommonViewModel {
             return UIImage(named: "BasicDog")
         }
     }
+    
+    func filterNotification() {
+        if !alarmPrivacy.value {
+            requsetAuthorization()
+        }
+    }
 }

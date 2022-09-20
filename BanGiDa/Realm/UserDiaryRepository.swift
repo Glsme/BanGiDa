@@ -23,6 +23,10 @@ class UserDiaryRepository {
         }
     }
     
+    func fetchDate(date: Date) -> Results<Diary> {
+        return localRealm.objects(Diary.self).filter("date >= %@ AND date < %@", date, Date(timeInterval: 86400, since: date)) // NSPredicate
+    }
+    
     func delete(_ task: Diary) {
         try! localRealm.write {
             localRealm.delete(task)

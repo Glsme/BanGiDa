@@ -36,6 +36,9 @@ class AlarmViewModel: CommonViewModel {
             
             let task = Diary(type: RealmDiaryType(rawValue: 1), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: "", alarmTitle: titleText)
             UserDiaryRepository.shared.write(task)
+            inputDataIntoArray()
+            
+            sendNotification(title: "titleText", body: "content", date: date, index: alarmTaskList.count - 1)
         }
     }
     
@@ -53,7 +56,8 @@ class AlarmViewModel: CommonViewModel {
         let regDate = Date()
         
         UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "", alarmTitle: titleText)
-        
+        inputDataIntoArray()
+        sendNotification(title: titleText, body: content, date: date, index: alarmTaskList.count - 1)
         UserDiaryRepository.shared.primaryKey = nil
     }
 }
