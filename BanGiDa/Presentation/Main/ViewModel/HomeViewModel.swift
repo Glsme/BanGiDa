@@ -16,7 +16,7 @@ class HomeViewModel: CommonViewModel {
     let homeView = HomeView()
     
     func fetchData() {
-        inputDataIntoArray()
+        inputDataIntoArrayToDate(date: Date())
         homeView.homeTableView.reloadData()
     }
     
