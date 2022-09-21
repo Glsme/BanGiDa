@@ -49,6 +49,7 @@ class WriteViewModel: CommonViewModel {
             
             if let image = image {
                 saveImageToDocument(fileName: "\(task.objectId).jpg", image: image)
+                imageEditing.value = true
             }
         }
     }
@@ -75,6 +76,7 @@ class WriteViewModel: CommonViewModel {
         
         if let image = image {
             saveImageToDocument(fileName: "\(task.objectId).jpg", image: image)
+            imageEditing.value = true
         }
     }
     

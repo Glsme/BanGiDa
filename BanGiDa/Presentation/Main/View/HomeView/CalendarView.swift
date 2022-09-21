@@ -22,8 +22,10 @@ class CalendarView: FSCalendar {
     }
     
     func configureUI() {
-        scrollDirection = .vertical
+        scope = .week
+        scrollDirection = .horizontal
         locale = Locale(identifier: "ko_KR")
+        appearance.headerMinimumDissolvedAlpha = 0
         appearance.headerDateFormat = "yyyy.MM"
         appearance.eventDefaultColor = .darkPink
         appearance.eventSelectionColor = .greenblue

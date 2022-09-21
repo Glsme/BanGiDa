@@ -111,15 +111,17 @@ class HomeViewModel: CommonViewModel {
         return value
     }
     
-    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String, String) -> () ) {
+    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String, String, UIImage) -> () ) {
         var dateText = ""
         var contentText = ""
         var alarmTitle = ""
+        var image: UIImage = UIImage()
         
         switch indexPath.section {
         case 0:
             dateText = dateFormatter.string(from: memoTaskList[indexPath.row].date)
             contentText = memoTaskList[indexPath.row].content
+            image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 1:
             dateText = dateFormatter.string(from: alarmTaskList[indexPath.row].date)
             alarmTitle = alarmTaskList[indexPath.row].alarmTitle ?? "알람"
@@ -127,20 +129,24 @@ class HomeViewModel: CommonViewModel {
         case 2:
             dateText = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
             contentText = hospitalTaskList[indexPath.row].content
+            image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 3:
             dateText = dateFormatter.string(from: showerTaskList[indexPath.row].date)
             contentText = showerTaskList[indexPath.row].content
+            image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 4:
             dateText = dateFormatter.string(from: pillTaskList[indexPath.row].date)
             contentText = pillTaskList[indexPath.row].content
+            image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 5:
             dateText = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
             contentText = abnormalTaskList[indexPath.row].content
+            image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         default:
             break
         }
         
-        completionHandler(dateText, contentText, alarmTitle)
+        completionHandler(dateText, contentText, alarmTitle, image)
     }
     
     func enterEditMemo<T: UIViewController>(ViewController vc: T, indexPath: IndexPath) {
@@ -206,5 +212,44 @@ class HomeViewModel: CommonViewModel {
         if !alarmPrivacy.value {
             requsetAuthorization()
         }
+    }
+    
+    func showDatePickerAlert() -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.locale = Locale(identifier: "ko_KR")
+        datePicker.addTarget(self, action: #selector(selectDate(_ :)), for: .touchUpInside)
+        
+        let height : NSLayoutConstraint = NSLayoutConstraint(item: alert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
+        
+        let ok = UIAlertAction(title: "선택 완료", style: .cancel) { action in
+            
+            self.currentDateString.value = self.dateFormatter.string(from: datePicker.date)
+            self.currentDate.value = self.dateFormatter.date(from: self.currentDateString.value) ?? Date()
+            
+            print("\(self.currentDate.value) ====== \(datePicker.date)" , "@@@@@")
+
+            self.homeView.homeTableView.calendar.setCurrentPage(self.currentDate.value, animated: true)
+            self.homeView.homeTableView.calendar.select(self.currentDate.value, scrollToDate: true)
+            
+//            self.calendar(self.mainView.homeTableView.calendar, didSelect: Date(timeInterval: -86400, since: self.viewModel.currentDate.value), at: .current)
+//
+//            self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
+//            self.mainView.homeTableView.calendar.select(Date(timeInterval: 86400, since: self.viewModel.currentDate.value), scrollToDate: true)
+        }
+        
+        alert.addAction(ok)
+        
+        alert.view.addSubview(datePicker)
+        alert.view.addConstraint(height)
+        
+        return alert
+    }
+    
+    @objc func selectDate(_ datePicker: UIDatePicker) {
+//        date = datePicker.date
     }
 }

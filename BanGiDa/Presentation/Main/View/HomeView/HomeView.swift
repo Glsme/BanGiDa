@@ -54,8 +54,8 @@ class HomeView: BaseView {
     
     override func configureUI() {
         headerView.addSubview(selectCollectionView)
-        homeTableView.calendarView.addSubview(todayButton)
-        homeTableView.calendarView.addSubview(dateSelectButton)
+        homeTableView.calendar.addSubview(todayButton)
+        homeTableView.calendar.addSubview(dateSelectButton)
 //        imageView.addSubview(imageButton)
         [headerView, homeTableView].forEach {
             self.addSubview($0)

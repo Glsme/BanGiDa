@@ -12,12 +12,7 @@ class HomeTableView: UITableView {
     
     let calendar: CalendarView = {
         let view = CalendarView()
-        return view
-    }()
-    
-    let calendarView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .backgroundColor
+//        view.backgroundColor = .green
         view.clipsToBounds = true
         view.layer.cornerRadius = 20
         view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner, .layerMinXMaxYCorner)
@@ -29,6 +24,21 @@ class HomeTableView: UITableView {
         view.layer.shadowOpacity = 0.1 // alpha값
         return view
     }()
+    
+    //    let calendarView: UIView = {
+    //        let view = UIView()
+    //        view.backgroundColor = .blue
+    //        view.clipsToBounds = true
+    //        view.layer.cornerRadius = 20
+    //        view.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner, .layerMinXMaxYCorner)
+    //
+    //        view.layer.shadowColor = UIColor.black.cgColor // 색깔
+    //        view.layer.masksToBounds = false
+    //        view.layer.shadowOffset = CGSize(width: 0, height: 4) // 위치조정
+    //        view.layer.shadowRadius = 2 // 반경
+    //        view.layer.shadowOpacity = 0.1 // alpha값
+    //        return view
+    //    }()
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -42,8 +52,9 @@ class HomeTableView: UITableView {
     }
     
     func configureUI() {
-        calendarView.addSubview(calendar)
-        tableHeaderView = calendarView
+        self.addSubview(calendar)
+        //        calendarView.addSubview(calendar)
+        tableHeaderView = calendar
         
         tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.42
         backgroundColor = .backgroundColor
@@ -51,17 +62,17 @@ class HomeTableView: UITableView {
     }
     
     func setConstraints() {
-        calendarView.snp.makeConstraints { make in
-            make.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.54)
-            make.width.equalTo(self.safeAreaLayoutGuide)
-            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
-        }
+        //        calendarView.snp.makeConstraints { make in
+        //            make.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.54)
+        //            make.width.equalTo(self.safeAreaLayoutGuide)
+        //            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+        //        }
         
         calendar.snp.makeConstraints { make in
-            make.height.equalTo(calendarView).multipliedBy(0.95)
-            make.width.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.97)
-            make.centerX.equalTo(calendarView.snp.centerX)
-            make.top.equalTo(calendarView.snp.top)
+            make.height.equalTo(UIScreen.main.bounds.height * 0.42)
+            make.width.equalTo(self.safeAreaLayoutGuide)
+            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.top.equalTo(self.snp.top)
         }
     }
 }

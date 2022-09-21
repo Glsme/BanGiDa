@@ -8,10 +8,19 @@
 import UIKit
 import FSCalendar
 
-class HomeViewViewController: BaseViewController {
+class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     let mainView = HomeView()
     let viewModel = HomeViewModel()
+    
+    lazy var scopeGesture: UIPanGestureRecognizer = {
+        [unowned self] in
+        let panGesture = UIPanGestureRecognizer(target: mainView.homeTableView.calendar, action: #selector(mainView.homeTableView.calendar.handleScopeGesture(_:)))
+        panGesture.delegate = self
+        panGesture.minimumNumberOfTouches = 1
+        panGesture.maximumNumberOfTouches = 2
+        return panGesture
+    }()
     
     override func loadView() {
         self.view = mainView
@@ -54,6 +63,12 @@ class HomeViewViewController: BaseViewController {
         
         mainView.todayButton.addTarget(self, action: #selector(todayButtonClicked), for: .touchUpInside)
         mainView.dateSelectButton.addTarget(self, action: #selector(dateSelectButtonClcicked), for: .touchUpInside)
+        
+        view.addGestureRecognizer(self.scopeGesture)
+        mainView.homeTableView.panGestureRecognizer.require(toFail: scopeGesture)
+//        mainView.homeTableView.calendar.scope = .month
+        
+        mainView.homeTableView.calendar.accessibilityIdentifier = "calendar"
     }
     
     override func setData() {
@@ -61,8 +76,6 @@ class HomeViewViewController: BaseViewController {
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         todayButtonClicked()
-
-//        print(#function, viewModel.currentDate.value, viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.hospitalTaskList.count, viewModel.showerTaskList.count, viewModel.pillTaskList.count, viewModel.abnormalTaskList.count)
         
         mainView.homeTableView.reloadData()
     }
@@ -90,7 +103,7 @@ class HomeViewViewController: BaseViewController {
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.locale = Locale(identifier: "ko_KR")
-        datePicker.addTarget(self, action: #selector(selectDate(_ :)), for: .valueChanged)
+        datePicker.addTarget(self, action: #selector(selectDate(_ :)), for: .touchUpInside)
         
         let height : NSLayoutConstraint = NSLayoutConstraint(item: alert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
         
@@ -105,12 +118,6 @@ class HomeViewViewController: BaseViewController {
 
             self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
             self.mainView.homeTableView.calendar.select(self.viewModel.currentDate.value, scrollToDate: true)
-            
-            
-//            self.calendar(self.mainView.homeTableView.calendar, didSelect: Date(timeInterval: -86400, since: self.viewModel.currentDate.value), at: .current)
-//
-//            self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
-//            self.mainView.homeTableView.calendar.select(Date(timeInterval: 86400, since: self.viewModel.currentDate.value), scrollToDate: true)
         }
         
         alert.addAction(ok)
@@ -169,12 +176,13 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
         
         cell.backgroundColor = .memoBackgroundColor
-        viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText, alarmTitle in
+        viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText, alarmTitle, image in
             cell.dateLabel.text = dateText
             if indexPath.section == 1 {
                 cell.contentLabel.text = alarmTitle
             } else {
                 cell.contentLabel.text = contentText
+                cell.memoImageView.image = image
             }
         }
         
@@ -192,8 +200,38 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        let shouldBegin = mainView.homeTableView.contentOffset.y <= -mainView.homeTableView.contentInset.top
+        if shouldBegin {
+            let velocity = self.scopeGesture.velocity(in: self.view)
+            switch mainView.homeTableView.calendar.scope {
+            case .month:
+                return velocity.y < 0
+            case .week:
+                return velocity.y > 0
+            @unknown default:
+                fatalError()
+            }
+        }
+        return shouldBegin
+    }
+    
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        return UserDiaryRepository.shared.fetchDate(date: date).count
+        if UserDiaryRepository.shared.fetchDate(date: date).count == 0 {
+            return 0
+        } else {
+            return 1
+        }
+    }
+    
+    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
+        calendar.snp.updateConstraints { make in
+            make.height.equalTo(bounds.height)
+        }
+
+        self.view.layoutIfNeeded()
+        mainView.homeTableView.reloadData()
     }
         
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {

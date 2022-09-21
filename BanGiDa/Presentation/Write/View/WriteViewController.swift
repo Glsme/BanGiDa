@@ -72,6 +72,14 @@ class WriteViewController: BaseViewController {
                 self.memoView.dateTextField.text = self.viewModel.dateFormatter.string(from: Date())
             }
         }
+        
+        viewModel.imageEditing.bind { bool in
+            if bool {
+                self.memoView.imageButton.setTitle("이미지 편집", for: .normal)
+            } else {
+                self.memoView.imageButton.setTitle("이미지 추가", for: .normal)
+            }
+        }
     }
     
     @objc func saveButtonClicked() {

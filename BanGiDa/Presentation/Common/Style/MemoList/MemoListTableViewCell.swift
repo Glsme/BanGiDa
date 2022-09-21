@@ -10,7 +10,7 @@ import UIKit
 class MemoListTableViewCell: BaseTableViewCell {
     let memoImageView: UIImageView = {
         let view = UIImageView()
-//        view.backgroundColor = .darkGray
+        view.backgroundColor = .darkGray
         view.clipsToBounds = true
         view.layer.cornerRadius = 5
         return view
@@ -42,31 +42,31 @@ class MemoListTableViewCell: BaseTableViewCell {
     }
     
     override func configureUI() {
-        [dateLabel, contentLabel].forEach {
+        [memoImageView, dateLabel, contentLabel].forEach {
             self.addSubview($0)
         }
     }
     
     override func setConstraints() {
-//        memoImageView.snp.makeConstraints { make in
-//            make.centerY.equalTo(self.snp.centerY)
-//            make.trailing.equalTo(self).offset(-10)
-//            make.top.equalTo(self).offset(10)
-//            make.bottom.equalTo(self).offset(-10)
-//            make.width.equalTo(memoImageView.snp.height)
-//        }
+        memoImageView.snp.makeConstraints { make in
+            make.centerY.equalTo(self.snp.centerY)
+            make.trailing.equalTo(self).offset(-15)
+            make.top.equalTo(self).offset(15)
+            make.bottom.equalTo(self).offset(-15)
+            make.width.equalTo(memoImageView.snp.height)
+        }
         
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(10)
             make.leading.equalTo(self).offset(10)
             make.height.equalTo(20)
-            make.trailing.equalTo(self.snp.trailing).offset(-20)
+            make.trailing.equalTo(memoImageView.snp.leading).offset(-20)
         }
         
         contentLabel.snp.makeConstraints { make in
             make.leading.trailing.equalTo(dateLabel)
             make.top.equalTo(dateLabel.snp.bottom).offset(5)
-            make.bottom.equalTo(self.snp.bottom).offset(-10)
+            make.bottom.equalTo(memoImageView.snp.bottom).offset(-10)
         }
         
     }

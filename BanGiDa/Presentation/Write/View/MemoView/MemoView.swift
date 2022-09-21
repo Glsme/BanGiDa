@@ -30,7 +30,7 @@ class MemoView: BaseView {
     
     let imageButton: UIButton = {
         let view = UIButton()
-        view.setTitle("이미지 편집", for: .normal)
+//        view.setTitle("이미지 추가", for: .normal)
         view.setTitleColor(UIColor.unaBlue, for: .normal)
         view.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
         return view
