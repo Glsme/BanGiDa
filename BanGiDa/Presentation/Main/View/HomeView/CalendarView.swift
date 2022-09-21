@@ -23,7 +23,7 @@ class CalendarView: FSCalendar {
     
     func configureUI() {
         scrollDirection = .vertical
-//        locale = Locale(identifier: "ko_KR")
+        locale = Locale(identifier: "ko_KR")
         appearance.headerDateFormat = "yyyy.MM"
         appearance.headerTitleColor = .systemTintColor
         appearance.weekdayTextColor = .lightGray

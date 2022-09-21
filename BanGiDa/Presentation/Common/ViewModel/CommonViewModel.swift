@@ -23,6 +23,7 @@ class CommonViewModel {
     
     var alarmPrivacy: Observable<Bool> = Observable(false)
     var currentDate: Observable<Date> = Observable(Date())
+    var currentDateString: Observable<String> = Observable("")
     
     let selectButtonList = [
         SelectButtonModel(title: "메모", imageString: "note.text", r: 133, g: 204, b: 204, alpha: 1, placeholder: "오늘 있었던 일을 적어주세요."),

@@ -87,7 +87,6 @@ class HomeViewViewController: BaseViewController {
         
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
-        datePicker.timeZone = TimeZone(identifier: "UTC+9")
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.locale = Locale(identifier: "ko_KR")
         datePicker.addTarget(self, action: #selector(selectDate(_ :)), for: .valueChanged)
@@ -95,13 +94,22 @@ class HomeViewViewController: BaseViewController {
         let height : NSLayoutConstraint = NSLayoutConstraint(item: alert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
         
         let ok = UIAlertAction(title: "선택 완료", style: .cancel) { action in
-            self.viewModel.currentDate.value = datePicker.date
             
-            print(self.viewModel.currentDate.value , "@@@@@")
+            self.viewModel.currentDateString.value = self.dateFormatter.string(from: datePicker.date)
+            self.viewModel.currentDate.value = self.dateFormatter.date(from: self.viewModel.currentDateString.value) ?? Date()
+            
+            print("\(self.viewModel.currentDate.value) ====== \(datePicker.date)" , "@@@@@")
+            
             self.calendar(self.mainView.homeTableView.calendar, didSelect: self.viewModel.currentDate.value, at: .current)
-            
+
             self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
             self.mainView.homeTableView.calendar.select(self.viewModel.currentDate.value, scrollToDate: true)
+            
+            
+//            self.calendar(self.mainView.homeTableView.calendar, didSelect: Date(timeInterval: -86400, since: self.viewModel.currentDate.value), at: .current)
+//
+//            self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
+//            self.mainView.homeTableView.calendar.select(Date(timeInterval: 86400, since: self.viewModel.currentDate.value), scrollToDate: true)
         }
         
         alert.addAction(ok)
