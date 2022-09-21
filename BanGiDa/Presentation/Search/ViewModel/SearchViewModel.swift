@@ -30,9 +30,10 @@ class SearchViewModel: CommonViewModel {
         }
     }
     
-    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String) -> () ) {
+    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String, String) -> () ) {
         var dateText = ""
         var contentText = ""
+        var alarmTitle = ""
         
         guard let index = currentIndex.value else { return }
         
@@ -42,7 +43,7 @@ class SearchViewModel: CommonViewModel {
             contentText = memoTaskList[indexPath.row].content
         case 1:
             dateText = dateFormatter.string(from: alarmTaskList[indexPath.row].date)
-            contentText = alarmTaskList[indexPath.row].content
+            contentText = alarmTaskList[indexPath.row].alarmTitle ?? "알람"
         case 2:
             dateText = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
             contentText = hospitalTaskList[indexPath.row].content
@@ -59,7 +60,7 @@ class SearchViewModel: CommonViewModel {
             break
         }
         
-        completionHandler(dateText, contentText)
+        completionHandler(dateText, contentText, alarmTitle)
     }
     
     func checkNumberOfRowsInsection(section: Int) -> Int {

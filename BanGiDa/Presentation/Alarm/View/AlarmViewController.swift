@@ -41,8 +41,9 @@ class AlarmViewController: BaseViewController {
              navigationBarAppearance.backgroundColor = currentColor
             
             navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-            alarmView.memoTextView.delegate = self
         }
+        
+        alarmView.memoTextView.delegate = self
     }
     
     @objc func saveButtonClicked() {

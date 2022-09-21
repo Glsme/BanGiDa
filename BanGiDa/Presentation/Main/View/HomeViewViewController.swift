@@ -28,6 +28,7 @@ class HomeViewViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = true
+        setData()
         mainView.homeTableView.reloadData()
     }
     
@@ -55,12 +56,11 @@ class HomeViewViewController: BaseViewController {
     }
     
     override func setData() {
-//        calendar(<#T##calendar: FSCalendar##FSCalendar#>, didSelect: <#T##Date#>, at: <#T##FSCalendarMonthPosition#>)
         viewModel.currentDate.value = mainView.homeTableView.calendar.today ?? Date()
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
-        print(viewModel.currentDate.value, viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.hospitalTaskList.count, viewModel.showerTaskList.count, viewModel.pillTaskList.count, viewModel.abnormalTaskList.count)
+        print(#function, viewModel.currentDate.value, viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.hospitalTaskList.count, viewModel.showerTaskList.count, viewModel.pillTaskList.count, viewModel.abnormalTaskList.count)
         
         mainView.homeTableView.reloadData()
     }
@@ -73,9 +73,7 @@ class HomeViewViewController: BaseViewController {
     
     @objc func dateSelectButtonClcicked() {
         print(#function)
-        mainView.homeTableView.calendar.setCurrentPage(Date(timeIntervalSinceNow: 90000), animated: true)
-        
-        mainView.homeTableView.calendar.select(Date(timeIntervalSinceNow: 90000), scrollToDate: true)
+        present(mainView.showDatePickerAlert(), animated: true)
     }
     
     func pushNavigationController(index: Int) {
