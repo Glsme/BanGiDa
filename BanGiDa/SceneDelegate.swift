@@ -27,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers([homeVC, searchVC, settingVC], animated: true)
         tabBarController.tabBar.tintColor = .red
-        tabBarController.tabBar.backgroundColor = .white
+        tabBarController.tabBar.backgroundColor = .tabBarColor
         
         if let items = tabBarController.tabBar.items {
             items[0].image = UIImage(systemName: "square.and.pencil")

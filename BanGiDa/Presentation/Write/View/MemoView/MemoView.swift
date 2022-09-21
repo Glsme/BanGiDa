@@ -12,6 +12,7 @@ class MemoView: BaseView {
     
     let memoView: UIView = {
         let view = UIView()
+        view.backgroundColor = .backgroundColor
         return view
     }()
     
@@ -55,7 +56,7 @@ class MemoView: BaseView {
     
     let textView: UITextView = {
         let view = UITextView()
-        view.backgroundColor = .softGray
+        view.backgroundColor = .memoBackgroundColor
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
         view.layer.cornerRadius = 10
         let spacing: CGFloat = 10

@@ -43,7 +43,7 @@ class WriteViewController: BaseViewController {
         navigationController?.navigationBar.topItem?.title = ""
         navigationItem.rightBarButtonItem = saveButton
         navigationController?.navigationBar.backgroundColor = currentColor
-        view.backgroundColor = .white
+
         
         if #available(iOS 15.0, *) {
             let navigationBarAppearance = UINavigationBarAppearance()

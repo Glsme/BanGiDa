@@ -43,7 +43,7 @@ class SearchViewModel: CommonViewModel {
             contentText = memoTaskList[indexPath.row].content
         case 1:
             dateText = dateFormatter.string(from: alarmTaskList[indexPath.row].date)
-            contentText = alarmTaskList[indexPath.row].alarmTitle ?? "알람"
+            alarmTitle = alarmTaskList[indexPath.row].alarmTitle ?? "알람"
         case 2:
             dateText = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
             contentText = hospitalTaskList[indexPath.row].content

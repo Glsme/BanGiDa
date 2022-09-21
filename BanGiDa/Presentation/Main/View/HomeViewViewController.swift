@@ -22,6 +22,7 @@ class HomeViewViewController: BaseViewController {
         
         print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
         setData()
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,6 +66,14 @@ class HomeViewViewController: BaseViewController {
         mainView.homeTableView.reloadData()
     }
     
+    func bind() {
+        viewModel.currentDate.bind { date in
+            self.viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: date)
+            self.viewModel.inputDataIntoArrayToDate(date: date)
+            self.mainView.homeTableView.reloadData()
+        }
+    }
+    
     @objc func todayButtonClicked() {
         mainView.homeTableView.calendar.setCurrentPage(Date(), animated: true)
         mainView.homeTableView.calendar.select(Date(), scrollToDate: true)
@@ -73,7 +82,38 @@ class HomeViewViewController: BaseViewController {
     
     @objc func dateSelectButtonClcicked() {
         print(#function)
-        present(mainView.showDatePickerAlert(), animated: true)
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.timeZone = TimeZone(identifier: "UTC+9")
+        datePicker.preferredDatePickerStyle = .wheels
+        datePicker.locale = Locale(identifier: "ko_KR")
+        datePicker.addTarget(self, action: #selector(selectDate(_ :)), for: .valueChanged)
+        
+        let height : NSLayoutConstraint = NSLayoutConstraint(item: alert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
+        
+        let ok = UIAlertAction(title: "선택 완료", style: .cancel) { action in
+            self.viewModel.currentDate.value = datePicker.date
+            
+            print(self.viewModel.currentDate.value , "@@@@@")
+            self.calendar(self.mainView.homeTableView.calendar, didSelect: self.viewModel.currentDate.value, at: .current)
+            
+            self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
+            self.mainView.homeTableView.calendar.select(self.viewModel.currentDate.value, scrollToDate: true)
+        }
+        
+        alert.addAction(ok)
+        
+        alert.view.addSubview(datePicker)
+        alert.view.addConstraint(height)
+        
+        present(alert, animated: true)
+    }
+    
+    @objc func selectDate(_ datePicker: UIDatePicker) {
+//        date = datePicker.date
     }
     
     func pushNavigationController(index: Int) {
@@ -143,11 +183,16 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        return UserDiaryRepository.shared.fetchDate(date: date).count
+    }
+        
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         print("날짜가 선택되었습니다.")
         
         viewModel.currentDate.value = date
         let dateTest = Date()
+        
         print("Date: \(date) :: \(dateTest)")
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)

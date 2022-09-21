@@ -42,6 +42,8 @@ class WriteViewModel: CommonViewModel {
             let content = content
             let date = dateText.toDate() ?? Date()
             
+            print(date, "???")
+            
             let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: "", alarmTitle: nil)
             UserDiaryRepository.shared.write(task)
             

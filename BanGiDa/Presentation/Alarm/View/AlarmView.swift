@@ -15,7 +15,7 @@ class AlarmView: BaseView {
         view.text = "알람이 울릴 시간을 선택해주세요"
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
         view.textColor = .lightGray
-//        view.backgroundColor = .greenblue
+        view.backgroundColor = .greenblue
         return view
     }()
     
@@ -51,7 +51,7 @@ class AlarmView: BaseView {
     
     let memoTextView: UITextView = {
         let view = UITextView()
-        view.backgroundColor = .softGray
+        view.backgroundColor = .memoBackgroundColor
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
         view.layer.cornerRadius = 10
         let spacing: CGFloat = 10

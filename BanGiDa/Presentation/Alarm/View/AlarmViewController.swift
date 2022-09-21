@@ -33,7 +33,7 @@ class AlarmViewController: BaseViewController {
         navigationController?.navigationBar.topItem?.title = ""
         navigationItem.rightBarButtonItem = saveButton
         navigationController?.navigationBar.backgroundColor = currentColor
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         
         if #available(iOS 15.0, *) {
             let navigationBarAppearance = UINavigationBarAppearance()

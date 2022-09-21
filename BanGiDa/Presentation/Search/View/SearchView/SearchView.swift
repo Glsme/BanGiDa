@@ -23,7 +23,7 @@ class SearchView: BaseView {
     let filterTableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
         view.rowHeight = 100
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         return view
     }()
     

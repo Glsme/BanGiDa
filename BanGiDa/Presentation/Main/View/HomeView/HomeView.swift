@@ -106,49 +106,4 @@ class HomeView: BaseView {
         
         return layout
     }
-    
-    var date = Date()
-    
-    func showDatePickerAlert() -> UIAlertController {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let datePicker = UIDatePicker()
-        datePicker.datePickerMode = .date
-        datePicker.preferredDatePickerStyle = .wheels
-        datePicker.locale = Locale(identifier: "ko_KR")
-        datePicker.addTarget(self, action: #selector(selectDate(_ :)), for: .valueChanged)
-        
-        let height : NSLayoutConstraint = NSLayoutConstraint(item: alert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
-        
-        let ok = UIAlertAction(title: "선택 완료", style: .cancel, handler: nil)
-        
-        alert.addAction(ok)
-        
-        alert.view.addSubview(datePicker)
-        alert.view.addConstraint(height)
-        
-        return alert
-    }
-    
-    @objc func selectDate(_ datePicker: UIDatePicker) {
-        date = datePicker.date
-    }
-    
-    func showDatePickerAlertTest() -> UIAlertController {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let datePicker = UIDatePicker()
-        datePicker.datePickerMode = .date
-        datePicker.preferredDatePickerStyle = .wheels
-        datePicker.locale = Locale(identifier: "ko_KR")
-        datePicker.addTarget(self, action: #selector(selectDate(_ :)), for: .valueChanged)
-        
-        let ok = UIAlertAction(title: "선택 완료", style: .cancel, handler: nil)
-        
-        alert.addAction(ok)
-        alert.view.addSubview(datePicker)
-        
-        return alert
-    }
-    
 }
