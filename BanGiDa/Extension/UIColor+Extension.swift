@@ -20,4 +20,5 @@ extension UIColor {
     static let memoBackgroundColor = UIColor(named: "MemoBackgorundColor")
     static let memoDarkGray = UIColor(named: "MemoDateColor")
     static let tabBarColor = UIColor(named: "TabBarColor")
+    static let darkPink = UIColor(red: 228/255, green: 167/255, blue: 180/255, alpha: 1)
 }

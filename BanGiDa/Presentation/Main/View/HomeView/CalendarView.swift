@@ -25,6 +25,8 @@ class CalendarView: FSCalendar {
         scrollDirection = .vertical
         locale = Locale(identifier: "ko_KR")
         appearance.headerDateFormat = "yyyy.MM"
+        appearance.eventDefaultColor = .darkPink
+        appearance.eventSelectionColor = .greenblue
         appearance.headerTitleColor = .systemTintColor
         appearance.weekdayTextColor = .lightGray
         backgroundColor = .backgroundColor

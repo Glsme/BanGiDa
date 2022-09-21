@@ -60,8 +60,9 @@ class HomeViewViewController: BaseViewController {
         viewModel.currentDate.value = mainView.homeTableView.calendar.today ?? Date()
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
-        
-        print(#function, viewModel.currentDate.value, viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.hospitalTaskList.count, viewModel.showerTaskList.count, viewModel.pillTaskList.count, viewModel.abnormalTaskList.count)
+        todayButtonClicked()
+
+//        print(#function, viewModel.currentDate.value, viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.hospitalTaskList.count, viewModel.showerTaskList.count, viewModel.pillTaskList.count, viewModel.abnormalTaskList.count)
         
         mainView.homeTableView.reloadData()
     }
@@ -196,12 +197,11 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
         
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        print("날짜가 선택되었습니다.")
+//        print("날짜가 선택되었습니다.")
         
         viewModel.currentDate.value = date
-        let dateTest = Date()
-        
-        print("Date: \(date) :: \(dateTest)")
+//        let dateTest = Date()
+//        print("Date: \(date) :: \(dateTest)")
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
