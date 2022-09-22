@@ -33,8 +33,9 @@ class AlarmViewModel: CommonViewModel {
         } else {
             let content = content
             let date = dateText.toDateAlarm() ?? Date()
+            let animalName = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
             
-            let task = Diary(type: RealmDiaryType(rawValue: 1), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: "", alarmTitle: titleText)
+            let task = Diary(type: RealmDiaryType(rawValue: 1), date: date, regDate: Date(), animalName: animalName ?? "신원 미상", content: content, photo: "", alarmTitle: titleText)
             UserDiaryRepository.shared.write(task)
             inputDataIntoArrayToDate(date: currentDate.value)
             

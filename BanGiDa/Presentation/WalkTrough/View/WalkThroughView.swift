@@ -28,7 +28,6 @@ class WalkThroughView: BaseView {
         view.text = "키우고 계신 반려동물의 이름을 등록해주세요."
         view.textAlignment = .center
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
-        view.layer.cornerRadius = 10
         return view
     }()
     
@@ -38,6 +37,7 @@ class WalkThroughView: BaseView {
         view.placeholder = "반려 동물 이름"
         view.backgroundColor = .backgroundColor
         view.textAlignment = .center
+        view.layer.cornerRadius = 10
         return view
     }()
     

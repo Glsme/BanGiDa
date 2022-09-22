@@ -10,7 +10,7 @@ import Foundation
 class SettingViewModel {
     
     let dataLabel = ["반려 동물 변경", "백업", "복구", "초기화"]
-    let appInfoLabel = ["앱 정보"]
+    let appInfoLabel = ["오픈소스 라이브러리", "버전 정보"]
     
     func setSectionHeaderView(section: Int) -> String {
         switch section {

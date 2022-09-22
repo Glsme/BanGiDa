@@ -20,4 +20,24 @@ class WalkThroughViewController: BaseViewController {
         
 //        view.backgroundColor = .clear
     }
+    
+    override func configureUI() {
+        walkThroughView.userSaveButton.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func saveButtonClicked() {
+        if let text = walkThroughView.userTextField.text {
+            if text.count == 0 {
+                showAlert(message: "반려 동물 이름을 입력해주세요!")
+            } else {
+                UserDefaults.standard.set(text, forKey: UserDefaultsKey.name.rawValue)
+                UserDefaults.standard.set(true, forKey: UserDefaultsKey.first.rawValue)
+                
+                print(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue))
+                dismiss(animated: true)
+            }
+        } else {
+            showAlert(message: "반려 동물 이름을 입력해주세요!")
+        }
+    }
 }

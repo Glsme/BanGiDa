@@ -41,10 +41,11 @@ class WriteViewModel: CommonViewModel {
             let image = image
             let content = content
             let date = dateText.toDate() ?? Date()
+            let animalName = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
             
             print(date, "???")
             
-            let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: "뱅돌이", content: content, photo: "", alarmTitle: nil)
+            let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: animalName ?? "신원 미상", content: content, photo: "", alarmTitle: nil)
             UserDiaryRepository.shared.write(task)
             
             if let image = image {
