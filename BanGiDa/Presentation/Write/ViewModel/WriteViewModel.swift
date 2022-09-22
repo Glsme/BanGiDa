@@ -49,7 +49,6 @@ class WriteViewModel: CommonViewModel {
             
             if let image = image {
                 saveImageToDocument(fileName: "\(task.objectId).jpg", image: image)
-                imageEditing.value = true
             }
         }
     }
@@ -75,8 +74,11 @@ class WriteViewModel: CommonViewModel {
         UserDiaryRepository.shared.primaryKey = nil
         
         if let image = image {
-            saveImageToDocument(fileName: "\(task.objectId).jpg", image: image)
-            imageEditing.value = true
+            if image == UIImage(named: "BasicDog") || image == nil {
+                print("Image is not Selected")
+            } else {
+                saveImageToDocument(fileName: "\(task.objectId).jpg", image: image)
+            }
         }
     }
     

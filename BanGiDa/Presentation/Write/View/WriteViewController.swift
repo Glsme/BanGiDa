@@ -34,6 +34,12 @@ class WriteViewController: BaseViewController {
 //        }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        print(#function)
+    }
+    
     override func configureUI() {
         
         let currentColor = viewModel.setCurrentMemoType().color
@@ -70,14 +76,6 @@ class WriteViewController: BaseViewController {
         viewModel.dateText.bind { text in
             if self.memoView.dateTextField.text!.isEmpty {
                 self.memoView.dateTextField.text = self.viewModel.dateFormatter.string(from: Date())
-            }
-        }
-        
-        viewModel.imageEditing.bind { bool in
-            if bool {
-                self.memoView.imageButton.setTitle("이미지 편집", for: .normal)
-            } else {
-                self.memoView.imageButton.setTitle("이미지 추가", for: .normal)
             }
         }
     }
@@ -132,6 +130,7 @@ extension WriteViewController: PHPickerViewControllerDelegate {
             itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                 DispatchQueue.main.async {
                     self.memoView.imageView.image = image as? UIImage
+                    self.memoView.imageButton.setTitle("이미지 편집", for: .normal)
                 }
             }
         }

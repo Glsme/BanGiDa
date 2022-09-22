@@ -191,6 +191,13 @@ class HomeViewModel: CommonViewModel {
             break
         }
         
+        if writeVC.memoView.imageView.image == UIImage(named: "BasicDog") || writeVC.memoView.imageView.image == nil {
+//            print("image is Empty")
+            writeVC.memoView.imageButton.setTitle("이미지 추가", for: .normal)
+        } else {
+            writeVC.memoView.imageButton.setTitle("이미지 편집", for: .normal)
+        }
+        
         writeVC.navigationItem.title = selectButtonList[indexPath.section].title
         writeVC.viewModel.currentIndex.value = indexPath.section
         
