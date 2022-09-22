@@ -117,8 +117,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         datePicker.locale = Locale(identifier: "ko_KR")
         datePicker.addTarget(self, action: #selector(selectDate(_ :)), for: .touchUpInside)
         
-        let height : NSLayoutConstraint = NSLayoutConstraint(item: alert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.1, constant: 300)
-        
         let ok = UIAlertAction(title: "선택 완료", style: .cancel) { action in
             
             self.viewModel.currentDateString.value = self.dateFormatter.string(from: datePicker.date)
@@ -134,8 +132,10 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         
         alert.addAction(ok)
         
-        alert.view.addSubview(datePicker)
-        alert.view.addConstraint(height)
+        let vc = UIViewController()
+        vc.view = datePicker
+        
+        alert.setValue(vc, forKey: "contentViewController")
         
         present(alert, animated: true)
     }

@@ -105,6 +105,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.dateLabel.text = dateText
                 cell.contentLabel.text = alarmTitle
                 cell.memoImageView.backgroundColor = .memoBackgroundColor
+                cell.memoImageView.image = nil
             } else {
                 cell.dateLabel.text = dateText
                 cell.contentLabel.text = contentText
