@@ -215,12 +215,6 @@ class HomeViewModel: CommonViewModel {
         }
     }
     
-    func filterNotification() {
-        if !alarmPrivacy.value {
-            requsetAuthorization()
-        }
-    }
-    
     func showDatePickerAlert() -> UIAlertController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         

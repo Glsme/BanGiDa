@@ -124,4 +124,11 @@ class CommonViewModel {
 //    func removeNotification() {
 //        notificationCenter
 //    }
+    
+    func filterNotification() {
+        if !alarmPrivacy.value {
+            requsetAuthorization()
+        }
+    }
+
 }

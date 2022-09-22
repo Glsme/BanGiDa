@@ -45,7 +45,16 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        viewModel.filterNotification()
+        checkWalkThrough()
+    }
+    
+    func checkWalkThrough() {
+        if UserDefaults.standard.bool(forKey: "first") {
+            viewModel.filterNotification()
+        } else {
+            let walkThroughVC = WalkThroughViewController()
+            self.transViewController(ViewController: walkThroughVC, type: .presentFullscreen)
+        }
     }
     
     override func configureUI() {
