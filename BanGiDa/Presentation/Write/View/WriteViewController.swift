@@ -45,7 +45,7 @@ class WriteViewController: BaseViewController {
         let currentColor = viewModel.setCurrentMemoType().color
         
         navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.tintColor = .systemTintColor
         navigationController?.navigationBar.topItem?.title = ""
         navigationItem.rightBarButtonItem = saveButton
         navigationController?.navigationBar.backgroundColor = currentColor
@@ -66,7 +66,7 @@ class WriteViewController: BaseViewController {
     func bindValue() {
         viewModel.diaryContent.bind { text in
             if !self.memoView.textView.text.isEmpty {
-                self.memoView.textView.textColor = .black
+                self.memoView.textView.textColor = .systemTintColor
             } else {
                 self.memoView.textView.text = self.viewModel.setCurrentMemoType().placeholder
                 self.memoView.textView.textColor = .lightGray

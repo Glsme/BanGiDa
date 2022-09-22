@@ -29,7 +29,7 @@ class AlarmViewController: BaseViewController {
         let currentColor = viewModel.selectButtonList[1].color
         
         navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.tintColor = .systemTintColor
         navigationController?.navigationBar.topItem?.title = ""
         navigationItem.rightBarButtonItem = saveButton
         navigationController?.navigationBar.backgroundColor = currentColor
@@ -72,7 +72,7 @@ class AlarmViewController: BaseViewController {
     func bindValue() {
         viewModel.diaryContent.bind { text in
             if !self.alarmView.memoTextView.text.isEmpty {
-                self.alarmView.memoTextView.textColor = .black
+                self.alarmView.memoTextView.textColor = .systemTintColor
             } else {
                 self.alarmView.memoTextView.text = self.viewModel.selectButtonList[1].placeholder
                 self.alarmView.memoTextView.textColor = .lightGray
