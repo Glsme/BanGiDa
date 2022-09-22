@@ -33,6 +33,7 @@
 		8594820728DC8675000C6AD7 /* WalkThroughViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594820628DC8675000C6AD7 /* WalkThroughViewModel.swift */; };
 		8594820A28DC984A000C6AD7 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594820928DC984A000C6AD7 /* UserDefaultsKey.swift */; };
 		8594820F28DCAB10000C6AD7 /* DocumentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594820E28DCAB10000C6AD7 /* DocumentManager.swift */; };
+		8594821228DCAC69000C6AD7 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 8594821128DCAC69000C6AD7 /* Zip */; };
 		859BBCE528CB7035006EF18A /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859BBCE428CB7035006EF18A /* Observable.swift */; };
 		859BBCE928CB7473006EF18A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859BBCE828CB7473006EF18A /* HomeViewModel.swift */; };
 		85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D00828CEFA4400F22A80 /* FontList.swift */; };
@@ -118,6 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8594821228DCAC69000C6AD7 /* Zip in Frameworks */,
 				857541FD28C9C957004DD880 /* SnapKit in Frameworks */,
 				8575420028C9C985004DD880 /* FSCalendar in Frameworks */,
 				85A8D04428D21BAA00F22A80 /* Realm in Frameworks */,
@@ -502,6 +504,7 @@
 				85A8D03728D1A45F00F22A80 /* IQKeyboardManagerSwift */,
 				85A8D04328D21BAA00F22A80 /* Realm */,
 				85A8D04528D21BAA00F22A80 /* RealmSwift */,
+				8594821128DCAC69000C6AD7 /* Zip */,
 			);
 			productName = BanGiDa;
 			productReference = 857541D128C9BBF1004DD880 /* BanGiDa.app */;
@@ -536,6 +539,7 @@
 				857541FE28C9C985004DD880 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				85A8D03628D1A45F00F22A80 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				85A8D04228D21BAA00F22A80 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				8594821028DCAC69000C6AD7 /* XCRemoteSwiftPackageReference "Zip" */,
 			);
 			productRefGroup = 857541D228C9BBF1004DD880 /* Products */;
 			projectDirPath = "";
@@ -839,6 +843,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		8594821028DCAC69000C6AD7 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		85A8D03628D1A45F00F22A80 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
@@ -867,6 +879,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 857541FE28C9C985004DD880 /* XCRemoteSwiftPackageReference "FSCalendar" */;
 			productName = FSCalendar;
+		};
+		8594821128DCAC69000C6AD7 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8594821028DCAC69000C6AD7 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
 		};
 		85A8D03728D1A45F00F22A80 /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
