@@ -180,6 +180,8 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
             cell.dateLabel.text = dateText
             if indexPath.section == 1 {
                 cell.contentLabel.text = alarmTitle
+                cell.memoImageView.backgroundColor = .memoBackgroundColor
+                cell.memoImageView.image = nil
             } else {
                 cell.contentLabel.text = contentText
                 cell.memoImageView.image = image

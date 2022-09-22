@@ -10,6 +10,7 @@ import UIKit
 class SettingViewController: BaseViewController {
 
     let settingView = SettingView()
+    let viewModel = SettingViewModel()
     
     override func loadView() {
         self.view = settingView
@@ -29,14 +30,24 @@ class SettingViewController: BaseViewController {
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        viewModel.setSectionHeaderView(section: section)
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        viewModel.setCellNumber(section: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.reuseIdentifier, for: indexPath) as? SettingTableViewCell else { return UITableViewCell() }
         
-        cell.backgroundColor = .lightGray
+        cell.backgroundColor = .memoBackgroundColor
+        cell.label.text = viewModel.setCellText(indexPath: indexPath)
         
         return cell
     }
