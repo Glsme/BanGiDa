@@ -18,7 +18,7 @@ class MemoView: BaseView {
     
     let imageView: UIImageView = {
         let view = UIImageView()
-//        view.image = UIImage(systemName: "photo")
+        view.image = UIImage(named: "BasicDog")
         view.tintColor = .ultraLightGray
         view.layer.borderColor = UIColor.ultraLightGray.cgColor
         view.layer.borderWidth = 2

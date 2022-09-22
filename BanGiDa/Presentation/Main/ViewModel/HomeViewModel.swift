@@ -119,27 +119,27 @@ class HomeViewModel: CommonViewModel {
         
         switch indexPath.section {
         case 0:
-            dateText = dateFormatter.string(from: memoTaskList[indexPath.row].date)
+            dateText = dateAndTimeFormatter.string(from: memoTaskList[indexPath.row].regDate)
             contentText = memoTaskList[indexPath.row].content
             image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 1:
-            dateText = dateFormatter.string(from: alarmTaskList[indexPath.row].date)
+            dateText = dateAndTimeFormatter.string(from: alarmTaskList[indexPath.row].regDate)
             alarmTitle = alarmTaskList[indexPath.row].alarmTitle ?? "알람"
             contentText = alarmTaskList[indexPath.row].content
         case 2:
-            dateText = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
+            dateText = dateAndTimeFormatter.string(from: hospitalTaskList[indexPath.row].regDate)
             contentText = hospitalTaskList[indexPath.row].content
             image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 3:
-            dateText = dateFormatter.string(from: showerTaskList[indexPath.row].date)
+            dateText = dateAndTimeFormatter.string(from: showerTaskList[indexPath.row].regDate)
             contentText = showerTaskList[indexPath.row].content
             image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 4:
-            dateText = dateFormatter.string(from: pillTaskList[indexPath.row].date)
+            dateText = dateAndTimeFormatter.string(from: pillTaskList[indexPath.row].regDate)
             contentText = pillTaskList[indexPath.row].content
             image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 5:
-            dateText = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
+            dateText = dateAndTimeFormatter.string(from: abnormalTaskList[indexPath.row].regDate)
             contentText = abnormalTaskList[indexPath.row].content
             image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         default:

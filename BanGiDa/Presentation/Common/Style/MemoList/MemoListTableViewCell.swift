@@ -27,7 +27,8 @@ class MemoListTableViewCell: BaseTableViewCell {
     let contentLabel: UILabel = {
         let view = UILabel()
 //        view.backgroundColor = .darkGray
-        view.numberOfLines = 2
+        view.numberOfLines = 3
+        view.textAlignment = .left
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
         view.textColor = .systemTintColor
         return view
@@ -58,15 +59,15 @@ class MemoListTableViewCell: BaseTableViewCell {
         
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(10)
-            make.leading.equalTo(self).offset(10)
+            make.leading.equalTo(self).offset(20)
             make.height.equalTo(20)
             make.trailing.equalTo(memoImageView.snp.leading).offset(-20)
         }
         
         contentLabel.snp.makeConstraints { make in
             make.leading.trailing.equalTo(dateLabel)
-            make.top.equalTo(dateLabel.snp.bottom).offset(5)
-            make.bottom.equalTo(memoImageView.snp.bottom).offset(-10)
+            make.top.equalTo(dateLabel.snp.bottom)
+            make.bottom.greaterThanOrEqualTo(memoImageView.snp.bottom)
         }
         
     }

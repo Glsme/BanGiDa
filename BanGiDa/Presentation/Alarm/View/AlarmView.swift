@@ -15,7 +15,7 @@ class AlarmView: BaseView {
         view.text = "알람이 울릴 시간을 선택해주세요"
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
         view.textColor = .lightGray
-        view.backgroundColor = .greenblue
+//        view.backgroundColor = .greenblue
         return view
     }()
     

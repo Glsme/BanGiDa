@@ -74,7 +74,7 @@ class WriteViewModel: CommonViewModel {
         UserDiaryRepository.shared.primaryKey = nil
         
         if let image = image {
-            if image == UIImage(named: "BasicDog") || image == nil {
+            if image == UIImage(named: "BasicDog") {
                 print("Image is not Selected")
             } else {
                 saveImageToDocument(fileName: "\(task.objectId).jpg", image: image)
