@@ -9,7 +9,7 @@ import Foundation
 
 class SettingViewModel {
     
-    let dataLabel = ["백업", "복구", "초기화"]
+    let dataLabel = ["반려 동물 변경", "백업", "복구", "초기화"]
     let appInfoLabel = ["앱 정보"]
     
     func setSectionHeaderView(section: Int) -> String {
@@ -37,23 +37,9 @@ class SettingViewModel {
         var text = ""
         
         if indexPath.section == 0 {
-            switch indexPath.row {
-            case 0:
-                text = dataLabel[0]
-            case 1:
-                text = dataLabel[1]
-            case 2:
-                text = dataLabel[2]
-            default:
-                break
-            }
+            text = dataLabel[indexPath.row]
         } else if indexPath.section == 1 {
-            switch indexPath.row {
-            case 0:
-                text = appInfoLabel[0]
-            default:
-                break
-            }
+            text = appInfoLabel[indexPath.row]
         }
         
         return text
