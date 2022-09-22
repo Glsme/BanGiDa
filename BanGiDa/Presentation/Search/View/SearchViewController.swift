@@ -26,6 +26,7 @@ class SearchViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        navigationController?.navigationBar.isHidden = true
         searchView.filterTableView.reloadData()
         
     }
@@ -100,9 +101,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.backgroundColor = .memoBackgroundColor
         viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText, alarmTitle, image in
-            if indexPath.section == 1 {
+            if self.viewModel.currentIndex.value == 1 {
                 cell.dateLabel.text = dateText
                 cell.contentLabel.text = alarmTitle
+                cell.memoImageView.backgroundColor = .memoBackgroundColor
             } else {
                 cell.dateLabel.text = dateText
                 cell.contentLabel.text = contentText
@@ -114,6 +116,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        viewModel.enterEditMemo(ViewController: self, indexPath: indexPath)
+        viewModel.enterEditMemo(ViewController: self, indexPath: indexPath)
     }
 }

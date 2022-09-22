@@ -25,7 +25,7 @@ class WalkThroughView: BaseView {
     
     let textLabel: UILabel = {
         let view = UILabel()
-        view.text = "키우고 계신 반려동물의 이름을 등록해주세요."
+        view.text = "반려동물의 이름을 등록해주세요."
         view.textAlignment = .center
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
         return view

@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         
         let homeVC = UINavigationController(rootViewController: HomeViewViewController())
-        let searchVC = SearchViewController()
+        let searchVC = UINavigationController(rootViewController: SearchViewController())
         let settingVC = UINavigationController(rootViewController: SettingViewController())
         
         let tabBarController = UITabBarController()
