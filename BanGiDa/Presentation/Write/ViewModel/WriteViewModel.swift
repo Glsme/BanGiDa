@@ -48,7 +48,7 @@ class WriteViewModel: CommonViewModel {
             let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: animalName ?? "신원 미상", content: content, photo: "", alarmTitle: nil)
             UserDiaryRepository.shared.write(task)
             
-            if let image = image {
+            if let image = image, image != UIImage(named: "BasicDog") {
                 UserDiaryRepository.shared.documentManager.saveImageFromDocument(fileName: "\(task.objectId).jpg", image: image)
             }
         }
@@ -74,12 +74,8 @@ class WriteViewModel: CommonViewModel {
         
         UserDiaryRepository.shared.primaryKey = nil
         
-        if let image = image {
-            if image == UIImage(named: "BasicDog") {
-                print("Image is not Selected")
-            } else {
-                UserDiaryRepository.shared.documentManager.saveImageFromDocument(fileName: "\(task.objectId).jpg", image: image)
-            }
+        if let image = image, image != UIImage(named: "BasicDog") {
+            UserDiaryRepository.shared.documentManager.saveImageFromDocument(fileName: "\(task.objectId).jpg", image: image)
         }
     }
 }

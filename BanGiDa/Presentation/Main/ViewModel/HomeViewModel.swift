@@ -121,7 +121,7 @@ class HomeViewModel: CommonViewModel {
         case 0:
             dateText = dateAndTimeFormatter.string(from: memoTaskList[indexPath.row].regDate)
             contentText = memoTaskList[indexPath.row].content
-            image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 1:
             dateText = dateAndTimeFormatter.string(from: alarmTaskList[indexPath.row].regDate)
             alarmTitle = alarmTaskList[indexPath.row].alarmTitle ?? "알람"
@@ -129,19 +129,19 @@ class HomeViewModel: CommonViewModel {
         case 2:
             dateText = dateAndTimeFormatter.string(from: growthTaskList[indexPath.row].regDate)
             contentText = growthTaskList[indexPath.row].content
-            image = loadImageFromDocument(fileName: "\(growthTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(growthTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 3:
             dateText = dateAndTimeFormatter.string(from: showerTaskList[indexPath.row].regDate)
             contentText = showerTaskList[indexPath.row].content
-            image = loadImageFromDocument(fileName: "\(showerTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(showerTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 4:
             dateText = dateAndTimeFormatter.string(from: hospitalTaskList[indexPath.row].regDate)
             contentText = hospitalTaskList[indexPath.row].content
-            image = loadImageFromDocument(fileName: "\(hospitalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(hospitalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 5:
             dateText = dateAndTimeFormatter.string(from: abnormalTaskList[indexPath.row].regDate)
             contentText = abnormalTaskList[indexPath.row].content
-            image = loadImageFromDocument(fileName: "\(abnormalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(abnormalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         default:
             break
         }
@@ -156,7 +156,7 @@ class HomeViewModel: CommonViewModel {
         case 0:
             writeVC.memoView.textView.text = memoTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: memoTaskList[indexPath.row].date)
-            writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
+            writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = memoTaskList[indexPath.row].objectId
         case 1:
             let alarmVC = AlarmViewController()
@@ -170,22 +170,22 @@ class HomeViewModel: CommonViewModel {
         case 2:
             writeVC.memoView.textView.text = growthTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: growthTaskList[indexPath.row].date)
-            writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
+            writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(growthTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = growthTaskList[indexPath.row].objectId
         case 3:
             writeVC.memoView.textView.text = showerTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: showerTaskList[indexPath.row].date)
-            writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
+            writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(showerTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = showerTaskList[indexPath.row].objectId
         case 4:
             writeVC.memoView.textView.text = hospitalTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
-            writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
+            writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(hospitalTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = hospitalTaskList[indexPath.row].objectId
         case 5:
             writeVC.memoView.textView.text = abnormalTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
-            writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
+            writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(abnormalTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = abnormalTaskList[indexPath.row].objectId
         default:
             break
@@ -202,17 +202,6 @@ class HomeViewModel: CommonViewModel {
         writeVC.viewModel.currentIndex.value = indexPath.section
         
         vc.transViewController(ViewController: writeVC, type: .push)
-    }
-    
-    func loadImageFromDocument(fileName: String) -> UIImage? {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
-        let fileURL = documentDirectory.appendingPathComponent(fileName)
-        
-        if FileManager.default.fileExists(atPath: fileURL.path) {
-            return UIImage(contentsOfFile: fileURL.path)
-        } else {
-            return UIImage(named: "BasicDog")
-        }
     }
     
     func showDatePickerAlert() -> UIAlertController {

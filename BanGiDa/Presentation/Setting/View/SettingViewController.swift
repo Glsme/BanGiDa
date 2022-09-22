@@ -38,7 +38,7 @@ class SettingViewController: BaseViewController {
             let backupFilePath = try self.repository.documentManager.createBackupFile()
             
             showActivityViewController(filePath: backupFilePath)
-            
+            fetchZipFiles()
         } catch {
             
         }
@@ -54,7 +54,7 @@ class SettingViewController: BaseViewController {
             zipFiles = try repository.documentManager.fetchDocumentZipFile()
         }
         catch {
-//            showErrorAlert(error: error)
+            print(#function, "실패여~")
         }
     }
 }

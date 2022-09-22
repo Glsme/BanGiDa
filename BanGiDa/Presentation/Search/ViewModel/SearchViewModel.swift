@@ -30,10 +30,11 @@ class SearchViewModel: CommonViewModel {
         }
     }
     
-    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String, String) -> () ) {
+    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String, String, UIImage) -> () ) {
         var dateText = ""
         var contentText = ""
         var alarmTitle = ""
+        var image = UIImage()
         
         guard let index = currentIndex.value else { return }
         
@@ -41,26 +42,31 @@ class SearchViewModel: CommonViewModel {
         case 0:
             dateText = dateFormatter.string(from: memoTaskList[indexPath.row].date)
             contentText = memoTaskList[indexPath.row].content
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 1:
             dateText = dateFormatter.string(from: alarmTaskList[indexPath.row].date)
             alarmTitle = alarmTaskList[indexPath.row].alarmTitle ?? "알람"
         case 2:
             dateText = dateFormatter.string(from: growthTaskList[indexPath.row].date)
             contentText = growthTaskList[indexPath.row].content
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(growthTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 3:
             dateText = dateFormatter.string(from: showerTaskList[indexPath.row].date)
             contentText = showerTaskList[indexPath.row].content
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(showerTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 4:
             dateText = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
             contentText = hospitalTaskList[indexPath.row].content
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(hospitalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 5:
             dateText = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
             contentText = abnormalTaskList[indexPath.row].content
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(abnormalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         default:
             break
         }
         
-        completionHandler(dateText, contentText, alarmTitle)
+        completionHandler(dateText, contentText, alarmTitle, image)
     }
     
     func checkNumberOfRowsInsection(section: Int) -> Int {

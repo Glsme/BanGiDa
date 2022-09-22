@@ -99,16 +99,21 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
         
         cell.backgroundColor = .memoBackgroundColor
-        viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText, alarmTitle in
+        viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText, alarmTitle, image in
             if indexPath.section == 1 {
                 cell.dateLabel.text = dateText
                 cell.contentLabel.text = alarmTitle
             } else {
                 cell.dateLabel.text = dateText
                 cell.contentLabel.text = contentText
+                cell.memoImageView.image = image
             }
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        viewModel.enterEditMemo(ViewController: self, indexPath: indexPath)
     }
 }
