@@ -49,7 +49,7 @@ class MemoView: BaseView {
         let view = UILabel()
         view.text = "날짜"
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
-        view.textColor = .darkGray
+        view.textColor = .memoDarkGray
 //        view.backgroundColor = .ultraLightGray
         return view
     }()

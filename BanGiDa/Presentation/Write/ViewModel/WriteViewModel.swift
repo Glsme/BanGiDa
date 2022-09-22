@@ -49,7 +49,7 @@ class WriteViewModel: CommonViewModel {
             UserDiaryRepository.shared.write(task)
             
             if let image = image {
-                saveImageToDocument(fileName: "\(task.objectId).jpg", image: image)
+                UserDiaryRepository.shared.documentManager.saveImageFromDocument(fileName: "\(task.objectId).jpg", image: image)
             }
         }
     }
@@ -78,20 +78,8 @@ class WriteViewModel: CommonViewModel {
             if image == UIImage(named: "BasicDog") {
                 print("Image is not Selected")
             } else {
-                saveImageToDocument(fileName: "\(task.objectId).jpg", image: image)
+                UserDiaryRepository.shared.documentManager.saveImageFromDocument(fileName: "\(task.objectId).jpg", image: image)
             }
-        }
-    }
-    
-    func saveImageToDocument(fileName: String, image: UIImage) {
-        guard let documnetDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        let fileURL = documnetDirectory.appendingPathComponent(fileName)
-        guard let data = image.jpegData(compressionQuality: 0.5) else { return }
-        
-        do {
-            try data.write(to: fileURL)
-        } catch let error {
-            print("file save error", error)
         }
     }
 }

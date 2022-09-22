@@ -11,6 +11,8 @@ import RealmSwift
 class UserDiaryRepository {
     static let shared = UserDiaryRepository()
     
+    let documentManager = DocumentManager()
+    
     private init() { }
     
     let localRealm = try! Realm()
