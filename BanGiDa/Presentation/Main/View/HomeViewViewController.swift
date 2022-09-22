@@ -30,7 +30,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         
         print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
-        setData()
+//        setData()
         bind()
     }
     
@@ -39,7 +39,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         
         navigationController?.navigationBar.isHidden = true
         setData()
-        mainView.homeTableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -84,8 +83,12 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         viewModel.currentDate.value = mainView.homeTableView.calendar.today ?? Date()
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
+        
+        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count, "!!!!!!!!!!!")
+        
         todayButtonClicked()
         
+        mainView.homeTableView.calendar.reloadData()
         mainView.homeTableView.reloadData()
     }
     
@@ -254,7 +257,7 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
-        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.hospitalTaskList.count, viewModel.showerTaskList.count, viewModel.pillTaskList.count, viewModel.abnormalTaskList.count)
+        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count)
         
         mainView.homeTableView.reloadData()
     }

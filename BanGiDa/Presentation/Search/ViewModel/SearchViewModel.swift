@@ -45,14 +45,14 @@ class SearchViewModel: CommonViewModel {
             dateText = dateFormatter.string(from: alarmTaskList[indexPath.row].date)
             alarmTitle = alarmTaskList[indexPath.row].alarmTitle ?? "알람"
         case 2:
-            dateText = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
-            contentText = hospitalTaskList[indexPath.row].content
+            dateText = dateFormatter.string(from: growthTaskList[indexPath.row].date)
+            contentText = growthTaskList[indexPath.row].content
         case 3:
             dateText = dateFormatter.string(from: showerTaskList[indexPath.row].date)
             contentText = showerTaskList[indexPath.row].content
         case 4:
-            dateText = dateFormatter.string(from: pillTaskList[indexPath.row].date)
-            contentText = pillTaskList[indexPath.row].content
+            dateText = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
+            contentText = hospitalTaskList[indexPath.row].content
         case 5:
             dateText = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
             contentText = abnormalTaskList[indexPath.row].content
@@ -71,11 +71,11 @@ class SearchViewModel: CommonViewModel {
             case 1:
                 return alarmTaskList.count
             case 2:
-                return hospitalTaskList.count
+                return growthTaskList.count
             case 3:
                 return showerTaskList.count
             case 4:
-                return pillTaskList.count
+                return hospitalTaskList.count
             case 5:
                 return abnormalTaskList.count
             default:

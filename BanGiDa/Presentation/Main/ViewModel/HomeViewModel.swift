@@ -30,11 +30,11 @@ class HomeViewModel: CommonViewModel {
             case 1:
                 task = self.alarmTaskList[indexPath.row]
             case 2:
-                task = self.hospitalTaskList[indexPath.row]
+                task = self.growthTaskList[indexPath.row]
             case 3:
                 task = self.showerTaskList[indexPath.row]
             case 4:
-                task = self.pillTaskList[indexPath.row]
+                task = self.hospitalTaskList[indexPath.row]
             case 5:
                 task = self.abnormalTaskList[indexPath.row]
             default:
@@ -61,11 +61,11 @@ class HomeViewModel: CommonViewModel {
         case 1:
             index = alarmTaskList.count
         case 2:
-            index = hospitalTaskList.count
+            index = growthTaskList.count
         case 3:
             index = showerTaskList.count
         case 4:
-            index = pillTaskList.count
+            index = hospitalTaskList.count
         case 5:
             index = abnormalTaskList.count
         default:
@@ -89,7 +89,7 @@ class HomeViewModel: CommonViewModel {
                 value = height
             }
         case 2:
-            if !hospitalTaskList.isEmpty {
+            if !growthTaskList.isEmpty {
                 value = height
             }
         case 3:
@@ -97,7 +97,7 @@ class HomeViewModel: CommonViewModel {
                 value = height
             }
         case 4:
-            if !pillTaskList.isEmpty {
+            if !hospitalTaskList.isEmpty {
                 value = height
             }
         case 5:
@@ -127,21 +127,21 @@ class HomeViewModel: CommonViewModel {
             alarmTitle = alarmTaskList[indexPath.row].alarmTitle ?? "알람"
             contentText = alarmTaskList[indexPath.row].content
         case 2:
-            dateText = dateAndTimeFormatter.string(from: hospitalTaskList[indexPath.row].regDate)
-            contentText = hospitalTaskList[indexPath.row].content
-            image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+            dateText = dateAndTimeFormatter.string(from: growthTaskList[indexPath.row].regDate)
+            contentText = growthTaskList[indexPath.row].content
+            image = loadImageFromDocument(fileName: "\(growthTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 3:
             dateText = dateAndTimeFormatter.string(from: showerTaskList[indexPath.row].regDate)
             contentText = showerTaskList[indexPath.row].content
-            image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+            image = loadImageFromDocument(fileName: "\(showerTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 4:
-            dateText = dateAndTimeFormatter.string(from: pillTaskList[indexPath.row].regDate)
-            contentText = pillTaskList[indexPath.row].content
-            image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+            dateText = dateAndTimeFormatter.string(from: hospitalTaskList[indexPath.row].regDate)
+            contentText = hospitalTaskList[indexPath.row].content
+            image = loadImageFromDocument(fileName: "\(hospitalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         case 5:
             dateText = dateAndTimeFormatter.string(from: abnormalTaskList[indexPath.row].regDate)
             contentText = abnormalTaskList[indexPath.row].content
-            image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+            image = loadImageFromDocument(fileName: "\(abnormalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
         default:
             break
         }
@@ -168,20 +168,20 @@ class HomeViewModel: CommonViewModel {
             vc.transViewController(ViewController: alarmVC, type: .push)
             return
         case 2:
-            writeVC.memoView.textView.text = hospitalTaskList[indexPath.row].content
-            writeVC.memoView.dateTextField.text = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
+            writeVC.memoView.textView.text = growthTaskList[indexPath.row].content
+            writeVC.memoView.dateTextField.text = dateFormatter.string(from: growthTaskList[indexPath.row].date)
             writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
-            UserDiaryRepository.shared.primaryKey = hospitalTaskList[indexPath.row].objectId
+            UserDiaryRepository.shared.primaryKey = growthTaskList[indexPath.row].objectId
         case 3:
             writeVC.memoView.textView.text = showerTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: showerTaskList[indexPath.row].date)
             writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
             UserDiaryRepository.shared.primaryKey = showerTaskList[indexPath.row].objectId
         case 4:
-            writeVC.memoView.textView.text = pillTaskList[indexPath.row].content
-            writeVC.memoView.dateTextField.text = dateFormatter.string(from: pillTaskList[indexPath.row].date)
+            writeVC.memoView.textView.text = hospitalTaskList[indexPath.row].content
+            writeVC.memoView.dateTextField.text = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
             writeVC.memoView.imageView.image = loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
-            UserDiaryRepository.shared.primaryKey = pillTaskList[indexPath.row].objectId
+            UserDiaryRepository.shared.primaryKey = hospitalTaskList[indexPath.row].objectId
         case 5:
             writeVC.memoView.textView.text = abnormalTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)

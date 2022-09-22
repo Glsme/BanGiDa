@@ -7,6 +7,26 @@
 
 import UIKit
 import RealmSwift
+import Zip
+
+enum DocumentError: Error {
+    case createDirectoryError
+    case saveImageError
+    case removeDirectoryError
+    case fetchImagesError
+    case fetchZipFileError
+    case fetchDirectoryPathError
+    
+    case compressionFailedError
+    case restoreFailedError
+    
+    case fetchJsonDataError
+}
+
+enum CodableError: Error {
+    case jsonDecodeError
+    case jsonEncodeError
+}
 
 struct DocumentManager {
     func documentDirectoryPath() -> URL? {
@@ -48,22 +68,74 @@ struct DocumentManager {
         }
     }
     
-    func fetchDocumentZipFile() {
+    func fetchDocumentZipFile() throws -> [URL] {
         do {
-            guard let path = documentDirectoryPath() else { return }
+            guard let path = documentDirectoryPath() else { return [] }
+            
             let docs = try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
-            print("docs: \(docs)")
             
             let zip = docs.filter { $0.pathExtension == "zip" }
-            print("zip: \(zip)")
             
-            let result = zip.map { $0.lastPathComponent }
-            print(result)
-            
-            //이후 테이블뷰로 연결 -> 클로저로 전달 예정
+            return zip
             
         } catch {
-            print("Error")
+            throw DocumentError.fetchZipFileError
         }
+        
+    }
+    
+    func saveDataToDocument(data: Data) throws {
+        guard let documentPath = documentDirectoryPath() else { throw DocumentError.fetchDirectoryPathError }
+        
+        let jsonDataPath = documentPath.appendingPathComponent("encodedData.json")
+        
+        try data.write(to: jsonDataPath)
+    }
+    
+    func createBackupFile() throws -> URL {
+        var urlPaths: [URL] = []
+        
+        let documentPath = documentDirectoryPath()
+        
+        let encodedFilePath = documentPath?.appendingPathComponent("encodedData.json")
+        let imagesDirectoryPath = imageDirectoryPath()
+        
+        guard let realmFilePath = encodedFilePath, let imagesDirectoryPath = imagesDirectoryPath else {
+            throw DocumentError.fetchDirectoryPathError
+        }
+        
+        guard isFileExist(path: realmFilePath) && isFileExist(path: imagesDirectoryPath) else {
+            throw DocumentError.compressionFailedError
+        }
+        
+        urlPaths.append(contentsOf: [realmFilePath, imagesDirectoryPath])
+        
+        do {
+            let zipFilePath = try Zip.quickZipFiles(urlPaths, fileName: "TripCard\(Date().backupFileTitle)")
+            
+            return zipFilePath
+        }
+        catch {
+            throw DocumentError.compressionFailedError
+        }
+    }
+    
+    private func imageDirectoryPath() -> URL? {
+        guard let documentPath = documentDirectoryPath() else { return nil }
+        let imagesDirectoryPath = documentPath.appendingPathComponent("images")
+        
+        return imagesDirectoryPath
+    }
+    
+    private func isFileExist(path: URL) -> Bool {
+        var urlString: String?
+        
+        if #available(iOS 16, *) {
+            urlString = path.path()
+        } else {
+            urlString = path.path
+        }
+        
+        return FileManager.default.fileExists(atPath: urlString ?? "")
     }
 }

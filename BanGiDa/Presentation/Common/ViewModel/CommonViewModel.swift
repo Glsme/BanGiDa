@@ -14,9 +14,9 @@ class CommonViewModel {
     
     var memoTaskList: Results<Diary>!
     var alarmTaskList: Results<Diary>!
-    var hospitalTaskList: Results<Diary>!
+    var growthTaskList: Results<Diary>!
     var showerTaskList: Results<Diary>!
-    var pillTaskList: Results<Diary>!
+    var hospitalTaskList: Results<Diary>!
     var abnormalTaskList: Results<Diary>!
     
     var tasks: Results<Diary>!
@@ -61,18 +61,18 @@ class CommonViewModel {
     func inputDataIntoArray() {
         memoTaskList = UserDiaryRepository.shared.filter(index: 0)
         alarmTaskList = UserDiaryRepository.shared.filter(index: 1)
-        hospitalTaskList = UserDiaryRepository.shared.filter(index: 2)
+        growthTaskList = UserDiaryRepository.shared.filter(index: 2)
         showerTaskList = UserDiaryRepository.shared.filter(index: 3)
-        pillTaskList = UserDiaryRepository.shared.filter(index: 4)
+        hospitalTaskList = UserDiaryRepository.shared.filter(index: 4)
         abnormalTaskList = UserDiaryRepository.shared.filter(index: 5)
     }
     
     func inputDataIntoArrayToDate(date: Date) {
         memoTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 0)
         alarmTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 1)
-        hospitalTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 2)
+        growthTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 2)
         showerTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 3)
-        pillTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 4)
+        hospitalTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 4)
         abnormalTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 5)
     }
     

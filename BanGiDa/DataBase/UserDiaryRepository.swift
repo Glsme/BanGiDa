@@ -11,10 +11,11 @@ import RealmSwift
 class UserDiaryRepository {
     static let shared = UserDiaryRepository()
     
-    let documentManager = DocumentManager()
+    private init() {
+        diaryList = localRealm.objects(Diary.self).sorted(byKeyPath: "regDate", ascending: false)
+    }
     
-    private init() { }
-    
+    //MARK: - Realm
     let localRealm = try! Realm()
     
     var primaryKey: ObjectId?
@@ -56,4 +57,38 @@ class UserDiaryRepository {
             task.alarmTitle = alarmTitle
         }
     }
+    
+    //MARK: - json
+    let documentManager = DocumentManager()
+    
+    var diaryList: Results<Diary>
+    
+    private lazy var dateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
+        return dateFormatter
+    }()
+    
+    func saveEncodedDataToDocument() throws {
+        let encodedData = try encodeTrip(diaryList)
+        
+        try documentManager.saveDataToDocument(data: encodedData)
+    }
+    
+    func encodeTrip(_ data: Results<Diary>) throws -> Data {
+        do {
+            let encoder = JSONEncoder()
+            
+            encoder.dateEncodingStrategy = .formatted(dateFormatter)
+            
+            let encodedData: Data = try encoder.encode(data)
+            
+            return encodedData
+        }
+        catch {
+            throw CodableError.jsonEncodeError
+        }
+        
+    }
+    
 }
