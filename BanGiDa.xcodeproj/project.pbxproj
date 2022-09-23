@@ -35,6 +35,7 @@
 		8594820F28DCAB10000C6AD7 /* DocumentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594820E28DCAB10000C6AD7 /* DocumentManager.swift */; };
 		8594821228DCAC69000C6AD7 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 8594821128DCAC69000C6AD7 /* Zip */; };
 		8594821428DCB2DA000C6AD7 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594821328DCB2DA000C6AD7 /* Date+Extension.swift */; };
+		8594821928DDF2AA000C6AD7 /* AlarmListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594821828DDF2AA000C6AD7 /* AlarmListTableViewCell.swift */; };
 		859BBCE528CB7035006EF18A /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859BBCE428CB7035006EF18A /* Observable.swift */; };
 		859BBCE928CB7473006EF18A /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859BBCE828CB7473006EF18A /* HomeViewModel.swift */; };
 		85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D00828CEFA4400F22A80 /* FontList.swift */; };
@@ -91,6 +92,7 @@
 		8594820928DC984A000C6AD7 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
 		8594820E28DCAB10000C6AD7 /* DocumentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentManager.swift; sourceTree = "<group>"; };
 		8594821328DCB2DA000C6AD7 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		8594821828DDF2AA000C6AD7 /* AlarmListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmListTableViewCell.swift; sourceTree = "<group>"; };
 		859BBCE428CB7035006EF18A /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		859BBCE828CB7473006EF18A /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		85A8D00828CEFA4400F22A80 /* FontList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontList.swift; sourceTree = "<group>"; };
@@ -431,6 +433,7 @@
 			children = (
 				85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */,
 				85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */,
+				8594821828DDF2AA000C6AD7 /* AlarmListTableViewCell.swift */,
 			);
 			path = MemoList;
 			sourceTree = "<group>";
@@ -588,6 +591,7 @@
 				857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */,
 				85CCEAE828D8978C0086E5CA /* AlarmView.swift in Sources */,
 				85A8D01928CF89F900F22A80 /* MemoView.swift in Sources */,
+				8594821928DDF2AA000C6AD7 /* AlarmListTableViewCell.swift in Sources */,
 				85075C6128CC93CE00FAF6BA /* WriteViewModel.swift in Sources */,
 				8594820228DC8327000C6AD7 /* WalkTroughViewController.swift in Sources */,
 				8594820F28DCAB10000C6AD7 /* DocumentManager.swift in Sources */,

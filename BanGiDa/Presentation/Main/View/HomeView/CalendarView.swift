@@ -49,7 +49,6 @@ class CalendarView: FSCalendar {
         calendarWeekdayView.weekdayLabels[6].text = "Sat"
         
         placeholderType = .none
-        
     }
     
     func setContraints() {

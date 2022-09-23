@@ -61,6 +61,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         mainView.homeTableView.delegate = self
         mainView.homeTableView.dataSource = self
         mainView.homeTableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.reuseIdentifier)
+        mainView.homeTableView.register(AlarmListTableViewCell.self, forCellReuseIdentifier: AlarmListTableViewCell.reuseIdentifier)
         
         mainView.homeTableView.calendar.delegate = self
         mainView.homeTableView.calendar.dataSource = self
@@ -185,22 +186,38 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
+        var dateText = ""
+        var contentText = ""
+        var alarmTitle = ""
+        var image = UIImage()
         
-        cell.backgroundColor = .memoBackgroundColor
-        viewModel.inputDataInToCell(indexPath: indexPath) { dateText, contentText, alarmTitle, image in
-            cell.dateLabel.text = dateText
-            if indexPath.section == 1 {
-                cell.contentLabel.text = alarmTitle
-                cell.memoImageView.backgroundColor = .memoBackgroundColor
-                cell.memoImageView.image = nil
-            } else {
-                cell.contentLabel.text = contentText
-                cell.memoImageView.image = image
-            }
+        viewModel.inputDataInToCell(indexPath: indexPath) { selectedDateText, selectedContentText, selectedAlarmTitle, selectedImage in
+            dateText = selectedDateText
+            contentText = selectedContentText
+            alarmTitle = selectedAlarmTitle
+            image = selectedImage
         }
         
-        return cell
+        if indexPath.section == 1 {
+            guard let alarmCell = tableView.dequeueReusableCell(withIdentifier: AlarmListTableViewCell.reuseIdentifier, for: indexPath) as? AlarmListTableViewCell else { return UITableViewCell() }
+            
+            alarmCell.dateLabel.text = dateText
+            alarmCell.contentLabel.text = alarmTitle
+//                alarmCell.memoImageView.backgroundColor = .memoBackgroundColor
+//                alarmCell.memoImageView.image = nil
+            alarmCell.backgroundColor = .memoBackgroundColor
+            
+            return alarmCell
+        } else {
+            guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
+            
+            memoCell.dateLabel.text = dateText
+            memoCell.contentLabel.text = contentText
+            memoCell.memoImageView.image = image
+            memoCell.backgroundColor = .memoBackgroundColor
+
+            return memoCell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

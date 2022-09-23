@@ -53,7 +53,6 @@ class HomeTableView: UITableView {
     
     func configureUI() {
         self.addSubview(calendar)
-        //        calendarView.addSubview(calendar)
         tableHeaderView = calendar
         
         tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.42
