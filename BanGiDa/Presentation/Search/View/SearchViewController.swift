@@ -27,6 +27,14 @@ class SearchViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = true
+        
+        if !viewModel.isFiltering.value {
+            viewModel.isFiltering.value = true
+            viewModel.currentIndex.value = 0
+            collectionView(searchView.selectCollectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
+            searchView.selectCollectionView.reloadData()
+        }
+        
         searchView.filterTableView.reloadData()
         
     }
