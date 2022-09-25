@@ -76,9 +76,9 @@ class CommonViewModel {
         abnormalTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 5)
     }
     
-    func fetchDate(date: Date) {
-        UserDiaryRepository.shared.fetchDate(date: date)
-    }
+//    func fetchDate(date: Date) {
+//        UserDiaryRepository.shared.fetchDate(date: date)
+//    }
     
     //MARK: - Notification
     func requsetAuthorization() {

@@ -15,7 +15,7 @@ class WriteViewController: BaseViewController {
     let memoView = MemoView()
     
     lazy var saveButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButtonClicked))
-    
+
     override func loadView() {
         self.view = memoView
         
