@@ -35,7 +35,7 @@ struct DocumentManager {
     }
     
     func loadImageFromDocument(fileName: String) -> UIImage? {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+        guard let documentDirectory = imageDirectoryPath() else { return UIImage(named: "BasicDog") }
         let fileURL = documentDirectory.appendingPathComponent(fileName)
         
         if FileManager.default.fileExists(atPath: fileURL.path) {
@@ -57,8 +57,12 @@ struct DocumentManager {
     }
     
     func saveImageFromDocument(fileName: String, image: UIImage) {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        createImagesDirectoryPath()
+        
+        guard let documentDirectory = imageDirectoryPath() else { return }
+        
         let fileURL = documentDirectory.appendingPathComponent(fileName)
+        
         guard let data = image.jpegData(compressionQuality: 0.5) else { return }
         
         do {
@@ -137,5 +141,18 @@ struct DocumentManager {
         }
         
         return FileManager.default.fileExists(atPath: urlString ?? "")
+    }
+    
+    func createImagesDirectoryPath() {
+        guard let documentPath = documentDirectoryPath() else { return }
+        let imagesFilePath = documentPath.appendingPathComponent("images")
+        
+        if !FileManager.default.fileExists(atPath: imagesFilePath.path) {
+            do {
+                try FileManager.default.createDirectory(atPath: imagesFilePath.path, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("image 폴더는 이미 있단다")
+            }
+        }
     }
 }
