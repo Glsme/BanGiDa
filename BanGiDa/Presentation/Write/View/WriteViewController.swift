@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI
+import CropViewController
 
 class WriteViewController: BaseViewController {
     
@@ -100,6 +101,7 @@ class WriteViewController: BaseViewController {
     
     @objc func imageButtonClicked() {
         print(#function)
+        
         var configuration = PHPickerConfiguration()
         configuration.filter = .any(of: [.images])
         
@@ -129,10 +131,22 @@ extension WriteViewController: PHPickerViewControllerDelegate {
         if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
             itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                 DispatchQueue.main.async {
-                    self.memoView.imageView.image = image as? UIImage
-                    self.memoView.imageButton.setTitle("이미지 편집", for: .normal)
+                    guard let image = image as? UIImage else { return }
+                    let cropVC = CropViewController(image: image)
+                    cropVC.delegate = self
+                    cropVC.doneButtonTitle = "완료"
+                    cropVC.cancelButtonTitle = "취소"
+                    self.transViewController(ViewController: cropVC, type: .present)
                 }
             }
         }
+    }
+}
+
+extension WriteViewController: CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        memoView.imageView.image = image
+        memoView.imageButton.setTitle("이미지 편집", for: .normal)
+        dismiss(animated: true)
     }
 }
