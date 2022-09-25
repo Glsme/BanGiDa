@@ -33,7 +33,7 @@ class WalkThroughViewController: BaseViewController {
                 UserDefaults.standard.set(text, forKey: UserDefaultsKey.name.rawValue)
                 UserDefaults.standard.set(true, forKey: UserDefaultsKey.first.rawValue)
                 
-                print(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue))
+//                print(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue))
                 dismiss(animated: true)
             }
         } else {
