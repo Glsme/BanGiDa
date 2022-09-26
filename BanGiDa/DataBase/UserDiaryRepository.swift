@@ -88,7 +88,44 @@ class UserDiaryRepository {
         catch {
             throw CodableError.jsonEncodeError
         }
-        
     }
     
+    func decodeData() throws -> Data {
+        guard let path = documentManager.documentDirectoryPath() else { throw
+            DocumentError.fetchJsonDataError
+        }
+        
+        let dataPath = path.appendingPathComponent("encodedData.json")
+        
+        do {
+            return try Data(contentsOf: dataPath)
+        } catch {
+            throw DocumentError.fetchJsonDataError
+        }
+    }
+    
+    func restoreRealmForBackupFile() throws {
+        let jsonData = try decodeData()
+        
+        guard let decodedData = try decodeDiary(jsonData) else { return }
+        
+        try localRealm.write {
+            localRealm.deleteAll()
+            localRealm.add(decodedData)
+        }
+    }
+    
+    
+    func decodeDiary(_ diaryData: Data) throws -> [Diary]? {
+        do {
+            let decoder = JSONDecoder()
+//            decoder.dateDecodingStrategy = . iso8601
+            decoder.dateDecodingStrategy = .formatted(dateFormatter)
+            let decodedData: [Diary] = try decoder.decode([Diary].self, from: diaryData)
+            print(decodedData)
+            return decodedData
+        } catch {
+            throw CodableError.jsonDecodeError
+        }
+    }
 }

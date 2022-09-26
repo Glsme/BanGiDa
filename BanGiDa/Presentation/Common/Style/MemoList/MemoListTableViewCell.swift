@@ -13,6 +13,7 @@ class MemoListTableViewCell: BaseTableViewCell {
         view.backgroundColor = .darkGray
         view.clipsToBounds = true
         view.layer.cornerRadius = 5
+        view.contentMode = .scaleAspectFill
         return view
     }()
     

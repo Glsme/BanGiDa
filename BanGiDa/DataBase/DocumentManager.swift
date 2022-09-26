@@ -92,7 +92,7 @@ struct DocumentManager {
         guard let documentPath = documentDirectoryPath() else { throw DocumentError.fetchDirectoryPathError }
         
         let jsonDataPath = documentPath.appendingPathComponent("encodedData.json")
-        
+
         try data.write(to: jsonDataPath)
     }
     
@@ -153,6 +153,18 @@ struct DocumentManager {
             } catch {
                 print("image 폴더는 이미 있단다")
             }
+        }
+    }
+    
+    func unzipFile(fileURL: URL, documentURL: URL) throws {
+        do {
+            try Zip.unzipFile(fileURL, destination: documentURL, overwrite: true, password: nil, progress: { progress in
+                print(progress)
+            }, fileOutputHandler: { unzippedFile in
+                print("복구 완료")
+            })
+        } catch {
+            throw DocumentError.restoreFailedError
         }
     }
 }

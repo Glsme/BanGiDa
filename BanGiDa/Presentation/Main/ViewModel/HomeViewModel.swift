@@ -15,12 +15,6 @@ class HomeViewModel: CommonViewModel {
     
     let homeView = HomeView()
     
-    func fetchData() {
-        print(#function)
-        inputDataIntoArrayToDate(date: currentDate.value)
-        homeView.homeTableView.reloadData()
-    }
-    
     func addDeleteSwipeAction(indexPath: IndexPath) -> UISwipeActionsConfiguration {
         let delete = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
             var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)

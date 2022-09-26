@@ -36,7 +36,6 @@ class SearchViewController: BaseViewController {
         }
         
         searchView.filterTableView.reloadData()
-        
     }
     
     override func configureUI() {
@@ -142,5 +141,39 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.enterEditMemo(ViewController: self, indexPath: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
+            var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)
+            
+            switch indexPath.section {
+            case 0:
+                task = self.viewModel.memoTaskList[indexPath.row]
+            case 1:
+                self.viewModel.removeNotification(title: self.viewModel.alarmTaskList[indexPath.row].alarmTitle ?? "", body: self.viewModel.alarmTaskList[indexPath.row].content, date: self.viewModel.alarmTaskList[indexPath.row].date, index: indexPath.row)
+                task = self.viewModel.alarmTaskList[indexPath.row]
+            case 2:
+                task = self.viewModel.growthTaskList[indexPath.row]
+            case 3:
+                task = self.viewModel.showerTaskList[indexPath.row]
+            case 4:
+                task = self.viewModel.hospitalTaskList[indexPath.row]
+            case 5:
+                task = self.viewModel.abnormalTaskList[indexPath.row]
+            default:
+                break
+            }
+            
+            UserDiaryRepository.shared.delete(task)
+            self.viewModel.fetchData()
+            self.searchView.filterTableView.reloadData()
+        }
+        
+        let image = UIImage(systemName: "trash.fill")
+        delete.image = image
+        delete.backgroundColor = .red
+        
+        return UISwipeActionsConfiguration(actions: [delete])
     }
 }

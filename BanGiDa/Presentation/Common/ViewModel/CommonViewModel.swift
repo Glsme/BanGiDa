@@ -76,6 +76,12 @@ class CommonViewModel {
         abnormalTaskList = UserDiaryRepository.shared.filterToDate(date: date, index: 5)
     }
     
+    func fetchData() {
+        print(#function)
+        inputDataIntoArrayToDate(date: currentDate.value)
+//        homeView.homeTableView.reloadData()
+    }
+    
 //    func fetchDate(date: Date) {
 //        UserDiaryRepository.shared.fetchDate(date: date)
 //    }

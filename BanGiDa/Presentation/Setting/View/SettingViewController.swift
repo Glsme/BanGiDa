@@ -45,6 +45,25 @@ class SettingViewController: BaseViewController {
         }
     }
     
+    func restoreFileButtonClicked() {
+        do {
+            let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
+            documentPicker.delegate = self
+            documentPicker.allowsMultipleSelection = false
+            self.present(documentPicker, animated: true)
+
+            try repository.restoreRealmForBackupFile()
+
+            let backupFilePath = try repository.documentManager.createBackupFile()
+            showActivityViewController(filePath: backupFilePath)
+
+        } catch {
+            print("압축에 실패하였습니다.")
+        }
+        
+        tabBarController?.selectedIndex = 0
+    }
+    
     func showActivityViewController(filePath: URL) {
         let vc = UIActivityViewController(activityItems: [filePath], applicationActivities: [])
         self.transViewController(ViewController: vc, type: .present)
@@ -56,6 +75,66 @@ class SettingViewController: BaseViewController {
         }
         catch {
             print(#function, "실패여~")
+        }
+    }
+}
+
+extension SettingViewController: UIDocumentPickerDelegate {
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        print(#function)
+    }
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let selectedFileURL = urls.first else {
+            showAlert(message: "선택하신 파일에 오류가 있습니다.")
+            return
+        }
+        
+        guard let path = repository.documentManager.documentDirectoryPath() else {
+            showAlert(message: "도큐먼트 위치에 오류가 있습니다.")
+            return
+        }
+        
+        let sandboxFileURL = path.appendingPathComponent(selectedFileURL.lastPathComponent)
+        
+        if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
+            let fileZip = selectedFileURL.lastPathComponent
+            let zipFileURL = path.appendingPathComponent(fileZip)
+            do {
+                try repository.documentManager.unzipFile(fileURL: zipFileURL, documentURL: path)
+                
+                do {
+                    let fetch = try repository.decodeData()
+                    
+                    try repository.decodeDiary(fetch)
+                    try repository.documentManager.fetchDocumentZipFile()
+                } catch {
+                    print("복구 실패")
+                }
+            } catch {
+                print("압축 풀기 실패")
+            }
+        } else {
+            do {
+                try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
+                let fileZip = selectedFileURL.lastPathComponent
+                let zipfileURL = path.appendingPathComponent(fileZip)
+                
+                do {
+                    try repository.documentManager.unzipFile(fileURL: zipfileURL, documentURL: path)
+                    
+                    do {
+                        let fetch = try repository.decodeData()
+                        try repository.decodeDiary(fetch)
+                    } catch {
+                        print("복구 실패")
+                    }
+                } catch {
+                    print("압출 풀기 실패")
+                }
+            } catch {
+                print("압축 해제 실패")
+            }
         }
     }
 }
@@ -79,14 +158,22 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.backgroundColor = .memoBackgroundColor
         cell.label.text = viewModel.setCellText(indexPath: indexPath)
+//        cell.selectionStyle = .default
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            if indexPath.row == 1 {
+            switch indexPath.row {
+            case 0:
                 backupFileButtonClicked()
+            case 1:
+                restoreFileButtonClicked()
+            case 2:
+                break
+            default:
+                break
             }
         } else if indexPath.section == 1 {
             if indexPath.row == 1 {

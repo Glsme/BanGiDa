@@ -39,6 +39,8 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         
         navigationController?.navigationBar.isHidden = true
         setData()
+        mainView.homeTableView.reloadData()
+        mainView.homeTableView.calendar.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -85,7 +87,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
-        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count, "!!!!!!!!!!!")
+//        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count, "!!!!!!!!!!!")
         
         todayButtonClicked()
         
@@ -306,7 +308,7 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
-        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count)
+//        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count)
         
         mainView.homeTableView.reloadData()
     }

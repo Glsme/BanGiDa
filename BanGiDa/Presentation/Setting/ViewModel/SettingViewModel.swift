@@ -9,7 +9,7 @@ import Foundation
 
 class SettingViewModel {
     
-    let dataLabel = ["반려 동물 변경", "백업", "복구", "초기화"]
+    let dataLabel = ["백업", "복구", "초기화"]
     let serviceLabel = ["리뷰 남기기", "문의하기"]
     let appInfoLabel = ["오픈소스 라이브러리", "버전 정보"]
     

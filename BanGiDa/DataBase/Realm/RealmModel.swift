@@ -27,6 +27,8 @@ enum DiaryType: Int {
 }
 
 class Diary: Object, Codable {
+    private override init() { }
+    
     @Persisted var type: RealmDiaryType?
     @Persisted var date = Date()
     @Persisted var regDate = Date()
@@ -69,5 +71,17 @@ class Diary: Object, Codable {
         try containter.encode(content, forKey: .content)
         try containter.encode(photo, forKey: .photo)
         try containter.encode(alarmTitle, forKey: .alarmTitle)
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self._objectId = try container.decode(Persisted<ObjectId>.self, forKey: .objectId)
+        self._type = try container.decode(Persisted<RealmDiaryType?>.self, forKey: .type)
+        self._date = try container.decode(Persisted<Date>.self, forKey: .date)
+        self._regDate = try container.decode(Persisted<Date>.self, forKey: .regDate)
+        self._animalName = try container.decode(Persisted<String>.self, forKey: .animalName)
+        self._content = try container.decode(Persisted<String>.self, forKey: .content)
+        self._photo = try container.decode(Persisted<String?>.self, forKey: .photo)
+        self._alarmTitle = try container.decode(Persisted<String?>.self, forKey: .alarmTitle)
     }
 }
