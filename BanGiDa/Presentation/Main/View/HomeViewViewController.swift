@@ -233,6 +233,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
             case 0:
                 task = self.viewModel.memoTaskList[indexPath.row]
             case 1:
+                self.viewModel.removeNotification(title: self.viewModel.alarmTaskList[indexPath.row].alarmTitle ?? "", body: self.viewModel.alarmTaskList[indexPath.row].content, date: self.viewModel.alarmTaskList[indexPath.row].date, index: indexPath.row)
                 task = self.viewModel.alarmTaskList[indexPath.row]
             case 2:
                 task = self.viewModel.growthTaskList[indexPath.row]

@@ -121,9 +121,10 @@ class CommonViewModel {
         notificationCenter.removeAllDeliveredNotifications()
     }
     
-//    func removeNotification() {
-//        notificationCenter
-//    }
+    func removeNotification(title: String, body: String, date: Date, index: Int) {
+        let identifier = title + body + "\(date) \(index)"
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
+    }
     
     func filterNotification() {
         if !alarmPrivacy.value {
