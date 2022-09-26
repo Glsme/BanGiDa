@@ -39,7 +39,10 @@ class AlarmViewModel: CommonViewModel {
             UserDiaryRepository.shared.write(task)
             inputDataIntoArrayToDate(date: currentDate.value)
             
-            sendNotification(title: titleText, body: content, date: date, index: alarmTaskList.count - 1)
+            if date > Date() {
+                print("date Future correct!")
+                sendNotification(title: titleText, body: content, date: date, index: alarmTaskList.count - 1)
+            }
         }
     }
     
@@ -57,7 +60,11 @@ class AlarmViewModel: CommonViewModel {
         
         UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "", alarmTitle: titleText)
         inputDataIntoArrayToDate(date: currentDate.value)
-        sendNotification(title: titleText, body: content, date: date, index: alarmTaskList.count - 1)
+        
+        if date > Date() {
+            sendNotification(title: titleText, body: content, date: date, index: alarmTaskList.count - 1)
+        }
+        
         UserDiaryRepository.shared.primaryKey = nil
     }
 }

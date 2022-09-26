@@ -70,12 +70,12 @@ class UserDiaryRepository {
     }()
     
     func saveEncodedDataToDocument() throws {
-        let encodedData = try encodeTrip(diaryList)
+        let encodedData = try encodeData(diaryList)
         
         try documentManager.saveDataToDocument(data: encodedData)
     }
     
-    func encodeTrip(_ data: Results<Diary>) throws -> Data {
+    func encodeData(_ data: Results<Diary>) throws -> Data {
         do {
             let encoder = JSONEncoder()
             

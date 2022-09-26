@@ -115,7 +115,7 @@ struct DocumentManager {
         urlPaths.append(contentsOf: [realmFilePath, imagesDirectoryPath])
         
         do {
-            let zipFilePath = try Zip.quickZipFiles(urlPaths, fileName: "TripCard\(Date().backupFileTitle)")
+            let zipFilePath = try Zip.quickZipFiles(urlPaths, fileName: "BangiDa\(Date().backupFileTitle)")
             
             return zipFilePath
         }
