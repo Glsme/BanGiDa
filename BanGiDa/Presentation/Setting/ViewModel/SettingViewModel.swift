@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SettingViewModel {
+class SettingViewModel: CommonViewModel {
     
     let dataLabel = ["백업", "복구", "초기화"]
     let serviceLabel = ["리뷰 남기기", "문의하기"]
@@ -50,5 +50,19 @@ class SettingViewModel {
         }
         
         return text
+    }
+    
+    func setNotifications() {
+        UserDiaryRepository.shared.fetch()
+        inputDataIntoArray()
+        
+        var index = 0
+        for item in alarmTaskList {
+            if item.date > Date() {
+                sendNotification(title: item.animalName, body: item.content, date: item.date, index: index)
+            }
+            
+            index += 1
+        }
     }
 }

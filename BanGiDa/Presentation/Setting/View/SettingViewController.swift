@@ -9,7 +9,7 @@ import UIKit
 import MessageUI
 
 class SettingViewController: BaseViewController {
-
+    
     let settingView = SettingView()
     let viewModel = SettingViewModel()
     
@@ -23,7 +23,7 @@ class SettingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
     
     override func configureUI() {
@@ -46,14 +46,10 @@ class SettingViewController: BaseViewController {
     }
     
     func restoreFileButtonClicked() {
-        do {
-            let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
-            documentPicker.delegate = self
-            documentPicker.allowsMultipleSelection = false
-            self.present(documentPicker, animated: true)
-        } catch {
-            print("실패다~~~~~😎")
-        }
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
+        documentPicker.delegate = self
+        documentPicker.allowsMultipleSelection = false
+        self.present(documentPicker, animated: true)
     }
     
     func showActivityViewController(filePath: URL) {
@@ -99,7 +95,8 @@ extension SettingViewController: UIDocumentPickerDelegate {
                     try repository.documentManager.fetchDocumentZipFile() // ????
                     try repository.restoreRealmForBackupFile()
                     try repository.documentManager.createBackupFile()
-//                    showActivityViewController(filePath: backupFilePath)
+                    //                    showActivityViewController(filePath: backupFilePath)
+                    viewModel.setNotifications()
                     tabBarController?.selectedIndex = 0
                 } catch {
                     print("복구 실패")
@@ -119,7 +116,8 @@ extension SettingViewController: UIDocumentPickerDelegate {
                     do {
                         try repository.restoreRealmForBackupFile()
                         try repository.documentManager.createBackupFile()
-//                        showActivityViewController(filePath: backupFilePath)
+                        //                        showActivityViewController(filePath: backupFilePath)
+                        viewModel.setNotifications()
                         tabBarController?.selectedIndex = 0
                     } catch {
                         print("복구 실패")
@@ -153,7 +151,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.backgroundColor = .memoBackgroundColor
         cell.label.text = viewModel.setCellText(indexPath: indexPath)
-//        cell.selectionStyle = .default
+        cell.selectionStyle = .none
         
         return cell
     }
