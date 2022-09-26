@@ -126,14 +126,14 @@ class MemoView: BaseView {
         
         firstLine.snp.makeConstraints { make in
             make.top.equalTo(imageButton.snp.bottom).offset(8)
-            make.height.equalTo(0.5)
+            make.height.equalTo(1)
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
         }
         
         secondLine.snp.makeConstraints { make in
             make.top.equalTo(dateTextField.snp.bottom).offset(8)
-            make.height.equalTo(0.5)
+            make.height.equalTo(1)
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
         }

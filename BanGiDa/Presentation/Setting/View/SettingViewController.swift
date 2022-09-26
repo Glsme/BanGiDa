@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MessageUI
 
 class SettingViewController: BaseViewController {
 
@@ -87,6 +88,48 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             if indexPath.row == 1 {
                 backupFileButtonClicked()
             }
+        } else if indexPath.section == 1 {
+            if indexPath.row == 1 {
+                sendMail()
+            }
         }
+    }
+}
+
+extension SettingViewController : MFMailComposeViewControllerDelegate {
+    
+    private func sendMail() {
+        if MFMailComposeViewController.canSendMail() {
+            //메일 보내기
+            let mail = MFMailComposeViewController()
+            mail.setToRecipients(["glasses.str.man@gmail.com"])
+            mail.setSubject("반기다 문의사항 -")
+            mail.mailComposeDelegate = self   //
+            self.present(mail, animated: true)
+            
+        } else {
+            
+            showAlert(message: "메일 등록을 해주시거나 glasses.str.man@gmail.com으로 문의주세요.")
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        
+        // mail view가 떴을때 정상적으로 보내졌다. 실패했다고 Toast 띄워줄 수 있음
+        // 어떤식으로 대응 할 수 있을지 생각해보기
+        switch result {
+        case .cancelled:
+            showAlert(message: "메일 전송을 취소했습니다.")
+        case .failed:
+            showAlert(message: "메일 전송을 실패했습니다.")
+        case .saved: //임시저장
+            showAlert(message: "메일을 임시 저장했습니다.")
+        case .sent: // 보내짐
+            showAlert(message: "메일이 전송되었습니다.")
+        @unknown default:
+            fatalError()
+        }
+        
+        controller.dismiss(animated: true)
     }
 }
