@@ -85,7 +85,6 @@ struct DocumentManager {
         } catch {
             throw DocumentError.fetchZipFileError
         }
-        
     }
     
     func saveDataToDocument(data: Data) throws {

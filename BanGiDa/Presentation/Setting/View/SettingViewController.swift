@@ -51,17 +51,9 @@ class SettingViewController: BaseViewController {
             documentPicker.delegate = self
             documentPicker.allowsMultipleSelection = false
             self.present(documentPicker, animated: true)
-
-            try repository.restoreRealmForBackupFile()
-
-            let backupFilePath = try repository.documentManager.createBackupFile()
-            showActivityViewController(filePath: backupFilePath)
-
         } catch {
-            print("압축에 실패하였습니다.")
+            print("실패다~~~~~😎")
         }
-        
-        tabBarController?.selectedIndex = 0
     }
     
     func showActivityViewController(filePath: URL) {
@@ -104,10 +96,11 @@ extension SettingViewController: UIDocumentPickerDelegate {
                 try repository.documentManager.unzipFile(fileURL: zipFileURL, documentURL: path)
                 
                 do {
-                    let fetch = try repository.decodeData()
-                    
-                    try repository.decodeDiary(fetch)
-                    try repository.documentManager.fetchDocumentZipFile()
+                    try repository.documentManager.fetchDocumentZipFile() // ????
+                    try repository.restoreRealmForBackupFile()
+                    try repository.documentManager.createBackupFile()
+//                    showActivityViewController(filePath: backupFilePath)
+                    tabBarController?.selectedIndex = 0
                 } catch {
                     print("복구 실패")
                 }
@@ -124,8 +117,10 @@ extension SettingViewController: UIDocumentPickerDelegate {
                     try repository.documentManager.unzipFile(fileURL: zipfileURL, documentURL: path)
                     
                     do {
-                        let fetch = try repository.decodeData()
-                        try repository.decodeDiary(fetch)
+                        try repository.restoreRealmForBackupFile()
+                        try repository.documentManager.createBackupFile()
+//                        showActivityViewController(filePath: backupFilePath)
+                        tabBarController?.selectedIndex = 0
                     } catch {
                         print("복구 실패")
                     }

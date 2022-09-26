@@ -94,9 +94,11 @@ class UserDiaryRepository {
         guard let path = documentManager.documentDirectoryPath() else { throw
             DocumentError.fetchJsonDataError
         }
+        print(path)
         
         let dataPath = path.appendingPathComponent("encodedData.json")
         
+        print(dataPath)
         do {
             return try Data(contentsOf: dataPath)
         } catch {
