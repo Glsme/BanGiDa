@@ -64,7 +64,7 @@ class AlarmViewController: BaseViewController {
             return
         }
         
-        guard viewModel.alarmPrivacy.value else {
+        if viewModel.alarmPrivacy.value {
             showAlert(message: "알람 사용을 위해 알람 권한을 허용해주세요.")
             return
         }
