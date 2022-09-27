@@ -37,4 +37,15 @@ class BaseViewController: UIViewController {
         formatter.dateFormat = "yyyy.MM.dd EE"
         return formatter
     }()
+    
+    func showSelectAlert(message: String, handler: @escaping (UIAlertAction) -> Void) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default, handler: handler)
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        present(alert, animated: true)
+    }
 }

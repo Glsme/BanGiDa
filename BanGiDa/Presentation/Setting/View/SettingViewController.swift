@@ -46,10 +46,12 @@ class SettingViewController: BaseViewController {
     }
     
     func restoreFileButtonClicked() {
-        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
-        documentPicker.delegate = self
-        documentPicker.allowsMultipleSelection = false
-        self.present(documentPicker, animated: true)
+        showSelectAlert(message: "데이터 복구 시 기존 데이터는 삭제됩니다. 복구를 진행하시겠습니까?") { [weak self] _ in
+            let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
+            documentPicker.delegate = self
+            documentPicker.allowsMultipleSelection = false
+            self?.present(documentPicker, animated: true)
+        }
     }
     
     func showActivityViewController(filePath: URL) {
