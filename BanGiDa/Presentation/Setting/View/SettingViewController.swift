@@ -8,6 +8,7 @@
 import UIKit
 import MessageUI
 import AcknowList
+import StoreKit
 
 class SettingViewController: BaseViewController {
     
@@ -47,7 +48,7 @@ class SettingViewController: BaseViewController {
     }
     
     func restoreFileButtonClicked() {
-        showSelectAlert(message: "데이터 복구 시 기존 데이터는 삭제됩니다. \n복구를 진행할까요?") { [weak self] _ in
+        showSelectAlert(message: "데이터 복구 시 기존 데이터는 삭제됩니다. \n\n복구를 진행할까요?") { [weak self] _ in
             let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
             documentPicker.delegate = self
             documentPicker.allowsMultipleSelection = false
@@ -178,7 +179,18 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                 break
             }
         } else if indexPath.section == 1 {
-            if indexPath.row == 1 {
+            if indexPath.row == 0 {
+                if #available(iOS 14.0, *) {
+                  guard let scene = UIApplication
+                    .shared
+                    .connectedScenes
+                    .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
+                  else { return }
+                  SKStoreReviewController.requestReview(in: scene)
+                } else {
+                  SKStoreReviewController.requestReview()
+                }
+            } else if indexPath.row == 1 {
                 sendMail()
             }
         } else if indexPath.section == 2 {
