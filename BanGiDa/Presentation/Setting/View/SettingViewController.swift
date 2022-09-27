@@ -47,7 +47,7 @@ class SettingViewController: BaseViewController {
     }
     
     func restoreFileButtonClicked() {
-        showSelectAlert(message: "데이터 복구 시 기존 데이터는 삭제됩니다. 복구를 진행하시겠습니까?") { [weak self] _ in
+        showSelectAlert(message: "데이터 복구 시 기존 데이터는 삭제됩니다. \n복구를 진행할까요?") { [weak self] _ in
             let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
             documentPicker.delegate = self
             documentPicker.allowsMultipleSelection = false
@@ -160,7 +160,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath)
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
@@ -168,6 +167,12 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             case 1:
                 restoreFileButtonClicked()
             case 2:
+                showSelectAlert(message: "데이터 초기화 시 기존 데이터는 전부 사라집니다. \n\n데이터 초기화를 진행할까요?") { _ in
+                    self.viewModel.resetData()
+                    let walkthorughVC = WalkThroughViewController()
+                    self.tabBarController?.selectedIndex = 0
+                    self.transViewController(ViewController: walkthorughVC, type: .present)
+                }
                 break
             default:
                 break

@@ -58,6 +58,12 @@ class UserDiaryRepository {
         }
     }
     
+    func deleteAll() {
+        try! localRealm.write {
+            localRealm.deleteAll()
+        }
+    }
+    
     //MARK: - json
     let documentManager = DocumentManager()
     
@@ -94,11 +100,11 @@ class UserDiaryRepository {
         guard let path = documentManager.documentDirectoryPath() else { throw
             DocumentError.fetchJsonDataError
         }
-        print(path)
+//        print(path)
         
         let dataPath = path.appendingPathComponent("encodedData.json")
         
-        print(dataPath)
+//        print(dataPath)
         do {
             return try Data(contentsOf: dataPath)
         } catch {
@@ -124,7 +130,7 @@ class UserDiaryRepository {
 //            decoder.dateDecodingStrategy = . iso8601
             decoder.dateDecodingStrategy = .formatted(dateFormatter)
             let decodedData: [Diary] = try decoder.decode([Diary].self, from: diaryData)
-            print(decodedData)
+//            print(decodedData)
             return decodedData
         } catch {
             throw CodableError.jsonDecodeError

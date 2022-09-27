@@ -67,7 +67,9 @@ class SettingViewModel: CommonViewModel {
         }
     }
     
-    func openSouceLibrary() {
-        
+    func resetData() {
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.first.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.name.rawValue)
+        UserDiaryRepository.shared.deleteAll()
     }
 }
