@@ -64,6 +64,11 @@ class AlarmViewController: BaseViewController {
             return
         }
         
+        guard viewModel.alarmPrivacy.value else {
+            showAlert(message: "알람 사용을 위해 알람 권한을 허용해주세요.")
+            return
+        }
+        
         viewModel.saveData(content: contentText, dateText: dateText, titleText: titleText)
 
         navigationController?.popViewController(animated: true)

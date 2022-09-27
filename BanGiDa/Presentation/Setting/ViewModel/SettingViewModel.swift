@@ -57,6 +57,7 @@ class SettingViewModel: CommonViewModel {
         inputDataIntoArray()
         
         var index = 0
+        
         for item in alarmTaskList {
             if item.date > Date() {
                 sendNotification(title: item.animalName, body: item.content, date: item.date, index: index)

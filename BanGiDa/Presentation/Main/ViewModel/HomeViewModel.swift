@@ -161,6 +161,7 @@ class HomeViewModel: CommonViewModel {
             alarmVC.alarmView.titleTextField.text = alarmTaskList[indexPath.row].alarmTitle
             UserDiaryRepository.shared.primaryKey = alarmTaskList[indexPath.row].objectId
             vc.transViewController(ViewController: alarmVC, type: .push)
+            
             return
         case 2:
             writeVC.memoView.textView.text = growthTaskList[indexPath.row].content
@@ -187,7 +188,7 @@ class HomeViewModel: CommonViewModel {
         }
         
         if writeVC.memoView.imageView.image == UIImage(named: "BasicDog") || writeVC.memoView.imageView.image == nil {
-//            print("image is Empty")
+            //            print("image is Empty")
             writeVC.memoView.imageButton.setTitle("이미지 추가", for: .normal)
         } else {
             writeVC.memoView.imageButton.setTitle("이미지 편집", for: .normal)
@@ -216,14 +217,14 @@ class HomeViewModel: CommonViewModel {
             self.currentDate.value = self.dateFormatter.date(from: self.currentDateString.value) ?? Date()
             
             print("\(self.currentDate.value) ====== \(datePicker.date)" , "@@@@@")
-
+            
             self.homeView.homeTableView.calendar.setCurrentPage(self.currentDate.value, animated: true)
             self.homeView.homeTableView.calendar.select(self.currentDate.value, scrollToDate: true)
             
-//            self.calendar(self.mainView.homeTableView.calendar, didSelect: Date(timeInterval: -86400, since: self.viewModel.currentDate.value), at: .current)
-//
-//            self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
-//            self.mainView.homeTableView.calendar.select(Date(timeInterval: 86400, since: self.viewModel.currentDate.value), scrollToDate: true)
+            //            self.calendar(self.mainView.homeTableView.calendar, didSelect: Date(timeInterval: -86400, since: self.viewModel.currentDate.value), at: .current)
+            //
+            //            self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
+            //            self.mainView.homeTableView.calendar.select(Date(timeInterval: 86400, since: self.viewModel.currentDate.value), scrollToDate: true)
         }
         
         alert.addAction(ok)
@@ -235,6 +236,6 @@ class HomeViewModel: CommonViewModel {
     }
     
     @objc func selectDate(_ datePicker: UIDatePicker) {
-//        date = datePicker.date
+        //        date = datePicker.date
     }
 }

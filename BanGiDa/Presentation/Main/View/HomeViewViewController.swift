@@ -149,9 +149,13 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     func pushNavigationController(index: Int) {
         if index == 1 {
-            let vc = AlarmViewController()
-            vc.navigationItem.title = viewModel.selectButtonList[index].title
-            transViewController(ViewController: vc, type: .push)
+            if viewModel.alarmPrivacy.value {
+                let vc = AlarmViewController()
+                vc.navigationItem.title = viewModel.selectButtonList[index].title
+                transViewController(ViewController: vc, type: .push)
+            } else {
+                showAlert(message: "알람 사용을 위해 알람 권한을 허용해주세요.")
+            }
         } else {
             let vc = WriteViewController()
             vc.navigationItem.title = viewModel.selectButtonList[index].title
