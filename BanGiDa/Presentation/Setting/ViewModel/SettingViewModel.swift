@@ -66,4 +66,8 @@ class SettingViewModel: CommonViewModel {
             index += 1
         }
     }
+    
+    func openSouceLibrary() {
+        
+    }
 }

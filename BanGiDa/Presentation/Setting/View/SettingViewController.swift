@@ -7,6 +7,7 @@
 
 import UIKit
 import MessageUI
+import AcknowList
 
 class SettingViewController: BaseViewController {
     
@@ -159,6 +160,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath)
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
@@ -173,6 +175,19 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 1 {
             if indexPath.row == 1 {
                 sendMail()
+            }
+        } else if indexPath.section == 2 {
+            if indexPath.row == 0 {
+                
+                guard let url = Bundle.main.url(forResource: "Package", withExtension: "resolved"),
+                      let data = try? Data(contentsOf: url),
+                      let acknowList = try? AcknowPackageDecoder().decode(from: data) else {
+                    return
+                }
+                
+                let vc = AcknowListViewController()
+                vc.acknowledgements = acknowList.acknowledgements
+                transViewController(ViewController: vc, type: .push)
             }
         }
     }

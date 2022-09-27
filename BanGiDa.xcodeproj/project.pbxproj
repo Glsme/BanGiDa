@@ -10,6 +10,8 @@
 		85075C5A28CC90E900FAF6BA /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C5928CC90E900FAF6BA /* UIViewController+Extension.swift */; };
 		85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C5E28CC923500FAF6BA /* WriteViewController.swift */; };
 		85075C6128CC93CE00FAF6BA /* WriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C6028CC93CE00FAF6BA /* WriteViewModel.swift */; };
+		853111BF28E2D5EE007F1804 /* AcknowList in Frameworks */ = {isa = PBXBuildFile; productRef = 853111BE28E2D5EE007F1804 /* AcknowList */; };
+		853111C128E2DC86007F1804 /* Package.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 853111C028E2DC86007F1804 /* Package.resolved */; };
 		8556329428CA2D110055159E /* SelectButtonCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556329328CA2D110055159E /* SelectButtonCollectionView.swift */; };
 		8556329628CA2EB00055159E /* SelectButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556329528CA2EB00055159E /* SelectButtonCollectionViewCell.swift */; };
 		857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541D428C9BBF1004DD880 /* AppDelegate.swift */; };
@@ -70,6 +72,7 @@
 		85075C5928CC90E900FAF6BA /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		85075C5E28CC923500FAF6BA /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		85075C6028CC93CE00FAF6BA /* WriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewModel.swift; sourceTree = "<group>"; };
+		853111C028E2DC86007F1804 /* Package.resolved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Package.resolved; path = BanGiDa.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved; sourceTree = "<group>"; };
 		8556329328CA2D110055159E /* SelectButtonCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonCollectionView.swift; sourceTree = "<group>"; };
 		8556329528CA2EB00055159E /* SelectButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		857541D128C9BBF1004DD880 /* BanGiDa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BanGiDa.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8594821228DCAC69000C6AD7 /* Zip in Frameworks */,
+				853111BF28E2D5EE007F1804 /* AcknowList in Frameworks */,
 				857541FD28C9C957004DD880 /* SnapKit in Frameworks */,
 				85B3C27928E089F400B592C9 /* TOCropViewController in Frameworks */,
 				8575420028C9C985004DD880 /* FSCalendar in Frameworks */,
@@ -179,6 +183,7 @@
 		857541C828C9BBF1004DD880 = {
 			isa = PBXGroup;
 			children = (
+				853111C028E2DC86007F1804 /* Package.resolved */,
 				857541E828C9BD0E004DD880 /* Documentation.docc */,
 				857541D328C9BBF1004DD880 /* BanGiDa */,
 				857541D228C9BBF1004DD880 /* Products */,
@@ -517,6 +522,7 @@
 				8594821128DCAC69000C6AD7 /* Zip */,
 				85B3C27628E089F400B592C9 /* CropViewController */,
 				85B3C27828E089F400B592C9 /* TOCropViewController */,
+				853111BE28E2D5EE007F1804 /* AcknowList */,
 			);
 			productName = BanGiDa;
 			productReference = 857541D128C9BBF1004DD880 /* BanGiDa.app */;
@@ -553,6 +559,7 @@
 				85A8D04228D21BAA00F22A80 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				8594821028DCAC69000C6AD7 /* XCRemoteSwiftPackageReference "Zip" */,
 				85B3C27528E089F400B592C9 /* XCRemoteSwiftPackageReference "TOCropViewController" */,
+				853111BD28E2D5EE007F1804 /* XCRemoteSwiftPackageReference "AcknowList" */,
 			);
 			productRefGroup = 857541D228C9BBF1004DD880 /* Products */;
 			projectDirPath = "";
@@ -570,6 +577,7 @@
 			files = (
 				85A8D00E28CF0AA000F22A80 /* Jalnan.ttf in Resources */,
 				857541E128C9BBF2004DD880 /* LaunchScreen.storyboard in Resources */,
+				853111C128E2DC86007F1804 /* Package.resolved in Resources */,
 				857541DE28C9BBF2004DD880 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -848,6 +856,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		853111BD28E2D5EE007F1804 /* XCRemoteSwiftPackageReference "AcknowList" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vtourraine/AcknowList.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		857541FB28C9C957004DD880 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -899,6 +915,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		853111BE28E2D5EE007F1804 /* AcknowList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 853111BD28E2D5EE007F1804 /* XCRemoteSwiftPackageReference "AcknowList" */;
+			productName = AcknowList;
+		};
 		857541FC28C9C957004DD880 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 857541FB28C9C957004DD880 /* XCRemoteSwiftPackageReference "SnapKit" */;
