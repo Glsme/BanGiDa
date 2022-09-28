@@ -24,13 +24,28 @@ class AlarmViewController: BaseViewController {
         bindValue()
     }
     
-    override func configureUI() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        setNavigationStyle()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        setNavigationStyle()
+    }
+    
+    override func configureUI() {
+        alarmView.memoTextView.delegate = self
+        alarmView.dateTextField.tintColor = .clear
+    }
+    
+    func setNavigationStyle() {
         let currentColor = viewModel.selectButtonList[1].color
         
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.tintColor = .systemTintColor
-        navigationController?.navigationBar.topItem?.title = ""
         navigationItem.rightBarButtonItem = saveButton
         navigationController?.navigationBar.backgroundColor = currentColor
         view.backgroundColor = .backgroundColor
@@ -42,9 +57,6 @@ class AlarmViewController: BaseViewController {
             
             navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
         }
-        
-        alarmView.memoTextView.delegate = self
-        alarmView.dateTextField.tintColor = .clear
     }
     
     @objc func saveButtonClicked() {

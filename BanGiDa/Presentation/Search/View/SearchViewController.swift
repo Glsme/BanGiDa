@@ -25,7 +25,8 @@ class SearchViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print("searchView", #function)
+
         navigationController?.navigationBar.isHidden = true
         
         if !viewModel.isFiltering.value {
@@ -36,6 +37,24 @@ class SearchViewController: BaseViewController {
         }
         
         searchView.filterTableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        print("searchView", #function)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        print("searchView", #function)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        print("searchView", #function)
     }
     
     override func configureUI() {

@@ -22,10 +22,10 @@ class WriteViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
+//        configureEdgeGesture()
         super.viewDidLoad()
         
         print("writeView", #function)
-
         bindValue()
     }
     
@@ -36,20 +36,21 @@ class WriteViewController: BaseViewController {
 //        if memoView.imageView.image != nil {
 //            memoView.imageView.layer.borderWidth = 0
 //        }
+        setNavigationStyle()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         print("writeView", #function)
-        
-        print(#function)
+//        setNavigationStyle()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         print("writeView", #function)
+        navigationController?.navigationBar.isHidden = true
 
     }
     
@@ -61,15 +62,22 @@ class WriteViewController: BaseViewController {
     }
     
     override func configureUI() {
-        
+//        setNavigationStyle()
+
+        memoView.textView.delegate = self
+        memoView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
+        memoView.dateTextField.tintColor = .clear
+    }
+    
+    func setNavigationStyle() {
         let currentColor = viewModel.setCurrentMemoType().color
-        
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.tintColor = .systemTintColor
+        navigationItem.title = viewModel.setCurrentMemoType().title
         navigationController?.navigationBar.topItem?.title = ""
+        navigationItem.title = viewModel.setCurrentMemoType().title
         navigationItem.rightBarButtonItem = saveButton
         navigationController?.navigationBar.backgroundColor = currentColor
-
         
         if #available(iOS 15.0, *) {
             let navigationBarAppearance = UINavigationBarAppearance()
@@ -78,10 +86,20 @@ class WriteViewController: BaseViewController {
             
             navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
         }
-        
-        memoView.textView.delegate = self
-        memoView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
-        memoView.dateTextField.tintColor = .clear
+    }
+    
+    private func configureEdgeGesture() {
+        let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftSwipeGesture(_ :)))
+        edgeGesture.edges = .left
+        edgeGesture.view?.becomeFirstResponder()
+        self.view.addGestureRecognizer(edgeGesture)
+    }
+    
+    @objc func leftSwipeGesture(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+        recognizer.state = .cancelled
+        if recognizer.edges == .left, recognizer.state == .cancelled {
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     func bindValue() {

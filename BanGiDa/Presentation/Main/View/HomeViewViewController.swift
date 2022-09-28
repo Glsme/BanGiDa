@@ -30,7 +30,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         
         print("HomeView",#function)
-        
         print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
 //        setData()
         bind()
@@ -41,6 +40,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         print("HomeView",#function)
         
         navigationController?.navigationBar.isHidden = true
+        
         setData()
         mainView.homeTableView.reloadData()
         mainView.homeTableView.calendar.reloadData()
@@ -78,7 +78,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     override func configureUI() {
-        self.navigationController?.navigationBar.isHidden = true
+//        self.navigationController?.navigationBar.isHidden = true
         mainView.homeTableView.delegate = self
         mainView.homeTableView.dataSource = self
         mainView.homeTableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.reuseIdentifier)
@@ -246,7 +246,6 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(indexPath.row)
         viewModel.enterEditMemo(ViewController: self, indexPath: indexPath)
     }
     

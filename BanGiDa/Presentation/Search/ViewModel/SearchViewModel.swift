@@ -119,8 +119,9 @@ class SearchViewModel: CommonViewModel {
                 writeVC.memoView.imageButton.setTitle("이미지 편집", for: .normal)
             }
             
-            writeVC.navigationItem.title = selectButtonList[indexPath.section].title
-            writeVC.viewModel.currentIndex.value = indexPath.section
+//            print("index:: \(index)")
+//            writeVC.navigationItem.title = selectButtonList[index].title
+            writeVC.viewModel.currentIndex.value = index
             
             vc.transViewController(ViewController: writeVC, type: .push)
         }
