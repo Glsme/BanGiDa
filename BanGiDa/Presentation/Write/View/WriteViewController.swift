@@ -81,6 +81,7 @@ class WriteViewController: BaseViewController {
         
         memoView.textView.delegate = self
         memoView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
+        memoView.dateTextField.tintColor = .clear
     }
     
     func bindValue() {
@@ -110,6 +111,11 @@ class WriteViewController: BaseViewController {
         
         guard let contentText = memoView.textView.text, memoView.textView.textColor != .lightGray else {
             showAlert(message: "텍스트를 입력해주세요")
+            return
+        }
+        
+        if dateText.toDate() == nil {
+            showAlert(message: "날짜 형식을 맞춰주세요.")
             return
         }
         

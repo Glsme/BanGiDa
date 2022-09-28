@@ -19,6 +19,15 @@ class SettingViewController: BaseViewController {
     
     let repository = UserDiaryRepository.shared
     
+    var version: String? {
+        guard let dictionary = Bundle.main.infoDictionary,
+            let version = dictionary["CFBundleShortVersionString"] as? String,
+            let _ = dictionary["CFBundleVersion"] as? String else {return nil}
+
+        let versionAndBuild: String = "\(version)"
+        return versionAndBuild
+    }
+    
     override func loadView() {
         self.view = settingView
     }
@@ -153,9 +162,18 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.reuseIdentifier, for: indexPath) as? SettingTableViewCell else { return UITableViewCell() }
         
-        cell.backgroundColor = .memoBackgroundColor
-        cell.label.text = viewModel.setCellText(indexPath: indexPath)
-        cell.selectionStyle = .none
+        if indexPath.section == 2, indexPath.row == 1 {
+            cell.backgroundColor = .memoBackgroundColor
+            cell.label.text = viewModel.setCellText(indexPath: indexPath)
+            cell.selectionStyle = .none
+            cell.versionLabel.text = version
+            cell.image.isHidden = true
+        } else {
+            cell.backgroundColor = .memoBackgroundColor
+            cell.label.text = viewModel.setCellText(indexPath: indexPath)
+            cell.selectionStyle = .none
+            cell.versionLabel.isHidden = true
+        }
         
         return cell
     }

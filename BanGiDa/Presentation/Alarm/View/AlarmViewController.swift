@@ -44,10 +44,11 @@ class AlarmViewController: BaseViewController {
         }
         
         alarmView.memoTextView.delegate = self
+        alarmView.dateTextField.tintColor = .clear
     }
     
     @objc func saveButtonClicked() {
-        print(#function, alarmView.titleTextField.text)
+//        print(#function, alarmView.titleTextField.text)
         
         guard let dateText = alarmView.dateTextField.text else {
             showAlert(message: "날짜를 선택해주세요.")
@@ -61,6 +62,11 @@ class AlarmViewController: BaseViewController {
         
         guard let contentText = alarmView.memoTextView.text, alarmView.memoTextView.textColor != .lightGray else {
             showAlert(message: "메모를 입력해주세요")
+            return
+        }
+        
+        if dateText.toDateAlarm() == nil {
+            showAlert(message: "날짜 형식을 맞춰주세요.")
             return
         }
         

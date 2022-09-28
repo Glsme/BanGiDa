@@ -12,6 +12,8 @@
 		85075C6128CC93CE00FAF6BA /* WriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C6028CC93CE00FAF6BA /* WriteViewModel.swift */; };
 		853111BF28E2D5EE007F1804 /* AcknowList in Frameworks */ = {isa = PBXBuildFile; productRef = 853111BE28E2D5EE007F1804 /* AcknowList */; };
 		853111C128E2DC86007F1804 /* Package.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 853111C028E2DC86007F1804 /* Package.resolved */; };
+		853111C428E3F802007F1804 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 853111C328E3F802007F1804 /* Realm */; };
+		853111C628E3F802007F1804 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 853111C528E3F802007F1804 /* RealmSwift */; };
 		8556329428CA2D110055159E /* SelectButtonCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556329328CA2D110055159E /* SelectButtonCollectionView.swift */; };
 		8556329628CA2EB00055159E /* SelectButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556329528CA2EB00055159E /* SelectButtonCollectionViewCell.swift */; };
 		857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541D428C9BBF1004DD880 /* AppDelegate.swift */; };
@@ -55,8 +57,6 @@
 		85A8D03828D1A45F00F22A80 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85A8D03728D1A45F00F22A80 /* IQKeyboardManagerSwift */; };
 		85A8D03F28D216A000F22A80 /* UserDiaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D03E28D216A000F22A80 /* UserDiaryRepository.swift */; };
 		85A8D04128D216B300F22A80 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D04028D216B300F22A80 /* RealmModel.swift */; };
-		85A8D04428D21BAA00F22A80 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 85A8D04328D21BAA00F22A80 /* Realm */; };
-		85A8D04628D21BAA00F22A80 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85A8D04528D21BAA00F22A80 /* RealmSwift */; };
 		85A93CD828D30232006C06D6 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CD728D30232006C06D6 /* CommonViewModel.swift */; };
 		85A93CDA28D31A90006C06D6 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CD928D31A90006C06D6 /* String+Extension.swift */; };
 		85A93CDF28D49623006C06D6 /* MemoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */; };
@@ -131,11 +131,11 @@
 				8594821228DCAC69000C6AD7 /* Zip in Frameworks */,
 				853111BF28E2D5EE007F1804 /* AcknowList in Frameworks */,
 				857541FD28C9C957004DD880 /* SnapKit in Frameworks */,
+				853111C628E3F802007F1804 /* RealmSwift in Frameworks */,
 				85B3C27928E089F400B592C9 /* TOCropViewController in Frameworks */,
 				8575420028C9C985004DD880 /* FSCalendar in Frameworks */,
-				85A8D04428D21BAA00F22A80 /* Realm in Frameworks */,
-				85A8D04628D21BAA00F22A80 /* RealmSwift in Frameworks */,
 				85A8D03828D1A45F00F22A80 /* IQKeyboardManagerSwift in Frameworks */,
+				853111C428E3F802007F1804 /* Realm in Frameworks */,
 				85B3C27728E089F400B592C9 /* CropViewController in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -413,6 +413,7 @@
 			isa = PBXGroup;
 			children = (
 				85A8D02928D0BE8000F22A80 /* SettingView.swift */,
+				85A8D02728D0BE6D00F22A80 /* SettingViewModel.swift */,
 				85A8D02B28D0C08900F22A80 /* SettingTableViewCell.swift */,
 				857541F928C9C0B1004DD880 /* SettingViewController.swift */,
 			);
@@ -422,7 +423,6 @@
 		85A8D02628D0BE6200F22A80 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				85A8D02728D0BE6D00F22A80 /* SettingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -517,12 +517,12 @@
 				857541FC28C9C957004DD880 /* SnapKit */,
 				857541FF28C9C985004DD880 /* FSCalendar */,
 				85A8D03728D1A45F00F22A80 /* IQKeyboardManagerSwift */,
-				85A8D04328D21BAA00F22A80 /* Realm */,
-				85A8D04528D21BAA00F22A80 /* RealmSwift */,
 				8594821128DCAC69000C6AD7 /* Zip */,
 				85B3C27628E089F400B592C9 /* CropViewController */,
 				85B3C27828E089F400B592C9 /* TOCropViewController */,
 				853111BE28E2D5EE007F1804 /* AcknowList */,
+				853111C328E3F802007F1804 /* Realm */,
+				853111C528E3F802007F1804 /* RealmSwift */,
 			);
 			productName = BanGiDa;
 			productReference = 857541D128C9BBF1004DD880 /* BanGiDa.app */;
@@ -556,10 +556,10 @@
 				857541FB28C9C957004DD880 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				857541FE28C9C985004DD880 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				85A8D03628D1A45F00F22A80 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
-				85A8D04228D21BAA00F22A80 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				8594821028DCAC69000C6AD7 /* XCRemoteSwiftPackageReference "Zip" */,
 				85B3C27528E089F400B592C9 /* XCRemoteSwiftPackageReference "TOCropViewController" */,
 				853111BD28E2D5EE007F1804 /* XCRemoteSwiftPackageReference "AcknowList" */,
+				853111C228E3F802007F1804 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 857541D228C9BBF1004DD880 /* Products */;
 			projectDirPath = "";
@@ -864,6 +864,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		853111C228E3F802007F1804 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.30.0;
+			};
+		};
 		857541FB28C9C957004DD880 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -896,14 +904,6 @@
 				minimumVersion = 6.5.0;
 			};
 		};
-		85A8D04228D21BAA00F22A80 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.0.0;
-			};
-		};
 		85B3C27528E089F400B592C9 /* XCRemoteSwiftPackageReference "TOCropViewController" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TimOliver/TOCropViewController.git";
@@ -919,6 +919,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 853111BD28E2D5EE007F1804 /* XCRemoteSwiftPackageReference "AcknowList" */;
 			productName = AcknowList;
+		};
+		853111C328E3F802007F1804 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 853111C228E3F802007F1804 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		853111C528E3F802007F1804 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 853111C228E3F802007F1804 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 		857541FC28C9C957004DD880 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -939,16 +949,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 85A8D03628D1A45F00F22A80 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
-		};
-		85A8D04328D21BAA00F22A80 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 85A8D04228D21BAA00F22A80 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		85A8D04528D21BAA00F22A80 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 85A8D04228D21BAA00F22A80 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
 		};
 		85B3C27628E089F400B592C9 /* CropViewController */ = {
 			isa = XCSwiftPackageProductDependency;

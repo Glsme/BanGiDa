@@ -23,6 +23,13 @@ class SettingTableViewCell: BaseTableViewCell {
         return view
     }()
     
+    let versionLabel: UILabel = {
+        let view = UILabel()
+        view.text = ""
+        view.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
@@ -34,6 +41,7 @@ class SettingTableViewCell: BaseTableViewCell {
     override func configureUI() {
         self.addSubview(label)
         self.addSubview(image)
+        self.addSubview(versionLabel)
     }
     
     override func setConstraints() {
@@ -45,6 +53,11 @@ class SettingTableViewCell: BaseTableViewCell {
         image.snp.makeConstraints { make in
             make.centerY.equalTo(self.snp.centerY)
             make.trailing.equalTo(self.snp.trailing).offset(-20)
+        }
+        
+        versionLabel.snp.makeConstraints { make in
+            make.trailing.equalTo(self.snp.trailing).offset(-20)
+            make.centerY.equalTo(self.snp.centerY)
         }
     }
 }
