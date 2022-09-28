@@ -71,5 +71,6 @@ class SettingViewModel: CommonViewModel {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.first.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.name.rawValue)
         UserDiaryRepository.shared.deleteAll()
+        removeAllNotification()
     }
 }
