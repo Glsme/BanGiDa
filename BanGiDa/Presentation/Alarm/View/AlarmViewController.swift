@@ -47,20 +47,20 @@ class AlarmViewController: BaseViewController {
     }
     
     @objc func saveButtonClicked() {
-        print(#function)
+        print(#function, alarmView.titleTextField.text)
         
         guard let dateText = alarmView.dateTextField.text else {
             showAlert(message: "날짜를 선택해주세요.")
             return
         }
         
-        guard let contentText = alarmView.memoTextView.text, alarmView.memoTextView.textColor != .lightGray else {
-            showAlert(message: "메모를 입력해주세요")
+        guard let titleText = alarmView.titleTextField.text, !alarmView.titleTextField.text!.isEmpty else {
+            showAlert(message: "제목을 입력해주세요.")
             return
         }
         
-        guard let titleText = alarmView.titleTextField.text else {
-            showAlert(message: "제목을 입력해주세요.")
+        guard let contentText = alarmView.memoTextView.text, alarmView.memoTextView.textColor != .lightGray else {
+            showAlert(message: "메모를 입력해주세요")
             return
         }
         

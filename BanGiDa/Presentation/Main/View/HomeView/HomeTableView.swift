@@ -58,6 +58,8 @@ class HomeTableView: UITableView {
         tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.42
         backgroundColor = .backgroundColor
         separatorColor = .systemTintColor
+        separatorStyle = .singleLine
+        separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     func setConstraints() {

@@ -29,6 +29,8 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("HomeView",#function)
+        
         print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
 //        setData()
         bind()
@@ -36,6 +38,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("HomeView",#function)
         
         navigationController?.navigationBar.isHidden = true
         setData()
@@ -46,8 +49,24 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        print("HomeView",#function)
+
         checkWalkThrough()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        print("HomeView",#function)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        print("HomeView",#function)
+    }
+    
+    
     
     func checkWalkThrough() {
         if UserDefaults.standard.bool(forKey: "first") {

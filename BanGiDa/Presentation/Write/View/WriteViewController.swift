@@ -24,12 +24,15 @@ class WriteViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("writeView", #function)
+
         bindValue()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        print("writeView", #function)
 //        if memoView.imageView.image != nil {
 //            memoView.imageView.layer.borderWidth = 0
 //        }
@@ -38,7 +41,23 @@ class WriteViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        print("writeView", #function)
+        
         print(#function)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        print("writeView", #function)
+
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        print("writeView", #function)
+
     }
     
     override func configureUI() {

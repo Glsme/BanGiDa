@@ -180,16 +180,17 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             }
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
-                if #available(iOS 14.0, *) {
-                  guard let scene = UIApplication
-                    .shared
-                    .connectedScenes
-                    .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
-                  else { return }
-                  SKStoreReviewController.requestReview(in: scene)
-                } else {
-                  SKStoreReviewController.requestReview()
-                }
+                moveToReview()
+//                if #available(iOS 14.0, *) {
+//                  guard let scene = UIApplication
+//                    .shared
+//                    .connectedScenes
+//                    .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
+//                  else { return }
+//                  SKStoreReviewController.requestReview(in: scene)
+//                } else {
+//                  SKStoreReviewController.requestReview()
+//                }
             } else if indexPath.row == 1 {
                 sendMail()
             }
@@ -208,6 +209,12 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
+    
+    private func moveToReview() {
+            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(6443524869)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
+                UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
+            }
+        }
 }
 
 extension SettingViewController : MFMailComposeViewControllerDelegate {
