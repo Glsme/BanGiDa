@@ -45,6 +45,7 @@ class SettingViewController: BaseViewController {
     }
     
     func backupFileButtonClicked() {
+        print("gdgdddgdg")
         do {
             try repository.saveEncodedDataToDocument()
             let backupFilePath = try self.repository.documentManager.createBackupFile()
@@ -179,6 +180,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath)
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:

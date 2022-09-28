@@ -103,6 +103,8 @@ struct DocumentManager {
         let encodedFilePath = documentPath?.appendingPathComponent("encodedData.json")
         let imagesDirectoryPath = imageDirectoryPath()
         
+        createImagesDirectoryPath()
+        
         guard let realmFilePath = encodedFilePath, let imagesDirectoryPath = imagesDirectoryPath else {
             throw DocumentError.fetchDirectoryPathError
         }
