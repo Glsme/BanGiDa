@@ -36,6 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         window?.rootViewController = tabBarController
+        print("!!!!!!!!!!", window?.rootViewController)
         window?.makeKeyAndVisible()
     }
 

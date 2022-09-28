@@ -21,11 +21,13 @@ class SearchViewController: BaseViewController {
         
         bind()
         viewModel.inputDataIntoArray()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("searchView", #function)
+        print("@@@@@@@@@@@@@@", self.view.window?.rootViewController)
 
         navigationController?.navigationBar.isHidden = true
         

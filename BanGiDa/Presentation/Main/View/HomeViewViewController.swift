@@ -33,12 +33,18 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
 //        setData()
         bind()
+        
+//        let navi = UINavigationController(rootViewController: self)
+//        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+//        guard let delegate = sceneDelegate else { return }
+//        
+//        delegate.window?.rootViewController = navi
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("HomeView",#function)
-        
+
         navigationController?.navigationBar.isHidden = true
         
         setData()
