@@ -21,6 +21,10 @@ class WriteViewController: BaseViewController {
         
     }
     
+    deinit {
+        print("Write View deinit")
+    }
+    
     override func viewDidLoad() {
 //        configureEdgeGesture()
         super.viewDidLoad()
@@ -67,6 +71,7 @@ class WriteViewController: BaseViewController {
         memoView.textView.delegate = self
         memoView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
         memoView.dateTextField.tintColor = .clear
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     func setNavigationStyle() {
@@ -103,7 +108,8 @@ class WriteViewController: BaseViewController {
     }
     
     func bindValue() {
-        viewModel.diaryContent.bind { text in
+        viewModel.diaryContent.bind { [weak self] text in
+            guard let self = self else { return }
             if !self.memoView.textView.text.isEmpty {
                 self.memoView.textView.textColor = .systemTintColor
             } else {
@@ -112,7 +118,8 @@ class WriteViewController: BaseViewController {
             }
         }
         
-        viewModel.dateText.bind { text in
+        viewModel.dateText.bind { [weak self] text in
+            guard let self = self else { return }
             if self.memoView.dateTextField.text!.isEmpty {
                 self.memoView.dateTextField.text = self.viewModel.dateFormatter.string(from: Date())
             }
@@ -191,5 +198,12 @@ extension WriteViewController: CropViewControllerDelegate {
         memoView.imageView.image = image
         memoView.imageButton.setTitle("이미지 편집", for: .normal)
         dismiss(animated: true)
+    }
+}
+
+extension WriteViewController: ObservableObject, UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        print("?????")
+        return true
     }
 }
