@@ -48,8 +48,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         navigationController?.navigationBar.isHidden = true
         
         setData()
-        mainView.homeTableView.reloadData()
-        mainView.homeTableView.calendar.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,20 +57,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
 
         checkWalkThrough()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        print("HomeView",#function)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        print("HomeView",#function)
-    }
-    
-    
     
     func checkWalkThrough() {
         if UserDefaults.standard.bool(forKey: "first") {
@@ -116,12 +100,16 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         
         todayButtonClicked()
         
-        mainView.homeTableView.calendar.reloadData()
-        mainView.homeTableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.mainView.homeTableView.calendar.reloadData()
+            self.mainView.homeTableView.reloadData()
+        }
     }
     
     func bind() {
-        viewModel.currentDate.bind { date in
+        viewModel.currentDate.bind { [weak self] date in
+            guard let self = self else { return }
             self.viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: date)
             self.viewModel.inputDataIntoArrayToDate(date: date)
             self.mainView.homeTableView.reloadData()

@@ -43,28 +43,6 @@ class WriteViewController: BaseViewController {
         setNavigationStyle()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        print("writeView", #function)
-//        setNavigationStyle()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        print("writeView", #function)
-        navigationController?.navigationBar.isHidden = true
-
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        print("writeView", #function)
-
-    }
-    
     override func configureUI() {
 //        setNavigationStyle()
 

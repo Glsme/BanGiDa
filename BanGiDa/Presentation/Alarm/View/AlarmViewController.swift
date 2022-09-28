@@ -36,6 +36,10 @@ class AlarmViewController: BaseViewController {
         setNavigationStyle()
     }
     
+    deinit {
+        print("alarm view deinit")
+    }
+    
     override func configureUI() {
         alarmView.memoTextView.delegate = self
         alarmView.dateTextField.tintColor = .clear
@@ -93,7 +97,8 @@ class AlarmViewController: BaseViewController {
     }
 
     func bindValue() {
-        viewModel.diaryContent.bind { text in
+        viewModel.diaryContent.bind { [weak self] text in
+            guard let self = self else { return }
             if !self.alarmView.memoTextView.text.isEmpty {
                 self.alarmView.memoTextView.textColor = .systemTintColor
             } else {
@@ -102,7 +107,8 @@ class AlarmViewController: BaseViewController {
             }
         }
         
-        viewModel.dateText.bind { text in
+        viewModel.dateText.bind { [weak self] text in
+            guard let self = self else { return }
             if self.alarmView.dateTextField.text!.isEmpty {
                 self.alarmView.dateTextField.text = self.viewModel.dateFormatter.string(from: Date())
             }
