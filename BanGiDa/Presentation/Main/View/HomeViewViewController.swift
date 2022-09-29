@@ -31,20 +31,13 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         
         print("HomeView",#function)
         print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
-//        setData()
         bind()
-        
-//        let navi = UINavigationController(rootViewController: self)
-//        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-//        guard let delegate = sceneDelegate else { return }
-//        
-//        delegate.window?.rootViewController = navi
+        todayButtonClicked()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("HomeView",#function)
-
+        
         navigationController?.navigationBar.isHidden = true
         
         setData()
@@ -53,8 +46,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        print("HomeView",#function)
-
         checkWalkThrough()
     }
     
@@ -68,7 +59,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     override func configureUI() {
-//        self.navigationController?.navigationBar.isHidden = true
+        //        self.navigationController?.navigationBar.isHidden = true
         mainView.homeTableView.delegate = self
         mainView.homeTableView.dataSource = self
         mainView.homeTableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.reuseIdentifier)
@@ -86,7 +77,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         
         view.addGestureRecognizer(self.scopeGesture)
         mainView.homeTableView.panGestureRecognizer.require(toFail: scopeGesture)
-//        mainView.homeTableView.calendar.scope = .month
+        //        mainView.homeTableView.calendar.scope = .month
         
         mainView.homeTableView.calendar.accessibilityIdentifier = "calendar"
     }
@@ -96,9 +87,9 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
-//        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count, "!!!!!!!!!!!")
+        //        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count, "!!!!!!!!!!!")
         
-        todayButtonClicked()
+        
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -133,6 +124,20 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         datePicker.locale = Locale(identifier: "ko_KR")
         datePicker.addTarget(self, action: #selector(selectDate(_ :)), for: .touchUpInside)
         
+        let calendar = Calendar(identifier: .gregorian)
+        let currentDate = Date()
+        var components = DateComponents()
+        components.calendar = calendar
+        
+        components.year = 60
+        let maxDate = calendar.date(byAdding: components, to: currentDate)!
+        
+        components.year = -50
+        let minDate = calendar.date(byAdding: components, to: currentDate)!
+        
+        datePicker.minimumDate = minDate
+        datePicker.maximumDate = maxDate
+        
         let ok = UIAlertAction(title: "선택 완료", style: .cancel) { action in
             
             self.viewModel.currentDateString.value = self.dateFormatter.string(from: datePicker.date)
@@ -141,7 +146,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
             print("\(self.viewModel.currentDate.value) ====== \(datePicker.date)" , "@@@@@")
             
             self.calendar(self.mainView.homeTableView.calendar, didSelect: self.viewModel.currentDate.value, at: .current)
-
+            
             self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
             self.mainView.homeTableView.calendar.select(self.viewModel.currentDate.value, scrollToDate: true)
         }
@@ -157,7 +162,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func selectDate(_ datePicker: UIDatePicker) {
-//        date = datePicker.date
+        //        date = datePicker.date
     }
     
     func pushNavigationController(index: Int) {
@@ -222,8 +227,8 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
             
             alarmCell.dateLabel.text = dateText
             alarmCell.contentLabel.text = alarmTitle
-//                alarmCell.memoImageView.backgroundColor = .memoBackgroundColor
-//                alarmCell.memoImageView.image = nil
+            //                alarmCell.memoImageView.backgroundColor = .memoBackgroundColor
+            //                alarmCell.memoImageView.image = nil
             alarmCell.backgroundColor = .memoBackgroundColor
             
             return alarmCell
@@ -234,7 +239,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
             memoCell.contentLabel.text = contentText
             memoCell.memoImageView.image = image
             memoCell.backgroundColor = .memoBackgroundColor
-
+            
             return memoCell
         }
     }
@@ -281,6 +286,13 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
+    func minimumDate(for calendar: FSCalendar) -> Date {
+        return dateFormatterForCalendar.date(from: "1970.01.01")!
+    }
+    
+    func maximumDate(for calendar: FSCalendar) -> Date {
+        return dateFormatterForCalendar.date(from: "2099.12.31")!
+    }
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         let shouldBegin = mainView.homeTableView.contentOffset.y <= -mainView.homeTableView.contentInset.top
@@ -310,21 +322,21 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
         calendar.snp.updateConstraints { make in
             make.height.equalTo(bounds.height)
         }
-
+        
         self.view.layoutIfNeeded()
         mainView.homeTableView.reloadData()
     }
-        
+    
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-//        print("날짜가 선택되었습니다.")
+        //        print("날짜가 선택되었습니다.")
         
         viewModel.currentDate.value = date
-//        let dateTest = Date()
-//        print("Date: \(date) :: \(dateTest)")
+        //        let dateTest = Date()
+        //        print("Date: \(date) :: \(dateTest)")
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
-//        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count)
+        //        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count)
         
         mainView.homeTableView.reloadData()
     }

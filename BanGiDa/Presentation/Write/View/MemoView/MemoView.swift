@@ -152,6 +152,21 @@ class MemoView: BaseView {
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.locale = Locale(identifier: "ko_KR")
         datePicker.addTarget(self, action: #selector(datePickerValueDidChange(_:)), for: .valueChanged)
+        
+        let calendar = Calendar(identifier: .gregorian)
+        let currentDate = Date()
+        var components = DateComponents()
+        components.calendar = calendar
+        
+        components.year = 60
+        let maxDate = calendar.date(byAdding: components, to: currentDate)!
+        
+        components.year = -50
+        let minDate = calendar.date(byAdding: components, to: currentDate)!
+        
+        datePicker.minimumDate = minDate
+        datePicker.maximumDate = maxDate
+        
         dateTextField.text = formatter.string(from: Date())
         return datePicker
     }

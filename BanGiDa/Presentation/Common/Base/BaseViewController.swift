@@ -38,6 +38,14 @@ class BaseViewController: UIViewController {
         return formatter
     }()
     
+    let dateFormatterForCalendar: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.timeZone = TimeZone(identifier: "UTC+9")
+        formatter.dateFormat = "yyyy.MM.dd"
+        return formatter
+    }()
+    
     func showSelectAlert(message: String, handler: @escaping (UIAlertAction) -> Void) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: handler)
