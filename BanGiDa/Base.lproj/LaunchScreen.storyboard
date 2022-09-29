@@ -16,8 +16,21 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ColorDog" translatesAutoresizingMaskIntoConstraints="NO" id="fJR-uI-9F7">
+                                <rect key="frame" x="78" y="305" width="234" height="234"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="fJR-uI-9F7" secondAttribute="height" id="dBv-Zd-zfj"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="BackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fJR-uI-9F7" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.6" id="JKf-i4-NF5"/>
+                            <constraint firstItem="fJR-uI-9F7" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="OTr-Bj-i2q"/>
+                            <constraint firstItem="fJR-uI-9F7" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="mIq-ac-rqa"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -26,6 +39,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ColorDog" width="4267" height="4267"/>
         <namedColor name="BackgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

@@ -33,7 +33,7 @@ class AlarmViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        setNavigationStyle()
+//        setNavigationStyle()
     }
     
     deinit {

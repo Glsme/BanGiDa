@@ -40,6 +40,7 @@ class CalendarView: FSCalendar {
         appearance.todayColor = .greenblue
         headerHeight = 66
         
+        
         calendarWeekdayView.weekdayLabels[0].text = "Sun"
         calendarWeekdayView.weekdayLabels[1].text = "Mon"
         calendarWeekdayView.weekdayLabels[2].text = "Tue"
