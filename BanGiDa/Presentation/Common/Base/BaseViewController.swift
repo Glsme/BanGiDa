@@ -32,7 +32,7 @@ class BaseViewController: UIViewController {
     
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
+//        formatter.locale = Locale(identifier: "ko_KR")
         formatter.timeZone = TimeZone(identifier: "UTC+9")
         formatter.dateFormat = "yyyy.MM.dd EE"
         return formatter
@@ -40,7 +40,7 @@ class BaseViewController: UIViewController {
     
     let dateFormatterForCalendar: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
+//        formatter.locale = Locale(identifier: "ko_KR")
         formatter.timeZone = TimeZone(identifier: "UTC+9")
         formatter.dateFormat = "yyyy.MM.dd"
         return formatter

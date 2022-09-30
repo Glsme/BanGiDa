@@ -178,6 +178,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
             let vc = WriteViewController()
             vc.navigationItem.title = viewModel.selectButtonList[index].title
             vc.viewModel.currentIndex.value = index
+            vc.memoView.dateTextField.text = dateFormatter.string(from: viewModel.currentDate.value)
             transViewController(ViewController: vc, type: .push)
         }
     }
