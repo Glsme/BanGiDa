@@ -31,6 +31,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         
         print("HomeView",#function)
         print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
+        viewModel.currentDate.value = mainView.homeTableView.calendar.today ?? Date()
         bind()
         todayButtonClicked()
     }
@@ -83,7 +84,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     override func setData() {
-        viewModel.currentDate.value = mainView.homeTableView.calendar.today ?? Date()
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
@@ -138,7 +138,8 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         datePicker.minimumDate = minDate
         datePicker.maximumDate = maxDate
         
-        let ok = UIAlertAction(title: "선택 완료", style: .cancel) { action in
+        let ok = UIAlertAction(title: "선택 완료", style: .cancel) { [weak self] action in
+            guard let self = self else { return }
             
             self.viewModel.currentDateString.value = self.dateFormatter.string(from: datePicker.date)
             self.viewModel.currentDate.value = self.dateFormatter.date(from: self.viewModel.currentDateString.value) ?? Date()
@@ -250,7 +251,9 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
+        let delete = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completionHandler in
+            guard let self = self else { return }
+            
             var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)
             
             switch indexPath.section {
