@@ -23,6 +23,7 @@ class AlarmListTableViewCell: BaseTableViewCell {
         view.textAlignment = .left
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
         view.textColor = .systemTintColor
+        view.numberOfLines = 1
         return view
     }()
     
@@ -52,7 +53,7 @@ class AlarmListTableViewCell: BaseTableViewCell {
         contentLabel.snp.makeConstraints { make in
             make.leading.trailing.equalTo(dateLabel)
             make.top.equalTo(dateLabel.snp.bottom)
-            make.bottom.greaterThanOrEqualTo(self.snp.bottom).offset(-15)
+            make.bottom.lessThanOrEqualTo(self.snp.bottom).offset(-15)
         }
     }
 }
