@@ -59,6 +59,7 @@ class CommonViewModel {
     }
     
     func inputDataIntoArray() {
+        print(#function)
         memoTaskList = UserDiaryRepository.shared.filter(index: 0)
         alarmTaskList = UserDiaryRepository.shared.filter(index: 1)
         growthTaskList = UserDiaryRepository.shared.filter(index: 2)
@@ -79,7 +80,6 @@ class CommonViewModel {
     func fetchData() {
         print(#function)
         inputDataIntoArrayToDate(date: currentDate.value)
-//        homeView.homeTableView.reloadData()
     }
     
 //    func fetchDate(date: Date) {

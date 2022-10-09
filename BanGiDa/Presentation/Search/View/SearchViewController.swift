@@ -82,7 +82,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.item)
+//        print(indexPath.item)
         viewModel.isFiltering.value = true
         viewModel.currentIndex.value = indexPath.item
     }
@@ -168,7 +168,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             UserDiaryRepository.shared.delete(task)
-            self.viewModel.fetchData()
+            self.viewModel.inputDataIntoArray()
             self.searchView.filterTableView.reloadData()
         }
         
