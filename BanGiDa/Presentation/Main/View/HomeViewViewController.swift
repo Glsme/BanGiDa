@@ -88,12 +88,10 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
         //        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count, "!!!!!!!!!!!")
-        
-        
-        
+        self.mainView.homeTableView.calendar.reloadData()
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.mainView.homeTableView.calendar.reloadData()
+//            self.mainView.homeTableView.calendar.reloadData()
             self.mainView.homeTableView.reloadData()
         }
     }

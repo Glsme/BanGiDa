@@ -82,7 +82,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.item)
+//        print(indexPath.item)
         viewModel.isFiltering.value = true
         viewModel.currentIndex.value = indexPath.item
     }
@@ -149,27 +149,29 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let delete = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
             var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)
             
-            switch indexPath.section {
-            case 0:
-                task = self.viewModel.memoTaskList[indexPath.row]
-            case 1:
-                self.viewModel.removeNotification(title: self.viewModel.alarmTaskList[indexPath.row].alarmTitle ?? "", body: self.viewModel.alarmTaskList[indexPath.row].content, date: self.viewModel.alarmTaskList[indexPath.row].date, index: indexPath.row)
-                task = self.viewModel.alarmTaskList[indexPath.row]
-            case 2:
-                task = self.viewModel.growthTaskList[indexPath.row]
-            case 3:
-                task = self.viewModel.showerTaskList[indexPath.row]
-            case 4:
-                task = self.viewModel.hospitalTaskList[indexPath.row]
-            case 5:
-                task = self.viewModel.abnormalTaskList[indexPath.row]
-            default:
-                break
-            }
-            
-            UserDiaryRepository.shared.delete(task)
-            self.viewModel.fetchData()
-            self.searchView.filterTableView.reloadData()
+            if let index = self.viewModel.currentIndex.value {
+                switch index {
+                case 0:
+                    task = self.viewModel.memoTaskList[indexPath.row]
+                case 1:
+                    self.viewModel.removeNotification(title: self.viewModel.alarmTaskList[indexPath.row].alarmTitle ?? "", body: self.viewModel.alarmTaskList[indexPath.row].content, date: self.viewModel.alarmTaskList[indexPath.row].date, index: indexPath.row)
+                    task = self.viewModel.alarmTaskList[indexPath.row]
+                case 2:
+                    task = self.viewModel.growthTaskList[indexPath.row]
+                case 3:
+                    task = self.viewModel.showerTaskList[indexPath.row]
+                case 4:
+                    task = self.viewModel.hospitalTaskList[indexPath.row]
+                case 5:
+                    task = self.viewModel.abnormalTaskList[indexPath.row]
+                default:
+                    break
+                }
+                
+                UserDiaryRepository.shared.delete(task)
+                self.viewModel.inputDataIntoArray()
+                self.searchView.filterTableView.reloadData()
+            }            
         }
         
         let image = UIImage(systemName: "trash.fill")

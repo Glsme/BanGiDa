@@ -33,6 +33,7 @@ class UserDiaryRepository {
     func delete(_ task: Diary) {
         try! localRealm.write {
             localRealm.delete(task)
+            print("delete success!")
         }
     }
     
