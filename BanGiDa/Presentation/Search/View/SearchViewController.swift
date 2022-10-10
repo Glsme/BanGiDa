@@ -26,7 +26,7 @@ class SearchViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("searchView", #function)
+//        print("searchView", #function)
 
         navigationController?.navigationBar.isHidden = true
         
@@ -52,7 +52,8 @@ class SearchViewController: BaseViewController {
     }
     
     func bind() {
-        viewModel.currentIndex.bind { index in
+        viewModel.currentIndex.bind { [weak self] index in
+            guard let self = self else { return }
             self.searchView.filterTableView.reloadData()
         }
     }
@@ -146,7 +147,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
+        let delete = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completionHandler in
+            guard let self = self else { return }
+            
             var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)
             
             if let index = self.viewModel.currentIndex.value {
