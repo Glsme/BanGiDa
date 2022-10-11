@@ -21,31 +21,19 @@ class WriteViewController: BaseViewController {
         
     }
     
-    deinit {
-        print("Write View deinit")
-    }
-    
     override func viewDidLoad() {
-//        configureEdgeGesture()
         super.viewDidLoad()
         
-        print("writeView", #function)
         bindValue()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print("writeView", #function)
-//        if memoView.imageView.image != nil {
-//            memoView.imageView.layer.borderWidth = 0
-//        }
         setNavigationStyle()
     }
     
     override func configureUI() {
-//        setNavigationStyle()
-
         memoView.textView.delegate = self
         memoView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
         memoView.dateTextField.tintColor = .clear

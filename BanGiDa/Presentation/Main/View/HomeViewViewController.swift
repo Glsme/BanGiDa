@@ -7,6 +7,7 @@
 
 import UIKit
 import FSCalendar
+import FirebaseAnalytics
 
 class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     
@@ -29,8 +30,9 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("HomeView",#function)
-        print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
+//        print("HomeView",#function)
+//        print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
+//        sendFireBaseAnalytics()
         viewModel.currentDate.value = mainView.homeTableView.calendar.today ?? Date()
         bind()
         todayButtonClicked()
@@ -48,6 +50,15 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         super.viewDidAppear(animated)
         
         checkWalkThrough()
+    }
+    
+    func sendFireBaseAnalytics() {
+        Analytics.logEvent("homeView Open", parameters: nil)
+        
+//        Analytics.setDefaultEventParameters([
+//          "level_name": "Caverns01",
+//          "level_difficulty": 4
+//        ])
     }
     
     func checkWalkThrough() {
@@ -88,10 +99,9 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
         //        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count, "!!!!!!!!!!!")
-        self.mainView.homeTableView.calendar.reloadData()
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-//            self.mainView.homeTableView.calendar.reloadData()
+            self.mainView.homeTableView.calendar.reloadData()
             self.mainView.homeTableView.reloadData()
         }
     }

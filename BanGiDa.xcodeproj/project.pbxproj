@@ -14,6 +14,10 @@
 		853111C128E2DC86007F1804 /* Package.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 853111C028E2DC86007F1804 /* Package.resolved */; };
 		853111C428E3F802007F1804 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 853111C328E3F802007F1804 /* Realm */; };
 		853111C628E3F802007F1804 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 853111C528E3F802007F1804 /* RealmSwift */; };
+		854A00E328F54CA100575556 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 854A00E228F54CA100575556 /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		854A00E528F54CA100575556 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 854A00E428F54CA100575556 /* FirebaseCrashlytics */; };
+		854A00E728F54CA100575556 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 854A00E628F54CA100575556 /* FirebaseMessaging */; };
+		854A00E928F5514200575556 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 854A00E828F5514200575556 /* GoogleService-Info.plist */; };
 		8556329428CA2D110055159E /* SelectButtonCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556329328CA2D110055159E /* SelectButtonCollectionView.swift */; };
 		8556329628CA2EB00055159E /* SelectButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556329528CA2EB00055159E /* SelectButtonCollectionViewCell.swift */; };
 		857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857541D428C9BBF1004DD880 /* AppDelegate.swift */; };
@@ -73,6 +77,8 @@
 		85075C5E28CC923500FAF6BA /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		85075C6028CC93CE00FAF6BA /* WriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewModel.swift; sourceTree = "<group>"; };
 		853111C028E2DC86007F1804 /* Package.resolved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Package.resolved; path = BanGiDa.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved; sourceTree = "<group>"; };
+		854A00E828F5514200575556 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		854A00EA28F5539E00575556 /* BanGiDa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BanGiDa.entitlements; sourceTree = "<group>"; };
 		8556329328CA2D110055159E /* SelectButtonCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonCollectionView.swift; sourceTree = "<group>"; };
 		8556329528CA2EB00055159E /* SelectButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		857541D128C9BBF1004DD880 /* BanGiDa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BanGiDa.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,10 +134,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				854A00E728F54CA100575556 /* FirebaseMessaging in Frameworks */,
 				8594821228DCAC69000C6AD7 /* Zip in Frameworks */,
+				854A00E328F54CA100575556 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				853111BF28E2D5EE007F1804 /* AcknowList in Frameworks */,
 				857541FD28C9C957004DD880 /* SnapKit in Frameworks */,
 				853111C628E3F802007F1804 /* RealmSwift in Frameworks */,
+				854A00E528F54CA100575556 /* FirebaseCrashlytics in Frameworks */,
 				85B3C27928E089F400B592C9 /* TOCropViewController in Frameworks */,
 				8575420028C9C985004DD880 /* FSCalendar in Frameworks */,
 				85A8D03828D1A45F00F22A80 /* IQKeyboardManagerSwift in Frameworks */,
@@ -201,6 +210,8 @@
 		857541D328C9BBF1004DD880 /* BanGiDa */ = {
 			isa = PBXGroup;
 			children = (
+				854A00EA28F5539E00575556 /* BanGiDa.entitlements */,
+				854A00E828F5514200575556 /* GoogleService-Info.plist */,
 				8594820D28DCAAE6000C6AD7 /* DataBase */,
 				85A8D01628CF777F00F22A80 /* Presentation */,
 				85A8D00328CEF8BF00F22A80 /* Resource */,
@@ -523,6 +534,9 @@
 				853111BE28E2D5EE007F1804 /* AcknowList */,
 				853111C328E3F802007F1804 /* Realm */,
 				853111C528E3F802007F1804 /* RealmSwift */,
+				854A00E228F54CA100575556 /* FirebaseAnalyticsWithoutAdIdSupport */,
+				854A00E428F54CA100575556 /* FirebaseCrashlytics */,
+				854A00E628F54CA100575556 /* FirebaseMessaging */,
 			);
 			productName = BanGiDa;
 			productReference = 857541D128C9BBF1004DD880 /* BanGiDa.app */;
@@ -560,6 +574,7 @@
 				85B3C27528E089F400B592C9 /* XCRemoteSwiftPackageReference "TOCropViewController" */,
 				853111BD28E2D5EE007F1804 /* XCRemoteSwiftPackageReference "AcknowList" */,
 				853111C228E3F802007F1804 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				854A00E128F54CA100575556 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 857541D228C9BBF1004DD880 /* Products */;
 			projectDirPath = "";
@@ -577,6 +592,7 @@
 			files = (
 				85A8D00E28CF0AA000F22A80 /* Jalnan.ttf in Resources */,
 				857541E128C9BBF2004DD880 /* LaunchScreen.storyboard in Resources */,
+				854A00E928F5514200575556 /* GoogleService-Info.plist in Resources */,
 				853111C128E2DC86007F1804 /* Package.resolved in Resources */,
 				857541DE28C9BBF2004DD880 /* Assets.xcassets in Resources */,
 			);
@@ -771,8 +787,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BanGiDa/BanGiDa.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3K4KWAG7KD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BanGiDa/Info.plist;
@@ -787,7 +804,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsj.bangida;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -804,8 +821,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BanGiDa/BanGiDa.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3K4KWAG7KD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BanGiDa/Info.plist;
@@ -820,7 +838,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsj.bangida;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -870,6 +888,14 @@
 			requirement = {
 				kind = exactVersion;
 				version = 10.30.0;
+			};
+		};
+		854A00E128F54CA100575556 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
 			};
 		};
 		857541FB28C9C957004DD880 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
@@ -929,6 +955,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 853111C228E3F802007F1804 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		854A00E228F54CA100575556 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 854A00E128F54CA100575556 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		854A00E428F54CA100575556 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 854A00E128F54CA100575556 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		854A00E628F54CA100575556 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 854A00E128F54CA100575556 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		857541FC28C9C957004DD880 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
