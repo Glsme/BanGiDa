@@ -193,7 +193,7 @@ class HomeViewModel: CommonViewModel {
             writeVC.memoView.imageButton.setTitle("이미지 편집", for: .normal)
         }
         
-//        writeVC.navigationItem.title = selectButtonList[indexPath.section].title
+        //        writeVC.navigationItem.title = selectButtonList[indexPath.section].title
         writeVC.viewModel.currentIndex.value = indexPath.section
         
         vc.transViewController(ViewController: writeVC, type: .push)
