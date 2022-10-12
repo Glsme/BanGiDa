@@ -15,14 +15,12 @@ class AlarmView: BaseView {
         view.text = "알람이 울릴 시간을 선택해주세요"
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
         view.textColor = .lightGray
-//        view.backgroundColor = .greenblue
         return view
     }()
     
     let dateTextField: UITextField = {
         let view = UITextField()
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
-//        view.backgroundColor = .bananaYellow
         view.textAlignment = .center
         view.placeholder = "날짜를 선택해주세요."
         return view
@@ -34,20 +32,10 @@ class AlarmView: BaseView {
     let titleTextField: UITextField = {
         let view = UITextField()
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
-//        view.backgroundColor = .bananaYellow
         view.textAlignment = .center
         view.placeholder = "제목을 입력해주세요."
         return view
     }()
-    
-//    let memoLabel: UILabel = {
-//        let view = UILabel()
-//        view.text = "알람 메모를 입력해주세요"
-//        view.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
-//        view.textColor = .lightGray
-////        view.backgroundColor = .unaBlue
-//        return view
-//    }()
     
     let memoTextView: UITextView = {
         let view = UITextView()
@@ -95,11 +83,6 @@ class AlarmView: BaseView {
             make.centerX.equalTo(dateTextField.snp.centerX)
             make.height.equalTo(1)
         }
-        
-//        memoLabel.snp.makeConstraints { make in
-//            make.leading.equalTo(dateLabel.snp.leading)
-//            make.top.equalTo(line.snp.bottom).offset(15)
-//        }
         
         titleTextField.snp.makeConstraints { make in
             make.width.equalTo(firstLine.snp.width)

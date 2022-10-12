@@ -201,16 +201,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
                 moveToReview()
-//                if #available(iOS 14.0, *) {
-//                  guard let scene = UIApplication
-//                    .shared
-//                    .connectedScenes
-//                    .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
-//                  else { return }
-//                  SKStoreReviewController.requestReview(in: scene)
-//                } else {
-//                  SKStoreReviewController.requestReview()
-//                }
             } else if indexPath.row == 1 {
                 sendMail()
             }

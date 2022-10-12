@@ -71,15 +71,17 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     override func configureUI() {
-        //        self.navigationController?.navigationBar.isHidden = true
+        //tableView
         mainView.homeTableView.delegate = self
         mainView.homeTableView.dataSource = self
         mainView.homeTableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.reuseIdentifier)
         mainView.homeTableView.register(AlarmListTableViewCell.self, forCellReuseIdentifier: AlarmListTableViewCell.reuseIdentifier)
         
+        //Calendar
         mainView.homeTableView.calendar.delegate = self
         mainView.homeTableView.calendar.dataSource = self
         
+        //CollectionView
         mainView.selectCollectionView.delegate = self
         mainView.selectCollectionView.dataSource = self
         mainView.selectCollectionView.register(SelectButtonCollectionViewCell.self, forCellWithReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier)
@@ -122,7 +124,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func dateSelectButtonClcicked() {
-        print(#function)
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -340,15 +341,9 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        //        print("날짜가 선택되었습니다.")
-        
         viewModel.currentDate.value = date
-        //        let dateTest = Date()
-        //        print("Date: \(date) :: \(dateTest)")
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
-        
-        //        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count)
         
         mainView.homeTableView.reloadData()
     }
