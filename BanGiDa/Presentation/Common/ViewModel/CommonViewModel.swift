@@ -78,7 +78,6 @@ class CommonViewModel {
     }
     
     func fetchData() {
-        print(#function)
         inputDataIntoArrayToDate(date: currentDate.value)
     }
     

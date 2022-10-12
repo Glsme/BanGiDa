@@ -30,9 +30,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        print("HomeView",#function)
-//        print("Realm is located at:", UserDiaryRepository.shared.localRealm.configuration.fileURL!)
-//        sendFireBaseAnalytics()
         viewModel.currentDate.value = mainView.homeTableView.calendar.today ?? Date()
         bind()
         todayButtonClicked()
@@ -42,7 +39,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = true
-        
         setData()
     }
     
@@ -152,9 +148,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
             
             self.viewModel.currentDateString.value = self.dateFormatter.string(from: datePicker.date)
             self.viewModel.currentDate.value = self.dateFormatter.date(from: self.viewModel.currentDateString.value) ?? Date()
-            
-            print("\(self.viewModel.currentDate.value) ====== \(datePicker.date)" , "@@@@@")
-            
+                        
             self.calendar(self.mainView.homeTableView.calendar, didSelect: self.viewModel.currentDate.value, at: .current)
             
             self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
@@ -221,38 +215,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var dateText = ""
-        var contentText = ""
-        var alarmTitle = ""
-        var image = UIImage()
-        
-        viewModel.inputDataInToCell(indexPath: indexPath) { selectedDateText, selectedContentText, selectedAlarmTitle, selectedImage in
-            dateText = selectedDateText
-            contentText = selectedContentText
-            alarmTitle = selectedAlarmTitle
-            image = selectedImage
-        }
-        
-        if indexPath.section == 1 {
-            guard let alarmCell = tableView.dequeueReusableCell(withIdentifier: AlarmListTableViewCell.reuseIdentifier, for: indexPath) as? AlarmListTableViewCell else { return UITableViewCell() }
-            
-            alarmCell.dateLabel.text = dateText
-            alarmCell.contentLabel.text = alarmTitle
-            //                alarmCell.memoImageView.backgroundColor = .memoBackgroundColor
-            //                alarmCell.memoImageView.image = nil
-            alarmCell.backgroundColor = .memoBackgroundColor
-            
-            return alarmCell
-        } else {
-            guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
-            
-            memoCell.dateLabel.text = dateText
-            memoCell.contentLabel.text = contentText
-            memoCell.memoImageView.image = image
-            memoCell.backgroundColor = .memoBackgroundColor
-            
-            return memoCell
-        }
+        return viewModel.cellForRowAt(tableView: tableView, indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -269,7 +232,10 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
             case 0:
                 task = self.viewModel.memoTaskList[indexPath.row]
             case 1:
-                self.viewModel.removeNotification(title: self.viewModel.alarmTaskList[indexPath.row].alarmTitle ?? "", body: self.viewModel.alarmTaskList[indexPath.row].content, date: self.viewModel.alarmTaskList[indexPath.row].date, index: indexPath.row)
+                self.viewModel.removeNotification(title: self.viewModel.alarmTaskList[indexPath.row].alarmTitle ?? "",
+                                                  body: self.viewModel.alarmTaskList[indexPath.row].content,
+                                                  date: self.viewModel.alarmTaskList[indexPath.row].date,
+                                                  index: indexPath.row)
                 task = self.viewModel.alarmTaskList[indexPath.row]
             case 2:
                 task = self.viewModel.growthTaskList[indexPath.row]
@@ -367,7 +333,6 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(#function, indexPath.item)
         pushNavigationController(index: indexPath.item)
     }
 }

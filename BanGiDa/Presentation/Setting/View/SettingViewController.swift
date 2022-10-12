@@ -45,7 +45,6 @@ class SettingViewController: BaseViewController {
     }
     
     func backupFileButtonClicked() {
-        print("gdgdddgdg")
         do {
             try repository.saveEncodedDataToDocument()
             let backupFilePath = try self.repository.documentManager.createBackupFile()

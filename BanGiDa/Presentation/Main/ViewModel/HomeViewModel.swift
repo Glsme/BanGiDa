@@ -15,38 +15,6 @@ class HomeViewModel: CommonViewModel {
     
     let homeView = HomeView()
     
-    func addDeleteSwipeAction(indexPath: IndexPath) -> UISwipeActionsConfiguration {
-        let delete = UIContextualAction(style: .normal, title: nil) { action, view, completionHandler in
-            var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)
-            
-            switch indexPath.section {
-            case 0:
-                task = self.memoTaskList[indexPath.row]
-            case 1:
-                task = self.alarmTaskList[indexPath.row]
-            case 2:
-                task = self.growthTaskList[indexPath.row]
-            case 3:
-                task = self.showerTaskList[indexPath.row]
-            case 4:
-                task = self.hospitalTaskList[indexPath.row]
-            case 5:
-                task = self.abnormalTaskList[indexPath.row]
-            default:
-                break
-            }
-            
-            UserDiaryRepository.shared.delete(task)
-            self.fetchData()
-        }
-        
-        let image = UIImage(systemName: "trash.fill")
-        delete.image = image
-        delete.backgroundColor = .red
-        
-        return UISwipeActionsConfiguration(actions: [delete])
-    }
-    
     func checkNumberOfRowsInsection(section: Int) -> Int {
         var index = 0
         
@@ -187,13 +155,11 @@ class HomeViewModel: CommonViewModel {
         }
         
         if writeVC.memoView.imageView.image == UIImage(named: "BasicDog") || writeVC.memoView.imageView.image == nil {
-            //            print("image is Empty")
             writeVC.memoView.imageButton.setTitle("이미지 추가", for: .normal)
         } else {
             writeVC.memoView.imageButton.setTitle("이미지 편집", for: .normal)
         }
         
-        //        writeVC.navigationItem.title = selectButtonList[indexPath.section].title
         writeVC.viewModel.currentIndex.value = indexPath.section
         
         vc.transViewController(ViewController: writeVC, type: .push)
@@ -214,16 +180,9 @@ class HomeViewModel: CommonViewModel {
             
             self.currentDateString.value = self.dateFormatter.string(from: datePicker.date)
             self.currentDate.value = self.dateFormatter.date(from: self.currentDateString.value) ?? Date()
-            
-            print("\(self.currentDate.value) ====== \(datePicker.date)" , "@@@@@")
-            
+                        
             self.homeView.homeTableView.calendar.setCurrentPage(self.currentDate.value, animated: true)
             self.homeView.homeTableView.calendar.select(self.currentDate.value, scrollToDate: true)
-            
-            //            self.calendar(self.mainView.homeTableView.calendar, didSelect: Date(timeInterval: -86400, since: self.viewModel.currentDate.value), at: .current)
-            //
-            //            self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
-            //            self.mainView.homeTableView.calendar.select(Date(timeInterval: 86400, since: self.viewModel.currentDate.value), scrollToDate: true)
         }
         
         alert.addAction(ok)
@@ -236,5 +195,33 @@ class HomeViewModel: CommonViewModel {
     
     @objc func selectDate(_ datePicker: UIDatePicker) {
         //        date = datePicker.date
+    }
+    
+    func cellForRowAt(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        var dateText = ""
+        var contentText = ""
+        var alarmTitle = ""
+        var image = UIImage()
+        
+        inputDataInToCell(indexPath: indexPath) { selectedDateText, selectedContentText, selectedAlarmTitle, selectedImage in
+            dateText = selectedDateText
+            contentText = selectedContentText
+            alarmTitle = selectedAlarmTitle
+            image = selectedImage
+        }
+        
+        if indexPath.section == 1 {
+            guard let alarmCell = tableView.dequeueReusableCell(withIdentifier: AlarmListTableViewCell.reuseIdentifier, for: indexPath) as? AlarmListTableViewCell else { return UITableViewCell() }
+            
+            alarmCell.configureCell(date: dateText, content: alarmTitle, alarmBackgroundColor: .memoBackgroundColor)
+            
+            return alarmCell
+        } else {
+            guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
+            
+            memoCell.configureCell(image: image, date: dateText, content: contentText, memoBackgroundColor: .memoBackgroundColor)
+            
+            return memoCell
+        }
     }
 }

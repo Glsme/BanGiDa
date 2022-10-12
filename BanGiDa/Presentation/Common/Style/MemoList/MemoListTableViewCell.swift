@@ -70,27 +70,14 @@ class MemoListTableViewCell: BaseTableViewCell {
             make.top.equalTo(dateLabel.snp.bottom)
             make.bottom.lessThanOrEqualTo(memoImageView.snp.bottom)
         }
-        
-//        memoImageView.snp.makeConstraints { make in
-//            make.centerY.equalTo(self.snp.centerY)
-//            make.trailing.equalTo(self).offset(-15)
-//            make.top.equalTo(self).offset(15)
-//            make.bottom.equalTo(self).offset(-15)
-//            make.width.equalTo(memoImageView.snp.height)
-//        }
-//
-//        dateLabel.snp.makeConstraints { make in
-//            make.top.equalTo(self).offset(10)
-//            make.leading.equalTo(self).offset(20)
-//            make.height.equalTo(20)
-//            make.trailing.equalTo(memoImageView.snp.leading).offset(-20)
-//        }
-//
-//        contentLabel.snp.makeConstraints { make in
-//            make.leading.trailing.equalTo(dateLabel)
-//            make.top.equalTo(dateLabel.snp.bottom)
-//            make.bottom.greaterThanOrEqualTo(memoImageView.snp.bottom)
-//        }
-        
+    }
+}
+
+extension MemoListTableViewCell {
+    func configureCell(image: UIImage, date: String, content: String, memoBackgroundColor: UIColor?) {
+        memoImageView.image = image
+        dateLabel.text = date
+        contentLabel.text = content
+        backgroundColor = memoBackgroundColor
     }
 }

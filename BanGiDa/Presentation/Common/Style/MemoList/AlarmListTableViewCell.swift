@@ -57,3 +57,11 @@ class AlarmListTableViewCell: BaseTableViewCell {
         }
     }
 }
+
+extension AlarmListTableViewCell {
+    func configureCell(date: String, content: String, alarmBackgroundColor: UIColor?) {
+        dateLabel.text = date
+        contentLabel.text = content
+        backgroundColor = alarmBackgroundColor
+    }
+}
