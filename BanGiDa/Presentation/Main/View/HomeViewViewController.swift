@@ -321,15 +321,7 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return UICollectionViewCell() }
-        
-        cell.backgroundColor = viewModel.selectButtonList[indexPath.row].color
-        cell.clipsToBounds = true
-        cell.layer.cornerRadius = cell.frame.height / 2
-        cell.imageView.image = viewModel.selectButtonList[indexPath.item].image
-        cell.tintColor = .white
-        
-        return cell
+        return viewModel.cellForItemAt(collectionView: collectionView, indexPath: indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

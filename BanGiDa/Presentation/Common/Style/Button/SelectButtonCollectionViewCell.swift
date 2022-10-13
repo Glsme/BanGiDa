@@ -38,3 +38,13 @@ class SelectButtonCollectionViewCell: UICollectionViewCell {
         }
     }
 }
+
+extension SelectButtonCollectionViewCell {
+    func configureCell(bgColor: UIColor, image: UIImage) {
+        backgroundColor = bgColor
+        clipsToBounds = true
+        layer.cornerRadius = self.frame.height / 2
+        imageView.image = image
+        tintColor = .white
+    }
+}

@@ -224,4 +224,12 @@ class HomeViewModel: CommonViewModel {
             return memoCell
         }
     }
+    
+    func cellForItemAt(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.configureCell(bgColor: selectButtonList[indexPath.row].color, image: selectButtonList[indexPath.item].image)
+        
+        return cell
+    }
 }

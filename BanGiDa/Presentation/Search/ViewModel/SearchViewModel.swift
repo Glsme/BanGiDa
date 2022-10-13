@@ -177,4 +177,21 @@ class SearchViewModel: CommonViewModel {
             return memoCell
         }
     }
+    
+    func cellForItemAt(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.backgroundColor = .lightGray
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = selectButtonList[indexPath.item].color
+        cell.selectedBackgroundView = backgroundView
+        
+        cell.clipsToBounds = true
+        cell.layer.cornerRadius = cell.frame.height / 2
+        cell.imageView.image = selectButtonList[indexPath.item].image
+        cell.tintColor = .white
+        
+        return cell
+    }
 }
