@@ -149,4 +149,32 @@ class SearchViewModel: CommonViewModel {
             return 0
         }
     }
+    
+    func cellForRowAt(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        var dateText = ""
+        var contentText = ""
+        var alarmTitle = ""
+        var image = UIImage()
+        
+        inputDataInToCell(indexPath: indexPath) { selectedDateText, selectedContentText, selectedAlarmTitle, selectedImage in
+            dateText = selectedDateText
+            contentText = selectedContentText
+            alarmTitle = selectedAlarmTitle
+            image = selectedImage
+        }
+        
+        if currentIndex.value == 1 {
+            guard let alarmCell = tableView.dequeueReusableCell(withIdentifier: AlarmListTableViewCell.reuseIdentifier, for: indexPath) as? AlarmListTableViewCell else { return UITableViewCell() }
+            
+            alarmCell.configureCell(date: dateText, content: alarmTitle, alarmBackgroundColor: .memoBackgroundColor)
+            
+            return alarmCell
+        } else {
+            guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
+            
+            memoCell.configureCell(image: image, date: dateText, content: contentText, memoBackgroundColor: .memoBackgroundColor)
+            
+            return memoCell
+        }
+    }
 }

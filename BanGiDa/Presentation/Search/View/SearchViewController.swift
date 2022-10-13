@@ -108,38 +108,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var dateText = ""
-        var contentText = ""
-        var alarmTitle = ""
-        var image = UIImage()
-        
-        viewModel.inputDataInToCell(indexPath: indexPath) { selectedDateText, selectedContentText, selectedAlarmTitle, selectedImage in
-            dateText = selectedDateText
-            contentText = selectedContentText
-            alarmTitle = selectedAlarmTitle
-            image = selectedImage
-        }
-        
-        if self.viewModel.currentIndex.value == 1 {
-            guard let alarmCell = tableView.dequeueReusableCell(withIdentifier: AlarmListTableViewCell.reuseIdentifier, for: indexPath) as? AlarmListTableViewCell else { return UITableViewCell() }
-            
-            alarmCell.dateLabel.text = dateText
-            alarmCell.contentLabel.text = alarmTitle
-//            alarmCell.memoImageView.backgroundColor = .memoBackgroundColor
-//            alarmCell.memoImageView.image = nil
-            alarmCell.backgroundColor = .memoBackgroundColor
-            
-            return alarmCell
-        } else {
-            guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
-            
-            memoCell.backgroundColor = .memoBackgroundColor
-            memoCell.dateLabel.text = dateText
-            memoCell.contentLabel.text = contentText
-            memoCell.memoImageView.image = image
-            
-            return memoCell
-        }
+        return viewModel.cellForRowAt(tableView: tableView, indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
