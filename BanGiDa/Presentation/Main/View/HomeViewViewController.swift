@@ -33,6 +33,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         viewModel.currentDate.value = mainView.homeTableView.calendar.today ?? Date()
         bind()
         todayButtonClicked()
+        sendFireBaseAnalytics()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,12 +50,17 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     func sendFireBaseAnalytics() {
-        Analytics.logEvent("homeView Open", parameters: nil)
+//        Analytics.logEvent("homeView Open", parameters: nil)
         
-        Analytics.logEvent("App First Open", parameters: [
-          "name": "반기다 로그",
-          "full_text": "앱을 시동하였습니다.",
+        Analytics.logEvent("AppFirstOpen", parameters: [
+          "name": "BangiDaLog",
+          "full_text": "App Run First Time",
         ])
+//        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+//          AnalyticsParameterItemName: "Bangida",
+//          AnalyticsParameterContentType: "log",
+//          AnalyticsParameterContent: "App First Open"
+//        ])
     }
     
     func checkWalkThrough() {
