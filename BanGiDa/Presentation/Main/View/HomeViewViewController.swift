@@ -51,10 +51,10 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     func sendFireBaseAnalytics() {
         Analytics.logEvent("homeView Open", parameters: nil)
         
-//        Analytics.setDefaultEventParameters([
-//          "level_name": "Caverns01",
-//          "level_difficulty": 4
-//        ])
+        Analytics.logEvent("App First Open", parameters: [
+          "name": "반기다 로그",
+          "full_text": "앱을 시동하였습니다.",
+        ])
     }
     
     func checkWalkThrough() {
