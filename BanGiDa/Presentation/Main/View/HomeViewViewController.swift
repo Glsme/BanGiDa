@@ -56,11 +56,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
           "name": "BangiDaLog",
           "full_text": "App Run First Time",
         ])
-//        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-//          AnalyticsParameterItemName: "Bangida",
-//          AnalyticsParameterContentType: "log",
-//          AnalyticsParameterContent: "App First Open"
-//        ])
     }
     
     func checkWalkThrough() {
@@ -102,7 +97,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
-        //        print(viewModel.memoTaskList.count, viewModel.alarmTaskList.count, viewModel.growthTaskList.count, viewModel.showerTaskList.count, viewModel.hospitalTaskList.count, viewModel.abnormalTaskList.count, "!!!!!!!!!!!")
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.mainView.homeTableView.calendar.reloadData()

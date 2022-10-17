@@ -34,7 +34,6 @@ class SearchViewController: BaseViewController {
             viewModel.isFiltering.value = true
             viewModel.currentIndex.value = 0
             collectionView(searchView.selectCollectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
-            
             searchView.selectCollectionView.reloadData()
         }
         
@@ -66,6 +65,10 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.item == 0 {
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .init())
+        }
+
         return viewModel.cellForItemAt(collectionView: collectionView, indexPath: indexPath)
     }
     
