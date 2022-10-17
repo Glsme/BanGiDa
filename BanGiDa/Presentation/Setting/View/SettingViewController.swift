@@ -191,7 +191,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                     self.viewModel.resetData()
                     let walkthorughVC = WalkThroughViewController()
                     self.tabBarController?.selectedIndex = 0
-                    self.transViewController(ViewController: walkthorughVC, type: .present)
+                    self.transViewController(ViewController: walkthorughVC, type: .presentFullscreen)
                 }
                 break
             default:

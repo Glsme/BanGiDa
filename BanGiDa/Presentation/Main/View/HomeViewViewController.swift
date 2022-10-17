@@ -52,7 +52,7 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     func sendFireBaseAnalytics() {
 //        Analytics.logEvent("homeView Open", parameters: nil)
         
-        Analytics.logEvent("AppFirstOpen", parameters: [
+        Analytics.logEvent("AppFirstOpen", parameters: [ 
           "name": "BangiDaLog",
           "full_text": "App Run First Time",
         ])
