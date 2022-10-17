@@ -39,7 +39,7 @@ class MemoView: BaseView {
     let dateTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "클릭하여 날짜를 선택해주세요"
-        view.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
+        view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
         view.textAlignment = .center
 //        view.backgroundColor = .greenblue
         return view
@@ -93,7 +93,7 @@ class MemoView: BaseView {
         }
         
         imageView.snp.makeConstraints { make in
-            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.5)
+            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.45)
             make.centerX.equalTo(self)
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
         }
@@ -111,7 +111,7 @@ class MemoView: BaseView {
         }
         
         dateTextField.snp.makeConstraints { make in
-            make.height.equalTo(30)
+            make.height.equalTo(25)
             make.width.equalTo(textView.snp.width)
             make.centerX.equalTo(self.safeAreaLayoutGuide)
             make.top.equalTo(firstLine.snp.bottom).offset(8)
