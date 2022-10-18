@@ -186,14 +186,21 @@ extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier, for: indexPath) as? AnimalNameCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.backgroundColor = .purple
         cell.nameButton.tag = indexPath.item
         cell.nameButton.addTarget(self, action: #selector(nameButtonClicked(_ :)), for: .touchUpInside)
+        cell.layer.cornerRadius = 10
         
         return cell
     }
     
     @objc func nameButtonClicked(_ sender: UIButton) {
         print(sender.tag)
+        let currentColor = viewModel.setCurrentMemoType().color
+        
+        if sender.backgroundColor == currentColor {
+            sender.backgroundColor = .memoDarkGray
+        } else {
+            sender.backgroundColor = currentColor
+        }
     }
 }

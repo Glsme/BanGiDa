@@ -12,7 +12,7 @@ class AnimalNameCollectionViewCell: UICollectionViewCell {
     let nameButton: UIButton = {
        let view = UIButton()
         view.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
-        view.backgroundColor = .greenblue
+        view.backgroundColor = .memoDarkGray
         return view
     }()
     
