@@ -65,8 +65,18 @@ class MemoView: BaseView {
         return view
     }()
     
+    let nameCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.backgroundColor = .cyan
+        
+        return view
+    }()
+    
     let firstLine = LineView()
     let secondLine = LineView()
+    let thirdLine = LineView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -79,7 +89,7 @@ class MemoView: BaseView {
     
     override func configureUI() {
         self.addSubview(memoView)
-        [imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine].forEach {
+        [imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine, thirdLine, nameCollectionView].forEach {
             memoView.addSubview($0)
         }
         
@@ -120,7 +130,7 @@ class MemoView: BaseView {
         textView.snp.makeConstraints { make in
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
-            make.top.equalTo(secondLine.snp.bottom).offset(20)
+            make.top.equalTo(thirdLine.snp.bottom).offset(20)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-10)
         }
         
@@ -134,6 +144,20 @@ class MemoView: BaseView {
         secondLine.snp.makeConstraints { make in
             make.top.equalTo(dateTextField.snp.bottom).offset(8)
             make.height.equalTo(1)
+            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
+        }
+        
+        thirdLine.snp.makeConstraints { make in
+            make.top.equalTo(secondLine.snp.bottom).offset(41)
+            make.width.equalTo(secondLine.snp.width)
+            make.height.equalTo(1)
+            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+        }
+        
+        nameCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(secondLine.snp.bottom).offset(8)
+            make.height.equalTo(25)
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
         }

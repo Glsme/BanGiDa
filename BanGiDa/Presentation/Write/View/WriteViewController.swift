@@ -38,6 +38,10 @@ class WriteViewController: BaseViewController {
         memoView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
         memoView.dateTextField.tintColor = .clear
         navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
+        memoView.nameCollectionView.delegate = self
+        memoView.nameCollectionView.dataSource = self
+        memoView.nameCollectionView.register(AnimalNameCollectionViewCell.self, forCellWithReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier)
     }
     
     func setNavigationStyle() {
@@ -172,4 +176,20 @@ extension WriteViewController: ObservableObject, UIGestureRecognizerDelegate {
         print("?????")
         return true
     }
+}
+
+extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier, for: indexPath) as? AnimalNameCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.backgroundColor = .purple
+        
+        return cell
+    }
+    
+    
 }

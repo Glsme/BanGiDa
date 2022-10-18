@@ -66,6 +66,7 @@
 		85A93CDF28D49623006C06D6 /* MemoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */; };
 		85B3C27728E089F400B592C9 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = 85B3C27628E089F400B592C9 /* CropViewController */; };
 		85B3C27928E089F400B592C9 /* TOCropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = 85B3C27828E089F400B592C9 /* TOCropViewController */; };
+		85C1381C28FE9E4700ACBC8E /* AnimalNameCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C1381B28FE9E4700ACBC8E /* AnimalNameCollectionViewCell.swift */; };
 		85CCEAE828D8978C0086E5CA /* AlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CCEAE728D8978C0086E5CA /* AlarmView.swift */; };
 		85CCEAEC28D89C350086E5CA /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CCEAEB28D89C350086E5CA /* AlarmViewController.swift */; };
 		85CCEAEE28D89CAE0086E5CA /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CCEAED28D89CAE0086E5CA /* AlarmViewModel.swift */; };
@@ -123,6 +124,7 @@
 		85A93CD728D30232006C06D6 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		85A93CD928D31A90006C06D6 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoHeaderView.swift; sourceTree = "<group>"; };
+		85C1381B28FE9E4700ACBC8E /* AnimalNameCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalNameCollectionViewCell.swift; sourceTree = "<group>"; };
 		85CCEAE728D8978C0086E5CA /* AlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmView.swift; sourceTree = "<group>"; };
 		85CCEAEB28D89C350086E5CA /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		85CCEAED28D89CAE0086E5CA /* AlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewModel.swift; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 			isa = PBXGroup;
 			children = (
 				85A8D01828CF89F900F22A80 /* MemoView.swift */,
+				85C1381B28FE9E4700ACBC8E /* AnimalNameCollectionViewCell.swift */,
 			);
 			path = MemoView;
 			sourceTree = "<group>";
@@ -669,6 +672,7 @@
 				8556329428CA2D110055159E /* SelectButtonCollectionView.swift in Sources */,
 				8575420528C9CC8E004DD880 /* HomeTableView.swift in Sources */,
 				8556329628CA2EB00055159E /* SelectButtonCollectionViewCell.swift in Sources */,
+				85C1381C28FE9E4700ACBC8E /* AnimalNameCollectionViewCell.swift in Sources */,
 				857541D728C9BBF1004DD880 /* SceneDelegate.swift in Sources */,
 				85EC496028D6392B0095EEB4 /* LineView.swift in Sources */,
 				857541F628C9C074004DD880 /* HomeViewViewController.swift in Sources */,
@@ -812,7 +816,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BanGiDa/BanGiDa.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3K4KWAG7KD;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -828,7 +832,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsj.bangida;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -847,7 +851,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BanGiDa/BanGiDa.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3K4KWAG7KD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BanGiDa/Info.plist;
@@ -862,7 +866,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsj.bangida;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
