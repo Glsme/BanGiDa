@@ -180,16 +180,20 @@ extension WriteViewController: ObservableObject, UIGestureRecognizerDelegate {
 
 extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 8
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier, for: indexPath) as? AnimalNameCollectionViewCell else { return UICollectionViewCell() }
         
         cell.backgroundColor = .purple
+        cell.nameButton.tag = indexPath.item
+        cell.nameButton.addTarget(self, action: #selector(nameButtonClicked(_ :)), for: .touchUpInside)
         
         return cell
     }
     
-    
+    @objc func nameButtonClicked(_ sender: UIButton) {
+        print(sender.tag)
+    }
 }

@@ -69,8 +69,16 @@ class MemoView: BaseView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.backgroundColor = .cyan
+        view.backgroundColor = .backgroundColor
         
+        return view
+    }()
+    
+    let nameLabel: UILabel = {
+        let view = UILabel()
+        view.text = "이름"
+        view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
+        view.textColor = .memoDarkGray
         return view
     }()
     
@@ -89,7 +97,7 @@ class MemoView: BaseView {
     
     override func configureUI() {
         self.addSubview(memoView)
-        [imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine, thirdLine, nameCollectionView].forEach {
+        [imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine, thirdLine, nameCollectionView, nameLabel].forEach {
             memoView.addSubview($0)
         }
         
@@ -122,7 +130,7 @@ class MemoView: BaseView {
         
         dateTextField.snp.makeConstraints { make in
             make.height.equalTo(25)
-            make.width.equalTo(textView.snp.width)
+            make.width.equalTo(textView.snp.width).multipliedBy(0.8)
             make.centerX.equalTo(self.safeAreaLayoutGuide)
             make.top.equalTo(firstLine.snp.bottom).offset(8)
         }
@@ -158,8 +166,15 @@ class MemoView: BaseView {
         nameCollectionView.snp.makeConstraints { make in
             make.top.equalTo(secondLine.snp.bottom).offset(8)
             make.height.equalTo(25)
-            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
-            make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
+            make.leading.equalTo(nameLabel.snp.trailing).offset(20)
+            make.trailing.equalTo(secondLine.snp.trailing)
+        }
+        
+        nameLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(nameCollectionView)
+            make.leading.equalTo(firstLine.snp.leading).offset(10)
+            make.width.equalTo(50)
+            make.height.equalTo(nameCollectionView.snp.height)
         }
     }
     
