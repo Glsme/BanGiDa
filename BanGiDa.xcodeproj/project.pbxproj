@@ -10,6 +10,7 @@
 		85075C5A28CC90E900FAF6BA /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C5928CC90E900FAF6BA /* UIViewController+Extension.swift */; };
 		85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C5E28CC923500FAF6BA /* WriteViewController.swift */; };
 		85075C6128CC93CE00FAF6BA /* WriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C6028CC93CE00FAF6BA /* WriteViewModel.swift */; };
+		8514435128FEBC2F003BB1E9 /* AnimalNameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8514435028FEBC2F003BB1E9 /* AnimalNameButton.swift */; };
 		853111BF28E2D5EE007F1804 /* AcknowList in Frameworks */ = {isa = PBXBuildFile; productRef = 853111BE28E2D5EE007F1804 /* AcknowList */; };
 		853111C128E2DC86007F1804 /* Package.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 853111C028E2DC86007F1804 /* Package.resolved */; };
 		853111C428E3F802007F1804 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 853111C328E3F802007F1804 /* Realm */; };
@@ -77,6 +78,7 @@
 		85075C5928CC90E900FAF6BA /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		85075C5E28CC923500FAF6BA /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		85075C6028CC93CE00FAF6BA /* WriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewModel.swift; sourceTree = "<group>"; };
+		8514435028FEBC2F003BB1E9 /* AnimalNameButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalNameButton.swift; sourceTree = "<group>"; };
 		853111C028E2DC86007F1804 /* Package.resolved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Package.resolved; path = BanGiDa.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved; sourceTree = "<group>"; };
 		854A00E828F5514200575556 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		854A00EA28F5539E00575556 /* BanGiDa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BanGiDa.entitlements; sourceTree = "<group>"; };
@@ -358,9 +360,7 @@
 		85A8D01228CF60F700F22A80 /* Button */ = {
 			isa = PBXGroup;
 			children = (
-				8556329328CA2D110055159E /* SelectButtonCollectionView.swift */,
-				8556329528CA2EB00055159E /* SelectButtonCollectionViewCell.swift */,
-				85A8D01328CF611400F22A80 /* SelectButtonModel.swift */,
+				85C1381D28FEBBAE00ACBC8E /* Category */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -475,6 +475,17 @@
 				85A93CD728D30232006C06D6 /* CommonViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		85C1381D28FEBBAE00ACBC8E /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				8556329328CA2D110055159E /* SelectButtonCollectionView.swift */,
+				8556329528CA2EB00055159E /* SelectButtonCollectionViewCell.swift */,
+				85A8D01328CF611400F22A80 /* SelectButtonModel.swift */,
+				8514435028FEBC2F003BB1E9 /* AnimalNameButton.swift */,
+			);
+			path = Category;
 			sourceTree = "<group>";
 		};
 		85CCEAE628D897800086E5CA /* Alarm */ = {
@@ -631,6 +642,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8514435128FEBC2F003BB1E9 /* AnimalNameButton.swift in Sources */,
 				85075C5A28CC90E900FAF6BA /* UIViewController+Extension.swift in Sources */,
 				85A8D01428CF611400F22A80 /* SelectButtonModel.swift in Sources */,
 				85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */,

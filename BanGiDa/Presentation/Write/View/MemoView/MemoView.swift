@@ -68,6 +68,7 @@ class MemoView: BaseView {
     let nameCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 100, height: 25)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.backgroundColor = .backgroundColor
         

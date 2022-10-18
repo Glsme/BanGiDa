@@ -9,9 +9,8 @@ import UIKit
 import SnapKit
 
 class AnimalNameCollectionViewCell: UICollectionViewCell {
-    let nameButton: UIButton = {
-       let view = UIButton()
-        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
+    let nameButton: AnimalNameButton = {
+       let view = AnimalNameButton()
         view.backgroundColor = .memoDarkGray
         return view
     }()
@@ -28,12 +27,12 @@ class AnimalNameCollectionViewCell: UICollectionViewCell {
     }
     
     func configureUI() {
-        self.addSubview(nameButton)
+        contentView.addSubview(nameButton)
     }
     
     func setConstraints() {
         nameButton.snp.makeConstraints { make in
-            make.edges.equalTo(self)
+            make.edges.equalTo(contentView.snp.edges)
         }
     }
 }

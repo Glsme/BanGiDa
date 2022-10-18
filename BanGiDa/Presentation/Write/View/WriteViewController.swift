@@ -188,7 +188,11 @@ extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSou
         
         cell.nameButton.tag = indexPath.item
         cell.nameButton.addTarget(self, action: #selector(nameButtonClicked(_ :)), for: .touchUpInside)
-        cell.layer.cornerRadius = 10
+        cell.contentView.frame = cell.bounds
+        cell.nameButton.layoutIfNeeded()
+        cell.nameButton.layer.masksToBounds = true
+        cell.nameButton.layer.cornerRadius = cell.nameButton.frame.height/2
+        
         
         return cell
     }
