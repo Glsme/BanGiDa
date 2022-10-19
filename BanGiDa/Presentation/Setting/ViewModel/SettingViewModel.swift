@@ -88,31 +88,8 @@ class SettingViewModel: CommonViewModel {
     }
     
     func configureDataSource(settingCollectionView: UICollectionView) {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, String>(handler: { cell, indexPath, itemIdentifier in
-            var content = UIListContentConfiguration.valueCell()
-            
-            if indexPath.section == 2, indexPath.item == 1 {
-                content.secondaryAttributedText = NSAttributedString(string: self.version ?? "2.0.0", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
-            } else {
-                content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
-            }
-            
-            content.attributedText = NSAttributedString(string: itemIdentifier, attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.black])
-            
-            cell.contentConfiguration = content
-            
-            var background = UIBackgroundConfiguration.listPlainCell()
-            background.backgroundColor = .ultraLightGray
-            cell.backgroundConfiguration = background
-        })
-        
-        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, elementKind, indexPath in
-            
-            var configuration = headerView.defaultContentConfiguration()
-            configuration.text = self.settingTitleLabels[indexPath.section]
-            
-            headerView.contentConfiguration = configuration
-        }
+        let cellRegistration = createCellRegistration()
+        let headerRegistration = createHeaderRegistration()
         
         dataSource = UICollectionViewDiffableDataSource(collectionView: settingCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
@@ -132,5 +109,39 @@ class SettingViewModel: CommonViewModel {
         snapshot.appendItems(appInfoLabel, toSection: 2)
         
         dataSource.apply(snapshot)
+    }
+    
+    private func createCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, String> {
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, String>(handler: { cell, indexPath, itemIdentifier in
+            var content = UIListContentConfiguration.valueCell()
+            
+            if indexPath.section == 2, indexPath.item == 1 {
+                content.secondaryAttributedText = NSAttributedString(string: self.version ?? "2.0.0", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
+            } else {
+                content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
+            }
+            
+            content.attributedText = NSAttributedString(string: itemIdentifier, attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.black])
+            
+            cell.contentConfiguration = content
+            
+            var background = UIBackgroundConfiguration.listPlainCell()
+            background.backgroundColor = .ultraLightGray
+            cell.backgroundConfiguration = background
+        })
+        
+        return cellRegistration
+    }
+    
+    private func createHeaderRegistration() -> UICollectionView.SupplementaryRegistration<UICollectionViewListCell> {
+        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, elementKind, indexPath in
+            
+            var configuration = headerView.defaultContentConfiguration()
+            configuration.text = self.settingTitleLabels[indexPath.section]
+            
+            headerView.contentConfiguration = configuration
+        }
+        
+        return headerRegistration
     }
 }
