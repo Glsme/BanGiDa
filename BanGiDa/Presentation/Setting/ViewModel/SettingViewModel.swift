@@ -138,7 +138,8 @@ class SettingViewModel: CommonViewModel {
             
             var configuration = headerView.defaultContentConfiguration()
             configuration.text = self.settingTitleLabels[indexPath.section]
-            
+            configuration.textProperties.font = UIFont(name: "HelveticaNeue-Medium", size: 13) ?? UIFont.systemFont(ofSize: 13)
+            configuration.textProperties.color = UIColor.systemTintColor ?? UIColor.black
             headerView.contentConfiguration = configuration
         }
         
