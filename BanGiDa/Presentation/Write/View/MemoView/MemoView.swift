@@ -41,7 +41,6 @@ class MemoView: BaseView {
         view.placeholder = "클릭하여 날짜를 선택해주세요"
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
         view.textAlignment = .center
-//        view.backgroundColor = .greenblue
         return view
     }()
     
@@ -50,7 +49,6 @@ class MemoView: BaseView {
         view.text = "날짜"
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
         view.textColor = .memoDarkGray
-//        view.backgroundColor = .ultraLightGray
         return view
     }()
     

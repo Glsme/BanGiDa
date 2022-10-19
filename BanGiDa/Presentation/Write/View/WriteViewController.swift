@@ -191,7 +191,7 @@ extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cell.contentView.frame = cell.bounds
         cell.nameButton.layoutIfNeeded()
         cell.nameButton.layer.masksToBounds = true
-        cell.nameButton.layer.cornerRadius = cell.nameButton.frame.height/2
+        cell.nameButton.layer.cornerRadius = cell.nameButton.frame.height / 2
         
         
         return cell

@@ -18,18 +18,7 @@ class AnimalNameButton: UIButton {
         super.init(coder: coder)
     }
     
-    override func layoutSubviews() {
-        circle()
-    }
-    
-    func circle() {
-        layer.cornerRadius = 10
-        layer.masksToBounds = true
-    }
-    
     func configureUI() {
-        
-        
         titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 12)
     }
 }
