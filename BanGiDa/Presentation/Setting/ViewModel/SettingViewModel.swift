@@ -13,6 +13,9 @@ class SettingViewModel: CommonViewModel {
     let serviceLabel = ["리뷰 남기기", "문의하기"]
     let appInfoLabel = ["오픈소스 라이브러리", "버전 정보"]
     
+    let settingLabels = ["백업", "복구", "초기화", "리뷰 남기기", "문의하기", "오픈소스 라이브러리", "버전 정보"]
+    let settingTitleLabels = ["데이터", "서비스", "앱 정보"]
+    
     func setSectionHeaderView(section: Int) -> String {
         switch section {
         case 0:

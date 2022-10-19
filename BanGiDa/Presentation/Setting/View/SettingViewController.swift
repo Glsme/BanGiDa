@@ -15,6 +15,8 @@ class SettingViewController: BaseViewController {
     let settingView = SettingView()
     let viewModel = SettingViewModel()
     
+    private var dataSource: UICollectionViewDiffableDataSource<String, String>!
+    
     var zipFiles: [URL] = []
     
     let repository = UserDiaryRepository.shared
@@ -38,9 +40,9 @@ class SettingViewController: BaseViewController {
     }
     
     override func configureUI() {
-        settingView.settingTableView.delegate = self
-        settingView.settingTableView.dataSource = self
-        settingView.settingTableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reuseIdentifier)
+        settingView.settingCollectionView.collectionViewLayout = createLayout()
+        settingView.settingCollectionView.delegate = self
+        configureDataSource()
         self.navigationItem.title = "설정"
     }
     
@@ -78,6 +80,45 @@ class SettingViewController: BaseViewController {
             print(#function, "실패여~")
         }
     }
+}
+
+extension SettingViewController {
+    private func createLayout() -> UICollectionViewLayout {
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: config)
+        return layout
+    }
+    
+    private func configureDataSource() {
+        let cellRegisteration = UICollectionView.CellRegistration<UICollectionViewListCell, String>(handler: { cell, indexPath, itemIdentifier in
+            var content = UIListContentConfiguration.valueCell()
+            
+            content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
+            
+            content.attributedText = NSAttributedString(string: itemIdentifier, attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.black])
+            
+            cell.contentConfiguration = content
+            
+            var background = UIBackgroundConfiguration.listPlainCell()
+            background.backgroundColor = .lightGray
+            cell.backgroundConfiguration = background
+        })
+        
+        dataSource = UICollectionViewDiffableDataSource(collectionView: settingView.settingCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegisteration, for: indexPath, item: itemIdentifier)
+            
+            return cell
+        })
+        
+        var snapshot = NSDiffableDataSourceSnapshot<String, String>()
+        snapshot.appendSections(viewModel.settingTitleLabels)
+        snapshot.appendItems(viewModel.settingLabels)
+        dataSource.apply(snapshot)
+    }
+}
+
+extension SettingViewController: UICollectionViewDelegate {
+    
 }
 
 extension SettingViewController: UIDocumentPickerDelegate {
