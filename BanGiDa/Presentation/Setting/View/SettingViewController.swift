@@ -23,9 +23,9 @@ class SettingViewController: BaseViewController {
     
     var version: String? {
         guard let dictionary = Bundle.main.infoDictionary,
-            let version = dictionary["CFBundleShortVersionString"] as? String,
-            let _ = dictionary["CFBundleVersion"] as? String else {return nil}
-
+              let version = dictionary["CFBundleShortVersionString"] as? String,
+              let _ = dictionary["CFBundleVersion"] as? String else {return nil}
+        
         let versionAndBuild: String = "\(version)"
         return versionAndBuild
     }
@@ -94,7 +94,11 @@ extension SettingViewController {
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, String>(handler: { cell, indexPath, itemIdentifier in
             var content = UIListContentConfiguration.valueCell()
             
-            content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
+            if indexPath.section == 2, indexPath.item == 1 {
+                content.secondaryAttributedText = NSAttributedString(string: self.version ?? "2.0.0", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
+            } else {
+                content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
+            }
             
             content.attributedText = NSAttributedString(string: itemIdentifier, attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.black])
             
@@ -106,7 +110,7 @@ extension SettingViewController {
         })
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, elementKind, indexPath in
-                        
+            
             var configuration = headerView.defaultContentConfiguration()
             configuration.text = self.viewModel.settingTitleLabels[indexPath.section]
             
@@ -135,7 +139,46 @@ extension SettingViewController {
 }
 
 extension SettingViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        print(indexPath)
+        if indexPath.section == 0 {
+            switch indexPath.row {
+            case 0:
+                backupFileButtonClicked()
+            case 1:
+                restoreFileButtonClicked()
+            case 2:
+                showSelectAlert(message: "데이터 초기화 시 기존 데이터는 전부 사라집니다. \n\n데이터 초기화를 진행할까요?") { _ in
+                    self.viewModel.resetData()
+                    let walkthorughVC = WalkThroughViewController()
+                    self.tabBarController?.selectedIndex = 0
+                    self.transViewController(ViewController: walkthorughVC, type: .presentFullscreen)
+                }
+                break
+            default:
+                break
+            }
+        } else if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                moveToReview()
+            } else if indexPath.row == 1 {
+                sendMail()
+            }
+        } else if indexPath.section == 2 {
+            if indexPath.row == 0 {
+                
+                guard let url = Bundle.main.url(forResource: "Package", withExtension: "resolved"),
+                      let data = try? Data(contentsOf: url),
+                      let acknowList = try? AcknowPackageDecoder().decode(from: data) else {
+                    return
+                }
+                
+                let vc = AcknowListViewController()
+                vc.acknowledgements = acknowList.acknowledgements
+                transViewController(ViewController: vc, type: .push)
+            }
+        }
+    }
 }
 
 extension SettingViewController: UIDocumentPickerDelegate {
@@ -278,10 +321,10 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     private func moveToReview() {
-            if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(6443524869)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
-                UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
-            }
+        if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(6443524869)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
+            UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
         }
+    }
 }
 
 extension SettingViewController : MFMailComposeViewControllerDelegate {
