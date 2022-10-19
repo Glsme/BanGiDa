@@ -15,20 +15,11 @@ class SettingViewController: BaseViewController {
     let settingView = SettingView()
     let viewModel = SettingViewModel()
     
-    private var dataSource: UICollectionViewDiffableDataSource<Int, String>!
+    
     
     var zipFiles: [URL] = []
     
     let repository = UserDiaryRepository.shared
-    
-    var version: String? {
-        guard let dictionary = Bundle.main.infoDictionary,
-              let version = dictionary["CFBundleShortVersionString"] as? String,
-              let _ = dictionary["CFBundleVersion"] as? String else {return nil}
-        
-        let versionAndBuild: String = "\(version)"
-        return versionAndBuild
-    }
     
     override func loadView() {
         self.view = settingView
@@ -42,7 +33,7 @@ class SettingViewController: BaseViewController {
     override func configureUI() {
         settingView.settingCollectionView.collectionViewLayout = createLayout()
         settingView.settingCollectionView.delegate = self
-        configureDataSource()
+        viewModel.configureDataSource(settingCollectionView: settingView.settingCollectionView)
         self.navigationItem.title = "설정"
     }
     
@@ -88,53 +79,6 @@ extension SettingViewController {
         config.headerMode = .supplementary
         let layout = UICollectionViewCompositionalLayout.list(using: config)
         return layout
-    }
-    
-    private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, String>(handler: { cell, indexPath, itemIdentifier in
-            var content = UIListContentConfiguration.valueCell()
-            
-            if indexPath.section == 2, indexPath.item == 1 {
-                content.secondaryAttributedText = NSAttributedString(string: self.version ?? "2.0.0", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
-            } else {
-                content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
-            }
-            
-            content.attributedText = NSAttributedString(string: itemIdentifier, attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.black])
-            
-            cell.contentConfiguration = content
-            
-            var background = UIBackgroundConfiguration.listPlainCell()
-            background.backgroundColor = .ultraLightGray
-            cell.backgroundConfiguration = background
-        })
-        
-        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, elementKind, indexPath in
-            
-            var configuration = headerView.defaultContentConfiguration()
-            configuration.text = self.viewModel.settingTitleLabels[indexPath.section]
-            
-            headerView.contentConfiguration = configuration
-        }
-        
-        dataSource = UICollectionViewDiffableDataSource(collectionView: settingView.settingCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-            
-            return cell
-        })
-        
-        dataSource.supplementaryViewProvider = { [unowned self]
-            (collectionView, elementKind, indexPath) -> UICollectionReusableView? in
-            return self.settingView.settingCollectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
-        snapshot.appendSections([0, 1, 2])
-        snapshot.appendItems(viewModel.dataLabel, toSection: 0)
-        snapshot.appendItems(viewModel.serviceLabel, toSection: 1)
-        snapshot.appendItems(viewModel.appInfoLabel, toSection: 2)
-        
-        dataSource.apply(snapshot)
     }
 }
 
