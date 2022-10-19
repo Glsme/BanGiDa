@@ -15,7 +15,7 @@ class SettingViewController: BaseViewController {
     let settingView = SettingView()
     let viewModel = SettingViewModel()
     
-    private var dataSource: UICollectionViewDiffableDataSource<String, String>!
+    private var dataSource: UICollectionViewDiffableDataSource<Int, String>!
     
     var zipFiles: [URL] = []
     
@@ -84,13 +84,14 @@ class SettingViewController: BaseViewController {
 
 extension SettingViewController {
     private func createLayout() -> UICollectionViewLayout {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        var config = UICollectionLayoutListConfiguration(appearance: .grouped)
+        config.headerMode = .supplementary
         let layout = UICollectionViewCompositionalLayout.list(using: config)
         return layout
     }
     
     private func configureDataSource() {
-        let cellRegisteration = UICollectionView.CellRegistration<UICollectionViewListCell, String>(handler: { cell, indexPath, itemIdentifier in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, String>(handler: { cell, indexPath, itemIdentifier in
             var content = UIListContentConfiguration.valueCell()
             
             content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
@@ -100,19 +101,35 @@ extension SettingViewController {
             cell.contentConfiguration = content
             
             var background = UIBackgroundConfiguration.listPlainCell()
-            background.backgroundColor = .lightGray
+            background.backgroundColor = .ultraLightGray
             cell.backgroundConfiguration = background
         })
         
+        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { headerView, elementKind, indexPath in
+                        
+            var configuration = headerView.defaultContentConfiguration()
+            configuration.text = self.viewModel.settingTitleLabels[indexPath.section]
+            
+            headerView.contentConfiguration = configuration
+        }
+        
         dataSource = UICollectionViewDiffableDataSource(collectionView: settingView.settingCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegisteration, for: indexPath, item: itemIdentifier)
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
             
             return cell
         })
         
-        var snapshot = NSDiffableDataSourceSnapshot<String, String>()
-        snapshot.appendSections(viewModel.settingTitleLabels)
-        snapshot.appendItems(viewModel.settingLabels)
+        dataSource.supplementaryViewProvider = { [unowned self]
+            (collectionView, elementKind, indexPath) -> UICollectionReusableView? in
+            return self.settingView.settingCollectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
+        snapshot.appendSections([0, 1, 2])
+        snapshot.appendItems(viewModel.dataLabel, toSection: 0)
+        snapshot.appendItems(viewModel.serviceLabel, toSection: 1)
+        snapshot.appendItems(viewModel.appInfoLabel, toSection: 2)
+        
         dataSource.apply(snapshot)
     }
 }
