@@ -63,23 +63,23 @@ class MemoView: BaseView {
         return view
     }()
     
-    let nameCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 100, height: 25)
-        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.backgroundColor = .backgroundColor
-        
-        return view
-    }()
+//    let nameCollectionView: UICollectionView = {
+//        let layout = UICollectionViewFlowLayout()
+//        layout.scrollDirection = .horizontal
+//        layout.itemSize = CGSize(width: 100, height: 25)
+//        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        view.backgroundColor = .backgroundColor
+//
+//        return view
+//    }()
     
-    let nameLabel: UILabel = {
-        let view = UILabel()
-        view.text = "이름"
-        view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
-        view.textColor = .memoDarkGray
-        return view
-    }()
+//    let nameLabel: UILabel = {
+//        let view = UILabel()
+//        view.text = "이름"
+//        view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
+//        view.textColor = .memoDarkGray
+//        return view
+//    }()
     
     let firstLine = LineView()
     let secondLine = LineView()
@@ -96,7 +96,7 @@ class MemoView: BaseView {
     
     override func configureUI() {
         self.addSubview(memoView)
-        [imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine, thirdLine, nameCollectionView, nameLabel].forEach {
+        [imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine, thirdLine].forEach {
             memoView.addSubview($0)
         }
         
@@ -137,7 +137,7 @@ class MemoView: BaseView {
         textView.snp.makeConstraints { make in
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
-            make.top.equalTo(thirdLine.snp.bottom).offset(20)
+            make.top.equalTo(secondLine.snp.bottom).offset(20)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-10)
         }
         
@@ -155,26 +155,26 @@ class MemoView: BaseView {
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
         }
         
-        thirdLine.snp.makeConstraints { make in
-            make.top.equalTo(secondLine.snp.bottom).offset(41)
-            make.width.equalTo(secondLine.snp.width)
-            make.height.equalTo(1)
-            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
-        }
+//        thirdLine.snp.makeConstraints { make in
+//            make.top.equalTo(secondLine.snp.bottom).offset(41)
+//            make.width.equalTo(secondLine.snp.width)
+//            make.height.equalTo(1)
+//            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+//        }
         
-        nameCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(secondLine.snp.bottom).offset(8)
-            make.height.equalTo(25)
-            make.leading.equalTo(nameLabel.snp.trailing).offset(20)
-            make.trailing.equalTo(secondLine.snp.trailing)
-        }
+//        nameCollectionView.snp.makeConstraints { make in
+//            make.top.equalTo(secondLine.snp.bottom).offset(8)
+//            make.height.equalTo(25)
+//            make.leading.equalTo(nameLabel.snp.trailing).offset(20)
+//            make.trailing.equalTo(secondLine.snp.trailing)
+//        }
         
-        nameLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(nameCollectionView)
-            make.leading.equalTo(firstLine.snp.leading).offset(10)
-            make.width.equalTo(50)
-            make.height.equalTo(nameCollectionView.snp.height)
-        }
+//        nameLabel.snp.makeConstraints { make in
+//            make.centerY.equalTo(nameCollectionView)
+//            make.leading.equalTo(firstLine.snp.leading).offset(10)
+//            make.width.equalTo(50)
+//            make.height.equalTo(nameCollectionView.snp.height)
+//        }
     }
     
     let formatter: DateFormatter = {

@@ -39,9 +39,9 @@ class WriteViewController: BaseViewController {
         memoView.dateTextField.tintColor = .clear
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         
-        memoView.nameCollectionView.delegate = self
-        memoView.nameCollectionView.dataSource = self
-        memoView.nameCollectionView.register(AnimalNameCollectionViewCell.self, forCellWithReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier)
+//        memoView.nameCollectionView.delegate = self
+//        memoView.nameCollectionView.dataSource = self
+//        memoView.nameCollectionView.register(AnimalNameCollectionViewCell.self, forCellWithReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier)
     }
     
     func setNavigationStyle() {
