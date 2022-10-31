@@ -16,6 +16,7 @@ class SettingViewController: BaseViewController {
     let viewModel = SettingViewModel()
     
     var zipFiles: [URL] = []
+    private var dataSource: UICollectionViewDiffableDataSource<Int, String>!
     
     let repository = UserDiaryRepository.shared
     
@@ -31,7 +32,30 @@ class SettingViewController: BaseViewController {
     override func configureUI() {
         settingView.settingCollectionView.collectionViewLayout = createLayout()
         settingView.settingCollectionView.delegate = self
-        viewModel.configureDataSource(settingCollectionView: settingView.settingCollectionView)
+//        viewModel.configureDataSource(settingCollectionView: settingView.settingCollectionView)
+        
+        let cellRegistration = createCellRegistration()
+        let headerRegistration = createHeaderRegistration()
+        
+        dataSource = UICollectionViewDiffableDataSource(collectionView: settingView.settingCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+            
+            return cell
+        })
+        
+        dataSource.supplementaryViewProvider = { [weak self]
+            (collectionView, elementKind, indexPath) -> UICollectionReusableView? in
+            return self?.settingView.settingCollectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
+        snapshot.appendSections([0, 1, 2])
+        snapshot.appendItems(viewModel.dataLabel, toSection: 0)
+        snapshot.appendItems(viewModel.serviceLabel, toSection: 1)
+        snapshot.appendItems(viewModel.appInfoLabel, toSection: 2)
+        
+        dataSource.apply(snapshot)
+        
         self.navigationItem.title = "설정"
     }
     
@@ -77,6 +101,41 @@ extension SettingViewController {
         config.headerMode = .supplementary
         let layout = UICollectionViewCompositionalLayout.list(using: config)
         return layout
+    }
+    
+    private func createCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, String> {
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, String>(handler: { [weak self] cell, indexPath, itemIdentifier in
+            var content = UIListContentConfiguration.valueCell()
+            
+            if indexPath.section == 2, indexPath.item == 1 {
+                content.secondaryAttributedText = NSAttributedString(string: self?.viewModel.version ?? "2.0.0", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
+            } else {
+                content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
+            }
+            
+            content.attributedText = NSAttributedString(string: itemIdentifier, attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.black])
+            
+            cell.contentConfiguration = content
+            
+            var background = UIBackgroundConfiguration.listPlainCell()
+            background.backgroundColor = .ultraLightGray
+            cell.backgroundConfiguration = background
+        })
+        
+        return cellRegistration
+    }
+    
+    private func createHeaderRegistration() -> UICollectionView.SupplementaryRegistration<UICollectionViewListCell> {
+        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
+            
+            var configuration = headerView.defaultContentConfiguration()
+            configuration.text = self?.viewModel.settingTitleLabels[indexPath.section]
+            configuration.textProperties.font = UIFont(name: "HelveticaNeue-Medium", size: 13) ?? UIFont.systemFont(ofSize: 13)
+            configuration.textProperties.color = UIColor.systemTintColor ?? UIColor.black
+            headerView.contentConfiguration = configuration
+        }
+        
+        return headerRegistration
     }
 }
 
