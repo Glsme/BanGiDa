@@ -15,8 +15,6 @@ class SettingViewController: BaseViewController {
     let settingView = SettingView()
     let viewModel = SettingViewModel()
     
-    
-    
     var zipFiles: [URL] = []
     
     let repository = UserDiaryRepository.shared
