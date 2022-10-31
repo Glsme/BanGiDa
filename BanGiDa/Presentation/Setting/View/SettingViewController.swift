@@ -99,6 +99,7 @@ extension SettingViewController {
     private func createLayout() -> UICollectionViewLayout {
         var config = UICollectionLayoutListConfiguration(appearance: .grouped)
         config.headerMode = .supplementary
+        config.backgroundColor = UIColor.backgroundColor
         let layout = UICollectionViewCompositionalLayout.list(using: config)
         return layout
     }
@@ -108,17 +109,17 @@ extension SettingViewController {
             var content = UIListContentConfiguration.valueCell()
             
             if indexPath.section == 2, indexPath.item == 1 {
-                content.secondaryAttributedText = NSAttributedString(string: self?.viewModel.version ?? "2.0.0", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
+                content.secondaryAttributedText = NSAttributedString(string: self?.viewModel.version ?? "2.0.0", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.systemTintColor ?? UIColor.black])
             } else {
-                content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.black])
+                content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.systemTintColor ?? UIColor.black])
             }
             
-            content.attributedText = NSAttributedString(string: itemIdentifier, attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.black])
+            content.attributedText = NSAttributedString(string: itemIdentifier, attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.systemTintColor ?? UIColor.black])
             
             cell.contentConfiguration = content
             
             var background = UIBackgroundConfiguration.listPlainCell()
-            background.backgroundColor = .ultraLightGray
+            background.backgroundColor = .memoBackgroundColor
             cell.backgroundConfiguration = background
         })
         
