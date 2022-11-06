@@ -9,13 +9,6 @@ import UIKit
 import SnapKit
 
 final class SettingView: BaseView {
-    
-//    let settingTableView: UITableView = {
-//        let view = UITableView(frame: .zero, style: .grouped)
-//        view.backgroundColor = .backgroundColor
-//        return view
-//    }()
-    
     let settingCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
         return view
@@ -30,15 +23,10 @@ final class SettingView: BaseView {
     }
     
     override func configureUI() {
-//        self.addSubview(settingTableView)
         self.addSubview(settingCollectionView)
     }
     
     override func setConstraints() {
-//        settingTableView.snp.makeConstraints { make in
-//            make.edges.equalTo(self)
-//        }
-        
         settingCollectionView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }

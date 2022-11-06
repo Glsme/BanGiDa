@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class CommonViewModel {
+public class CommonViewModel {
     
     let notificationCenter = UNUserNotificationCenter.current()
     

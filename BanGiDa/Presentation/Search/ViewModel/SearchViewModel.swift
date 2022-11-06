@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewModel: CommonViewModel {
+final class SearchViewModel: CommonViewModel {
     
     var isFiltering: Observable<Bool> = Observable(false)
     var currentIndex: Observable<Int?> = Observable(nil)

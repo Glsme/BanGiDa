@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewController: BaseViewController {
+final class SearchViewController: BaseViewController {
     
     let searchView = SearchView()
     let viewModel = SearchViewModel()
@@ -51,7 +51,7 @@ class SearchViewController: BaseViewController {
         searchView.filterTableView.register(AlarmListTableViewCell.self, forCellReuseIdentifier: AlarmListTableViewCell.reuseIdentifier)
     }
     
-    func bind() {
+    private func bind() {
         viewModel.currentIndex.bind { [weak self] index in
             guard let self = self else { return }
             self.searchView.filterTableView.reloadData()
