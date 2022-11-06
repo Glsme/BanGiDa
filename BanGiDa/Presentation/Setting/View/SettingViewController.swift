@@ -10,7 +10,7 @@ import MessageUI
 import AcknowList
 import StoreKit
 
-class SettingViewController: BaseViewController {
+final class SettingViewController: BaseViewController {
     
     let settingView = SettingView()
     let viewModel = SettingViewModel()
@@ -59,7 +59,7 @@ class SettingViewController: BaseViewController {
         self.navigationItem.title = "설정"
     }
     
-    func backupFileButtonClicked() {
+    private func backupFileButtonClicked() {
         do {
             try repository.saveEncodedDataToDocument()
             let backupFilePath = try self.repository.documentManager.createBackupFile()
@@ -71,7 +71,7 @@ class SettingViewController: BaseViewController {
         }
     }
     
-    func restoreFileButtonClicked() {
+    private func restoreFileButtonClicked() {
         showSelectAlert(message: "데이터 복구 시 기존 데이터는 삭제됩니다. \n\n복구를 진행할까요?") { [weak self] _ in
             let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
             documentPicker.delegate = self
@@ -80,12 +80,12 @@ class SettingViewController: BaseViewController {
         }
     }
     
-    func showActivityViewController(filePath: URL) {
+    private func showActivityViewController(filePath: URL) {
         let vc = UIActivityViewController(activityItems: [filePath], applicationActivities: [])
         self.transViewController(ViewController: vc, type: .present)
     }
     
-    func fetchZipFiles() {
+    private func fetchZipFiles() {
         do {
             zipFiles = try repository.documentManager.fetchDocumentZipFile()
         }

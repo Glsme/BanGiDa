@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SettingViewModel: CommonViewModel {
+final class SettingViewModel: CommonViewModel {
     
     let dataLabel = ["백업", "복구", "초기화"]
     let serviceLabel = ["리뷰 남기기", "문의하기"]
@@ -18,13 +18,13 @@ class SettingViewModel: CommonViewModel {
     var version: String? {
         guard let dictionary = Bundle.main.infoDictionary,
               let version = dictionary["CFBundleShortVersionString"] as? String,
-              let _ = dictionary["CFBundleVersion"] as? String else {return nil}
+              let _ = dictionary["CFBundleVersion"] as? String else { return nil }
 
         let versionAndBuild: String = "\(version)"
         return versionAndBuild
     }
     
-    func setSectionHeaderView(section: Int) -> String {
+    public func setSectionHeaderView(section: Int) -> String {
         switch section {
         case 0:
             return "데이터"
@@ -37,7 +37,7 @@ class SettingViewModel: CommonViewModel {
         }
     }
     
-    func setCellNumber(section: Int) -> Int {
+    public func setCellNumber(section: Int) -> Int {
         if section == 0 {
             return dataLabel.count
         } else if section == 1 {
@@ -49,7 +49,7 @@ class SettingViewModel: CommonViewModel {
         }
     }
     
-    func setCellText(indexPath: IndexPath) -> String {
+    public func setCellText(indexPath: IndexPath) -> String {
         var text = ""
         
         if indexPath.section == 0 {
@@ -63,7 +63,7 @@ class SettingViewModel: CommonViewModel {
         return text
     }
     
-    func setNotifications() {
+    public func setNotifications() {
         UserDiaryRepository.shared.fetch()
         inputDataIntoArray()
         
@@ -78,7 +78,7 @@ class SettingViewModel: CommonViewModel {
         }
     }
     
-    func resetData() {
+    public func resetData() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.first.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKey.name.rawValue)
         UserDiaryRepository.shared.deleteAll()
