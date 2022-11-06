@@ -193,6 +193,15 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		85719E762917C0ED00E8F88D /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				857541D428C9BBF1004DD880 /* AppDelegate.swift */,
+				857541D628C9BBF1004DD880 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		857541C828C9BBF1004DD880 = {
 			isa = PBXGroup;
 			children = (
@@ -216,13 +225,12 @@
 			children = (
 				854A00EA28F5539E00575556 /* BanGiDa.entitlements */,
 				854A00E828F5514200575556 /* GoogleService-Info.plist */,
+				85719E762917C0ED00E8F88D /* Application */,
 				8594820D28DCAAE6000C6AD7 /* DataBase */,
 				85A8D01628CF777F00F22A80 /* Presentation */,
 				85A8D00328CEF8BF00F22A80 /* Resource */,
 				85075C5828CC90DA00FAF6BA /* Extension */,
 				8575422828C9D1AC004DD880 /* Protocol */,
-				857541D428C9BBF1004DD880 /* AppDelegate.swift */,
-				857541D628C9BBF1004DD880 /* SceneDelegate.swift */,
 				857541DD28C9BBF2004DD880 /* Assets.xcassets */,
 				857541DF28C9BBF2004DD880 /* LaunchScreen.storyboard */,
 				857541E228C9BBF2004DD880 /* Info.plist */,
