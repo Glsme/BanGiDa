@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import RealmSwift
 
-class WriteViewModel: CommonViewModel {
+final class WriteViewModel: CommonViewModel {
     
     var currentIndex: Observable<Int> = Observable(0)
     var diaryContent: Observable<String> = Observable("")

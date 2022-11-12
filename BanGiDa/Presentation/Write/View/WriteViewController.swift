@@ -9,7 +9,7 @@ import UIKit
 import PhotosUI
 import CropViewController
 
-class WriteViewController: BaseViewController {
+final class WriteViewController: BaseViewController {
     
     let viewModel = WriteViewModel()
     let memoView = MemoView()

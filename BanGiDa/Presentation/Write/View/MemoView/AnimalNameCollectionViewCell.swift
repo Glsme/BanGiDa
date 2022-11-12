@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class AnimalNameCollectionViewCell: UICollectionViewCell {
+final class AnimalNameCollectionViewCell: UICollectionViewCell {
     let nameButton: AnimalNameButton = {
        let view = AnimalNameButton()
         view.backgroundColor = .memoDarkGray

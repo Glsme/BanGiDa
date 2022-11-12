@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MemoView: BaseView {
+final class MemoView: BaseView {
     
     let memoView: UIView = {
         let view = UIView()
@@ -221,7 +221,6 @@ class MemoView: BaseView {
     }
     
     @objc func datePickerValueDidChange(_ datePicker: UIDatePicker) {
-        
         dateTextField.text = formatter.string(from: datePicker.date)
     }
     
