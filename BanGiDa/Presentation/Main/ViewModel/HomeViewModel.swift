@@ -44,29 +44,17 @@ class HomeViewModel: CommonViewModel {
         
         switch section {
         case 0:
-            if !memoTaskList.isEmpty {
-                value = height
-            }
+            value = !memoTaskList.isEmpty ? height : value
         case 1:
-            if !alarmTaskList.isEmpty {
-                value = height
-            }
+            value = !alarmTaskList.isEmpty ? height : value
         case 2:
-            if !growthTaskList.isEmpty {
-                value = height
-            }
+            value = !growthTaskList.isEmpty ? height : value
         case 3:
-            if !showerTaskList.isEmpty {
-                value = height
-            }
+            value = !showerTaskList.isEmpty ? height : value
         case 4:
-            if !hospitalTaskList.isEmpty {
-                value = height
-            }
+            value = !hospitalTaskList.isEmpty ? height : value
         case 5:
-            if !abnormalTaskList.isEmpty {
-                value = height
-            }
+            value = !abnormalTaskList.isEmpty ? height : value
         default:
             break
         }
