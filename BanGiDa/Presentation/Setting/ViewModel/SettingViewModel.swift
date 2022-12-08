@@ -64,7 +64,7 @@ final class SettingViewModel: CommonViewModel {
     }
     
     public func setNotifications() {
-        UserDiaryRepository.shared.fetch()
+//        UserDiaryRepository.shared.fetch()
         inputDataIntoArray()
         
         var index = 0

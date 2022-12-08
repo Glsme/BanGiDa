@@ -77,11 +77,9 @@ struct DocumentManager {
             guard let path = documentDirectoryPath() else { return [] }
             
             let docs = try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
-            
             let zip = docs.filter { $0.pathExtension == "zip" }
             
             return zip
-            
         } catch {
             throw DocumentError.fetchZipFileError
         }
@@ -91,7 +89,6 @@ struct DocumentManager {
         guard let documentPath = documentDirectoryPath() else { throw DocumentError.fetchDirectoryPathError }
         
         let jsonDataPath = documentPath.appendingPathComponent("encodedData.json")
-
         try data.write(to: jsonDataPath)
     }
     
