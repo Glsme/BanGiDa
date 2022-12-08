@@ -5,26 +5,13 @@
 //  Created by Seokjune Hong on 2022/09/19.
 //
 
-import UIKit
+import Foundation
+
 import RealmSwift
 
 class AlarmViewModel: CommonViewModel {
     var dateText: Observable<String> = Observable("")
     var diaryContent: Observable<String> = Observable("")
-    
-    func checkTextViewPlaceHolder(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray {
-            textView.text = nil
-            textView.textColor = UIColor.systemTintColor
-        }
-    }
-    
-    func checkTextViewIsEmpty(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.textColor = .lightGray
-            textView.text = selectButtonList[1].placeholder
-        }
-    }
     
     func saveData(content: String, dateText: String, titleText: String) {
         

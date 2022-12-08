@@ -30,12 +30,6 @@ class AlarmViewController: BaseViewController {
         setNavigationStyle()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-//        setNavigationStyle()
-    }
-    
     deinit {
         print("alarm view deinit")
     }
@@ -117,10 +111,16 @@ class AlarmViewController: BaseViewController {
 
 extension AlarmViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        viewModel.checkTextViewPlaceHolder(textView)
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.systemTintColor
+        }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        viewModel.checkTextViewIsEmpty(textView)
+        if textView.text.isEmpty {
+            textView.textColor = .lightGray
+            textView.text = viewModel.selectButtonList[1].placeholder
+        }
     }
 }
