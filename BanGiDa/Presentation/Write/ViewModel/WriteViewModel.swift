@@ -44,8 +44,6 @@ final class WriteViewModel: CommonViewModel {
             let date = dateText.toDate() ?? Date()
             let animalName = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
             
-            print(date, "???")
-            
             let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: animalName ?? "신원 미상", content: content, photo: "", alarmTitle: nil)
             UserDiaryRepository.shared.write(task)
             
@@ -68,8 +66,6 @@ final class WriteViewModel: CommonViewModel {
         let content = content
         let date = dateText.toDate() ?? Date()
         let regDate = Date()
-        
-        print(date, "???")
         
         UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "", alarmTitle: nil)
         

@@ -63,7 +63,7 @@ final class MemoView: BaseView {
         return view
     }()
     
-//    let nameCollectionView: UICollectionView = {
+//    let nameCollectionV iew: UICollectionView = {
 //        let layout = UICollectionViewFlowLayout()
 //        layout.scrollDirection = .horizontal
 //        layout.itemSize = CGSize(width: 100, height: 25)
