@@ -217,7 +217,7 @@ extension SettingViewController: UIDocumentPickerDelegate {
                     try repository.documentManager.fetchDocumentZipFile() // ????
                     try repository.restoreRealmForBackupFile()
                     try repository.documentManager.createBackupFile()
-                    //                    showActivityViewController(filePath: backupFilePath)
+//                                        showActivityViewController(filePath: backupFilePath)
                     viewModel.setNotifications()
                     tabBarController?.selectedIndex = 0
                 } catch {

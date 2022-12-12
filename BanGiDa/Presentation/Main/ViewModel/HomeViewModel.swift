@@ -43,18 +43,12 @@ class HomeViewModel: CommonViewModel {
         var value: CGFloat = 0
         
         switch section {
-        case 0:
-            value = !memoTaskList.isEmpty ? height : value
-        case 1:
-            value = !alarmTaskList.isEmpty ? height : value
-        case 2:
-            value = !growthTaskList.isEmpty ? height : value
-        case 3:
-            value = !showerTaskList.isEmpty ? height : value
-        case 4:
-            value = !hospitalTaskList.isEmpty ? height : value
-        case 5:
-            value = !abnormalTaskList.isEmpty ? height : value
+        case 0: value = !memoTaskList.isEmpty ? height : value
+        case 1: value = !alarmTaskList.isEmpty ? height : value
+        case 2: value = !growthTaskList.isEmpty ? height : value
+        case 3: value = !showerTaskList.isEmpty ? height : value
+        case 4: value = !hospitalTaskList.isEmpty ? height : value
+        case 5: value = !abnormalTaskList.isEmpty ? height : value
         default:
             break
         }
