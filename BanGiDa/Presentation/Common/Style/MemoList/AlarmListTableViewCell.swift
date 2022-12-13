@@ -7,6 +7,12 @@
 
 import UIKit
 
+/// Home UI 내 TableView 중 Alarm에 쓰이는 TableView Cell입니다.
+
+/**
+ # OverView
+ - Home UI -> TableView 내 사용
+ */
 class AlarmListTableViewCell: BaseTableViewCell {
     let dateLabel: UILabel = {
         let view = UILabel()
