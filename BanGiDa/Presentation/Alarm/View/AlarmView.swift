@@ -8,6 +8,15 @@
 import UIKit
 import SnapKit
 
+/// AlarmViewController에 사용되는 View입니다.
+/**
+ # OverView
+ - AlarmViewController 내 View로 사용
+ 
+ ## Font Style:
+ - HelveticaNeue-Medium, 12
+ - HelveticaNeue-Medium, 16
+ */
 class AlarmView: BaseView {
     
     let dateLabel: UILabel = {
