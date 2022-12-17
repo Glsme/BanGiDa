@@ -13,12 +13,14 @@
 [‎앱스토어 링크](https://apps.apple.com/kr/app/BangiDaApp/id6443524869)
 </br><br/>
 </br><br/>
+
 ## 🛠️ 사용 기술 및 라이브러리
 
 - `Swift`, `MVVM`, `UIKit`, `APNs`, `MessageUI`, `StoreKit`
-- `Realm`, `SnapKit`, `FirebaseAnalytics`, `FirebaseCrashlytics`, `FCM`, `FSCalendar`, `IQKeybordManagerSwift`, `Zip`, `TOCropViewController`
+- `Realm`, `FirebaseAnalytics`, `FirebaseCrashlytics`, `FCM`, `SnapKit`, `FSCalendar`, `IQKeybordManagerSwift`, `Zip`, `TOCropViewController`
 </br><br/>
 </br><br/>
+
 ## 🗓️ 개발 기간
 
 - 개발 기간: 2022년 9월 6일 ~ 2022년 9월 29일 (약 3주, 이후 지속적인 업데이트 진행 중)
@@ -34,6 +36,7 @@
 
 </br><br/>
 </br><br/>
+
 ## ✏️ 구현해야 할 기술
 
 - Code base로 UI 작성
@@ -42,8 +45,24 @@
 - FCM을 사용하여 사용자에게 push 알림
 </br><br/>
 </br><br/>
+
 ## 💡 Trouble Shooting
 
+- 메모 작성 화면에서 스와이프로 pop 모션을 실행하다 돌아가면 네비게이션바가 사라지는 현상 발생
+    
+    → TabBarController, NavigationController를 모두 사용할 때 push - pop 시 현상 발생 확인. 
+    
+    → FSCalendar 내부 reloadData 시점 문제 reloadData 시점을 DispatchQueue로 조절하여 해결
+    
+
+```swift
+DispatchQueue.main.async { [weak self] in
+    guard let self = self else { return }
+    self.mainView.homeTableView.calendar.reloadData()
+    self.mainView.homeTableView.reloadData()
+}
+```
+</br><br/>
 - TableView의 데이터 업데이트에 따른 분기처리로 코드의 양이 많아지고 Index out of range 에러 발생
     
     → 섹션의 개수를 상수로 주고, 업데이트 시 셀의 개수만 핸들링하도록 변경
@@ -78,21 +97,6 @@ let homeTableView: HomeTableView = {
 }()
 ```
 </br><br/>
-- 메모 작성 화면에서 스와이프로 pop 모션을 실행하다 돌아가면 네비게이션바가 사라지는 현상 발생
-    
-    → TabBarController, NavigationController를 모두 사용할 때 push - pop 시 현상 발생 확인. 
-    
-    → FSCalendar 내부 reloadData 시점 문제 reloadData 시점을 DispatchQueue로 조절하여 해결
-    
-
-```swift
-DispatchQueue.main.async { [weak self] in
-    guard let self = self else { return }
-    self.mainView.homeTableView.calendar.reloadData()
-    self.mainView.homeTableView.reloadData()
-}
-```
-</br><br/>
 - 기존 백업/복구 기능 중 복구 작업 시 복구 후 필연적으로 앱이 종료됨
     
     → 백업 시 Data를 JSON 형식으로 저장하고 복구할 때 JSON 형식에서 Data로 Decoding 으로 해결
@@ -102,14 +106,18 @@ DispatchQueue.main.async { [weak self] in
 
 </br><br/>
 </br><br/>
+
 ## 🤔 회고
 
-- ViewModel의 규칙 중 UIKit을 import하면 안된다는 규칙을 모르고 ViewController의 로직을 모두 ViewModel로 옮겼다. (현재 리팩토링 진행 중)
-- 메모리릭에 대응하면서 메모리릭을 신경쓰며 개발할 수 있는 능력을 키웠다.
+- ViewModel의 규칙 중 UIKit을 import하면 안 된다는 규칙을 모르고 ViewController의 로직을 모두 ViewModel로 옮겼다. (현재 리팩토링 진행 중)
+- 메모리릭에 대응하면서 메모리릭을 신경 쓰며 개발할 수 있는 능력을 키웠다.
 - 공수 산정을 하고 직접 개발을 하며 공수 산정의 중요성을 깨닫는 계기가 되었고, 총 일정에 맞춰 개발 일정을 계획하는 능력을 키웠다.
-- Observable class를 사용하여 양방향 Binding을 적용하였지만, 장점을 제대로 적용시켜 사용하지 못하고 있다는 것을 깨달았다. 추후 양방향 Binding의 장점을 좀 더 적극적으로 사용해서 코드를 리팩토링 해보면 좋을것 같다.
+- Observable class를 사용하여 양방향 Binding을 적용하였지만, 장점을 제대로 적용시켜 사용하지 못하고 있다는 것을 깨달았다. 추후 양방향 Binding의 장점을 좀 더 적극적으로 사용해서 코드를 리팩토링해보면 좋을 것 같다.
+- 현재 Notification을 활용한 알람 기능에서 로컬 알림 개수에 관한 제한이 없는데 만약 64개가 넘어갈 경우 앱이 동작하지 않는다는 것을 알게 되었다. 이와 관련하여 리팩토링 시 개수를 제한하는 코드를 작성해야겠다고 생각했다.
+- 프로젝트 내에서 `String`, 또는 `Int`값들을 raw하게 모두 직접 넣어줬는데 추후 보수 작업 시 비용이 많이 발생하는 것을 느꼈다. 추후 열거형으로 정리하여 raw값들을 쉽게 관리할 수 있도록 리팩토링해야겠다.
 </br><br/>
 </br><br/>
+
 ## 출시 정보
 
 ### v1.0
