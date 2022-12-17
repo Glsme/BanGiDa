@@ -2,7 +2,7 @@
 
 ![bangida_preview](https://user-images.githubusercontent.com/88874280/207097533-477e217a-defc-44f4-a658-ee9d81552504.png)
 
-###동물들의 생활 기록 및 추억을 기록하기 위한 앱입니다. 
+### 동물들의 생활 기록 및 추억을 기록하기 위한 앱입니다. 
 
 - Realm을 사용하여 메모를 기록하고 저장할 수 있습니다.
 - 카테고리별로 선택하여 메모할 수 있습니다.
@@ -15,8 +15,8 @@
 </br><br/>
 ## 🛠️ 사용 기술 및 라이브러리
 
-- `Swift`, `UIKit`, `MVVM`, `MessageUI`, `StoreKit`
-- `Realm`, `SnapKit`, `Firebase`, `FSCalendar`, `IQKeybordManagerSwift`, `Zip`, `TOCropViewController`
+- `Swift`, `UIKit`, `MVVM`, `MessageUI`, `StoreKit`, `APNs`
+- `Realm`, `SnapKit`, `FirebaseAnalytics`, `FirebaseCrashlytics`, `FCM`, `FSCalendar`, `IQKeybordManagerSwift`, `Zip`, `TOCropViewController`
 </br><br/>
 </br><br/>
 ## 🗓️ 개발 기간
