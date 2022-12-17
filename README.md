@@ -17,9 +17,9 @@
 ## 🛠️ 사용 기술 및 라이브러리
 
 - `Swift`, `MVVM`, `UIKit`, `APNs`, `MessageUI`, `StoreKit`
-- `Realm`, `SnapKit`, `FirebaseAnalytics`, `FirebaseCrashlytics`, `FCM`, `FSCalendar`,
+- `Realm`, `SnapKit`, `FirebaseAnalytics`, `FirebaseCrashlytics`, `FCM`, `FSCalendar`, `Zip`,
     
-    `IQKeybordManagerSwift`, `Zip`, `TOCropViewController`
+    `IQKeybordManagerSwift`, `TOCropViewController`
 </br><br/>
 </br><br/>
 
@@ -41,10 +41,12 @@
 
 ## ✏️ 구현해야 할 기술
 
-- Code base로 UI 작성
 - MVVM 패턴 이해 및 적용
-- Realm 데이터 핸들링 방법
+- Code base로 UI 작성
+- Realm 데이터 CRUD 및 백업•복구 방법
+- Notification을 사용하여 사용자 알람 설정
 - FCM을 사용하여 사용자에게 push 알림
+- FSCalendar를 사용하여 사용자에게 정보 표시 및 수정•삭제 기능 구현
 </br><br/>
 </br><br/>
 
