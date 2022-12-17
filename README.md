@@ -10,7 +10,7 @@
 - 카테고리 필터를 적용하여 최근 기록들을 살펴볼 수 있습니다.
 - Realm data를 json형식으로 변환하여 원하는 데이터를 백업 및 복구할 수 있습니다.
 
-[‎반기다: 반려동물 기록 다이어리](https://apps.apple.com/kr/app/BangiDaApp/id6443524869)
+[‎앱스토어 링크](https://apps.apple.com/kr/app/BangiDaApp/id6443524869)
 </br><br/>
 </br><br/>
 ## 🛠️ 사용 기술 및 라이브러리
