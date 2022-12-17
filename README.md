@@ -17,7 +17,9 @@
 ## 🛠️ 사용 기술 및 라이브러리
 
 - `Swift`, `MVVM`, `UIKit`, `APNs`, `MessageUI`, `StoreKit`
-- `Realm`, `FirebaseAnalytics`, `FirebaseCrashlytics`, `FCM`, `SnapKit`, `FSCalendar`, `IQKeybordManagerSwift`, `Zip`, `TOCropViewController`
+- `Realm`, `SnapKit`, `FirebaseAnalytics`, `FirebaseCrashlytics`, `FCM`, `FSCalendar`,
+    
+    `IQKeybordManagerSwift`, `Zip`, `TOCropViewController`
 </br><br/>
 </br><br/>
 
