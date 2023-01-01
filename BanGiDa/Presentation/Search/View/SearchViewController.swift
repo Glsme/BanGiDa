@@ -69,7 +69,20 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .init())
         }
 
-        return viewModel.cellForItemAt(collectionView: collectionView, indexPath: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.backgroundColor = .lightGray
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = viewModel.selectButtonList[indexPath.item].color
+        cell.selectedBackgroundView = backgroundView
+        
+        cell.clipsToBounds = true
+        cell.layer.cornerRadius = cell.frame.height / 2
+        cell.imageView.image = viewModel.selectButtonList[indexPath.item].image
+        cell.tintColor = .white
+        
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -86,11 +99,17 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        viewModel.setSelectedTableViewHeaderView()
+        let headerView = MemoHeaderView()
+        
+        guard let index = viewModel.currentIndex.value else { return UIView() }
+        headerView.headerLabel.text = viewModel.selectButtonList[index].title
+        headerView.circle.backgroundColor = viewModel.selectButtonList[index].color
+        
+        return headerView
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.setnumberOfSections()
+        return viewModel.currentIndex.value == nil ? 0 : 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,7 +117,31 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return viewModel.cellForRowAt(tableView: tableView, indexPath: indexPath)
+        var dateText = ""
+        var contentText = ""
+        var alarmTitle = ""
+        var image = UIImage()
+        
+        inputDataInToCell(indexPath: indexPath) { selectedDateText, selectedContentText, selectedAlarmTitle, selectedImage in
+            dateText = selectedDateText
+            contentText = selectedContentText
+            alarmTitle = selectedAlarmTitle
+            image = selectedImage
+        }
+        
+        if viewModel.currentIndex.value == 1 {
+            guard let alarmCell = tableView.dequeueReusableCell(withIdentifier: AlarmListTableViewCell.reuseIdentifier, for: indexPath) as? AlarmListTableViewCell else { return UITableViewCell() }
+            
+            alarmCell.configureCell(date: dateText, content: alarmTitle, alarmBackgroundColor: .memoBackgroundColor)
+            
+            return alarmCell
+        } else {
+            guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
+            
+            memoCell.configureCell(image: image, date: dateText, content: contentText, memoBackgroundColor: .memoBackgroundColor)
+            
+            return memoCell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -144,5 +187,46 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         delete.backgroundColor = .red
         
         return UISwipeActionsConfiguration(actions: [delete])
+    }
+}
+
+extension SearchViewController {
+    private func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String, String, UIImage) -> () ) {
+        var dateText = ""
+        var contentText = ""
+        var alarmTitle = ""
+        var image = UIImage()
+        
+        guard let index = viewModel.currentIndex.value else { return }
+        
+        switch index {
+        case 0:
+            dateText = dateFormatter.string(from: viewModel.memoTaskList[indexPath.row].date)
+            contentText = viewModel.memoTaskList[indexPath.row].content
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+        case 1:
+            dateText = dateFormatter.string(from: viewModel.alarmTaskList[indexPath.row].date)
+            alarmTitle = viewModel.alarmTaskList[indexPath.row].alarmTitle ?? "알람"
+        case 2:
+            dateText = dateFormatter.string(from: viewModel.growthTaskList[indexPath.row].date)
+            contentText = viewModel.growthTaskList[indexPath.row].content
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.growthTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+        case 3:
+            dateText = dateFormatter.string(from: viewModel.showerTaskList[indexPath.row].date)
+            contentText = viewModel.showerTaskList[indexPath.row].content
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.showerTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+        case 4:
+            dateText = dateFormatter.string(from: viewModel.hospitalTaskList[indexPath.row].date)
+            contentText = viewModel.hospitalTaskList[indexPath.row].content
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.hospitalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+        case 5:
+            dateText = dateFormatter.string(from: viewModel.abnormalTaskList[indexPath.row].date)
+            contentText = viewModel.abnormalTaskList[indexPath.row].content
+            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.abnormalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
+        default:
+            break
+        }
+        
+        completionHandler(dateText, contentText, alarmTitle, image)
     }
 }

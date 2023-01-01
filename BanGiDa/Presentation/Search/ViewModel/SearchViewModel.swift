@@ -12,63 +12,6 @@ final class SearchViewModel: CommonViewModel {
     var isFiltering: Observable<Bool> = Observable(false)
     var currentIndex: Observable<Int?> = Observable(nil)
     
-    func setSelectedTableViewHeaderView() -> UIView {
-        let headerView = MemoHeaderView()
-        
-        guard let index = currentIndex.value else { return UIView() }
-        headerView.headerLabel.text = selectButtonList[index].title
-        headerView.circle.backgroundColor = selectButtonList[index].color
-        
-        return headerView
-    }
-    
-    func setnumberOfSections() -> Int {
-        if currentIndex.value == nil {
-            return 0
-        } else {
-            return 1
-        }
-    }
-    
-    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String, String, UIImage) -> () ) {
-        var dateText = ""
-        var contentText = ""
-        var alarmTitle = ""
-        var image = UIImage()
-        
-        guard let index = currentIndex.value else { return }
-        
-        switch index {
-        case 0:
-            dateText = dateFormatter.string(from: memoTaskList[indexPath.row].date)
-            contentText = memoTaskList[indexPath.row].content
-            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
-        case 1:
-            dateText = dateFormatter.string(from: alarmTaskList[indexPath.row].date)
-            alarmTitle = alarmTaskList[indexPath.row].alarmTitle ?? "알람"
-        case 2:
-            dateText = dateFormatter.string(from: growthTaskList[indexPath.row].date)
-            contentText = growthTaskList[indexPath.row].content
-            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(growthTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
-        case 3:
-            dateText = dateFormatter.string(from: showerTaskList[indexPath.row].date)
-            contentText = showerTaskList[indexPath.row].content
-            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(showerTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
-        case 4:
-            dateText = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
-            contentText = hospitalTaskList[indexPath.row].content
-            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(hospitalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
-        case 5:
-            dateText = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
-            contentText = abnormalTaskList[indexPath.row].content
-            image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(abnormalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
-        default:
-            break
-        }
-        
-        completionHandler(dateText, contentText, alarmTitle, image)
-    }
-    
     func enterEditMemo<T: UIViewController>(ViewController vc: T, indexPath: IndexPath) {
         let writeVC = WriteViewController()
         
@@ -148,50 +91,5 @@ final class SearchViewModel: CommonViewModel {
         } else {
             return 0
         }
-    }
-    
-    func cellForRowAt(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        var dateText = ""
-        var contentText = ""
-        var alarmTitle = ""
-        var image = UIImage()
-        
-        inputDataInToCell(indexPath: indexPath) { selectedDateText, selectedContentText, selectedAlarmTitle, selectedImage in
-            dateText = selectedDateText
-            contentText = selectedContentText
-            alarmTitle = selectedAlarmTitle
-            image = selectedImage
-        }
-        
-        if currentIndex.value == 1 {
-            guard let alarmCell = tableView.dequeueReusableCell(withIdentifier: AlarmListTableViewCell.reuseIdentifier, for: indexPath) as? AlarmListTableViewCell else { return UITableViewCell() }
-            
-            alarmCell.configureCell(date: dateText, content: alarmTitle, alarmBackgroundColor: .memoBackgroundColor)
-            
-            return alarmCell
-        } else {
-            guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
-            
-            memoCell.configureCell(image: image, date: dateText, content: contentText, memoBackgroundColor: .memoBackgroundColor)
-            
-            return memoCell
-        }
-    }
-    
-    func cellForItemAt(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return UICollectionViewCell() }
-        
-        cell.backgroundColor = .lightGray
-        
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = selectButtonList[indexPath.item].color
-        cell.selectedBackgroundView = backgroundView
-        
-        cell.clipsToBounds = true
-        cell.layer.cornerRadius = cell.frame.height / 2
-        cell.imageView.image = selectButtonList[indexPath.item].image
-        cell.tintColor = .white
-        
-        return cell
     }
 }
