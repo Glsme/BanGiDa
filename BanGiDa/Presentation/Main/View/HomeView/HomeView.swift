@@ -17,11 +17,14 @@ class HomeView: BaseView {
     
     let selectCollectionView: SelectButtonCollectionView = {
         let view = SelectButtonCollectionView(frame: .zero, collectionViewLayout: selectCollectionViewLayout())
+        view.register(SelectButtonCollectionViewCell.self, forCellWithReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier)
         return view
     }()
     
     let homeTableView: HomeTableView = {
         let view = HomeTableView(frame: .zero, style: .insetGrouped)
+        view.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.reuseIdentifier)
+        view.register(AlarmListTableViewCell.self, forCellReuseIdentifier: AlarmListTableViewCell.reuseIdentifier)
         view.contentInset = .zero
         view.contentInsetAdjustmentBehavior = .never
         view.rowHeight = 100

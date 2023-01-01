@@ -71,8 +71,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         //tableView
         mainView.homeTableView.delegate = self
         mainView.homeTableView.dataSource = self
-        mainView.homeTableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.reuseIdentifier)
-        mainView.homeTableView.register(AlarmListTableViewCell.self, forCellReuseIdentifier: AlarmListTableViewCell.reuseIdentifier)
         
         //Calendar
         mainView.homeTableView.calendar.delegate = self
@@ -81,7 +79,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
         //CollectionView
         mainView.selectCollectionView.delegate = self
         mainView.selectCollectionView.dataSource = self
-        mainView.selectCollectionView.register(SelectButtonCollectionViewCell.self, forCellWithReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier)
         
         mainView.todayButton.addTarget(self, action: #selector(todayButtonClicked), for: .touchUpInside)
         mainView.dateSelectButton.addTarget(self, action: #selector(dateSelectButtonClcicked), for: .touchUpInside)
@@ -120,7 +117,6 @@ class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func dateSelectButtonClcicked() {
-        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let datePicker = UIDatePicker()

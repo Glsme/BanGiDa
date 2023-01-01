@@ -49,7 +49,7 @@ final class SearchViewController: BaseViewController {
     }
     
     private func bind() {
-        viewModel.currentIndex.bind { [weak self] index in
+        viewModel.currentIndex.bind { [weak self] _ in
             guard let self = self else { return }
             self.searchView.filterTableView.reloadData()
         }
@@ -232,6 +232,7 @@ extension SearchViewController {
         
         if let index = viewModel.currentIndex.value {
             let category = Category(rawValue: index)
+            
             switch category {
             case .memo:
                 writeVC.memoView.textView.text = viewModel.memoTaskList[indexPath.row].content
