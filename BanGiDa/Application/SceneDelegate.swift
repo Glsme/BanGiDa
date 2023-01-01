@@ -19,23 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: scene)
-        
-        let homeVC = UINavigationController(rootViewController: HomeViewViewController())
-        let searchVC = UINavigationController(rootViewController: SearchViewController())
-        let settingVC = UINavigationController(rootViewController: SettingViewController())
-        
-        let tabBarController = UITabBarController()
-        tabBarController.setViewControllers([homeVC, searchVC, settingVC], animated: true)
-        tabBarController.tabBar.tintColor = .red
-        tabBarController.tabBar.backgroundColor = .tabBarColor
-        
-        if let items = tabBarController.tabBar.items {
-            items[0].image = UIImage(systemName: "square.and.pencil")
-            items[1].image = UIImage(systemName: "magnifyingglass")
-            items[2].image = UIImage(systemName: "gearshape")
-        }
-        
-        window?.rootViewController = tabBarController
+        window?.rootViewController = MainTabViewController()
         window?.makeKeyAndVisible()
     }
 

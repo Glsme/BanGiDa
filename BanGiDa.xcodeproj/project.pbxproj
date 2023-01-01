@@ -72,6 +72,7 @@
 		85CCEAEC28D89C350086E5CA /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CCEAEB28D89C350086E5CA /* AlarmViewController.swift */; };
 		85CCEAEE28D89CAE0086E5CA /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CCEAED28D89CAE0086E5CA /* AlarmViewModel.swift */; };
 		85E17B012961CE5400124C89 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E17B002961CE5400124C89 /* Category.swift */; };
+		85E17B072961DDF800124C89 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E17B062961DDF800124C89 /* MainTabViewController.swift */; };
 		85EC496028D6392B0095EEB4 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC495F28D6392B0095EEB4 /* LineView.swift */; };
 /* End PBXBuildFile section */
 
@@ -132,6 +133,7 @@
 		85CCEAEB28D89C350086E5CA /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		85CCEAED28D89CAE0086E5CA /* AlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewModel.swift; sourceTree = "<group>"; };
 		85E17B002961CE5400124C89 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		85E17B062961DDF800124C89 /* MainTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MainTabViewController.swift; path = BanGiDa/Presentation/Common/Util/MainTabViewController.swift; sourceTree = SOURCE_ROOT; };
 		85EC495F28D6392B0095EEB4 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -358,13 +360,13 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
-		85A8D01128CF60ED00F22A80 /* Main */ = {
+		85A8D01128CF60ED00F22A80 /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				859BBCE628CB729A006EF18A /* ViewModel */,
 				8575420328C9CA74004DD880 /* View */,
 			);
-			path = Main;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		85A8D01228CF60F700F22A80 /* Button */ = {
@@ -380,11 +382,7 @@
 			children = (
 				85A8D02028D0776400F22A80 /* Common */,
 				859481FF28DC8309000C6AD7 /* WalkTrough */,
-				85CCEAE628D897800086E5CA /* Alarm */,
-				85075C5B28CC91F200FAF6BA /* Write */,
-				85A8D01128CF60ED00F22A80 /* Main */,
-				857541EB28C9BEFA004DD880 /* Search */,
-				857541EC28C9BF1E004DD880 /* Setting */,
+				85E17B042961DDB000124C89 /* Main */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -533,6 +531,27 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		85E17B042961DDB000124C89 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				85E17B052961DDCA00124C89 /* TabBar */,
+				85CCEAE628D897800086E5CA /* Alarm */,
+				85075C5B28CC91F200FAF6BA /* Write */,
+				85A8D01128CF60ED00F22A80 /* Home */,
+				857541EB28C9BEFA004DD880 /* Search */,
+				857541EC28C9BF1E004DD880 /* Setting */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		85E17B052961DDCA00124C89 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				85E17B062961DDF800124C89 /* MainTabViewController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		85EC495E28D639070095EEB4 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -676,6 +695,7 @@
 				85A8D02C28D0C08900F22A80 /* SettingTableViewCell.swift in Sources */,
 				8594820428DC838C000C6AD7 /* WalkThroughView.swift in Sources */,
 				8594820A28DC984A000C6AD7 /* UserDefaultsKey.swift in Sources */,
+				85E17B072961DDF800124C89 /* MainTabViewController.swift in Sources */,
 				8575420228C9C9CF004DD880 /* HomeView.swift in Sources */,
 				857541D528C9BBF1004DD880 /* AppDelegate.swift in Sources */,
 				85CCEAE828D8978C0086E5CA /* AlarmView.swift in Sources */,
