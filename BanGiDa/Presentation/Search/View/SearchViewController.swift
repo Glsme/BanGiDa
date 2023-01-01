@@ -126,15 +126,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             image = selectedImage
         }
         
-        if viewModel.currentIndex.value == 1 {
+        if let index = viewModel.currentIndex.value, Category(rawValue: index) == .alarm {
             guard let alarmCell = tableView.dequeueReusableCell(withIdentifier: AlarmListTableViewCell.reuseIdentifier, for: indexPath) as? AlarmListTableViewCell else { return UITableViewCell() }
-            
             alarmCell.configureCell(date: dateText, content: alarmTitle, alarmBackgroundColor: .memoBackgroundColor)
             
             return alarmCell
         } else {
             guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
-            
             memoCell.configureCell(image: image, date: dateText, content: contentText, memoBackgroundColor: .memoBackgroundColor)
             
             return memoCell
