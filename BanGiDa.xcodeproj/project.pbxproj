@@ -71,6 +71,7 @@
 		85CCEAE828D8978C0086E5CA /* AlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CCEAE728D8978C0086E5CA /* AlarmView.swift */; };
 		85CCEAEC28D89C350086E5CA /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CCEAEB28D89C350086E5CA /* AlarmViewController.swift */; };
 		85CCEAEE28D89CAE0086E5CA /* AlarmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CCEAED28D89CAE0086E5CA /* AlarmViewModel.swift */; };
+		85E17B012961CE5400124C89 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E17B002961CE5400124C89 /* Category.swift */; };
 		85EC496028D6392B0095EEB4 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC495F28D6392B0095EEB4 /* LineView.swift */; };
 /* End PBXBuildFile section */
 
@@ -130,6 +131,7 @@
 		85CCEAE728D8978C0086E5CA /* AlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmView.swift; sourceTree = "<group>"; };
 		85CCEAEB28D89C350086E5CA /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		85CCEAED28D89CAE0086E5CA /* AlarmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewModel.swift; sourceTree = "<group>"; };
+		85E17B002961CE5400124C89 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		85EC495F28D6392B0095EEB4 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -424,6 +426,7 @@
 		85A8D02028D0776400F22A80 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				85E17AFF2961CDD700124C89 /* Util */,
 				857541EF28C9BF48004DD880 /* Base */,
 				85A93CD628D30224006C06D6 /* ViewModel */,
 				85A8D02F28D0DAE700F22A80 /* Style */,
@@ -520,6 +523,14 @@
 				85CCEAEB28D89C350086E5CA /* AlarmViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		85E17AFF2961CDD700124C89 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				85E17B002961CE5400124C89 /* Category.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 		85EC495E28D639070095EEB4 /* View */ = {
@@ -656,6 +667,7 @@
 				85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */,
 				85A8D03228D0DB6400F22A80 /* MemoListTableViewCell.swift in Sources */,
 				85CCEAEE28D89CAE0086E5CA /* AlarmViewModel.swift in Sources */,
+				85E17B012961CE5400124C89 /* Category.swift in Sources */,
 				859BBCE928CB7473006EF18A /* HomeViewModel.swift in Sources */,
 				85A8D01028CF0DBF00F22A80 /* UIColor+Extension.swift in Sources */,
 				859BBCE528CB7035006EF18A /* Observable.swift in Sources */,

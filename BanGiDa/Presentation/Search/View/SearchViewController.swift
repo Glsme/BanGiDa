@@ -155,22 +155,23 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)
             
             if let index = self.viewModel.currentIndex.value {
-                switch index {
-                case 0:
+                let category = Category(rawValue: index)
+                switch category {
+                case .memo:
                     task = self.viewModel.memoTaskList[indexPath.row]
-                case 1:
+                case .alarm:
                     self.viewModel.removeNotification(title: self.viewModel.alarmTaskList[indexPath.row].alarmTitle ?? "",
                                                       body: self.viewModel.alarmTaskList[indexPath.row].content,
                                                       date: self.viewModel.alarmTaskList[indexPath.row].date,
                                                       index: indexPath.row)
                     task = self.viewModel.alarmTaskList[indexPath.row]
-                case 2:
+                case .growth:
                     task = self.viewModel.growthTaskList[indexPath.row]
-                case 3:
+                case .shower:
                     task = self.viewModel.showerTaskList[indexPath.row]
-                case 4:
+                case .hospital:
                     task = self.viewModel.hospitalTaskList[indexPath.row]
-                case 5:
+                case .abnormal:
                     task = self.viewModel.abnormalTaskList[indexPath.row]
                 default:
                     break
@@ -198,28 +199,29 @@ extension SearchViewController {
         var image = UIImage()
         
         guard let index = viewModel.currentIndex.value else { return }
+        let category = Category(rawValue: index)
         
-        switch index {
-        case 0:
+        switch category {
+        case .memo:
             dateText = dateFormatter.string(from: viewModel.memoTaskList[indexPath.row].date)
             contentText = viewModel.memoTaskList[indexPath.row].content
             image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.memoTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
-        case 1:
+        case .alarm:
             dateText = dateFormatter.string(from: viewModel.alarmTaskList[indexPath.row].date)
             alarmTitle = viewModel.alarmTaskList[indexPath.row].alarmTitle ?? "알람"
-        case 2:
+        case .growth:
             dateText = dateFormatter.string(from: viewModel.growthTaskList[indexPath.row].date)
             contentText = viewModel.growthTaskList[indexPath.row].content
             image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.growthTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
-        case 3:
+        case .shower:
             dateText = dateFormatter.string(from: viewModel.showerTaskList[indexPath.row].date)
             contentText = viewModel.showerTaskList[indexPath.row].content
             image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.showerTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
-        case 4:
+        case .hospital:
             dateText = dateFormatter.string(from: viewModel.hospitalTaskList[indexPath.row].date)
             contentText = viewModel.hospitalTaskList[indexPath.row].content
             image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.hospitalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
-        case 5:
+        case .abnormal:
             dateText = dateFormatter.string(from: viewModel.abnormalTaskList[indexPath.row].date)
             contentText = viewModel.abnormalTaskList[indexPath.row].content
             image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.abnormalTaskList[indexPath.row].objectId).jpg") ?? UIImage(named: "BasicDog")!
@@ -234,13 +236,14 @@ extension SearchViewController {
         let writeVC = WriteViewController()
         
         if let index = viewModel.currentIndex.value {
-            switch index {
-            case 0:
+            let category = Category(rawValue: index)
+            switch category {
+            case .memo:
                 writeVC.memoView.textView.text = viewModel.memoTaskList[indexPath.row].content
                 writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.memoTaskList[indexPath.row].date)
                 writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.memoTaskList[indexPath.row].objectId).jpg")
                 UserDiaryRepository.shared.primaryKey = viewModel.memoTaskList[indexPath.row].objectId
-            case 1:
+            case .alarm:
                 let alarmVC = AlarmViewController()
                 alarmVC.navigationItem.title = viewModel.selectButtonList[indexPath.section].title
                 alarmVC.alarmView.dateTextField.text = viewModel.dateAndTimeFormatter.string(from: viewModel.alarmTaskList[indexPath.row].date)
@@ -249,22 +252,22 @@ extension SearchViewController {
                 UserDiaryRepository.shared.primaryKey = viewModel.alarmTaskList[indexPath.row].objectId
                 vc.transViewController(ViewController: alarmVC, type: .push)
                 return
-            case 2:
+            case .growth:
                 writeVC.memoView.textView.text = viewModel.growthTaskList[indexPath.row].content
                 writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.growthTaskList[indexPath.row].date)
                 writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.growthTaskList[indexPath.row].objectId).jpg")
                 UserDiaryRepository.shared.primaryKey = viewModel.growthTaskList[indexPath.row].objectId
-            case 3:
+            case .shower:
                 writeVC.memoView.textView.text = viewModel.showerTaskList[indexPath.row].content
                 writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.showerTaskList[indexPath.row].date)
                 writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.showerTaskList[indexPath.row].objectId).jpg")
                 UserDiaryRepository.shared.primaryKey = viewModel.showerTaskList[indexPath.row].objectId
-            case 4:
+            case .hospital:
                 writeVC.memoView.textView.text = viewModel.hospitalTaskList[indexPath.row].content
                 writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.hospitalTaskList[indexPath.row].date)
                 writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.hospitalTaskList[indexPath.row].objectId).jpg")
                 UserDiaryRepository.shared.primaryKey = viewModel.hospitalTaskList[indexPath.row].objectId
-            case 5:
+            case .abnormal:
                 writeVC.memoView.textView.text = viewModel.abnormalTaskList[indexPath.row].content
                 writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.abnormalTaskList[indexPath.row].date)
                 writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.abnormalTaskList[indexPath.row].objectId).jpg")
@@ -280,8 +283,6 @@ extension SearchViewController {
                 writeVC.memoView.imageButton.setTitle("이미지 편집", for: .normal)
             }
             
-//            print("index:: \(index)")
-//            writeVC.navigationItem.title = selectButtonList[index].title
             writeVC.viewModel.currentIndex.value = index
             
             vc.transViewController(ViewController: writeVC, type: .push)
