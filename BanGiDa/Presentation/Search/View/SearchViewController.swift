@@ -145,7 +145,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.enterEditMemo(ViewController: self, indexPath: indexPath)
+        enterEditMemo(ViewController: self, indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -228,5 +228,63 @@ extension SearchViewController {
         }
         
         completionHandler(dateText, contentText, alarmTitle, image)
+    }
+    
+    private func enterEditMemo<T: UIViewController>(ViewController vc: T, indexPath: IndexPath) {
+        let writeVC = WriteViewController()
+        
+        if let index = viewModel.currentIndex.value {
+            switch index {
+            case 0:
+                writeVC.memoView.textView.text = viewModel.memoTaskList[indexPath.row].content
+                writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.memoTaskList[indexPath.row].date)
+                writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.memoTaskList[indexPath.row].objectId).jpg")
+                UserDiaryRepository.shared.primaryKey = viewModel.memoTaskList[indexPath.row].objectId
+            case 1:
+                let alarmVC = AlarmViewController()
+                alarmVC.navigationItem.title = viewModel.selectButtonList[indexPath.section].title
+                alarmVC.alarmView.dateTextField.text = viewModel.dateAndTimeFormatter.string(from: viewModel.alarmTaskList[indexPath.row].date)
+                alarmVC.alarmView.memoTextView.text = viewModel.alarmTaskList[indexPath.row].content
+                alarmVC.alarmView.titleTextField.text = viewModel.alarmTaskList[indexPath.row].alarmTitle
+                UserDiaryRepository.shared.primaryKey = viewModel.alarmTaskList[indexPath.row].objectId
+                vc.transViewController(ViewController: alarmVC, type: .push)
+                return
+            case 2:
+                writeVC.memoView.textView.text = viewModel.growthTaskList[indexPath.row].content
+                writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.growthTaskList[indexPath.row].date)
+                writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.growthTaskList[indexPath.row].objectId).jpg")
+                UserDiaryRepository.shared.primaryKey = viewModel.growthTaskList[indexPath.row].objectId
+            case 3:
+                writeVC.memoView.textView.text = viewModel.showerTaskList[indexPath.row].content
+                writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.showerTaskList[indexPath.row].date)
+                writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.showerTaskList[indexPath.row].objectId).jpg")
+                UserDiaryRepository.shared.primaryKey = viewModel.showerTaskList[indexPath.row].objectId
+            case 4:
+                writeVC.memoView.textView.text = viewModel.hospitalTaskList[indexPath.row].content
+                writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.hospitalTaskList[indexPath.row].date)
+                writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.hospitalTaskList[indexPath.row].objectId).jpg")
+                UserDiaryRepository.shared.primaryKey = viewModel.hospitalTaskList[indexPath.row].objectId
+            case 5:
+                writeVC.memoView.textView.text = viewModel.abnormalTaskList[indexPath.row].content
+                writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.abnormalTaskList[indexPath.row].date)
+                writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.abnormalTaskList[indexPath.row].objectId).jpg")
+                UserDiaryRepository.shared.primaryKey = viewModel.abnormalTaskList[indexPath.row].objectId
+            default:
+                break
+            }
+            
+            if writeVC.memoView.imageView.image == UIImage(named: "BasicDog") || writeVC.memoView.imageView.image == nil {
+    //            print("image is Empty")
+                writeVC.memoView.imageButton.setTitle("이미지 추가", for: .normal)
+            } else {
+                writeVC.memoView.imageButton.setTitle("이미지 편집", for: .normal)
+            }
+            
+//            print("index:: \(index)")
+//            writeVC.navigationItem.title = selectButtonList[index].title
+            writeVC.viewModel.currentIndex.value = index
+            
+            vc.transViewController(ViewController: writeVC, type: .push)
+        }
     }
 }
