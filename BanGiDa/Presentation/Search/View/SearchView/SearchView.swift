@@ -9,19 +9,21 @@ import UIKit
 import SnapKit
 
 final class SearchView: BaseView {
-    
     let headerView: UIView = {
         let view = UIView()
         return view
     }()
     
-    let selectCollectionView: SelectButtonCollectionView = {
+    lazy var selectCollectionView: SelectButtonCollectionView = {
         let view = SelectButtonCollectionView(frame: .zero, collectionViewLayout: selectCollectionViewLayout())
+        view.register(SelectButtonCollectionViewCell.self, forCellWithReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier)
         return view
     }()
     
     let filterTableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
+        view.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.reuseIdentifier)
+        view.register(AlarmListTableViewCell.self, forCellReuseIdentifier: AlarmListTableViewCell.reuseIdentifier)
         view.rowHeight = 100
         view.backgroundColor = .backgroundColor
         return view
@@ -61,7 +63,7 @@ final class SearchView: BaseView {
         }
     }
     
-    static func selectCollectionViewLayout() -> UICollectionViewFlowLayout {
+    func selectCollectionViewLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         let spacing: CGFloat = 10
         let width = (UIScreen.main.bounds.width * 0.95) - (spacing * 5)

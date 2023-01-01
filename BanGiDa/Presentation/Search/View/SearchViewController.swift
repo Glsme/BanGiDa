@@ -43,12 +43,9 @@ final class SearchViewController: BaseViewController {
     override func configureUI() {
         searchView.selectCollectionView.delegate = self
         searchView.selectCollectionView.dataSource = self
-        searchView.selectCollectionView.register(SelectButtonCollectionViewCell.self, forCellWithReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier)
         
         searchView.filterTableView.delegate = self
         searchView.filterTableView.dataSource = self
-        searchView.filterTableView.register(MemoListTableViewCell.self, forCellReuseIdentifier: MemoListTableViewCell.reuseIdentifier)
-        searchView.filterTableView.register(AlarmListTableViewCell.self, forCellReuseIdentifier: AlarmListTableViewCell.reuseIdentifier)
     }
     
     private func bind() {
