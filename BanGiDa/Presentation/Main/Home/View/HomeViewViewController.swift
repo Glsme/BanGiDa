@@ -271,6 +271,7 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         let shouldBegin = mainView.homeTableView.contentOffset.y <= -mainView.homeTableView.contentInset.top
+        
         if shouldBegin {
             let velocity = self.scopeGesture.velocity(in: self.view)
             switch mainView.homeTableView.calendar.scope {
@@ -282,15 +283,12 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
                 fatalError()
             }
         }
+        
         return shouldBegin
     }
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        if UserDiaryRepository.shared.fetchDate(date: date).count == 0 {
-            return 0
-        } else {
-            return 1
-        }
+        return UserDiaryRepository.shared.fetchDate(date: date).count == 0 ? 0 : 1
     }
     
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
