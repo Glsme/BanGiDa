@@ -221,25 +221,25 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completionHandler in
             guard let self = self else { return }
-            
             var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)
+            let category = Category(rawValue: indexPath.section)
             
-            switch indexPath.section {
-            case 0:
+            switch category {
+            case .memo:
                 task = self.viewModel.memoTaskList[indexPath.row]
-            case 1:
+            case .alarm:
                 self.viewModel.removeNotification(title: self.viewModel.alarmTaskList[indexPath.row].alarmTitle ?? "",
                                                   body: self.viewModel.alarmTaskList[indexPath.row].content,
                                                   date: self.viewModel.alarmTaskList[indexPath.row].date,
                                                   index: indexPath.row)
                 task = self.viewModel.alarmTaskList[indexPath.row]
-            case 2:
+            case .growth:
                 task = self.viewModel.growthTaskList[indexPath.row]
-            case 3:
+            case .shower:
                 task = self.viewModel.showerTaskList[indexPath.row]
-            case 4:
+            case .hospital:
                 task = self.viewModel.hospitalTaskList[indexPath.row]
-            case 5:
+            case .abnormal:
                 task = self.viewModel.abnormalTaskList[indexPath.row]
             default:
                 break
