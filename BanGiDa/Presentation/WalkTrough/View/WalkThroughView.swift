@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class WalkThroughView: BaseView {
+final class WalkThroughView: BaseView {
     let dogImageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "ColorDog")

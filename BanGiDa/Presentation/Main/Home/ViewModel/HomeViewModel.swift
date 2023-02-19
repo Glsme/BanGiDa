@@ -5,14 +5,13 @@
 //  Created by Seokjune Hong on 2022/09/09.
 //
 
-import UIKit
+import Foundation
 import FSCalendar
 import RealmSwift
 
 //MARK: - Home ViewModel
 
 final class HomeViewModel: CommonViewModel {
-    
     let homeView = HomeView()
     
     func checkNumberOfRowsInsection(section: Int) -> Int {

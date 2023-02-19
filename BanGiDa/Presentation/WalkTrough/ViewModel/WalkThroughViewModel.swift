@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WalkthroughViewModel: CommonViewModel {
+final class WalkthroughViewModel: CommonViewModel {
     func saveDescriptionData() {
         let animalName = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
         let task = Diary(type: RealmDiaryType(rawValue: 0),
