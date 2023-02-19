@@ -17,7 +17,7 @@ import SnapKit
  - HelveticaNeue-Medium, 12
  - HelveticaNeue-Medium, 16
  */
-class AlarmView: BaseView {
+final class AlarmView: BaseView {
     
     let dateLabel: UILabel = {
         let view = UILabel()

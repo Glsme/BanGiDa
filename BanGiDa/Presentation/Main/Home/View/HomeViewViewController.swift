@@ -9,7 +9,7 @@ import UIKit
 import FSCalendar
 import FirebaseAnalytics
 
-class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
+final class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     let mainView = HomeView()
     let viewModel = HomeViewModel()

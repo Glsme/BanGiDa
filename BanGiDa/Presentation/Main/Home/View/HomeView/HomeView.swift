@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class HomeView: BaseView {
+final class HomeView: BaseView {
     
     let headerView: UIView = {
         let view = UIView()

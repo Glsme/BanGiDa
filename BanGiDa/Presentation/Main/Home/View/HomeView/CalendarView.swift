@@ -8,7 +8,7 @@
 import UIKit
 import FSCalendar
 
-class CalendarView: FSCalendar {
+final class CalendarView: FSCalendar {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

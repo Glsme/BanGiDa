@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AlarmViewController: BaseViewController {
+final class AlarmViewController: BaseViewController {
     
     let alarmView = AlarmView()
     let viewModel = AlarmViewModel()

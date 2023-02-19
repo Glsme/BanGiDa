@@ -11,7 +11,7 @@ import RealmSwift
 
 //MARK: - Home ViewModel
 
-class HomeViewModel: CommonViewModel {
+final class HomeViewModel: CommonViewModel {
     
     let homeView = HomeView()
     

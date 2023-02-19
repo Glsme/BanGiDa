@@ -9,7 +9,7 @@ import Foundation
 
 import RealmSwift
 
-class AlarmViewModel: CommonViewModel {
+final class AlarmViewModel: CommonViewModel {
     var dateText: Observable<String> = Observable("")
     var diaryContent: Observable<String> = Observable("")
     
