@@ -18,10 +18,6 @@ final class SettingView: BaseView {
         super.init(frame: frame)
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
     override func configureUI() {
         self.addSubview(settingCollectionView)
     }

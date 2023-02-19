@@ -90,10 +90,6 @@ final class MemoView: BaseView {
         
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
     override func configureUI() {
         self.addSubview(memoView)
         [imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine, thirdLine].forEach {

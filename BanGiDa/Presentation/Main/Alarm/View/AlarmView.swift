@@ -61,10 +61,6 @@ class AlarmView: BaseView {
         super.init(frame: frame)
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
     override func configureUI() {
         [dateLabel, dateTextField, firstLine, titleTextField, secondLine ,memoTextView].forEach {
             self.addSubview($0)

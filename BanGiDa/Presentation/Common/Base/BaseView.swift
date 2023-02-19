@@ -16,6 +16,7 @@ class BaseView: UIView {
         setConstraints()
     }
     
+    @available (*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }

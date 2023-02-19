@@ -28,10 +28,6 @@ class MemoHeaderView: BaseView {
         super.init(frame: frame)
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
     override func configureUI() {
         [circle, headerLabel].forEach {
             self.addSubview($0)

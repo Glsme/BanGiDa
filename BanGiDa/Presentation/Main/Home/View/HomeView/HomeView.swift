@@ -51,10 +51,6 @@ class HomeView: BaseView {
         
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
     override func configureUI() {
         headerView.addSubview(selectCollectionView)
         homeTableView.calendar.addSubview(todayButton)

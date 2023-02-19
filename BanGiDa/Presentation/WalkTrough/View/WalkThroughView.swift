@@ -57,10 +57,6 @@ class WalkThroughView: BaseView {
 //        backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
     override func configureUI() {
         [dogImageView, userTextView].forEach {
             self.addSubview($0)

@@ -33,10 +33,6 @@ final class SearchView: BaseView {
         super.init(frame: frame)
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
     override func configureUI() {
         headerView.addSubview(selectCollectionView)
         [headerView, filterTableView].forEach {

@@ -13,8 +13,4 @@ class LineView: BaseView {
         
         backgroundColor = .darkGray
     }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
 }
