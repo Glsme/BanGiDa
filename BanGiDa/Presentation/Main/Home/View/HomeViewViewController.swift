@@ -166,7 +166,9 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     }
     
     func pushNavigationController(index: Int) {
-        if index == 1 {
+        let category = Category(rawValue: index)
+        
+        if category == .alarm {
             if viewModel.alarmPrivacy.value {
                 let vc = AlarmViewController()
                 vc.navigationItem.title = viewModel.selectButtonList[index].title
@@ -203,7 +205,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return viewModel.selectButtonList.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
