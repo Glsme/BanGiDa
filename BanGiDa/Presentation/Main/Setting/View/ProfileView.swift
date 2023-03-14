@@ -16,7 +16,8 @@ final class ProfileView: UICollectionViewCell {
         view.tintColor = .ultraLightGray
         view.layer.borderColor = UIColor.ultraLightGray.cgColor
         view.layer.borderWidth = 2
-        view.layer.cornerRadius = 5
+        view.layer.cornerRadius = 7
+        view.clipsToBounds = true
         return view
     }()
     
