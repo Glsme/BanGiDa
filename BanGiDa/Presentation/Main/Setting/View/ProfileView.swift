@@ -16,6 +16,7 @@ final class ProfileView: UICollectionViewCell {
         view.tintColor = .ultraLightGray
         view.layer.borderColor = UIColor.ultraLightGray.cgColor
         view.layer.borderWidth = 2
+        view.layer.cornerRadius = 5
         return view
     }()
     
@@ -57,7 +58,7 @@ final class ProfileView: UICollectionViewCell {
         imageView.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(8)
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(8)
-            make.leading.equalToSuperview().inset(12)
+            make.leading.equalToSuperview().inset(16)
             make.width.equalTo(imageView.snp.height)
         }
         
