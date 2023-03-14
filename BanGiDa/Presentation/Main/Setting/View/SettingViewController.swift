@@ -330,6 +330,9 @@ extension SettingViewController: PHPickerViewControllerDelegate {
 extension SettingViewController: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         settingView.profileView.imageView.image = image
+        if image != UIImage(named: "BasicDog") {
+            UserDiaryRepository.shared.documentManager.saveImageFromDocument(fileName: "\(UUID()).jpg", image: image)
+        }
         dismiss(animated: true)
     }
 }
