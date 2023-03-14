@@ -14,17 +14,26 @@ final class SettingView: BaseView {
         return view
     }()
     
+    let profileView = ProfileView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
     override func configureUI() {
-        self.addSubview(settingCollectionView)
+        [settingCollectionView, profileView].forEach {
+            self.addSubview($0)
+        }
     }
     
     override func setConstraints() {
+        profileView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.27)
+        }
         settingCollectionView.snp.makeConstraints { make in
-            make.edges.equalTo(self)
+            make.leading.bottom.trailing.equalToSuperview()
+            make.top.equalTo(profileView.snp.bottom)
         }
     }
 }
