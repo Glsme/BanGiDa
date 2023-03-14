@@ -30,7 +30,7 @@ final class ProfileView: UICollectionViewCell {
     
     lazy var imageButton: UIButton = {
         let view = UIButton()
-        view.setTitle("이미지 추가", for: .normal)
+        view.setTitle("프로필 이미지 변경", for: .normal)
         view.setTitleColor(UIColor.unaBlue, for: .normal)
         view.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
         return view
@@ -62,9 +62,14 @@ final class ProfileView: UICollectionViewCell {
         }
         
         nameLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.top).offset(8)
+            make.top.equalTo(imageView.snp.top).offset(16)
             make.leading.equalTo(imageView.snp.trailing).offset(16)
             make.trailing.equalToSuperview()
+        }
+        
+        imageButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(8)
+            make.leading.equalTo(nameLabel.snp.leading)
         }
     }
 }

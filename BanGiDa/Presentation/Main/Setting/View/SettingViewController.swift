@@ -9,6 +9,8 @@ import UIKit
 import MessageUI
 import AcknowList
 import StoreKit
+import PhotosUI
+import CropViewController
 
 final class SettingViewController: BaseViewController {
     
@@ -57,6 +59,7 @@ final class SettingViewController: BaseViewController {
         dataSource.apply(snapshot)
         
         self.navigationItem.title = "설정"
+        settingView.profileView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
     }
     
     private func backupFileButtonClicked() {
@@ -92,6 +95,18 @@ final class SettingViewController: BaseViewController {
         catch {
             print(#function, "실패여~")
         }
+    }
+    
+    @objc func imageButtonClicked() {
+        print(#function)
+        
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .any(of: [.images])
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        
+        present(picker, animated: true, completion: nil)
     }
 }
 
@@ -288,5 +303,33 @@ extension SettingViewController : MFMailComposeViewControllerDelegate {
         }
         
         controller.dismiss(animated: true)
+    }
+}
+
+extension SettingViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        let itemProvider = results.first?.itemProvider
+        
+        if let itemProvider = itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                DispatchQueue.main.async {
+                    guard let image = image as? UIImage else { return }
+                    let cropVC = CropViewController(image: image)
+                    cropVC.delegate = self
+                    cropVC.doneButtonTitle = "완료"
+                    cropVC.cancelButtonTitle = "취소"
+                    self.transViewController(ViewController: cropVC, type: .present)
+                }
+            }
+        }
+    }
+}
+
+extension SettingViewController: CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        settingView.profileView.imageView.image = image
+        dismiss(animated: true)
     }
 }
