@@ -60,9 +60,7 @@ struct DocumentManager {
         createImagesDirectoryPath()
         
         guard let documentDirectory = imageDirectoryPath() else { return }
-        
         let fileURL = documentDirectory.appendingPathComponent(fileName)
-        
         guard let data = image.jpegData(compressionQuality: 0.5) else { return }
         
         do {
@@ -75,7 +73,6 @@ struct DocumentManager {
     func fetchDocumentZipFile() throws -> [URL] {
         do {
             guard let path = documentDirectoryPath() else { return [] }
-            
             let docs = try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
             let zip = docs.filter { $0.pathExtension == "zip" }
             

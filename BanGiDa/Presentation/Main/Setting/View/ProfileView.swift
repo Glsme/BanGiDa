@@ -53,6 +53,8 @@ final class ProfileView: UICollectionViewCell {
         [imageView, nameLabel, imageButton].forEach {
             self.addSubview($0)
         }
+        
+        imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "UserProfile.jpg") ?? UIImage(named: "BasicDog")
     }
     
     func setConstraints() {
