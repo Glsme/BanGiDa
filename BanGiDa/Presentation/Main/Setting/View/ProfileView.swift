@@ -65,13 +65,15 @@ final class ProfileView: UICollectionViewCell {
         }
         
         nameButton.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.top).offset(16)
+//            make.top.equalTo(imageView.snp.top).offset(16)
             make.leading.equalTo(imageView.snp.trailing).offset(16)
+            make.centerY.equalTo(imageView.snp.centerY).offset(-16)
 //            make.trailing.equalToSuperview()
         }
         
         imageButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(8)
+            make.centerY.equalTo(imageView.snp.centerY).offset(20)
+//            make.bottom.equalToSuperview().inset(8)
             make.leading.equalTo(nameButton.snp.leading)
         }
     }

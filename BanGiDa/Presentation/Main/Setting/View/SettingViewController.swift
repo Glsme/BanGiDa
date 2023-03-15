@@ -113,6 +113,7 @@ final class SettingViewController: BaseViewController {
     @objc func nameButtonClicked() {
         let vc = WalkThroughViewController()
         vc.modalPresentationStyle = .automatic
+        vc.walkThroughView.textLabel.text = "반려동물의 이름을 변경해주세요."
         vc.isNameChanged = {
             self.settingView.profileView.nameButton.setTitle(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? "", for: .normal)
         }
