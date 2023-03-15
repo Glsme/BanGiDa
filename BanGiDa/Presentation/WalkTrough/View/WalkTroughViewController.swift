@@ -11,6 +11,8 @@ final class WalkThroughViewController: BaseViewController {
     let walkThroughView = WalkThroughView()
     let viewModel = WalkthroughViewModel()
     
+    var isNameChanged: (() -> Void)?
+    
     override func loadView() {
         self.view = walkThroughView
     }
@@ -33,6 +35,7 @@ final class WalkThroughViewController: BaseViewController {
                 UserDefaults.standard.set(text, forKey: UserDefaultsKey.name.rawValue)
                 UserDefaults.standard.set(true, forKey: UserDefaultsKey.first.rawValue)
                 viewModel.saveDescriptionData()
+                isNameChanged?()
 //                print(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue))
                 dismiss(animated: true)
             }

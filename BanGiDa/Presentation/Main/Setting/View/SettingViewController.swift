@@ -60,6 +60,7 @@ final class SettingViewController: BaseViewController {
         
         self.navigationItem.title = "설정"
         settingView.profileView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
+        settingView.profileView.nameButton.addTarget(self, action: #selector(nameButtonClicked), for: .touchUpInside)
     }
     
     private func backupFileButtonClicked() {
@@ -107,6 +108,15 @@ final class SettingViewController: BaseViewController {
         picker.delegate = self
         
         present(picker, animated: true, completion: nil)
+    }
+    
+    @objc func nameButtonClicked() {
+        let vc = WalkThroughViewController()
+        vc.modalPresentationStyle = .automatic
+        vc.isNameChanged = {
+            self.settingView.profileView.nameButton.setTitle(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? "", for: .normal)
+        }
+        self.present(vc, animated: true)
     }
 }
 

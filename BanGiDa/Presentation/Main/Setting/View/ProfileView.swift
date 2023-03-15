@@ -21,12 +21,11 @@ final class ProfileView: UICollectionViewCell {
         return view
     }()
     
-    lazy var nameLabel: UILabel = {
-        let view = UILabel()
-        view.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
-        view.textColor = .systemTintColor
-        view.text = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? ""
-        view.textAlignment = .left
+    lazy var nameButton: UIButton = {
+        let view = UIButton()
+        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
+        view.setTitleColor(.systemTintColor, for: .normal)
+        view.setTitle(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? "이름을 입력해주세요", for: .normal)
         return view
     }()
     
@@ -50,7 +49,7 @@ final class ProfileView: UICollectionViewCell {
     }
     
     func configureUI() {
-        [imageView, nameLabel, imageButton].forEach {
+        [imageView, nameButton, imageButton].forEach {
             self.addSubview($0)
         }
         
@@ -65,15 +64,15 @@ final class ProfileView: UICollectionViewCell {
             make.width.equalTo(imageView.snp.height)
         }
         
-        nameLabel.snp.makeConstraints { make in
+        nameButton.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.top).offset(16)
             make.leading.equalTo(imageView.snp.trailing).offset(16)
-            make.trailing.equalToSuperview()
+//            make.trailing.equalToSuperview()
         }
         
         imageButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(8)
-            make.leading.equalTo(nameLabel.snp.leading)
+            make.leading.equalTo(nameButton.snp.leading)
         }
     }
 }
