@@ -39,9 +39,9 @@ final class SettingTableViewCell: BaseTableViewCell {
     }
     
     override func configureUI() {
-        self.addSubview(label)
-        self.addSubview(image)
-        self.addSubview(versionLabel)
+        [label, image, versionLabel].forEach {
+            self.addSubview($0)
+        }
     }
     
     override func setConstraints() {
