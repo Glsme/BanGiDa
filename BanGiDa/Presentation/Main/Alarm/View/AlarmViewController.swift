@@ -16,7 +16,7 @@ final class AlarmViewController: BaseViewController {
     
     private lazy var saveButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButtonClicked))
     
-    //MARK: - Life Sycle
+    //MARK: - Life Cycle
     
     override func loadView() {
         self.view = alarmView

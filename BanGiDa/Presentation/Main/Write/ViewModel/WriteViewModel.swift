@@ -5,16 +5,16 @@
 //  Created by Seokjune Hong on 2022/09/10.
 //
 
+import Combine
 import UIKit
 
 import SnapKit
 import RealmSwift
 
 final class WriteViewModel: CommonViewModel {
-    
-    var currentIndex: Observable<Int> = Observable(0)
-    var diaryContent: Observable<String> = Observable("")
-    var dateText: Observable<String> = Observable("")
+    let currentIndex = CurrentValueSubject<Int, Never>(0)
+    let dateText = CurrentValueSubject<String, Never>("")
+    let diaryContent = CurrentValueSubject<String, Never>("")
     
     func setCurrentMemoType() -> SelectButtonModel {
         return selectButtonList[self.currentIndex.value]

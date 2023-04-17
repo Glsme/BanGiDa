@@ -5,17 +5,21 @@
 //  Created by Seokjune Hong on 2022/09/10.
 //
 
+import Combine
 import UIKit
 import PhotosUI
 import CropViewController
 
 final class WriteViewController: BaseViewController {
-    
     let viewModel = WriteViewModel()
     let memoView = MemoView()
     
-    lazy var saveButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButtonClicked))
+    private var cancelBag = Set<AnyCancellable>()
+    
+    private lazy var saveButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButtonClicked))
 
+    //MARK: - Life Cycle
+    
     override func loadView() {
         self.view = memoView
         
@@ -44,7 +48,9 @@ final class WriteViewController: BaseViewController {
 //        memoView.nameCollectionView.register(AnimalNameCollectionViewCell.self, forCellWithReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier)
     }
     
-    func setNavigationStyle() {
+    //MARK: - Private
+    
+    private func setNavigationStyle() {
         let currentColor = viewModel.setCurrentMemoType().color
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.tintColor = .systemTintColor
@@ -64,36 +70,41 @@ final class WriteViewController: BaseViewController {
     }
     
     private func configureEdgeGesture() {
-        let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(leftSwipeGesture(_ :)))
+        let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self,
+                                                           action: #selector(leftSwipeGesture(_ :)))
         edgeGesture.edges = .left
         edgeGesture.view?.becomeFirstResponder()
         self.view.addGestureRecognizer(edgeGesture)
     }
     
-    @objc func leftSwipeGesture(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+    @objc private func leftSwipeGesture(_ recognizer: UIScreenEdgePanGestureRecognizer) {
         recognizer.state = .cancelled
         if recognizer.edges == .left, recognizer.state == .cancelled {
             navigationController?.popViewController(animated: true)
         }
     }
     
-    func bindValue() {
-        viewModel.diaryContent.bind { [weak self] text in
-            guard let self = self else { return }
-            if !self.memoView.textView.text.isEmpty {
-                self.memoView.textView.textColor = .systemTintColor
-            } else {
-                self.memoView.textView.text = self.viewModel.setCurrentMemoType().placeholder
-                self.memoView.textView.textColor = .lightGray
+    private func bindValue() {
+        viewModel.diaryContent
+            .sink { [weak self] text in
+                guard let self = self else { return }
+                if !self.memoView.textView.text.isEmpty {
+                    self.memoView.textView.textColor = .systemTintColor
+                } else {
+                    self.memoView.textView.text = self.viewModel.setCurrentMemoType().placeholder
+                    self.memoView.textView.textColor = .lightGray
+                }
             }
-        }
+            .store(in: &cancelBag)
         
-        viewModel.dateText.bind { [weak self] text in
-            guard let self = self else { return }
-            if self.memoView.dateTextField.text!.isEmpty {
-                self.memoView.dateTextField.text = self.viewModel.dateFormatter.string(from: Date())
+        viewModel.dateText
+            .sink { [weak self] text in
+                guard let self = self else { return }
+                if self.memoView.dateTextField.text!.isEmpty {
+                    self.memoView.dateTextField.text = self.viewModel.dateFormatter.string(from: Date())
+                }
             }
-        }
+            .store(in: &cancelBag)
     }
     
     @objc func saveButtonClicked() {
@@ -132,6 +143,8 @@ final class WriteViewController: BaseViewController {
     }
 }
 
+//MARK: - UITextViewDelegate
+
 extension WriteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         viewModel.checkTextViewPlaceHolder(textView)
@@ -141,6 +154,8 @@ extension WriteViewController: UITextViewDelegate {
         viewModel.checkTextViewIsEmpty(textView)
     }
 }
+
+//MARK: - Image Load & Crop
 
 extension WriteViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
@@ -177,6 +192,8 @@ extension WriteViewController: ObservableObject, UIGestureRecognizerDelegate {
         return true
     }
 }
+
+//MARK: - UICollectionViewDelegate & UICollectionDataSource
 
 extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
