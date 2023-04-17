@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MemoHeaderView: BaseView {
+final class MemoHeaderView: BaseView {
     
     let circle: UIView = {
         let view = UIView()

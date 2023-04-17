@@ -15,11 +15,11 @@ class BaseTableViewCell: UITableViewCell {
         setConstraints()
     }
     
+    @available (*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
     func configureUI() { }
-    
     func setConstraints() { }
 }

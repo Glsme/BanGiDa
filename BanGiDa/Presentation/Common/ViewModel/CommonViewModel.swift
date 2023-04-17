@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import RealmSwift
 
 public class CommonViewModel {

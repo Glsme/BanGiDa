@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LineView: BaseView {
+final class LineView: BaseView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         

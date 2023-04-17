@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AnimalNameButton: UIButton {
+final class AnimalNameButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         

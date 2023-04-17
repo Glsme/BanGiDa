@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListTableViewCell: BaseTableViewCell {
+final class MemoListTableViewCell: BaseTableViewCell {
     let memoImageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .darkGray
@@ -37,10 +37,6 @@ class MemoListTableViewCell: BaseTableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
     }
     
     override func configureUI() {

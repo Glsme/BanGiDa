@@ -14,7 +14,7 @@ import UIKit
  
  Font Style: HelveticaNeue-Medium, 12
  */
-class AlarmListTableViewCell: BaseTableViewCell {
+final class AlarmListTableViewCell: BaseTableViewCell {
     let dateLabel: UILabel = {
         let view = UILabel()
 //        view.backgroundColor = .lightGray
@@ -37,10 +37,6 @@ class AlarmListTableViewCell: BaseTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
     }
     
     override func configureUI() {

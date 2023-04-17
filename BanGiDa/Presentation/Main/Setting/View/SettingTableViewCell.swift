@@ -34,10 +34,6 @@ final class SettingTableViewCell: BaseTableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
     override func configureUI() {
         [label, image, versionLabel].forEach {
             self.addSubview($0)
