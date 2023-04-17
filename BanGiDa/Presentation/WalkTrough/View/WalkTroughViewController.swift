@@ -24,7 +24,9 @@ final class WalkThroughViewController: BaseViewController {
     }
     
     override func configureUI() {
-        walkThroughView.userSaveButton.addTarget(self, action: #selector(saveButtonClicked), for: .touchUpInside)
+        walkThroughView.userSaveButton.addTarget(self,
+                                                 action: #selector(saveButtonClicked),
+                                                 for: .touchUpInside)
     }
     
     @objc func saveButtonClicked() {

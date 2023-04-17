@@ -5,12 +5,15 @@
 //  Created by Seokjune Hong on 2022/09/19.
 //
 
+import Combine
 import UIKit
 
 final class AlarmViewController: BaseViewController {
     
     let alarmView = AlarmView()
     let viewModel = AlarmViewModel()
+    
+    var cancelBag = Set<AnyCancellable>()
     
     lazy var saveButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButtonClicked))
     
@@ -58,18 +61,19 @@ final class AlarmViewController: BaseViewController {
     }
     
     @objc func saveButtonClicked() {
-        
         guard let dateText = alarmView.dateTextField.text else {
             showAlert(message: "날짜를 선택해주세요.")
             return
         }
         
-        guard let titleText = alarmView.titleTextField.text, !alarmView.titleTextField.text!.isEmpty else {
+        guard let titleText = alarmView.titleTextField.text, !alarmView.titleTextField.text!.isEmpty
+        else {
             showAlert(message: "제목을 입력해주세요.")
             return
         }
         
-        guard let contentText = alarmView.memoTextView.text, alarmView.memoTextView.textColor != .lightGray else {
+        guard let contentText = alarmView.memoTextView.text, alarmView.memoTextView.textColor != .lightGray
+        else {
             showAlert(message: "메모를 입력해주세요")
             return
         }
@@ -89,23 +93,27 @@ final class AlarmViewController: BaseViewController {
         navigationController?.popViewController(animated: true)
     }
 
-    func bindValue() {
-        viewModel.diaryContent.bind { [weak self] text in
-            guard let self = self else { return }
-            if !self.alarmView.memoTextView.text.isEmpty {
-                self.alarmView.memoTextView.textColor = .systemTintColor
-            } else {
-                self.alarmView.memoTextView.text = self.viewModel.selectButtonList[1].placeholder
-                self.alarmView.memoTextView.textColor = .lightGray
+    private func bindValue() {
+        viewModel.diaryContent
+            .sink { [weak self] text in
+                guard let self = self else { return }
+                if !self.alarmView.memoTextView.text.isEmpty {
+                    self.alarmView.memoTextView.textColor = .systemTintColor
+                } else {
+                    self.alarmView.memoTextView.text = self.viewModel.selectButtonList[1].placeholder
+                    self.alarmView.memoTextView.textColor = .lightGray
+                }
             }
-        }
+            .store(in: &cancelBag)
         
-        viewModel.dateText.bind { [weak self] text in
-            guard let self = self else { return }
-            if self.alarmView.dateTextField.text!.isEmpty {
-                self.alarmView.dateTextField.text = self.viewModel.dateFormatter.string(from: Date())
+        viewModel.dateText
+            .sink { [weak self] text in
+                guard let self = self else { return }
+                if self.alarmView.dateTextField.text!.isEmpty {
+                    self.alarmView.dateTextField.text = self.viewModel.dateFormatter.string(from: Date())
+                }
             }
-        }
+            .store(in: &cancelBag)
     }
 }
 

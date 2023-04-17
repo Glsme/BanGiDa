@@ -5,16 +5,16 @@
 //  Created by Seokjune Hong on 2022/09/19.
 //
 
+import Combine
 import Foundation
 
 import RealmSwift
 
 final class AlarmViewModel: CommonViewModel {
-    var dateText: Observable<String> = Observable("")
-    var diaryContent: Observable<String> = Observable("")
+    let dateText = CurrentValueSubject<String, Never>("")
+    let diaryContent = CurrentValueSubject<String, Never>("")
     
     func saveData(content: String, dateText: String, titleText: String) {
-        
         if let primaryKey = UserDiaryRepository.shared.primaryKey {
             editData(content: content, dateText: dateText, primaryKey: primaryKey, titleText: titleText)
         } else {
