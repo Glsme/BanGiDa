@@ -9,13 +9,14 @@ import Combine
 import UIKit
 
 final class AlarmViewController: BaseViewController {
-    
     let alarmView = AlarmView()
-    let viewModel = AlarmViewModel()
+    private let viewModel = AlarmViewModel()
     
-    var cancelBag = Set<AnyCancellable>()
+    private var cancelBag = Set<AnyCancellable>()
     
-    lazy var saveButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButtonClicked))
+    private lazy var saveButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButtonClicked))
+    
+    //MARK: - Life Sycle
     
     override func loadView() {
         self.view = alarmView
@@ -42,7 +43,9 @@ final class AlarmViewController: BaseViewController {
         alarmView.dateTextField.tintColor = .clear
     }
     
-    func setNavigationStyle() {
+    //MARK: - Private
+    
+    private func setNavigationStyle() {
         let currentColor = viewModel.selectButtonList[1].color
         
         navigationController?.navigationBar.isHidden = false
@@ -60,7 +63,7 @@ final class AlarmViewController: BaseViewController {
         }
     }
     
-    @objc func saveButtonClicked() {
+    @objc private func saveButtonClicked() {
         guard let dateText = alarmView.dateTextField.text else {
             showAlert(message: "날짜를 선택해주세요.")
             return
@@ -116,6 +119,8 @@ final class AlarmViewController: BaseViewController {
             .store(in: &cancelBag)
     }
 }
+
+//MARK: - UITextviewDelegate
 
 extension AlarmViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
