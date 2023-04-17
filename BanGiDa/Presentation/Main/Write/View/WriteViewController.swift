@@ -16,7 +16,10 @@ final class WriteViewController: BaseViewController {
     
     private var cancelBag = Set<AnyCancellable>()
     
-    private lazy var saveButton = UIBarButtonItem(title: "저장", style: .done, target: self, action: #selector(saveButtonClicked))
+    private lazy var saveButton = UIBarButtonItem(title: "저장",
+                                                  style: .done,
+                                                  target: self,
+                                                  action: #selector(saveButtonClicked))
 
     //MARK: - Life Cycle
     
@@ -39,7 +42,9 @@ final class WriteViewController: BaseViewController {
     
     override func configureUI() {
         memoView.textView.delegate = self
-        memoView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
+        memoView.imageButton.addTarget(self,
+                                       action: #selector(imageButtonClicked),
+                                       for: .touchUpInside)
         memoView.dateTextField.tintColor = .clear
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         
@@ -101,7 +106,8 @@ final class WriteViewController: BaseViewController {
             .sink { [weak self] text in
                 guard let self = self else { return }
                 if self.memoView.dateTextField.text!.isEmpty {
-                    self.memoView.dateTextField.text = self.viewModel.dateFormatter.string(from: Date())
+                    let text = self.viewModel.dateFormatter.string(from: Date())
+                    self.memoView.dateTextField.text = text
                 }
             }
             .store(in: &cancelBag)
@@ -115,7 +121,8 @@ final class WriteViewController: BaseViewController {
             return
         }
         
-        guard let contentText = memoView.textView.text, memoView.textView.textColor != .lightGray else {
+        guard let contentText = memoView.textView.text, memoView.textView.textColor != .lightGray
+        else {
             showAlert(message: "텍스트를 입력해주세요")
             return
         }
@@ -125,8 +132,10 @@ final class WriteViewController: BaseViewController {
             return
         }
         
-        viewModel.saveData(image: memoView.imageView.image, content: contentText, dateText: dateText)
-
+        viewModel.saveData(image: memoView.imageView.image,
+                           content: contentText,
+                           dateText: dateText)
+        
         navigationController?.popViewController(animated: true)
     }
     
@@ -135,7 +144,6 @@ final class WriteViewController: BaseViewController {
         
         var configuration = PHPickerConfiguration()
         configuration.filter = .any(of: [.images])
-        
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         
@@ -179,7 +187,10 @@ extension WriteViewController: PHPickerViewControllerDelegate {
 }
 
 extension WriteViewController: CropViewControllerDelegate {
-    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+    func cropViewController(_ cropViewController: CropViewController,
+                            didCropToImage image: UIImage,
+                            withRect cropRect: CGRect,
+                            angle: Int) {
         memoView.imageView.image = image
         memoView.imageButton.setTitle("이미지 편집", for: .normal)
         dismiss(animated: true)
@@ -196,11 +207,13 @@ extension WriteViewController: ObservableObject, UIGestureRecognizerDelegate {
 //MARK: - UICollectionViewDelegate & UICollectionDataSource
 
 extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         return 8
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier, for: indexPath) as? AnimalNameCollectionViewCell else { return UICollectionViewCell() }
         
         cell.nameButton.tag = indexPath.item
@@ -209,7 +222,6 @@ extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cell.nameButton.layoutIfNeeded()
         cell.nameButton.layer.masksToBounds = true
         cell.nameButton.layer.cornerRadius = cell.nameButton.frame.height / 2
-        
         
         return cell
     }

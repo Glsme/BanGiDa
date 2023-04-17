@@ -6,10 +6,10 @@
 //
 
 import UIKit
+
 import SnapKit
 
 final class MemoView: BaseView {
-    
     let memoView: UIView = {
         let view = UIView()
         view.backgroundColor = .backgroundColor
