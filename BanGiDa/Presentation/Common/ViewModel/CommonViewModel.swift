@@ -142,9 +142,3 @@ public class CommonViewModel {
     }
 
 }
-
-//MARK: - Data handling
-
-extension CommonViewModel {
-    
-}

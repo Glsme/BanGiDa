@@ -8,14 +8,13 @@
 import Foundation
 import RealmSwift
 
-class UserDiaryRepository {
+final class UserDiaryRepository {
     static let shared = UserDiaryRepository()
     
     private init() {
         diaryList = localRealm.objects(Diary.self).sorted(byKeyPath: "regDate", ascending: false)
     }
-    
-    //MARK: - Realm
+
     let localRealm = try! Realm()
     
     var primaryKey: ObjectId?

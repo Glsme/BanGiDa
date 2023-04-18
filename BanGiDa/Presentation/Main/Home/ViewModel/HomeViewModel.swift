@@ -58,7 +58,8 @@ final class HomeViewModel: CommonViewModel {
         return value
     }
     
-    func inputDataInToCell(indexPath: IndexPath, completionHandler: @escaping (String, String, String, UIImage) -> () ) {
+    func inputDataInToCell(indexPath: IndexPath,
+                           completionHandler: @escaping (String, String, String, UIImage) -> Void) {
         var dateText = ""
         var contentText = ""
         var alarmTitle = ""
