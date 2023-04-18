@@ -59,6 +59,8 @@ public class CommonViewModel {
         return headerView
     }
     
+    //MARK: - Data Handling
+    
     func inputDataIntoArray() {
         print(#function)
         memoTaskList = UserDiaryRepository.shared.filter(index: 0)
@@ -87,6 +89,7 @@ public class CommonViewModel {
 //    }
     
     //MARK: - Notification
+    
     func requsetAuthorization() {
         let authorizations = UNAuthorizationOptions(arrayLiteral: .alert, .sound)
         
@@ -138,4 +141,10 @@ public class CommonViewModel {
         }
     }
 
+}
+
+//MARK: - Data handling
+
+extension CommonViewModel {
+    
 }
