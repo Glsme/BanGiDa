@@ -5,12 +5,14 @@
 //  Created by Seokjune Hong on 2022/09/08.
 //
 
+import Combine
 import UIKit
 
 final class SearchViewController: BaseViewController {
     
     let searchView = SearchView()
     let viewModel = SearchViewModel()
+    var cancelBag = Set<AnyCancellable>()
     
     override func loadView() {
         self.view = searchView
@@ -30,8 +32,8 @@ final class SearchViewController: BaseViewController {
 
         navigationController?.navigationBar.isHidden = true
         
-        if !viewModel.isFiltering.value {
-            viewModel.isFiltering.value = true
+        if !viewModel.isFiltering {
+            viewModel.isFiltering = true
             viewModel.currentIndex.value = 0
             collectionView(searchView.selectCollectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
             searchView.selectCollectionView.reloadData()
@@ -49,10 +51,11 @@ final class SearchViewController: BaseViewController {
     }
     
     private func bind() {
-        viewModel.currentIndex.bind { [weak self] _ in
+        viewModel.currentIndex.sink { [weak self] _ in
             guard let self = self else { return }
             self.searchView.filterTableView.reloadData()
         }
+        .store(in: &cancelBag)
     }
 }
 
@@ -84,7 +87,7 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        print(indexPath.item)
-        viewModel.isFiltering.value = true
+        viewModel.isFiltering = true
         viewModel.currentIndex.value = indexPath.item
     }
 }

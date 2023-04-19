@@ -5,12 +5,13 @@
 //  Created by Seokjune Hong on 2022/09/13.
 //
 
+import Combine
 import Foundation
 
 final class SearchViewModel: CommonViewModel {
     
-    var isFiltering: Observable<Bool> = Observable(false)
-    var currentIndex: Observable<Int?> = Observable(nil)
+    var isFiltering = false
+    var currentIndex = CurrentValueSubject<Int?, Never>(nil)
     
     func checkNumberOfRowsInsection(section: Int) -> Int {
         if let index = currentIndex.value {
