@@ -202,6 +202,7 @@
 		85719E762917C0ED00E8F88D /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				8594820828DC9833000C6AD7 /* Utility */,
 				857541D428C9BBF1004DD880 /* AppDelegate.swift */,
 				857541D628C9BBF1004DD880 /* SceneDelegate.swift */,
 			);
@@ -327,7 +328,6 @@
 			isa = PBXGroup;
 			children = (
 				85A8D03D28D2167800F22A80 /* Realm */,
-				8594820828DC9833000C6AD7 /* Utility */,
 				8594820928DC984A000C6AD7 /* UserDefaultsKey.swift */,
 				8594820E28DCAB10000C6AD7 /* DocumentManager.swift */,
 				85A8D03E28D216A000F22A80 /* UserDiaryRepository.swift */,
