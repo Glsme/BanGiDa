@@ -16,6 +16,12 @@ final class MemoView: BaseView {
         return view
     }()
     
+    let imageCollectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        view.backgroundColor = .bananaYellow
+        return view
+    }()
+    
     let imageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "BasicDog")
@@ -63,24 +69,6 @@ final class MemoView: BaseView {
         return view
     }()
     
-//    let nameCollectionV iew: UICollectionView = {
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
-//        layout.itemSize = CGSize(width: 100, height: 25)
-//        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        view.backgroundColor = .backgroundColor
-//
-//        return view
-//    }()
-    
-//    let nameLabel: UILabel = {
-//        let view = UILabel()
-//        view.text = "이름"
-//        view.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
-//        view.textColor = .memoDarkGray
-//        return view
-//    }()
-    
     let firstLine = LineView()
     let secondLine = LineView()
     let thirdLine = LineView()
@@ -92,7 +80,7 @@ final class MemoView: BaseView {
     
     override func configureUI() {
         self.addSubview(memoView)
-        [imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine, thirdLine].forEach {
+        [imageCollectionView, imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine, thirdLine].forEach {
             memoView.addSubview($0)
         }
         
@@ -105,16 +93,28 @@ final class MemoView: BaseView {
             make.edges.equalTo(self.safeAreaLayoutGuide)
         }
         
-        imageView.snp.makeConstraints { make in
-            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.45)
-            make.centerX.equalTo(self)
+        // iamge CollectionView Temp View Layout
+        imageCollectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(self.safeAreaLayoutGuide)
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
+            make.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.45)
         }
         
         imageButton.snp.makeConstraints { make in
-            make.centerX.equalTo(imageView.snp.centerX)
-            make.top.equalTo(imageView.snp.bottom).offset(8)
+            make.centerX.equalTo(imageCollectionView.snp.centerX)
+            make.top.equalTo(imageCollectionView.snp.bottom).offset(8)
         }
+        
+//        imageView.snp.makeConstraints { make in
+//            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.45)
+//            make.centerX.equalTo(self)
+//            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
+//        }
+        
+//        imageButton.snp.makeConstraints { make in
+//            make.centerX.equalTo(imageView.snp.centerX)
+//            make.top.equalTo(imageView.snp.bottom).offset(8)
+//        }
         
         dateLabel.snp.makeConstraints { make in
             make.centerY.equalTo(dateTextField)
@@ -150,27 +150,6 @@ final class MemoView: BaseView {
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
         }
-        
-//        thirdLine.snp.makeConstraints { make in
-//            make.top.equalTo(secondLine.snp.bottom).offset(41)
-//            make.width.equalTo(secondLine.snp.width)
-//            make.height.equalTo(1)
-//            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
-//        }
-        
-//        nameCollectionView.snp.makeConstraints { make in
-//            make.top.equalTo(secondLine.snp.bottom).offset(8)
-//            make.height.equalTo(25)
-//            make.leading.equalTo(nameLabel.snp.trailing).offset(20)
-//            make.trailing.equalTo(secondLine.snp.trailing)
-//        }
-        
-//        nameLabel.snp.makeConstraints { make in
-//            make.centerY.equalTo(nameCollectionView)
-//            make.leading.equalTo(firstLine.snp.leading).offset(10)
-//            make.width.equalTo(50)
-//            make.height.equalTo(nameCollectionView.snp.height)
-//        }
     }
     
     let formatter: DateFormatter = {

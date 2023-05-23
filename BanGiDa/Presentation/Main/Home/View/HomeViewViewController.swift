@@ -35,6 +35,7 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
         bind()
         todayButtonClicked()
         sendFireBaseAnalytics()
+        print(DocumentManager().documentDirectoryPath())
     }
     
     override func viewWillAppear(_ animated: Bool) {
