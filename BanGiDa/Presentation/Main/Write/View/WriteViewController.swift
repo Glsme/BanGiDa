@@ -47,6 +47,8 @@ final class WriteViewController: BaseViewController {
                                        for: .touchUpInside)
         memoView.dateTextField.tintColor = .clear
         navigationController?.interactivePopGestureRecognizer?.delegate = self
+        memoView.imageCollectionView.delegate = self
+        memoView.imageCollectionView.dataSource = self
         
 //        memoView.nameCollectionView.delegate = self
 //        memoView.nameCollectionView.dataSource = self
@@ -237,3 +239,6 @@ extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
 }
+
+//MARK: - Image CollectionView
+
