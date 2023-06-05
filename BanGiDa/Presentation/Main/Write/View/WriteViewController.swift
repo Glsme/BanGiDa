@@ -49,6 +49,8 @@ final class WriteViewController: BaseViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         memoView.imageCollectionView.delegate = self
         memoView.imageCollectionView.dataSource = self
+        memoView.imageCollectionView.register(ImageCollectionViewCell.self,
+                                              forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
         
 //        memoView.nameCollectionView.delegate = self
 //        memoView.nameCollectionView.dataSource = self
@@ -216,6 +218,9 @@ extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier, for: indexPath) as? ImageCollectionViewCell else { return UICollectionViewCell() }
         
+        cell.backgroundColor = .black
+        return cell
     }
 }
