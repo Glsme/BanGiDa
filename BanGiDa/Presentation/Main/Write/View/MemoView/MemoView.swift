@@ -17,7 +17,7 @@ final class MemoView: BaseView {
     }()
     
     let imageCollectionView: UICollectionView = {
-        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let view = UICollectionView(frame: .zero, collectionViewLayout: imageCollectionViewLayout())
         view.backgroundColor = .bananaYellow
         return view
     }()
@@ -104,17 +104,6 @@ final class MemoView: BaseView {
             make.centerX.equalTo(imageCollectionView.snp.centerX)
             make.top.equalTo(imageCollectionView.snp.bottom).offset(8)
         }
-        
-//        imageView.snp.makeConstraints { make in
-//            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.45)
-//            make.centerX.equalTo(self)
-//            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
-//        }
-        
-//        imageButton.snp.makeConstraints { make in
-//            make.centerX.equalTo(imageView.snp.centerX)
-//            make.top.equalTo(imageView.snp.bottom).offset(8)
-//        }
         
         dateLabel.snp.makeConstraints { make in
             make.centerY.equalTo(dateTextField)
@@ -205,5 +194,17 @@ final class MemoView: BaseView {
     
     @objc func cancelButtonClicked() {
         dateTextField.endEditing(true)
+    }
+    
+    static func imageCollectionViewLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        let spacing: CGFloat = 10
+        let width = imageCollectionView.bounds.height
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: width, height: width)
+        layout.minimumLineSpacing = spacing
+        layout.minimumInteritemSpacing = 0
+        
+        return layout
     }
 }
