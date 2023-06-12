@@ -18,7 +18,6 @@ final class MemoView: BaseView {
     
     let imageCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: imageCollectionViewLayout())
-        view.backgroundColor = .bananaYellow
         return view
     }()
     
@@ -95,7 +94,7 @@ final class MemoView: BaseView {
         
         // iamge CollectionView Temp View Layout
         imageCollectionView.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(self.safeAreaLayoutGuide)
+            make.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(10)
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
             make.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.45)
         }
