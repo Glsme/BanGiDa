@@ -199,7 +199,8 @@ final class MemoView: BaseView {
     static func imageCollectionViewLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         let spacing: CGFloat = 10
-        let width = imageCollectionView.bounds.height
+        let width = UIScreen.main.bounds.width / 2.5
+//        let width = imageCollectionView.bounds.height
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: width, height: width)
         layout.minimumLineSpacing = spacing

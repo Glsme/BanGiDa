@@ -213,13 +213,13 @@ extension WriteViewController: ObservableObject, UIGestureRecognizerDelegate {
 extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier, for: indexPath) as? ImageCollectionViewCell else { return UICollectionViewCell() }
-        
+        cell.layer.cornerRadius = 5
         cell.backgroundColor = .black
         return cell
     }
