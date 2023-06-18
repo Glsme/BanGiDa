@@ -15,7 +15,7 @@ final class WriteViewController: BaseViewController {
     let memoView = MemoView()
     
     private var cancelBag = Set<AnyCancellable>()
-    
+    private var images: [UIImage] = []
     private lazy var saveButton = UIBarButtonItem(title: "저장",
                                                   style: .done,
                                                   target: self,
@@ -195,8 +195,10 @@ extension WriteViewController: CropViewControllerDelegate {
                             didCropToImage image: UIImage,
                             withRect cropRect: CGRect,
                             angle: Int) {
-        memoView.imageView.image = image
+//        memoView.imageView.image = image
+        images.append(image)
         memoView.imageButton.setTitle("이미지 편집", for: .normal)
+        memoView.imageCollectionView.reloadData()
         dismiss(animated: true)
     }
 }
@@ -213,14 +215,26 @@ extension WriteViewController: ObservableObject, UIGestureRecognizerDelegate {
 extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return images.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier, for: indexPath) as? ImageCollectionViewCell else { return UICollectionViewCell() }
         cell.layer.cornerRadius = 5
-        cell.backgroundColor = .black
+        cell.backgroundColor = .bananaYellow
+        cell.imageView.image = inputImages(indexPath.item)
         return cell
+    }
+    
+    //image를 cell에 넣는 메서드
+    func inputImages(_ index: Int) -> UIImage? {
+        guard !images.isEmpty else { return nil }
+        return images[index]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
+        imageButtonClicked()
     }
 }
