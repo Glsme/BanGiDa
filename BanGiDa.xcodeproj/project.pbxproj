@@ -13,6 +13,7 @@
 		8514435128FEBC2F003BB1E9 /* AnimalNameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8514435028FEBC2F003BB1E9 /* AnimalNameButton.swift */; };
 		853111BF28E2D5EE007F1804 /* AcknowList in Frameworks */ = {isa = PBXBuildFile; productRef = 853111BE28E2D5EE007F1804 /* AcknowList */; };
 		853111C128E2DC86007F1804 /* Package.resolved in Resources */ = {isa = PBXBuildFile; fileRef = 853111C028E2DC86007F1804 /* Package.resolved */; };
+		8543831C2A6D180900E7FF25 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8543831B2A6D180900E7FF25 /* WriteView.swift */; };
 		854A00E328F54CA100575556 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 854A00E228F54CA100575556 /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		854A00E528F54CA100575556 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 854A00E428F54CA100575556 /* FirebaseCrashlytics */; };
 		854A00E728F54CA100575556 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 854A00E628F54CA100575556 /* FirebaseMessaging */; };
@@ -84,6 +85,7 @@
 		85075C6028CC93CE00FAF6BA /* WriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewModel.swift; sourceTree = "<group>"; };
 		8514435028FEBC2F003BB1E9 /* AnimalNameButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalNameButton.swift; sourceTree = "<group>"; };
 		853111C028E2DC86007F1804 /* Package.resolved */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Package.resolved; path = BanGiDa.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved; sourceTree = "<group>"; };
+		8543831B2A6D180900E7FF25 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
 		854A00E828F5514200575556 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		854A00EA28F5539E00575556 /* BanGiDa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BanGiDa.entitlements; sourceTree = "<group>"; };
 		8556329328CA2D110055159E /* SelectButtonCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonCollectionView.swift; sourceTree = "<group>"; };
@@ -396,6 +398,7 @@
 			children = (
 				85A8E7B72A2DE0E600587C6B /* Cell */,
 				85A8D01828CF89F900F22A80 /* MemoView.swift */,
+				8543831B2A6D180900E7FF25 /* WriteView.swift */,
 			);
 			path = MemoView;
 			sourceTree = "<group>";
@@ -715,6 +718,7 @@
 				85A8E7B92A2DE0F300587C6B /* ImageCollectionViewCell.swift in Sources */,
 				85CCEAE828D8978C0086E5CA /* AlarmView.swift in Sources */,
 				85A8D01928CF89F900F22A80 /* MemoView.swift in Sources */,
+				8543831C2A6D180900E7FF25 /* WriteView.swift in Sources */,
 				8594821928DDF2AA000C6AD7 /* AlarmListTableViewCell.swift in Sources */,
 				85075C6128CC93CE00FAF6BA /* WriteViewModel.swift in Sources */,
 				8594820228DC8327000C6AD7 /* WalkTroughViewController.swift in Sources */,
