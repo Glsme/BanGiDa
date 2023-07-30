@@ -5,6 +5,7 @@
 //  Created by Seokjune Hong on 2022/09/08.
 //
 
+import SwiftUI
 import UIKit
 
 import FSCalendar
@@ -179,10 +180,11 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
                 showAlert(message: "알람 사용을 위해 알람 권한을 허용해주세요.")
             }
         } else {
-            let vc = WriteViewController()
+            let vc = UIHostingController(rootView: WriteView())
+//            let vc = WriteViewController()
             vc.navigationItem.title = viewModel.selectButtonList[index].title
-            vc.viewModel.currentIndex.value = index
-            vc.memoView.dateTextField.text = dateFormatter.string(from: viewModel.currentDate.value)
+//            vc.viewModel.currentIndex.value = index
+//            vc.memoView.dateTextField.text = dateFormatter.string(from: viewModel.currentDate.value)
             transViewController(ViewController: vc, type: .push)
         }
     }
