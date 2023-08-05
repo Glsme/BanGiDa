@@ -51,6 +51,13 @@ final class WriteViewController: BaseViewController {
         memoView.imageCollectionView.dataSource = self
         memoView.imageCollectionView.register(ImageCollectionViewCell.self,
                                               forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
+        
+        if let image = UIImage(named: "BasicDog") {
+            images.append(image)
+        }
+        
+        memoView.updateImageCollectionViewLayout(images.count)
+        memoView.imageCollectionView.reloadData()
     }
     
     //MARK: - Private
@@ -212,10 +219,19 @@ extension WriteViewController: CropViewControllerDelegate {
                             withRect cropRect: CGRect,
                             angle: Int) {
 //        memoView.imageView.image = image
+        if checkFirstImage(images) {
+            images.removeFirst()
+        }
+        
         images.append(image)
-        memoView.imageButton.setTitle("이미지 편집", for: .normal)
+//        memoView.imageButton.setTitle("이미지 편집", for: .normal)
+        memoView.updateImageCollectionViewLayout(images.count)
         memoView.imageCollectionView.reloadData()
         dismiss(animated: true)
+    }
+    
+    private func checkFirstImage(_ imageArray: [UIImage]) -> Bool {
+        return imageArray.first == UIImage(named: "BasicDog") && imageArray.count == 1
     }
 }
 
@@ -250,7 +266,6 @@ extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
         imageButtonClicked()
     }
 }

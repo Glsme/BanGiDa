@@ -207,4 +207,29 @@ final class MemoView: BaseView {
         
         return layout
     }
+    
+    func updateImageCollectionViewLayout(_ imageCount: Int) {
+        switch imageCount {
+        case 1:
+            imageCollectionView.snp.remakeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.425)
+                make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
+                make.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.45)
+            }
+        case 2:
+            imageCollectionView.snp.remakeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.85)
+                make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
+                make.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.45)
+            }
+        default:
+            imageCollectionView.snp.remakeConstraints { make in
+                make.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(10)
+                make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
+                make.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.45)
+            }
+        }
+    }
 }
