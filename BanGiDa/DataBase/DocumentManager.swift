@@ -70,6 +70,19 @@ struct DocumentManager {
         }
     }
     
+    func saveImageFromDocument(fileName: String, imageData: Data) {
+        createImagesDirectoryPath()
+        
+        guard let documentDirectory = imageDirectoryPath() else { return }
+        let fileURL = documentDirectory.appendingPathComponent(fileName)
+        
+        do {
+            try imageData.write(to: fileURL)
+        } catch {
+            print("file save Error", error)
+        }
+    }
+    
     func fetchDocumentZipFile() throws -> [URL] {
         do {
             guard let path = documentDirectoryPath() else { return [] }

@@ -6,7 +6,7 @@
 //
 
 import Combine
-import UIKit
+import Foundation
 
 import SnapKit
 import RealmSwift
@@ -20,22 +20,7 @@ final class WriteViewModel: CommonViewModel {
         return selectButtonList[self.currentIndex.value]
     }
     
-    func checkTextViewPlaceHolder(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray {
-            textView.text = nil
-            textView.textColor = UIColor.systemTintColor
-        }
-    }
-    
-    func checkTextViewIsEmpty(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.textColor = .lightGray
-            textView.text = setCurrentMemoType().placeholder
-        }
-    }
-    
-    func saveData(image: UIImage?, content: String, dateText: String) {
-        
+    func saveData(image: Data?, content: String, dateText: String) {
         if let primaryKey = UserDiaryRepository.shared.primaryKey {
             editData(image: image, content: content, dateText: dateText, primaryKey: primaryKey)
         } else {
@@ -47,13 +32,14 @@ final class WriteViewModel: CommonViewModel {
             let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), date: date, regDate: Date(), animalName: animalName ?? "신원 미상", content: content, photo: "", alarmTitle: nil)
             UserDiaryRepository.shared.write(task)
             
-            if let image = image, image != UIImage(named: "BasicDog") {
-                UserDiaryRepository.shared.documentManager.saveImageFromDocument(fileName: "\(task.objectId).jpg", image: image)
+            if let image = image {
+                UserDiaryRepository.shared.documentManager
+                    .saveImageFromDocument(fileName: "\(task.objectId).jpg", imageData: image)
             }
         }
     }
     
-    func editData(image: UIImage?, content: String, dateText: String, primaryKey: ObjectId) {
+    func editData(image: Data?, content: String, dateText: String, primaryKey: ObjectId) {
         var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)
         
         for item in UserDiaryRepository.shared.localRealm.objects(Diary.self) {
@@ -68,11 +54,11 @@ final class WriteViewModel: CommonViewModel {
         let regDate = Date()
         
         UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "", alarmTitle: nil)
-        
         UserDiaryRepository.shared.primaryKey = nil
         
-        if let image = image, image != UIImage(named: "BasicDog") {
-            UserDiaryRepository.shared.documentManager.saveImageFromDocument(fileName: "\(task.objectId).jpg", image: image)
+        if let image = image {
+            UserDiaryRepository.shared.documentManager
+                .saveImageFromDocument(fileName: "\(task.objectId).jpg", imageData: image)
         }
     }
 }

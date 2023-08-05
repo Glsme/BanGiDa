@@ -51,10 +51,6 @@ final class WriteViewController: BaseViewController {
         memoView.imageCollectionView.dataSource = self
         memoView.imageCollectionView.register(ImageCollectionViewCell.self,
                                               forCellWithReuseIdentifier: ImageCollectionViewCell.reuseIdentifier)
-        
-//        memoView.nameCollectionView.delegate = self
-//        memoView.nameCollectionView.dataSource = self
-//        memoView.nameCollectionView.register(AnimalNameCollectionViewCell.self, forCellWithReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier)
     }
     
     //MARK: - Private
@@ -117,6 +113,20 @@ final class WriteViewController: BaseViewController {
             .store(in: &cancelBag)
     }
     
+    private func checkTextViewPlaceHolder(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.systemTintColor
+        }
+    }
+    
+    private func checkTextViewIsEmpty(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.textColor = .lightGray
+            textView.text = viewModel.setCurrentMemoType().placeholder
+        }
+    }
+    
     @objc func saveButtonClicked() {
         print(#function)
         
@@ -136,10 +146,16 @@ final class WriteViewController: BaseViewController {
             return
         }
         
-        viewModel.saveData(image: memoView.imageView.image,
-                           content: contentText,
-                           dateText: dateText)
-        
+        if memoView.imageView.image == UIImage(named: "BasicDog") {
+            
+        } else {
+            let imageData = memoView.imageView.image?.jpegData(compressionQuality: 0.5)
+            viewModel.saveData(image: imageData, content: contentText, dateText: dateText)
+//            saveData(image: memoView.imageView.image,
+//                               content: contentText,
+//                               dateText: dateText)
+        }
+
         navigationController?.popViewController(animated: true)
     }
     
@@ -159,11 +175,11 @@ final class WriteViewController: BaseViewController {
 
 extension WriteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        viewModel.checkTextViewPlaceHolder(textView)
+        checkTextViewPlaceHolder(textView)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        viewModel.checkTextViewIsEmpty(textView)
+        checkTextViewIsEmpty(textView)
     }
 }
 
