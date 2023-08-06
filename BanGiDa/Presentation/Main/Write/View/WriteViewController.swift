@@ -254,7 +254,14 @@ extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSou
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewCell.reuseIdentifier, for: indexPath) as? ImageCollectionViewCell else { return UICollectionViewCell() }
         cell.layer.cornerRadius = 5
-        cell.backgroundColor = .bananaYellow
+        print(cell.imageView.image)
+        
+        if cell.imageView.image == UIImage(named: "BasicDog") || cell.imageView.image == nil {
+            cell.imageView.layer.borderColor = UIColor.ultraLightGray.cgColor
+        } else {
+            cell.imageView.layer.borderColor = UIColor.bananaYellow.cgColor
+        }
+        
         cell.imageView.image = inputImages(indexPath.item)
         return cell
     }

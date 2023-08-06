@@ -12,7 +12,10 @@ import SnapKit
 final class ImageCollectionViewCell: UICollectionViewCell {
     lazy var imageView: UIImageView = {
         let view = UIImageView()
-        view.layer.cornerRadius = 5
+        view.layer.borderWidth = 2
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
+        view.contentMode = .scaleAspectFill
         return view
     }()
     
