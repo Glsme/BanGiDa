@@ -47,10 +47,6 @@ final class WriteViewController: BaseViewController {
                                        for: .touchUpInside)
         memoView.dateTextField.tintColor = .clear
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
-//        memoView.nameCollectionView.delegate = self
-//        memoView.nameCollectionView.dataSource = self
-//        memoView.nameCollectionView.register(AnimalNameCollectionViewCell.self, forCellWithReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier)
     }
     
     //MARK: - Private
@@ -197,9 +193,8 @@ extension WriteViewController: CropViewControllerDelegate {
     }
 }
 
-extension WriteViewController: ObservableObject, UIGestureRecognizerDelegate {
+extension WriteViewController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        print("?????")
         return true
     }
 }
