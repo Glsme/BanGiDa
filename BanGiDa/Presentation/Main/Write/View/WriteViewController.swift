@@ -128,9 +128,10 @@ final class WriteViewController: BaseViewController {
             return
         }
         
-        viewModel.saveData(image: memoView.imageView.image,
-                           content: contentText,
-                           dateText: dateText)
+        guard let image = memoView.imageView.image,
+              let imageData = convertImageToData(image: image) else { return }
+        
+        viewModel.saveData(image: imageData, content: contentText, dateText: dateText)
         
         navigationController?.popViewController(animated: true)
     }
@@ -145,17 +146,37 @@ final class WriteViewController: BaseViewController {
         
         present(picker, animated: true, completion: nil)
     }
+    
+    //MARK: - Private
+    
+    private func convertImageToData(image: UIImage) -> Data? {
+        return image.jpegData(compressionQuality: 0.5)
+    }
 }
 
 //MARK: - UITextViewDelegate
 
 extension WriteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        viewModel.checkTextViewPlaceHolder(textView)
+        checkTextViewPlaceHolder(textView)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        viewModel.checkTextViewIsEmpty(textView)
+        checkTextViewIsEmpty(textView)
+    }
+    
+    private func checkTextViewPlaceHolder(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.systemTintColor
+        }
+    }
+    
+    private func checkTextViewIsEmpty(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.textColor = .lightGray
+            textView.text = viewModel.setCurrentMemoType().placeholder
+        }
     }
 }
 
