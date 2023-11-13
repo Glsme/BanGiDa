@@ -5,6 +5,7 @@
 //  Created by Seokjune Hong on 2022/09/08.
 //
 
+import SwiftUI
 import UIKit
 
 import FSCalendar
@@ -35,6 +36,10 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
         bind()
         todayButtonClicked()
         sendFireBaseAnalytics()
+        
+        checkWalkThrough()
+        let vc = UIHostingController(rootView: NoticeView())
+        self.transViewController(ViewController: vc, type: .presentFullscreen)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,7 +52,6 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        checkWalkThrough()
     }
     
     func sendFireBaseAnalytics() {
