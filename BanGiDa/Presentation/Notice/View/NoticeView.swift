@@ -9,17 +9,31 @@ import SwiftUI
 
 struct NoticeView: View {
     @Environment(\.presentationMode) var presentationMode
+    
+    @StateObject private var viewModel = NoticeViewModel()
+    
     var body: some View {
         NavigationView {
             ScrollView {
-                Image("ColorDog")
-                    .resizable()
-                    .scaledToFill()
-                    .padding(8)
+                if let data = viewModel.image,
+                   let uiImage = UIImage(data: data) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .padding(8)
+                } else {
+                    Image("ColorDog")
+                        .resizable()
+                        .scaledToFill()
+                        .padding(8)
+                }
                 
                 Text("안녕하세요")
             }
             .navigationBarItems(trailing: closeButton())
+        }
+        .onAppear {
+            viewModel.downloadImage()
         }
     }
 }
