@@ -8,7 +8,8 @@
 import Combine
 import Foundation
 
-import SnapKit
+import FirebaseAnalytics
+import FirebaseCrashlytics
 import RealmSwift
 
 final class WriteViewModel: CommonViewModel {
@@ -21,6 +22,10 @@ final class WriteViewModel: CommonViewModel {
     }
     
     func saveData(image: Data?, content: String, dateText: String) {
+        Analytics.logEvent("SaveData", parameters: [
+          "name": "BangiDaLog",
+          "full_text": "Save Data",
+        ])
         
         if let primaryKey = UserDiaryRepository.shared.primaryKey {
             editData(image: image, content: content, dateText: dateText, primaryKey: primaryKey)
@@ -35,7 +40,15 @@ final class WriteViewModel: CommonViewModel {
                              content: content,
                              photo: "",
                              alarmTitle: nil)
-            UserDiaryRepository.shared.write(task)
+            
+            do {
+                try UserDiaryRepository.shared.write(task)
+            } catch {
+                print("error: \(error)")
+                let userInfo = ["class": "\(self)", "method": "\(#function)"]
+                Crashlytics.crashlytics().record(error: error, userInfo: userInfo)
+                
+            }
             
             if let image = image {
                 saveImageData(image: image, name: "\(task.objectId)")

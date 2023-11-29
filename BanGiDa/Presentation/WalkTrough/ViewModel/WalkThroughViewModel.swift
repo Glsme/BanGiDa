@@ -7,6 +7,8 @@
 
 import UIKit
 
+import FirebaseCrashlytics
+
 final class WalkthroughViewModel: CommonViewModel {
     func saveDescriptionData() {
         let animalName = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
@@ -18,6 +20,12 @@ final class WalkthroughViewModel: CommonViewModel {
                          photo: "",
                          alarmTitle: nil)
         
-        UserDiaryRepository.shared.write(task)
+        do {
+            try UserDiaryRepository.shared.write(task)
+        } catch {
+            print("error \(error)")
+            let userInfo = ["class": "\(self)", "method": "\(#function)"]
+            Crashlytics.crashlytics().record(error: error, userInfo: userInfo)
+        }
     }
 }

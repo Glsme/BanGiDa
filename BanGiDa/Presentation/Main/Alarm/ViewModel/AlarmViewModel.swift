@@ -8,6 +8,8 @@
 import Combine
 import Foundation
 
+import FirebaseAnalytics
+import FirebaseCrashlytics
 import RealmSwift
 
 final class AlarmViewModel: CommonViewModel {
@@ -15,6 +17,11 @@ final class AlarmViewModel: CommonViewModel {
     let diaryContent = CurrentValueSubject<String, Never>("")
     
     func saveData(content: String, dateText: String, titleText: String) {
+        Analytics.logEvent("SaveAlarm", parameters: [
+          "name": "BangiDaLog",
+          "full_text": "Save Alarm",
+        ])
+        
         if let primaryKey = UserDiaryRepository.shared.primaryKey {
             editData(content: content, dateText: dateText, primaryKey: primaryKey, titleText: titleText)
         } else {
@@ -23,7 +30,15 @@ final class AlarmViewModel: CommonViewModel {
             let animalName = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
             
             let task = Diary(type: RealmDiaryType(rawValue: 1), date: date, regDate: Date(), animalName: animalName ?? "신원 미상", content: content, photo: "", alarmTitle: titleText)
-            UserDiaryRepository.shared.write(task)
+            
+            do {
+                try UserDiaryRepository.shared.write(task)
+            } catch {
+                print("error: \(error)")
+                let userInfo = ["class": "\(self)", "method": "\(#function)"]
+                Crashlytics.crashlytics().record(error: error, userInfo: userInfo)
+            }
+            
             inputDataIntoArrayToDate(date: currentDate.value)
             
             if date > Date() {
