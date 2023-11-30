@@ -110,8 +110,6 @@ final class WriteViewController: BaseViewController {
     }
     
     @objc func saveButtonClicked() {
-        print(#function)
-        
         guard let dateText = memoView.dateTextField.text else {
             showAlert(message: "날짜를 선택해주세요.")
             return
@@ -137,8 +135,6 @@ final class WriteViewController: BaseViewController {
     }
     
     @objc func imageButtonClicked() {
-        print(#function)
-        
         var configuration = PHPickerConfiguration()
         configuration.filter = .any(of: [.images])
         let picker = PHPickerViewController(configuration: configuration)
