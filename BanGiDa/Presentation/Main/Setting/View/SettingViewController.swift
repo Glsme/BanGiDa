@@ -31,6 +31,13 @@ final class SettingViewController: BaseViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let name = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
+        settingView.profileView.nameButton.setTitle(name ?? "이름을 입력해주세요", for: .normal)
+    }
+    
     override func configureUI() {
         settingView.settingCollectionView.collectionViewLayout = createLayout()
         settingView.settingCollectionView.delegate = self

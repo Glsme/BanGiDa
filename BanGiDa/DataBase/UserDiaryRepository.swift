@@ -19,8 +19,8 @@ final class UserDiaryRepository {
     
     var primaryKey: ObjectId?
     
-    func write(_ task: Diary) {
-        try! localRealm.write {
+    func write(_ task: Diary) throws {
+        try localRealm.write {
             localRealm.add(task)
         }
     }
