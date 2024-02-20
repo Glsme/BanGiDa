@@ -13,6 +13,7 @@ final class SettingTableViewCell: BaseTableViewCell {
         let view = UILabel()
         view.textAlignment = .left
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
+        view.textColor = .systemTintColor
         return view
     }()
     
@@ -35,6 +36,8 @@ final class SettingTableViewCell: BaseTableViewCell {
     }
     
     override func configureUI() {
+        backgroundColor = .softGray
+        
         [label, image, versionLabel].forEach {
             self.addSubview($0)
         }

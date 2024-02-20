@@ -43,6 +43,9 @@ final class SettingViewController: BaseViewController {
     //MARK: - UI
     
     override func configureUI() {
+        settingView.settingTableView.delegate = self
+        settingView.settingTableView.dataSource = self
+        
         settingView.settingCollectionView.collectionViewLayout = createLayout()
         settingView.settingCollectionView.delegate = self
 //        viewModel.configureDataSource(settingCollectionView: settingView.settingCollectionView)
@@ -228,6 +231,50 @@ extension SettingViewController: UICollectionViewDelegate {
     }
 }
 
+extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerLabel = UILabel()
+        headerLabel.text = viewModel.settingTitleLabels[section]
+        headerLabel.font = UIFont(name: "HelveticaNeue-Medium", size: 13)
+        headerLabel.textColor = UIColor.systemTintColor
+        
+        return headerLabel
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0: return viewModel.dataLabel.count
+        case 1: return viewModel.serviceLabel.count
+        case 2: return viewModel.appInfoLabel.count
+        default: return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.reuseIdentifier, for: indexPath) as? SettingTableViewCell
+        else { return UITableViewCell() }
+        
+        var title = ""
+        
+        switch indexPath.section {
+        case 0: title = viewModel.dataLabel[indexPath.row]
+        case 1: title = viewModel.serviceLabel[indexPath.row]
+        case 2: title = viewModel.appInfoLabel[indexPath.row]
+        default: break
+        }
+        
+        cell.label.text = title
+        
+        return cell
+    }
+}
+
+//MARK: - UIDocumentPickerDelegate
+
 extension SettingViewController: UIDocumentPickerDelegate {
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         print(#function)
@@ -293,6 +340,8 @@ extension SettingViewController: UIDocumentPickerDelegate {
     }
 }
 
+//MARK: - MFMailComposeViewControllerDelegate
+
 extension SettingViewController : MFMailComposeViewControllerDelegate {
     
     private func sendMail() {
@@ -329,6 +378,8 @@ extension SettingViewController : MFMailComposeViewControllerDelegate {
         controller.dismiss(animated: true)
     }
 }
+
+//MARK: - PHPickerViewControllerDelegate
 
 extension SettingViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {

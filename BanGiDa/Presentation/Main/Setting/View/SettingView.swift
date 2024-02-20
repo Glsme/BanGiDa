@@ -14,6 +14,13 @@ final class SettingView: BaseView {
         return view
     }()
     
+    let settingTableView: UITableView = {
+        let view = UITableView(frame: .zero, style: .plain)
+        view.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reuseIdentifier)
+        
+        return view
+    }()
+    
     let profileView = ProfileView()
     
     override init(frame: CGRect) {
@@ -21,7 +28,7 @@ final class SettingView: BaseView {
     }
     
     override func configureUI() {
-        [settingCollectionView, profileView].forEach {
+        [settingTableView, profileView].forEach {
             self.addSubview($0)
         }
     }
@@ -31,7 +38,8 @@ final class SettingView: BaseView {
             make.top.leading.trailing.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.27)
         }
-        settingCollectionView.snp.makeConstraints { make in
+        
+        settingTableView.snp.makeConstraints { make in
             make.leading.bottom.trailing.equalToSuperview()
             make.top.equalTo(profileView.snp.bottom)
         }
