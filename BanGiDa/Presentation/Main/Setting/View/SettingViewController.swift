@@ -22,6 +22,8 @@ final class SettingViewController: BaseViewController {
     
     let repository = UserDiaryRepository.shared
     
+    //MARK: - Life Cycle
+    
     override func loadView() {
         self.view = settingView
     }
@@ -37,6 +39,8 @@ final class SettingViewController: BaseViewController {
         let name = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
         settingView.profileView.nameButton.setTitle(name ?? "이름을 입력해주세요", for: .normal)
     }
+    
+    //MARK: - UI
     
     override func configureUI() {
         settingView.settingCollectionView.collectionViewLayout = createLayout()
@@ -69,6 +73,8 @@ final class SettingViewController: BaseViewController {
         settingView.profileView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
         settingView.profileView.nameButton.addTarget(self, action: #selector(nameButtonClicked), for: .touchUpInside)
     }
+    
+    //MARK: - Private
     
     private func backupFileButtonClicked() {
         do {
