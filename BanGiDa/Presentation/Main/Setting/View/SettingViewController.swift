@@ -269,6 +269,11 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.label.text = title
         
+        if indexPath.section == 2 && indexPath.row == 1 {
+            cell.image.isHidden = true
+            cell.versionLabel.text = viewModel.version
+        }
+        
         return cell
     }
 }

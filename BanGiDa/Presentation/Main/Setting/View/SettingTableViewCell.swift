@@ -35,6 +35,11 @@ final class SettingTableViewCell: BaseTableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
+    override func prepareForReuse() {
+        image.isHidden = false
+        versionLabel.text = ""
+    }
+    
     override func configureUI() {
         backgroundColor = .softGray
         
