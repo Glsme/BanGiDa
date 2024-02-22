@@ -41,7 +41,7 @@ final class SettingTableViewCell: BaseTableViewCell {
     }
     
     override func configureUI() {
-        backgroundColor = .softGray
+        backgroundColor = .memoBackgroundColor
         
         [label, image, versionLabel].forEach {
             self.addSubview($0)

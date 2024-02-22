@@ -17,7 +17,7 @@ final class SettingView: BaseView {
     let settingTableView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
         view.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.reuseIdentifier)
-        
+        view.backgroundColor = .clear
         return view
     }()
     

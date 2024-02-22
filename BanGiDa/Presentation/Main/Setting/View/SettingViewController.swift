@@ -46,32 +46,6 @@ final class SettingViewController: BaseViewController {
         settingView.settingTableView.delegate = self
         settingView.settingTableView.dataSource = self
         
-        settingView.settingCollectionView.collectionViewLayout = createLayout()
-        settingView.settingCollectionView.delegate = self
-//        viewModel.configureDataSource(settingCollectionView: settingView.settingCollectionView)
-        
-        let cellRegistration = createCellRegistration()
-        let headerRegistration = createHeaderRegistration()
-        
-        dataSource = UICollectionViewDiffableDataSource(collectionView: settingView.settingCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-            
-            return cell
-        })
-        
-        dataSource.supplementaryViewProvider = { [weak self]
-            (collectionView, elementKind, indexPath) -> UICollectionReusableView? in
-            return self?.settingView.settingCollectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
-        snapshot.appendSections([0, 1, 2])
-        snapshot.appendItems(viewModel.dataLabel, toSection: 0)
-        snapshot.appendItems(viewModel.serviceLabel, toSection: 1)
-        snapshot.appendItems(viewModel.appInfoLabel, toSection: 2)
-        
-        dataSource.apply(snapshot)
-        
         self.navigationItem.title = "설정"
         settingView.profileView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
         settingView.profileView.nameButton.addTarget(self, action: #selector(nameButtonClicked), for: .touchUpInside)
@@ -114,7 +88,7 @@ final class SettingViewController: BaseViewController {
         }
     }
     
-    @objc func imageButtonClicked() {
+    @objc private func imageButtonClicked(_ sender: UIButton) {
         print(#function)
         
         var configuration = PHPickerConfiguration()
@@ -126,7 +100,7 @@ final class SettingViewController: BaseViewController {
         present(picker, animated: true, completion: nil)
     }
     
-    @objc func nameButtonClicked() {
+    @objc private func nameButtonClicked(_ sender: UIButton) {
         let vc = WalkThroughViewController()
         vc.modalPresentationStyle = .automatic
         vc.walkThroughView.textLabel.text = "반려동물의 이름을 변경해주세요."
@@ -135,110 +109,40 @@ final class SettingViewController: BaseViewController {
         }
         self.present(vc, animated: true)
     }
-}
-
-extension SettingViewController {
-    private func createLayout() -> UICollectionViewLayout {
-        var config = UICollectionLayoutListConfiguration(appearance: .grouped)
-        config.headerMode = .supplementary
-        config.backgroundColor = UIColor.backgroundColor
-        let layout = UICollectionViewCompositionalLayout.list(using: config)
-        return layout
-    }
     
-    private func createCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, String> {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, String>(handler: { [weak self] cell, indexPath, itemIdentifier in
-            var content = UIListContentConfiguration.valueCell()
-            
-            if indexPath.section == 2, indexPath.item == 1 {
-                content.secondaryAttributedText = NSAttributedString(string: self?.viewModel.version ?? "2.0.0", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.systemTintColor ?? UIColor.black])
-            } else {
-                content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.systemTintColor ?? UIColor.black])
-            }
-            
-            content.attributedText = NSAttributedString(string: itemIdentifier, attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.systemTintColor ?? UIColor.black])
-            
-            cell.contentConfiguration = content
-            
-            var background = UIBackgroundConfiguration.listPlainCell()
-            background.backgroundColor = .memoBackgroundColor
-            cell.backgroundConfiguration = background
-        })
-        
-        return cellRegistration
-    }
-    
-    private func createHeaderRegistration() -> UICollectionView.SupplementaryRegistration<UICollectionViewListCell> {
-        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
-            
-            var configuration = headerView.defaultContentConfiguration()
-            configuration.text = self?.viewModel.settingTitleLabels[indexPath.section]
-            configuration.textProperties.font = UIFont(name: "HelveticaNeue-Medium", size: 13) ?? UIFont.systemFont(ofSize: 13)
-            configuration.textProperties.color = UIColor.systemTintColor ?? UIColor.black
-            headerView.contentConfiguration = configuration
-        }
-        
-        return headerRegistration
-    }
-}
-
-extension SettingViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        print(indexPath)
-        if indexPath.section == 0 {
-            switch indexPath.row {
-            case 0:
-                backupFileButtonClicked()
-            case 1:
-                restoreFileButtonClicked()
-            case 2:
-                showSelectAlert(message: "데이터 초기화 시 기존 데이터는 전부 사라집니다. \n\n데이터 초기화를 진행할까요?") { _ in
-                    self.viewModel.resetData()
-                    let walkthorughVC = WalkThroughViewController()
-                    self.tabBarController?.selectedIndex = 0
-                    self.transViewController(ViewController: walkthorughVC, type: .presentFullscreen)
-                }
-                break
-            default:
-                break
-            }
-        } else if indexPath.section == 1 {
-            if indexPath.row == 0 {
-                moveToReview()
-            } else if indexPath.row == 1 {
-                sendMail()
-            }
-        } else if indexPath.section == 2 {
-            if indexPath.row == 0 {
-                
-                guard let url = Bundle.main.url(forResource: "Package", withExtension: "resolved"),
-                      let data = try? Data(contentsOf: url),
-                      let acknowList = try? AcknowPackageDecoder().decode(from: data) else {
-                    return
-                }
-                
-                let vc = AcknowListViewController()
-                vc.acknowledgements = acknowList.acknowledgements
-                transViewController(ViewController: vc, type: .push)
-            }
-        }
-    }
+    //MARK: - Private
     
     private func moveToReview() {
         if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(6443524869)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
             UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
         }
     }
+    
+    private func initalizeButtonDidTap() {
+        showSelectAlert(message: "데이터 초기화 시 기존 데이터는 전부 사라집니다. \n\n데이터 초기화를 진행할까요?") { _ in
+            self.viewModel.resetData()
+            let walkthorughVC = WalkThroughViewController()
+            self.tabBarController?.selectedIndex = 0
+            self.transViewController(ViewController: walkthorughVC, type: .presentFullscreen)
+        }
+    }
+    
+    private func openSourceLibraryButtonDidTap() {
+        guard let url = Bundle.main.url(forResource: "Package", withExtension: "resolved"),
+              let data = try? Data(contentsOf: url),
+              let acknowList = try? AcknowPackageDecoder().decode(from: data) else {
+            return
+        }
+        
+        let vc = AcknowListViewController()
+        vc.acknowledgements = acknowList.acknowledgements
+        transViewController(ViewController: vc, type: .push)
+    }
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerLabel = UILabel()
-        headerLabel.text = viewModel.settingTitleLabels[section]
-        headerLabel.font = UIFont(name: "HelveticaNeue-Medium", size: 13)
-        headerLabel.textColor = UIColor.systemTintColor
-        
-        return headerLabel
+        return SettingTableHeaderView(title: viewModel.settingTitleLabels[section])
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -275,6 +179,26 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0 where indexPath.row == 0:
+            backupFileButtonClicked()
+        case 0 where indexPath.row == 1:
+            restoreFileButtonClicked()
+        case 0 where indexPath.row == 2:
+            initalizeButtonDidTap()
+        case 1 where indexPath.row == 0:
+            moveToReview()
+        case 1 where indexPath.row == 1:
+            sendMail()
+        case 2 where indexPath.row == 0:
+            openSourceLibraryButtonDidTap()
+        default:
+            break
+        }
+        settingView.settingTableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
