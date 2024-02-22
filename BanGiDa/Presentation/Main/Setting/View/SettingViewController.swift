@@ -14,18 +14,17 @@ import CropViewController
 
 final class SettingViewController: BaseViewController {
     
-    let settingView = SettingView()
-    let viewModel = SettingViewModel()
+    private let mainView = SettingView()
+    private let viewModel = SettingViewModel()
+    private let repository = UserDiaryRepository.shared
     
-    var zipFiles: [URL] = []
+    private var zipFiles: [URL] = []
     private var dataSource: UICollectionViewDiffableDataSource<Int, String>!
-    
-    let repository = UserDiaryRepository.shared
     
     //MARK: - Life Cycle
     
     override func loadView() {
-        self.view = settingView
+        self.view = mainView
     }
     
     override func viewDidLoad() {
@@ -37,46 +36,23 @@ final class SettingViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         let name = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
-        settingView.profileView.nameButton.setTitle(name ?? "이름을 입력해주세요", for: .normal)
+        mainView.profileView.nameButton.setTitle(name ?? "이름을 입력해주세요", for: .normal)
     }
     
     //MARK: - UI
     
     override func configureUI() {
-        settingView.settingCollectionView.collectionViewLayout = createLayout()
-        settingView.settingCollectionView.delegate = self
-//        viewModel.configureDataSource(settingCollectionView: settingView.settingCollectionView)
-        
-        let cellRegistration = createCellRegistration()
-        let headerRegistration = createHeaderRegistration()
-        
-        dataSource = UICollectionViewDiffableDataSource(collectionView: settingView.settingCollectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-            
-            return cell
-        })
-        
-        dataSource.supplementaryViewProvider = { [weak self]
-            (collectionView, elementKind, indexPath) -> UICollectionReusableView? in
-            return self?.settingView.settingCollectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Int, String>()
-        snapshot.appendSections([0, 1, 2])
-        snapshot.appendItems(viewModel.dataLabel, toSection: 0)
-        snapshot.appendItems(viewModel.serviceLabel, toSection: 1)
-        snapshot.appendItems(viewModel.appInfoLabel, toSection: 2)
-        
-        dataSource.apply(snapshot)
+        mainView.settingTableView.delegate = self
+        mainView.settingTableView.dataSource = self
         
         self.navigationItem.title = "설정"
-        settingView.profileView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
-        settingView.profileView.nameButton.addTarget(self, action: #selector(nameButtonClicked), for: .touchUpInside)
+        mainView.profileView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
+        mainView.profileView.nameButton.addTarget(self, action: #selector(nameButtonClicked), for: .touchUpInside)
     }
     
     //MARK: - Private
     
-    private func backupFileButtonClicked() {
+    private func backupFileButtonDidTap() {
         do {
             try repository.saveEncodedDataToDocument()
             let backupFilePath = try self.repository.documentManager.createBackupFile()
@@ -88,7 +64,7 @@ final class SettingViewController: BaseViewController {
         }
     }
     
-    private func restoreFileButtonClicked() {
+    private func restoreFileButtonDidTap() {
         showSelectAlert(message: "데이터 복구 시 기존 데이터는 삭제됩니다. \n\n복구를 진행할까요?") { [weak self] _ in
             let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
             documentPicker.delegate = self
@@ -111,7 +87,7 @@ final class SettingViewController: BaseViewController {
         }
     }
     
-    @objc func imageButtonClicked() {
+    @objc private func imageButtonClicked(_ sender: UIButton) {
         print(#function)
         
         var configuration = PHPickerConfiguration()
@@ -123,102 +99,14 @@ final class SettingViewController: BaseViewController {
         present(picker, animated: true, completion: nil)
     }
     
-    @objc func nameButtonClicked() {
+    @objc private func nameButtonClicked(_ sender: UIButton) {
         let vc = WalkThroughViewController()
         vc.modalPresentationStyle = .automatic
         vc.walkThroughView.textLabel.text = "반려동물의 이름을 변경해주세요."
         vc.isNameChanged = {
-            self.settingView.profileView.nameButton.setTitle(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? "", for: .normal)
+            self.mainView.profileView.nameButton.setTitle(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? "", for: .normal)
         }
         self.present(vc, animated: true)
-    }
-}
-
-extension SettingViewController {
-    private func createLayout() -> UICollectionViewLayout {
-        var config = UICollectionLayoutListConfiguration(appearance: .grouped)
-        config.headerMode = .supplementary
-        config.backgroundColor = UIColor.backgroundColor
-        let layout = UICollectionViewCompositionalLayout.list(using: config)
-        return layout
-    }
-    
-    private func createCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, String> {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, String>(handler: { [weak self] cell, indexPath, itemIdentifier in
-            var content = UIListContentConfiguration.valueCell()
-            
-            if indexPath.section == 2, indexPath.item == 1 {
-                content.secondaryAttributedText = NSAttributedString(string: self?.viewModel.version ?? "2.0.0", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.systemTintColor ?? UIColor.black])
-            } else {
-                content.secondaryAttributedText = NSAttributedString(string: "→", attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 20) ?? UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.systemTintColor ?? UIColor.black])
-            }
-            
-            content.attributedText = NSAttributedString(string: itemIdentifier, attributes: [.font: UIFont(name: "HelveticaNeue-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.systemTintColor ?? UIColor.black])
-            
-            cell.contentConfiguration = content
-            
-            var background = UIBackgroundConfiguration.listPlainCell()
-            background.backgroundColor = .memoBackgroundColor
-            cell.backgroundConfiguration = background
-        })
-        
-        return cellRegistration
-    }
-    
-    private func createHeaderRegistration() -> UICollectionView.SupplementaryRegistration<UICollectionViewListCell> {
-        let headerRegistration = UICollectionView.SupplementaryRegistration<UICollectionViewListCell>(elementKind: UICollectionView.elementKindSectionHeader) { [weak self] headerView, elementKind, indexPath in
-            
-            var configuration = headerView.defaultContentConfiguration()
-            configuration.text = self?.viewModel.settingTitleLabels[indexPath.section]
-            configuration.textProperties.font = UIFont(name: "HelveticaNeue-Medium", size: 13) ?? UIFont.systemFont(ofSize: 13)
-            configuration.textProperties.color = UIColor.systemTintColor ?? UIColor.black
-            headerView.contentConfiguration = configuration
-        }
-        
-        return headerRegistration
-    }
-}
-
-extension SettingViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        print(indexPath)
-        if indexPath.section == 0 {
-            switch indexPath.row {
-            case 0:
-                backupFileButtonClicked()
-            case 1:
-                restoreFileButtonClicked()
-            case 2:
-                showSelectAlert(message: "데이터 초기화 시 기존 데이터는 전부 사라집니다. \n\n데이터 초기화를 진행할까요?") { _ in
-                    self.viewModel.resetData()
-                    let walkthorughVC = WalkThroughViewController()
-                    self.tabBarController?.selectedIndex = 0
-                    self.transViewController(ViewController: walkthorughVC, type: .presentFullscreen)
-                }
-                break
-            default:
-                break
-            }
-        } else if indexPath.section == 1 {
-            if indexPath.row == 0 {
-                moveToReview()
-            } else if indexPath.row == 1 {
-                sendMail()
-            }
-        } else if indexPath.section == 2 {
-            if indexPath.row == 0 {
-                
-                guard let url = Bundle.main.url(forResource: "Package", withExtension: "resolved"),
-                      let data = try? Data(contentsOf: url),
-                      let acknowList = try? AcknowPackageDecoder().decode(from: data) else {
-                    return
-                }
-                
-                let vc = AcknowListViewController()
-                vc.acknowledgements = acknowList.acknowledgements
-                transViewController(ViewController: vc, type: .push)
-            }
-        }
     }
     
     private func moveToReview() {
@@ -226,7 +114,92 @@ extension SettingViewController: UICollectionViewDelegate {
             UIApplication.shared.open(reviewURL, options: [:], completionHandler: nil)
         }
     }
+    
+    private func initalizeButtonDidTap() {
+        showSelectAlert(message: "데이터 초기화 시 기존 데이터는 전부 사라집니다. \n\n데이터 초기화를 진행할까요?") { _ in
+            self.viewModel.resetData()
+            let walkthorughVC = WalkThroughViewController()
+            self.tabBarController?.selectedIndex = 0
+            self.transViewController(ViewController: walkthorughVC, type: .presentFullscreen)
+        }
+    }
+    
+    private func openSourceLibraryButtonDidTap() {
+        guard let url = Bundle.main.url(forResource: "Package", withExtension: "resolved"),
+              let data = try? Data(contentsOf: url),
+              let acknowList = try? AcknowPackageDecoder().decode(from: data) else {
+            return
+        }
+        
+        let vc = AcknowListViewController()
+        vc.acknowledgements = acknowList.acknowledgements
+        transViewController(ViewController: vc, type: .push)
+    }
 }
+
+extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return SettingTableHeaderView(title: viewModel.settingTitleLabels[section])
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0: return viewModel.dataLabel.count
+        case 1: return viewModel.serviceLabel.count
+        case 2: return viewModel.appInfoLabel.count
+        default: return 0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.reuseIdentifier, for: indexPath) as? SettingTableViewCell
+        else { return UITableViewCell() }
+        
+        var title = ""
+        
+        switch indexPath.section {
+        case 0: title = viewModel.dataLabel[indexPath.row]
+        case 1: title = viewModel.serviceLabel[indexPath.row]
+        case 2: title = viewModel.appInfoLabel[indexPath.row]
+        default: break
+        }
+        
+        cell.label.text = title
+        
+        if indexPath.section == 2 && indexPath.row == 1 {
+            cell.image.isHidden = true
+            cell.versionLabel.text = viewModel.version
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0 where indexPath.row == 0:
+            backupFileButtonDidTap()
+        case 0 where indexPath.row == 1:
+            restoreFileButtonDidTap()
+        case 0 where indexPath.row == 2:
+            initalizeButtonDidTap()
+        case 1 where indexPath.row == 0:
+            moveToReview()
+        case 1 where indexPath.row == 1:
+            sendMail()
+        case 2 where indexPath.row == 0:
+            openSourceLibraryButtonDidTap()
+        default:
+            break
+        }
+        mainView.settingTableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+//MARK: - UIDocumentPickerDelegate
 
 extension SettingViewController: UIDocumentPickerDelegate {
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
@@ -293,6 +266,8 @@ extension SettingViewController: UIDocumentPickerDelegate {
     }
 }
 
+//MARK: - MFMailComposeViewControllerDelegate
+
 extension SettingViewController : MFMailComposeViewControllerDelegate {
     
     private func sendMail() {
@@ -330,6 +305,8 @@ extension SettingViewController : MFMailComposeViewControllerDelegate {
     }
 }
 
+//MARK: - PHPickerViewControllerDelegate
+
 extension SettingViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
@@ -353,7 +330,7 @@ extension SettingViewController: PHPickerViewControllerDelegate {
 
 extension SettingViewController: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        settingView.profileView.imageView.image = image
+        mainView.profileView.imageView.image = image
         if image != UIImage(named: "BasicDog"),
            let imageData = image.jpegData(compressionQuality: 0.8) {
             UserDiaryRepository.shared.documentManager.saveImageDataFromDocument(fileName: "UserProfile.jpg",
