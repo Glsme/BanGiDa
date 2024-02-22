@@ -14,18 +14,17 @@ import CropViewController
 
 final class SettingViewController: BaseViewController {
     
-    let settingView = SettingView()
-    let viewModel = SettingViewModel()
+    private let mainView = SettingView()
+    private let viewModel = SettingViewModel()
+    private let repository = UserDiaryRepository.shared
     
-    var zipFiles: [URL] = []
+    private var zipFiles: [URL] = []
     private var dataSource: UICollectionViewDiffableDataSource<Int, String>!
-    
-    let repository = UserDiaryRepository.shared
     
     //MARK: - Life Cycle
     
     override func loadView() {
-        self.view = settingView
+        self.view = mainView
     }
     
     override func viewDidLoad() {
@@ -37,23 +36,23 @@ final class SettingViewController: BaseViewController {
         super.viewWillAppear(animated)
         
         let name = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
-        settingView.profileView.nameButton.setTitle(name ?? "이름을 입력해주세요", for: .normal)
+        mainView.profileView.nameButton.setTitle(name ?? "이름을 입력해주세요", for: .normal)
     }
     
     //MARK: - UI
     
     override func configureUI() {
-        settingView.settingTableView.delegate = self
-        settingView.settingTableView.dataSource = self
+        mainView.settingTableView.delegate = self
+        mainView.settingTableView.dataSource = self
         
         self.navigationItem.title = "설정"
-        settingView.profileView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
-        settingView.profileView.nameButton.addTarget(self, action: #selector(nameButtonClicked), for: .touchUpInside)
+        mainView.profileView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
+        mainView.profileView.nameButton.addTarget(self, action: #selector(nameButtonClicked), for: .touchUpInside)
     }
     
     //MARK: - Private
     
-    private func backupFileButtonClicked() {
+    private func backupFileButtonDidTap() {
         do {
             try repository.saveEncodedDataToDocument()
             let backupFilePath = try self.repository.documentManager.createBackupFile()
@@ -65,7 +64,7 @@ final class SettingViewController: BaseViewController {
         }
     }
     
-    private func restoreFileButtonClicked() {
+    private func restoreFileButtonDidTap() {
         showSelectAlert(message: "데이터 복구 시 기존 데이터는 삭제됩니다. \n\n복구를 진행할까요?") { [weak self] _ in
             let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.archive], asCopy: true)
             documentPicker.delegate = self
@@ -105,12 +104,10 @@ final class SettingViewController: BaseViewController {
         vc.modalPresentationStyle = .automatic
         vc.walkThroughView.textLabel.text = "반려동물의 이름을 변경해주세요."
         vc.isNameChanged = {
-            self.settingView.profileView.nameButton.setTitle(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? "", for: .normal)
+            self.mainView.profileView.nameButton.setTitle(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? "", for: .normal)
         }
         self.present(vc, animated: true)
     }
-    
-    //MARK: - Private
     
     private func moveToReview() {
         if let reviewURL = URL(string: "itms-apps://itunes.apple.com/app/itunes-u/id\(6443524869)?ls=1&mt=8&action=write-review"), UIApplication.shared.canOpenURL(reviewURL) {
@@ -184,9 +181,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0 where indexPath.row == 0:
-            backupFileButtonClicked()
+            backupFileButtonDidTap()
         case 0 where indexPath.row == 1:
-            restoreFileButtonClicked()
+            restoreFileButtonDidTap()
         case 0 where indexPath.row == 2:
             initalizeButtonDidTap()
         case 1 where indexPath.row == 0:
@@ -198,7 +195,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
-        settingView.settingTableView.deselectRow(at: indexPath, animated: true)
+        mainView.settingTableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -333,7 +330,7 @@ extension SettingViewController: PHPickerViewControllerDelegate {
 
 extension SettingViewController: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        settingView.profileView.imageView.image = image
+        mainView.profileView.imageView.image = image
         if image != UIImage(named: "BasicDog"),
            let imageData = image.jpegData(compressionQuality: 0.8) {
             UserDiaryRepository.shared.documentManager.saveImageDataFromDocument(fileName: "UserProfile.jpg",
