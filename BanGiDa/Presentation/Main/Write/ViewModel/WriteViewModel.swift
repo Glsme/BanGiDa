@@ -9,7 +9,6 @@ import Combine
 import Foundation
 
 import FirebaseAnalytics
-import FirebaseCrashlytics
 import RealmSwift
 
 final class WriteViewModel: CommonViewModel {
@@ -45,8 +44,15 @@ final class WriteViewModel: CommonViewModel {
                 try UserDiaryRepository.shared.write(task)
             } catch {
                 print("error: \(error)")
-                let userInfo = ["class": "\(self)", "method": "\(#function)"]
-                Crashlytics.crashlytics().record(error: error, userInfo: userInfo)
+                
+                let parameter: [String: Any] = [
+                    "object": self,
+                    "error": error,
+                    "method": #function,
+                    "file": task.type
+                ]
+                
+                Analytics.logEvent("Memo Saving Error", parameters: parameter)
                 
             }
             
