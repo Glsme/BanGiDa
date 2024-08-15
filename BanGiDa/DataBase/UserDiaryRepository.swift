@@ -6,6 +6,9 @@
 //
 
 import Foundation
+
+import CoreData
+import FirebaseAnalytics
 import RealmSwift
 
 final class UserDiaryRepository {
@@ -23,6 +26,10 @@ final class UserDiaryRepository {
         try localRealm.write {
             localRealm.add(task)
         }
+    }
+    
+    func getAllDiary() -> Results<Diary> {
+        return localRealm.objects(Diary.self)
     }
     
     func fetchDate(date: Date) -> Results<Diary> {
@@ -61,6 +68,28 @@ final class UserDiaryRepository {
     func deleteAll() {
         try! localRealm.write {
             localRealm.deleteAll()
+        }
+    }
+    
+    func migrate(from realmData: Diary, context: NSManagedObjectContext) {
+        let entity = NSEntityDescription.entity(forEntityName: "NewDiary", in: context)
+        
+        guard let entity else { return }
+        
+        let diary = NSManagedObject(entity: entity, insertInto: context)
+        
+        diary.setValue(realmData.animalName, forKey: NewDiaryAttributes.name.rawValue)
+        diary.setValue(realmData.content, forKey: NewDiaryAttributes.content.rawValue)
+        diary.setValue(realmData.alarmTitle, forKey: NewDiaryAttributes.alarmTitle.rawValue)
+        diary.setValue(realmData.regDate, forKey: NewDiaryAttributes.regDate.rawValue)
+        diary.setValue(realmData.date, forKey: NewDiaryAttributes.date.rawValue)
+        diary.setValue(realmData.type?.rawValue, forKey: NewDiaryAttributes.type.rawValue)
+        
+        do {
+            try context.save()
+        } catch {
+            let parameter: [String: String] = ["error": error.localizedDescription]
+            Analytics.logEvent("Migration Error", parameters: parameter)
         }
     }
     
