@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIViewController {
-    enum Transition {
+    enum TransitionType {
         case push
         case presentNavigation
         case presentFullScreenNavigation
@@ -16,7 +16,7 @@ extension UIViewController {
         case presentFullscreen
     }
     
-    func transViewController<T: UIViewController>(ViewController vc: T, type: Transition) {
+    func transViewController<T: UIViewController>(ViewController vc: T, type: TransitionType) {
         switch type {
         case .push:
             self.navigationController?.pushViewController(vc, animated: true)
