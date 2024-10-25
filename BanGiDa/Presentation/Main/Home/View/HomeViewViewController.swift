@@ -165,26 +165,6 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     @objc func selectDate(_ datePicker: UIDatePicker) {
         //        date = datePicker.date
     }
-    
-    func pushNavigationController(index: Int) {
-        let category = Category(rawValue: index)
-        
-        if category == .alarm {
-            if viewModel.alarmPrivacy.value {
-                let vc = AlarmViewController()
-                vc.navigationItem.title = viewModel.selectButtonList[index].title
-                transViewController(ViewController: vc, type: .push)
-            } else {
-                showAlert(message: "알람 사용을 위해 알람 권한을 허용해주세요.")
-            }
-        } else {
-            let vc = WriteViewController()
-            vc.navigationItem.title = viewModel.selectButtonList[index].title
-            vc.viewModel.currentIndex.value = index
-            vc.memoView.dateTextField.text = dateFormatter.string(from: viewModel.currentDate.value)
-            transViewController(ViewController: vc, type: .push)
-        }
-    }
 }
 
 extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
@@ -194,7 +174,13 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return viewModel.setTableViewHeaderView(section: section)
+        guard let category = Category(rawValue: section) else { return nil }
+        
+        let headerView = MemoHeaderView()
+        headerView.headerLabel.text = category.title
+        headerView.circle.backgroundColor = category.color
+        
+        return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -206,7 +192,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.selectButtonList.count
+        return Category.allCases.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -314,7 +300,7 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
 
 extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.selectButtonList.count
+        return Category.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -322,6 +308,29 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        pushNavigationController(index: indexPath.item)
+        guard let category = Category(rawValue: indexPath.item) else { return }
+        
+        switch category {
+        case .memo, .growth, .shower, .hospital, .abnormal:
+            let vc = WriteViewController()
+            push(vc, title: category.title, index: category.rawValue)
+        case .alarm:
+            if viewModel.alarmPrivacy.value {
+                let vc = AlarmViewController()
+                vc.navigationItem.title = category.title
+                transViewController(ViewController: vc, type: .push)
+            } else {
+                showAlert(message: "알람 사용을 위해 알람 권한을 허용해주세요.")
+            }
+        }
+    }
+    
+    //MARK: - Private
+    
+    private func push(_ viewController: WriteViewController, title: String, index: Int) {
+        viewController.navigationItem.title = title
+        viewController.viewModel.currentIndex.value = index
+        viewController.memoView.dateTextField.text = dateFormatter.string(from: viewModel.currentDate.value)
+        transViewController(ViewController: viewController, type: .push)
     }
 }
