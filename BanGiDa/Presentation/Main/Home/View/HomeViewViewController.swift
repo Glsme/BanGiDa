@@ -304,7 +304,17 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return viewModel.cellForItemAt(collectionView: collectionView, indexPath: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier,
+            for: indexPath
+        ) as? SelectButtonCollectionViewCell
+        else { return UICollectionViewCell() }
+        
+        guard let category = Category(rawValue: indexPath.item) else { return cell }
+        
+        cell.configureCell(bgColor: category.color, image: category.image)
+        
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -313,7 +323,7 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
         switch category {
         case .memo, .growth, .shower, .hospital, .abnormal:
             let vc = WriteViewController()
-            push(vc, title: category.title, index: category.rawValue)
+            push(vc, category: category)
         case .alarm:
             if viewModel.alarmPrivacy.value {
                 let vc = AlarmViewController()
@@ -327,10 +337,11 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
     
     //MARK: - Private
     
-    private func push(_ viewController: WriteViewController, title: String, index: Int) {
+    private func push(_ viewController: WriteViewController, category: Category) {
         viewController.navigationItem.title = title
-        viewController.viewModel.currentIndex.value = index
+        viewController.viewModel.currentIndex.value = category.rawValue
         viewController.memoView.dateTextField.text = dateFormatter.string(from: viewModel.currentDate.value)
+        viewController.category = category
         transViewController(ViewController: viewController, type: .push)
     }
 }

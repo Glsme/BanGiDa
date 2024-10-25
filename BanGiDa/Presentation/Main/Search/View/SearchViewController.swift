@@ -60,7 +60,7 @@ final class SearchViewController: BaseViewController {
 
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.selectButtonList.count
+        return Category.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -68,17 +68,23 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .init())
         }
 
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier,
+            for: indexPath
+        ) as? SelectButtonCollectionViewCell
+        else { return UICollectionViewCell() }
+        
+        guard let category = Category(rawValue: indexPath.item) else { return cell }
         
         cell.backgroundColor = .lightGray
         
         let backgroundView = UIView()
-        backgroundView.backgroundColor = viewModel.selectButtonList[indexPath.item].color
+        backgroundView.backgroundColor = category.color
         cell.selectedBackgroundView = backgroundView
         
         cell.clipsToBounds = true
         cell.layer.cornerRadius = cell.frame.height / 2
-        cell.imageView.image = viewModel.selectButtonList[indexPath.item].image
+        cell.imageView.image = UIImage(systemName: category.image) ?? UIImage()
         cell.tintColor = .white
         
         return cell
@@ -98,11 +104,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = MemoHeaderView()
+        guard let category = Category(rawValue: section) else { return nil }
         
-        guard let index = viewModel.currentIndex.value else { return UIView() }
-        headerView.headerLabel.text = viewModel.selectButtonList[index].title
-        headerView.circle.backgroundColor = viewModel.selectButtonList[index].color
+        let headerView = MemoHeaderView()
+        headerView.headerLabel.text = category.title
+        headerView.circle.backgroundColor = category.color
         
         return headerView
     }
@@ -243,7 +249,7 @@ extension SearchViewController {
                 UserDiaryRepository.shared.primaryKey = viewModel.memoTaskList[indexPath.row].objectId
             case .alarm:
                 let alarmVC = AlarmViewController()
-                alarmVC.navigationItem.title = viewModel.selectButtonList[indexPath.section].title
+                alarmVC.navigationItem.title = category?.title
                 alarmVC.alarmView.dateTextField.text = viewModel.dateAndTimeFormatter.string(from: viewModel.alarmTaskList[indexPath.row].date)
                 alarmVC.alarmView.memoTextView.text = viewModel.alarmTaskList[indexPath.row].content
                 alarmVC.alarmView.titleTextField.text = viewModel.alarmTaskList[indexPath.row].alarmTitle

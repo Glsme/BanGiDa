@@ -10,6 +10,8 @@ import UIKit
 
 final class AlarmViewController: BaseViewController {
     let alarmView = AlarmView()
+    let category: Category = .alarm
+    
     private let viewModel = AlarmViewModel()
     
     private var cancelBag = Set<AnyCancellable>()
@@ -46,7 +48,7 @@ final class AlarmViewController: BaseViewController {
     //MARK: - Private
     
     private func setNavigationStyle() {
-        let currentColor = viewModel.selectButtonList[1].color
+        let currentColor = category.color
         
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.tintColor = .systemTintColor
@@ -103,7 +105,7 @@ final class AlarmViewController: BaseViewController {
                 if !self.alarmView.memoTextView.text.isEmpty {
                     self.alarmView.memoTextView.textColor = .systemTintColor
                 } else {
-                    self.alarmView.memoTextView.text = self.viewModel.selectButtonList[1].placeholder
+                    self.alarmView.memoTextView.text = self.category.placeHolder
                     self.alarmView.memoTextView.textColor = .lightGray
                 }
             }
@@ -133,7 +135,7 @@ extension AlarmViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.textColor = .lightGray
-            textView.text = viewModel.selectButtonList[1].placeholder
+            textView.text = category.placeHolder
         }
     }
 }

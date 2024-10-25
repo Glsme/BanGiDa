@@ -16,9 +16,9 @@ final class WriteViewModel: CommonViewModel {
     let dateText = CurrentValueSubject<String, Never>("")
     let diaryContent = CurrentValueSubject<String, Never>("")
     
-    func setCurrentMemoType() -> SelectButtonModel {
-        return selectButtonList[self.currentIndex.value]
-    }
+//    func setCurrentMemoType() -> SelectButtonModel {
+//        return selectButtonList[self.currentIndex.value]
+//    }
     
     func saveData(image: Data?, content: String, dateText: String) {
         Analytics.logEvent("SaveData", parameters: [

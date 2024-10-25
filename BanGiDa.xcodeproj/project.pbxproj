@@ -49,7 +49,6 @@
 		85A8D00928CEFA4400F22A80 /* FontList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D00828CEFA4400F22A80 /* FontList.swift */; };
 		85A8D00E28CF0AA000F22A80 /* Jalnan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A8D00D28CF0AA000F22A80 /* Jalnan.ttf */; };
 		85A8D01028CF0DBF00F22A80 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D00F28CF0DBF00F22A80 /* UIColor+Extension.swift */; };
-		85A8D01428CF611400F22A80 /* SelectButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D01328CF611400F22A80 /* SelectButtonModel.swift */; };
 		85A8D01928CF89F900F22A80 /* MemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D01828CF89F900F22A80 /* MemoView.swift */; };
 		85A8D01F28D0763500F22A80 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D01E28D0763500F22A80 /* SearchView.swift */; };
 		85A8D02228D0798200F22A80 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D02128D0798200F22A80 /* SearchViewModel.swift */; };
@@ -132,7 +131,6 @@
 		85A8D00828CEFA4400F22A80 /* FontList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontList.swift; sourceTree = "<group>"; };
 		85A8D00D28CF0AA000F22A80 /* Jalnan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Jalnan.ttf; sourceTree = "<group>"; };
 		85A8D00F28CF0DBF00F22A80 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
-		85A8D01328CF611400F22A80 /* SelectButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButtonModel.swift; sourceTree = "<group>"; };
 		85A8D01828CF89F900F22A80 /* MemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoView.swift; sourceTree = "<group>"; };
 		85A8D01E28D0763500F22A80 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		85A8D02128D0798200F22A80 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -520,7 +518,6 @@
 			children = (
 				8556329328CA2D110055159E /* SelectButtonCollectionView.swift */,
 				8556329528CA2EB00055159E /* SelectButtonCollectionViewCell.swift */,
-				85A8D01328CF611400F22A80 /* SelectButtonModel.swift */,
 				8514435028FEBC2F003BB1E9 /* AnimalNameButton.swift */,
 			);
 			path = Category;
@@ -711,7 +708,6 @@
 			files = (
 				8514435128FEBC2F003BB1E9 /* AnimalNameButton.swift in Sources */,
 				85075C5A28CC90E900FAF6BA /* UIViewController+Extension.swift in Sources */,
-				85A8D01428CF611400F22A80 /* SelectButtonModel.swift in Sources */,
 				85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */,
 				85A8D03228D0DB6400F22A80 /* MemoListTableViewCell.swift in Sources */,
 				85CCEAEE28D89CAE0086E5CA /* AlarmViewModel.swift in Sources */,

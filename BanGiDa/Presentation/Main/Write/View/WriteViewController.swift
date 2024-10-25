@@ -14,6 +14,8 @@ final class WriteViewController: BaseViewController {
     let viewModel = WriteViewModel()
     let memoView = MemoView()
     
+    var category: Category = .memo
+    
     private var cancelBag = Set<AnyCancellable>()
     
     private lazy var saveButton = UIBarButtonItem(title: "저장",
@@ -52,12 +54,12 @@ final class WriteViewController: BaseViewController {
     //MARK: - Private
     
     private func setNavigationStyle() {
-        let currentColor = viewModel.setCurrentMemoType().color
+        let currentColor = category.color
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.tintColor = .systemTintColor
-        navigationItem.title = viewModel.setCurrentMemoType().title
+        navigationItem.title = category.title
         navigationController?.navigationBar.topItem?.title = ""
-        navigationItem.title = viewModel.setCurrentMemoType().title
+        navigationItem.title = category.title
         navigationItem.rightBarButtonItem = saveButton
         navigationController?.navigationBar.backgroundColor = currentColor
         
@@ -92,7 +94,7 @@ final class WriteViewController: BaseViewController {
                 if !self.memoView.textView.text.isEmpty {
                     self.memoView.textView.textColor = .systemTintColor
                 } else {
-                    self.memoView.textView.text = self.viewModel.setCurrentMemoType().placeholder
+                    self.memoView.textView.text = self.category.placeHolder
                     self.memoView.textView.textColor = .lightGray
                 }
             }
@@ -171,7 +173,7 @@ extension WriteViewController: UITextViewDelegate {
     private func checkTextViewIsEmpty(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.textColor = .lightGray
-            textView.text = viewModel.setCurrentMemoType().placeholder
+            textView.text = category.placeHolder
         }
     }
 }
@@ -240,7 +242,7 @@ extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     @objc func nameButtonClicked(_ sender: UIButton) {
         print(sender.tag)
-        let currentColor = viewModel.setCurrentMemoType().color
+        let currentColor = category.color
         
         if sender.backgroundColor == currentColor {
             sender.backgroundColor = .memoDarkGray

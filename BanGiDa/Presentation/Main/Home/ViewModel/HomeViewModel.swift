@@ -110,7 +110,7 @@ final class HomeViewModel: CommonViewModel {
             UserDiaryRepository.shared.primaryKey = memoTaskList[indexPath.row].objectId
         case .alarm:
             let alarmVC = AlarmViewController()
-            alarmVC.navigationItem.title = selectButtonList[indexPath.section].title
+            alarmVC.navigationItem.title = category?.title
             alarmVC.alarmView.dateTextField.text = dateAndTimeFormatter.string(from: alarmTaskList[indexPath.row].date)
             alarmVC.alarmView.memoTextView.text = alarmTaskList[indexPath.row].content
             alarmVC.alarmView.titleTextField.text = alarmTaskList[indexPath.row].alarmTitle
@@ -212,13 +212,5 @@ final class HomeViewModel: CommonViewModel {
             
             return memoCell
         }
-    }
-    
-    func cellForItemAt(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return UICollectionViewCell() }
-        
-        cell.configureCell(bgColor: selectButtonList[indexPath.row].color, image: selectButtonList[indexPath.item].image)
-        
-        return cell
     }
 }
