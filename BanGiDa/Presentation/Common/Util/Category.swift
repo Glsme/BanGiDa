@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum Category: Int {
+enum Category: Int, CaseIterable {
     case memo = 0
     case alarm
     case growth
