@@ -21,4 +21,13 @@ extension UIColor {
     static let memoDarkGray = UIColor(named: "MemoDateColor")
     static let tabBarColor = UIColor(named: "TabBarColor")
     static let darkPink = UIColor(red: 228/255, green: 167/255, blue: 180/255, alpha: 1)
+    
+    convenience init(r: Int, g: Int, b: Int, alpha: CGFloat = 1.0) {
+        self.init(
+            red: CGFloat(r / 255),
+            green: CGFloat(g / 255),
+            blue: CGFloat(b / 255),
+            alpha: alpha
+        )
+    }
 }
