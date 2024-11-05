@@ -596,8 +596,8 @@
 				857541CD28C9BBF1004DD880 /* Sources */,
 				857541CE28C9BBF1004DD880 /* Frameworks */,
 				857541CF28C9BBF1004DD880 /* Resources */,
-				854A00EB28F5670500575556 /* ShellScript */,
 				85B11D022CCBE251004707F1 /* Embed Frameworks */,
+				854A00EB28F5670500575556 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -688,8 +688,11 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
 			);
 			outputFileListPaths = (
 			);
