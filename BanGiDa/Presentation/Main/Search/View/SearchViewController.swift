@@ -246,36 +246,36 @@ extension SearchViewController {
                 writeVC.memoView.textView.text = viewModel.memoTaskList[indexPath.row].content
                 writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.memoTaskList[indexPath.row].date)
                 writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.memoTaskList[indexPath.row].objectId).jpg")
-                UserDiaryRepository.shared.primaryKey = viewModel.memoTaskList[indexPath.row].objectId
+                writeVC.viewModel.primaryKey = viewModel.memoTaskList[indexPath.row].objectId
             case .alarm:
                 let alarmVC = AlarmViewController()
                 alarmVC.navigationItem.title = category?.title
                 alarmVC.alarmView.dateTextField.text = viewModel.dateAndTimeFormatter.string(from: viewModel.alarmTaskList[indexPath.row].date)
                 alarmVC.alarmView.memoTextView.text = viewModel.alarmTaskList[indexPath.row].content
                 alarmVC.alarmView.titleTextField.text = viewModel.alarmTaskList[indexPath.row].alarmTitle
-                UserDiaryRepository.shared.primaryKey = viewModel.alarmTaskList[indexPath.row].objectId
+                alarmVC.viewModel.primaryKey = viewModel.alarmTaskList[indexPath.row].objectId
                 vc.transViewController(ViewController: alarmVC, type: .push)
                 return
             case .growth:
                 writeVC.memoView.textView.text = viewModel.growthTaskList[indexPath.row].content
                 writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.growthTaskList[indexPath.row].date)
                 writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.growthTaskList[indexPath.row].objectId).jpg")
-                UserDiaryRepository.shared.primaryKey = viewModel.growthTaskList[indexPath.row].objectId
+                writeVC.viewModel.primaryKey = viewModel.growthTaskList[indexPath.row].objectId
             case .shower:
                 writeVC.memoView.textView.text = viewModel.showerTaskList[indexPath.row].content
                 writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.showerTaskList[indexPath.row].date)
                 writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.showerTaskList[indexPath.row].objectId).jpg")
-                UserDiaryRepository.shared.primaryKey = viewModel.showerTaskList[indexPath.row].objectId
+                writeVC.viewModel.primaryKey = viewModel.showerTaskList[indexPath.row].objectId
             case .hospital:
                 writeVC.memoView.textView.text = viewModel.hospitalTaskList[indexPath.row].content
                 writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.hospitalTaskList[indexPath.row].date)
                 writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.hospitalTaskList[indexPath.row].objectId).jpg")
-                UserDiaryRepository.shared.primaryKey = viewModel.hospitalTaskList[indexPath.row].objectId
+                writeVC.viewModel.primaryKey = viewModel.hospitalTaskList[indexPath.row].objectId
             case .abnormal:
                 writeVC.memoView.textView.text = viewModel.abnormalTaskList[indexPath.row].content
                 writeVC.memoView.dateTextField.text = dateFormatter.string(from: viewModel.abnormalTaskList[indexPath.row].date)
                 writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(viewModel.abnormalTaskList[indexPath.row].objectId).jpg")
-                UserDiaryRepository.shared.primaryKey = viewModel.abnormalTaskList[indexPath.row].objectId
+                writeVC.viewModel.primaryKey = viewModel.abnormalTaskList[indexPath.row].objectId
             default:
                 break
             }

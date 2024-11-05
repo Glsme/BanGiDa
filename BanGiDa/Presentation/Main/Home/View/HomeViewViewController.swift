@@ -10,6 +10,8 @@ import UIKit
 import FSCalendar
 import FirebaseAnalytics
 
+import RealmSwift
+
 final class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
     
     let mainView = HomeView()
@@ -17,7 +19,7 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     
     lazy var scopeGesture: UIPanGestureRecognizer = {
         [unowned self] in
-        let panGesture = UIPanGestureRecognizer(target: mainView.homeTableView.calendar, action: #selector(mainView.homeTableView.calendar.handleScopeGesture(_:)))
+        let panGesture = UIPanGestureRecognizer(target: mainView.homeTableView.calendar, action: #selector(mainView.homeTableView.calendar.handleScopeGesture))
         panGesture.delegate = self
         panGesture.minimumNumberOfTouches = 1
         panGesture.maximumNumberOfTouches = 2
@@ -35,6 +37,8 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
         bind()
         todayButtonClicked()
         sendFireBaseAnalytics()
+        
+        print("Realm 위치: \(Realm.Configuration.defaultConfiguration.fileURL!)")
     }
     
     override func viewWillAppear(_ animated: Bool) {

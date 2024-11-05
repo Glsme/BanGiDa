@@ -12,7 +12,7 @@ final class AlarmViewController: BaseViewController {
     let alarmView = AlarmView()
     let category: Category = .alarm
     
-    private let viewModel = AlarmViewModel()
+    let viewModel = AlarmViewModel()
     
     private var cancelBag = Set<AnyCancellable>()
     
