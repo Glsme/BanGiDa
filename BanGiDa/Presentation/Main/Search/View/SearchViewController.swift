@@ -104,7 +104,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let category = Category(rawValue: section) else { return nil }
+        guard let category = Category(rawValue: viewModel.currentIndex.value ?? 0) else { return nil }
         
         let headerView = MemoHeaderView()
         headerView.headerLabel.text = category.title
