@@ -107,36 +107,36 @@ final class HomeViewModel: CommonViewModel {
             writeVC.memoView.textView.text = memoTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: memoTaskList[indexPath.row].date)
             writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(memoTaskList[indexPath.row].objectId).jpg")
-            UserDiaryRepository.shared.primaryKey = memoTaskList[indexPath.row].objectId
+            writeVC.viewModel.primaryKey = memoTaskList[indexPath.row].objectId
         case .alarm:
             let alarmVC = AlarmViewController()
-            alarmVC.navigationItem.title = selectButtonList[indexPath.section].title
+            alarmVC.navigationItem.title = category?.title
             alarmVC.alarmView.dateTextField.text = dateAndTimeFormatter.string(from: alarmTaskList[indexPath.row].date)
             alarmVC.alarmView.memoTextView.text = alarmTaskList[indexPath.row].content
             alarmVC.alarmView.titleTextField.text = alarmTaskList[indexPath.row].alarmTitle
-            UserDiaryRepository.shared.primaryKey = alarmTaskList[indexPath.row].objectId
+            writeVC.viewModel.primaryKey = alarmTaskList[indexPath.row].objectId
             vc.transViewController(ViewController: alarmVC, type: .push)
             return
         case .growth:
             writeVC.memoView.textView.text = growthTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: growthTaskList[indexPath.row].date)
             writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(growthTaskList[indexPath.row].objectId).jpg")
-            UserDiaryRepository.shared.primaryKey = growthTaskList[indexPath.row].objectId
+            writeVC.viewModel.primaryKey = growthTaskList[indexPath.row].objectId
         case .shower:
             writeVC.memoView.textView.text = showerTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: showerTaskList[indexPath.row].date)
             writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(showerTaskList[indexPath.row].objectId).jpg")
-            UserDiaryRepository.shared.primaryKey = showerTaskList[indexPath.row].objectId
+            writeVC.viewModel.primaryKey = showerTaskList[indexPath.row].objectId
         case .hospital:
             writeVC.memoView.textView.text = hospitalTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: hospitalTaskList[indexPath.row].date)
             writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(hospitalTaskList[indexPath.row].objectId).jpg")
-            UserDiaryRepository.shared.primaryKey = hospitalTaskList[indexPath.row].objectId
+            writeVC.viewModel.primaryKey = hospitalTaskList[indexPath.row].objectId
         case .abnormal:
             writeVC.memoView.textView.text = abnormalTaskList[indexPath.row].content
             writeVC.memoView.dateTextField.text = dateFormatter.string(from: abnormalTaskList[indexPath.row].date)
             writeVC.memoView.imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "\(abnormalTaskList[indexPath.row].objectId).jpg")
-            UserDiaryRepository.shared.primaryKey = abnormalTaskList[indexPath.row].objectId
+            writeVC.viewModel.primaryKey = abnormalTaskList[indexPath.row].objectId
         default:
             break
         }
@@ -212,13 +212,5 @@ final class HomeViewModel: CommonViewModel {
             
             return memoCell
         }
-    }
-    
-    func cellForItemAt(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? SelectButtonCollectionViewCell else { return UICollectionViewCell() }
-        
-        cell.configureCell(bgColor: selectButtonList[indexPath.row].color, image: selectButtonList[indexPath.item].image)
-        
-        return cell
     }
 }

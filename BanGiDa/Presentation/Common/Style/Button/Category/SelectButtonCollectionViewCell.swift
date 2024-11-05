@@ -40,11 +40,11 @@ class SelectButtonCollectionViewCell: UICollectionViewCell {
 }
 
 extension SelectButtonCollectionViewCell {
-    func configureCell(bgColor: UIColor, image: UIImage) {
+    func configureCell(bgColor: UIColor, image: String) {
         backgroundColor = bgColor
         clipsToBounds = true
         layer.cornerRadius = self.frame.height / 2
-        imageView.image = image
+        imageView.image = UIImage(systemName: image) ?? UIImage()
         tintColor = .white
     }
 }

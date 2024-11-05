@@ -16,9 +16,7 @@ final class WriteViewModel: CommonViewModel {
     let dateText = CurrentValueSubject<String, Never>("")
     let diaryContent = CurrentValueSubject<String, Never>("")
     
-    func setCurrentMemoType() -> SelectButtonModel {
-        return selectButtonList[self.currentIndex.value]
-    }
+    var primaryKey: ObjectId?
     
     func saveData(image: Data?, content: String, dateText: String) {
         Analytics.logEvent("SaveData", parameters: [
@@ -26,7 +24,7 @@ final class WriteViewModel: CommonViewModel {
           "full_text": "Save Data",
         ])
         
-        if let primaryKey = UserDiaryRepository.shared.primaryKey {
+        if let primaryKey {
             editData(image: image, content: content, dateText: dateText, primaryKey: primaryKey)
         } else {
             let date = dateText.toDate() ?? Date()
@@ -45,12 +43,15 @@ final class WriteViewModel: CommonViewModel {
             } catch {
                 print("error: \(error)")
                 
-                let parameter: [String: Any] = [
+                var parameter: [String: Any] = [
                     "object": self,
                     "error": error,
                     "method": #function,
-                    "file": task.type
                 ]
+                
+                if let type = task.type {
+                    parameter["file"] = type
+                }
                 
                 Analytics.logEvent("Memo Saving Error", parameters: parameter)
                 
@@ -81,7 +82,7 @@ final class WriteViewModel: CommonViewModel {
                                           image: "",
                                           alarmTitle: nil)
         
-        UserDiaryRepository.shared.primaryKey = nil
+//        UserDiaryRepository.shared.primaryKey = nil
         
         if let image = image {
             saveImageData(image: image, name: "\(task.objectId)")

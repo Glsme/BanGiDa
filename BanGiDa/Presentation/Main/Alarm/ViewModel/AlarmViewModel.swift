@@ -16,13 +16,15 @@ final class AlarmViewModel: CommonViewModel {
     let dateText = CurrentValueSubject<String, Never>("")
     let diaryContent = CurrentValueSubject<String, Never>("")
     
+    var primaryKey: ObjectId?
+    
     func saveData(content: String, dateText: String, titleText: String) {
         Analytics.logEvent("SaveAlarm", parameters: [
           "name": "BangiDaLog",
           "full_text": "Save Alarm",
         ])
         
-        if let primaryKey = UserDiaryRepository.shared.primaryKey {
+        if let primaryKey {
             editData(content: content, dateText: dateText, primaryKey: primaryKey, titleText: titleText)
         } else {
             let content = content
@@ -67,6 +69,6 @@ final class AlarmViewModel: CommonViewModel {
             sendNotification(title: titleText, body: content, date: date, index: alarmTaskList.count - 1)
         }
         
-        UserDiaryRepository.shared.primaryKey = nil
+//        UserDiaryRepository.shared.primaryKey = nil
     }
 }
