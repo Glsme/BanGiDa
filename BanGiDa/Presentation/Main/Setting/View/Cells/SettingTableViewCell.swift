@@ -13,6 +13,7 @@ final class SettingTableViewCell: BaseTableViewCell {
         let view = UILabel()
         view.textAlignment = .left
         view.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
+        view.textColor = .systemTintColor
         return view
     }()
     
@@ -34,7 +35,14 @@ final class SettingTableViewCell: BaseTableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
+    override func prepareForReuse() {
+        image.isHidden = false
+        versionLabel.text = ""
+    }
+    
     override func configureUI() {
+        backgroundColor = .memoBackgroundColor
+        
         [label, image, versionLabel].forEach {
             self.addSubview($0)
         }
