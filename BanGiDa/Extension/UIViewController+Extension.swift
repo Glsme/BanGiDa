@@ -14,6 +14,7 @@ extension UIViewController {
         case presentFullScreenNavigation
         case present
         case presentFullscreen
+        case fade
     }
     
     func transViewController<T: UIViewController>(ViewController vc: T, type: TransitionType) {
@@ -31,6 +32,10 @@ extension UIViewController {
             self.present(navi, animated: true)
         case .presentFullscreen:
             vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        case .fade:
+            vc.modalPresentationStyle = .overCurrentContext
+            vc.modalTransitionStyle = .crossDissolve
             present(vc, animated: true)
         }
     }

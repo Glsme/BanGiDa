@@ -39,7 +39,7 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
         
         checkWalkThrough()
         let vc = UIHostingController(rootView: NoticeView())
-        self.transViewController(ViewController: vc, type: .presentFullscreen)
+        tabBarController?.transViewController(ViewController: vc, type: .fade)
     }
     
     override func viewWillAppear(_ animated: Bool) {
