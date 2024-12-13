@@ -18,10 +18,12 @@ final class WriteViewController: BaseViewController {
     
     private var cancelBag = Set<AnyCancellable>()
     
-    private lazy var saveButton = UIBarButtonItem(title: "저장",
-                                                  style: .done,
-                                                  target: self,
-                                                  action: #selector(saveButtonClicked))
+    private lazy var saveButton = UIBarButtonItem(
+        title: "저장",
+        style: .done,
+        target: self,
+        action: #selector(saveButtonClicked)
+    )
 
     //MARK: - Life Cycle
     
@@ -74,7 +76,7 @@ final class WriteViewController: BaseViewController {
     
     private func configureEdgeGesture() {
         let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self,
-                                                           action: #selector(leftSwipeGesture(_ :)))
+                                                           action: #selector(leftSwipeGesture))
         edgeGesture.edges = .left
         edgeGesture.view?.becomeFirstResponder()
         self.view.addGestureRecognizer(edgeGesture)
@@ -111,14 +113,14 @@ final class WriteViewController: BaseViewController {
             .store(in: &cancelBag)
     }
     
-    @objc func saveButtonClicked() {
+    @objc private func saveButtonClicked() {
         guard let dateText = memoView.dateTextField.text else {
             showAlert(message: "날짜를 선택해주세요.")
             return
         }
         
-        guard let contentText = memoView.textView.text, memoView.textView.textColor != .lightGray
-        else {
+        guard let contentText = memoView.textView.text,
+              memoView.textView.textColor != .lightGray else {
             showAlert(message: "텍스트를 입력해주세요")
             return
         }
@@ -129,10 +131,10 @@ final class WriteViewController: BaseViewController {
         }
         
         guard let image = memoView.imageView.image,
-              let imageData = convertImageToData(image: image) else { return }
+              let imageData = convertImageToData(image: image)
+        else { return }
         
         viewModel.saveData(image: imageData, content: contentText, dateText: dateText)
-        
         navigationController?.popViewController(animated: true)
     }
     
@@ -228,10 +230,14 @@ extension WriteViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier, for: indexPath) as? AnimalNameCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: AnimalNameCollectionViewCell.reuseIdentifier,
+            for: indexPath
+        ) as? AnimalNameCollectionViewCell
+        else { return UICollectionViewCell() }
         
         cell.nameButton.tag = indexPath.item
-        cell.nameButton.addTarget(self, action: #selector(nameButtonClicked(_ :)), for: .touchUpInside)
+        cell.nameButton.addTarget(self, action: #selector(nameButtonClicked), for: .touchUpInside)
         cell.contentView.frame = cell.bounds
         cell.nameButton.layoutIfNeeded()
         cell.nameButton.layer.masksToBounds = true

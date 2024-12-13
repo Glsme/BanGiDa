@@ -11,10 +11,17 @@ import Foundation
 import FirebaseAnalytics
 import RealmSwift
 
-final class WriteViewModel: CommonViewModel {
+final class WriteViewModel {
     let currentIndex = CurrentValueSubject<Int, Never>(0)
     let dateText = CurrentValueSubject<String, Never>("")
     let diaryContent = CurrentValueSubject<String, Never>("")
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        //        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.timeZone = TimeZone(identifier: "UTC+9")
+        formatter.dateFormat = "yyyy.MM.dd EE"
+        return formatter
+    }()
     
     var primaryKey: ObjectId?
     
@@ -64,7 +71,15 @@ final class WriteViewModel: CommonViewModel {
     }
     
     func editData(image: Data?, content: String, dateText: String, primaryKey: ObjectId) {
-        var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: nil)
+        var task = Diary(
+            type: nil,
+            date: Date(),
+            regDate: Date(),
+            animalName: "",
+            content: "",
+            photo: nil,
+            alarmTitle: nil
+        )
         
         for item in UserDiaryRepository.shared.localRealm.objects(Diary.self) {
             if item.objectId == primaryKey {
@@ -92,6 +107,9 @@ final class WriteViewModel: CommonViewModel {
     //MARK: - private
     
     private func saveImageData(image: Data, name: String) {
-        UserDiaryRepository.shared.documentManager.saveImageDataFromDocument(fileName: "\(name).jpg", image: image)
+        UserDiaryRepository.shared.documentManager.saveImageDataFromDocument(
+            fileName: "\(name).jpg",
+            image: image
+        )
     }
 }
