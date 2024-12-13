@@ -114,7 +114,7 @@ final class HomeViewModel: CommonViewModel {
             alarmVC.alarmView.dateTextField.text = dateAndTimeFormatter.string(from: alarmTaskList[indexPath.row].date)
             alarmVC.alarmView.memoTextView.text = alarmTaskList[indexPath.row].content
             alarmVC.alarmView.titleTextField.text = alarmTaskList[indexPath.row].alarmTitle
-            writeVC.viewModel.primaryKey = alarmTaskList[indexPath.row].objectId
+            alarmVC.viewModel.primaryKey = alarmTaskList[indexPath.row].objectId
             vc.transViewController(ViewController: alarmVC, type: .push)
             return
         case .growth:
