@@ -54,29 +54,6 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
         checkWalkThrough()
     }
     
-    func sendFireBaseAnalytics(_ name: String, parameters: [String: Any]? = nil) {
-//        Analytics.logEvent("homeView Open", parameters: nil)
-        
-        Analytics.logEvent(name, parameters: parameters)
-    }
-    
-    func checkWalkThrough() {
-        if UserDefaults.standard.bool(forKey: "first") {
-            viewModel.filterNotification()
-        } else {
-            let walkThroughVC = WalkThroughViewController()
-            self.transViewController(ViewController: walkThroughVC, type: .presentFullscreen)
-            
-            sendFireBaseAnalytics(
-                "AppFirstOpen",
-                parameters: [
-                    "name": "BangiDaLog",
-                    "full_text": "App Run First Time",
-                ]
-            )
-        }
-    }
-    
     override func configureUI() {
         //tableView
         mainView.homeTableView.delegate = self
@@ -100,7 +77,7 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
         mainView.homeTableView.calendar.accessibilityIdentifier = "calendar"
     }
     
-    override func setData() {
+    func setData() {
         viewModel.tasks = UserDiaryRepository.shared.fetchDate(date: viewModel.currentDate.value)
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
         
@@ -173,6 +150,31 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     
     @objc func selectDate(_ datePicker: UIDatePicker) {
         //        date = datePicker.date
+    }
+    
+    //MARK: - Private
+    
+    private func sendFireBaseAnalytics(_ name: String, parameters: [String: Any]? = nil) {
+//        Analytics.logEvent("homeView Open", parameters: nil)
+        
+        Analytics.logEvent(name, parameters: parameters)
+    }
+    
+    private func checkWalkThrough() {
+        if UserDefaults.standard.bool(forKey: "first") {
+            viewModel.filterNotification()
+        } else {
+            let walkThroughVC = WalkThroughViewController()
+            self.transViewController(ViewController: walkThroughVC, type: .presentFullscreen)
+            
+            sendFireBaseAnalytics(
+                "AppFirstOpen",
+                parameters: [
+                    "name": "BangiDaLog",
+                    "full_text": "App Run First Time",
+                ]
+            )
+        }
     }
 }
 
