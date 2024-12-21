@@ -36,7 +36,7 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
         viewModel.currentDate.value = mainView.homeTableView.calendar.today ?? Date()
         bind()
         todayButtonClicked()
-        sendFireBaseAnalytics()
+        sendFireBaseAnalytics("AppOpen")
         
         print("Realm 위치: \(Realm.Configuration.defaultConfiguration.fileURL!)")
     }
@@ -54,16 +54,21 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
         checkWalkThrough()
     }
     
-    func sendFireBaseAnalytics() {
+    func sendFireBaseAnalytics(_ name: String, parameters: [String: Any]? = nil) {
 //        Analytics.logEvent("homeView Open", parameters: nil)
         
-        Analytics.logEvent("AppFirstOpen", parameters: [ 
-          "name": "BangiDaLog",
-          "full_text": "App Run First Time",
-        ])
+        Analytics.logEvent(name, parameters: parameters)
     }
     
     func checkWalkThrough() {
+        sendFireBaseAnalytics(
+            "AppFirstOpen",
+            parameters: [
+                "name": "BangiDaLog",
+                "full_text": "App Run First Time",
+            ]
+        )
+        
         if UserDefaults.standard.bool(forKey: "first") {
             viewModel.filterNotification()
         } else {
