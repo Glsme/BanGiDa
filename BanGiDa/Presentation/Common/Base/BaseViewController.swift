@@ -16,12 +16,11 @@ class BaseViewController: UIViewController {
 
         view.backgroundColor = .backgroundColor
         configureUI()
-        setData()
     }
     
     func configureUI() { }
     
-    func setData() { }
+//    func setData() { }
     
     func showAlert(message: String) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
