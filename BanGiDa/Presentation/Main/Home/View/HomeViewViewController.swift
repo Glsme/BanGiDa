@@ -61,19 +61,19 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     }
     
     func checkWalkThrough() {
-        sendFireBaseAnalytics(
-            "AppFirstOpen",
-            parameters: [
-                "name": "BangiDaLog",
-                "full_text": "App Run First Time",
-            ]
-        )
-        
         if UserDefaults.standard.bool(forKey: "first") {
             viewModel.filterNotification()
         } else {
             let walkThroughVC = WalkThroughViewController()
             self.transViewController(ViewController: walkThroughVC, type: .presentFullscreen)
+            
+            sendFireBaseAnalytics(
+                "AppFirstOpen",
+                parameters: [
+                    "name": "BangiDaLog",
+                    "full_text": "App Run First Time",
+                ]
+            )
         }
     }
     
