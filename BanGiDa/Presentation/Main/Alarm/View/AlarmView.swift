@@ -38,6 +38,19 @@ final class AlarmView: BaseView {
     
     let firstLine = LineView()
     let secondLine = LineView()
+    let thridLine = LineView()
+    
+    let repeatButton: UIButton = {
+        let view = UIButton()
+        view.setTitle("반복 안함", for: .normal)
+        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
+        view.setTitleColor(.black, for: .normal)
+        view.backgroundColor = UIColor(r: 252, g: 200, b: 141)
+        view.layer.cornerRadius = 10
+        view.setTitleColor(UIColor(r: 255, g: 255, b: 255), for: .normal)
+        
+        return view
+    }()
     
     let titleTextField: UITextField = {
         let view = UITextField()
@@ -63,7 +76,16 @@ final class AlarmView: BaseView {
     }
     
     override func configureUI() {
-        [dateLabel, dateTextField, firstLine, titleTextField, secondLine ,memoTextView].forEach {
+        [
+            dateLabel,
+            dateTextField,
+            firstLine,
+            repeatButton,
+            thridLine,
+            titleTextField,
+            secondLine ,
+            memoTextView
+        ].forEach {
             self.addSubview($0)
         }
         
@@ -90,24 +112,38 @@ final class AlarmView: BaseView {
             make.height.equalTo(1)
         }
         
-        titleTextField.snp.makeConstraints { make in
-            make.width.equalTo(firstLine.snp.width)
+        repeatButton.snp.makeConstraints { make in
+            make.width.equalTo(firstLine.snp.width).inset(16)
             make.top.equalTo(firstLine.snp.bottom).offset(15)
-            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.centerX.equalTo(safeAreaLayoutGuide)
+            make.height.equalTo(44)
         }
         
         secondLine.snp.makeConstraints { make in
+            make.top.equalTo(repeatButton.snp.bottom).offset(15)
+            make.width.equalTo(firstLine.snp.width)
+            make.centerX.equalTo(safeAreaLayoutGuide)
+            make.height.equalTo(1)
+        }
+        
+        titleTextField.snp.makeConstraints { make in
+            make.width.equalTo(secondLine.snp.width)
+            make.top.equalTo(secondLine.snp.bottom).offset(15)
+            make.centerX.equalTo(safeAreaLayoutGuide)
+        }
+        
+        thridLine.snp.makeConstraints { make in
             make.top.equalTo(titleTextField.snp.bottom).offset(15)
-            make.width.equalTo(titleTextField.snp.width)
-            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.width.equalTo(firstLine)
+            make.centerX.equalTo(safeAreaLayoutGuide)
             make.height.equalTo(1)
         }
         
         memoTextView.snp.makeConstraints { make in
-            make.width.equalTo(secondLine.snp.width)
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-10)
-            make.top.equalTo(secondLine.snp.bottom).offset(15)
-            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.width.equalTo(thridLine.snp.width)
+            make.bottom.equalTo(safeAreaLayoutGuide).offset(-10)
+            make.top.equalTo(thridLine.snp.bottom).offset(15)
+            make.centerX.equalTo(safeAreaLayoutGuide)
         }
     }
     
