@@ -42,7 +42,15 @@ final class AlarmView: BaseView {
     
     private let repeatPicker = UIPickerView()
     private let repeatPickerTextField = UITextField()
-    private let repeatOptions = ["반복 안함", "매일", "매주", "매월", "매년"]
+    private let repeatOptions: [(title: String, rule: AlarmRepeat)] = [
+        ("반복 안함", .none),
+        ("매일", .daily),
+        ("매주", .weekly),
+        ("매월", .monthly),
+        ("매년", .yearly)
+    ]
+    
+    private(set) var selectedRepeatRule: AlarmRepeat = .none
     
     let repeatButton: UIButton = {
         let view = UIButton()
@@ -237,14 +245,16 @@ final class AlarmView: BaseView {
     
     private func syncPickerSelection() {
         if let currentTitle = repeatButton.title(for: .normal),
-           let index = repeatOptions.firstIndex(of: currentTitle) {
+           let index = repeatOptions.firstIndex(where: { $0.title == currentTitle }) {
             repeatPicker.selectRow(index, inComponent: 0, animated: false)
         }
     }
     
     @objc private func repeatPickerDoneTapped() {
         let selectedRow = repeatPicker.selectedRow(inComponent: 0)
-        repeatButton.setTitle(repeatOptions[selectedRow], for: .normal)
+        let selection = repeatOptions[selectedRow]
+        repeatButton.setTitle(selection.title, for: .normal)
+        selectedRepeatRule = selection.rule
         repeatPickerTextField.resignFirstResponder()
     }
     
@@ -265,6 +275,6 @@ extension AlarmView: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return repeatOptions[row]
+        return repeatOptions[row].title
     }
 }

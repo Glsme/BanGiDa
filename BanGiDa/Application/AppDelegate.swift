@@ -10,12 +10,14 @@ import UIKit
 import IQKeyboardManagerSwift
 import FirebaseCore
 import FirebaseMessaging
+import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        configureRealmMigration()
         IQKeyboardManager.shared.enable = true
         FirebaseApp.configure()
         
@@ -68,6 +70,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.portrait
+    }
+    
+    private func configureRealmMigration() {
+        let config = Realm.Configuration(schemaVersion: 1, migrationBlock: { migration, oldVersion in
+            if oldVersion < 1 {
+                migration.enumerateObjects(ofType: Diary.className()) { _, newObject in
+                    newObject?["repeatRule"] = AlarmRepeat.none.rawValue
+                }
+            }
+        })
+        
+        Realm.Configuration.defaultConfiguration = config
     }
 }
 

@@ -93,7 +93,7 @@ final class AlarmViewController: BaseViewController {
             return
         }
         
-        viewModel.saveData(content: contentText, dateText: dateText, titleText: titleText)
+        viewModel.saveData(content: contentText, dateText: dateText, titleText: titleText, repeatRule: alarmView.selectedRepeatRule)
 
         navigationController?.popViewController(animated: true)
     }

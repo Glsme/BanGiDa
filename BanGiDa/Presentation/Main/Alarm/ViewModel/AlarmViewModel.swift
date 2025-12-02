@@ -18,20 +18,20 @@ final class AlarmViewModel: CommonViewModel {
     
     var primaryKey: ObjectId?
     
-    func saveData(content: String, dateText: String, titleText: String) {
+    func saveData(content: String, dateText: String, titleText: String, repeatRule: AlarmRepeat) {
         Analytics.logEvent("SaveAlarm", parameters: [
           "name": "BangiDaLog",
           "full_text": "Save Alarm",
         ])
         
         if let primaryKey {
-            editData(content: content, dateText: dateText, primaryKey: primaryKey, titleText: titleText)
+            editData(content: content, dateText: dateText, primaryKey: primaryKey, titleText: titleText, repeatRule: repeatRule)
         } else {
             let content = content
             let date = dateText.toDateAlarm() ?? Date()
             let animalName = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
             
-            let task = Diary(type: RealmDiaryType(rawValue: 1), date: date, regDate: Date(), animalName: animalName ?? "신원 미상", content: content, photo: "", alarmTitle: titleText)
+            let task = Diary(type: RealmDiaryType(rawValue: 1), date: date, regDate: Date(), animalName: animalName ?? "신원 미상", content: content, photo: "", alarmTitle: titleText, repeatRule: repeatRule)
             
             do {
                 try UserDiaryRepository.shared.write(task)
@@ -50,7 +50,7 @@ final class AlarmViewModel: CommonViewModel {
         }
     }
     
-    func editData(content: String, dateText: String, primaryKey: ObjectId, titleText: String) {
+    func editData(content: String, dateText: String, primaryKey: ObjectId, titleText: String, repeatRule: AlarmRepeat) {
         var task = Diary(type: nil, date: Date(), regDate: Date(), animalName: "", content: "", photo: nil, alarmTitle: titleText)
         
         for item in UserDiaryRepository.shared.localRealm.objects(Diary.self) {
@@ -62,7 +62,7 @@ final class AlarmViewModel: CommonViewModel {
         let date = dateText.toDateAlarm() ?? Date()
         let regDate = Date()
         
-        UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "", alarmTitle: titleText)
+        UserDiaryRepository.shared.update(task, date: date, regDate: regDate, content: content, image: "", alarmTitle: titleText, repeatRule: repeatRule)
         inputDataIntoArrayToDate(date: currentDate.value)
         
         if date > Date() {
