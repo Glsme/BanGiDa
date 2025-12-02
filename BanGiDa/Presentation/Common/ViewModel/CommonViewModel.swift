@@ -83,7 +83,7 @@ public class CommonViewModel {
         }
     }
     
-    func sendNotification(title: String, body: String, date: Date, index: Int) {
+    func sendNotification(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat = .none) {
         let notificationContent = UNMutableNotificationContent()
         
         notificationContent.title = title
@@ -91,14 +91,41 @@ public class CommonViewModel {
         notificationContent.sound = .default
         
         let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+        let baseComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .weekday], from: date)
         
-        print(components)
-        let dateComponent = DateComponents(year: components.year, month: components.month, day: components.day, hour: components.hour, minute: components.minute)
+        var dateComponent = DateComponents()
+        switch repeatRule {
+        case .none:
+            dateComponent.year = baseComponents.year
+            dateComponent.month = baseComponents.month
+            dateComponent.day = baseComponents.day
+            dateComponent.hour = baseComponents.hour
+            dateComponent.minute = baseComponents.minute
+        case .daily:
+            dateComponent.hour = baseComponents.hour
+            dateComponent.minute = baseComponents.minute
+        case .weekly:
+            dateComponent.weekday = baseComponents.weekday
+            dateComponent.hour = baseComponents.hour
+            dateComponent.minute = baseComponents.minute
+        case .monthly:
+            dateComponent.day = baseComponents.day
+            dateComponent.hour = baseComponents.hour
+            dateComponent.minute = baseComponents.minute
+        case .yearly:
+            dateComponent.month = baseComponents.month
+            dateComponent.day = baseComponents.day
+            dateComponent.hour = baseComponents.hour
+            dateComponent.minute = baseComponents.minute
+        }
         
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: repeatRule != .none)
         
-        let request = UNNotificationRequest(identifier: title + body + "\(date) \(index)", content: notificationContent, trigger: trigger)
+        let request = UNNotificationRequest(
+            identifier: title + body + "\(date) \(index) \(repeatRule.rawValue)",
+            content: notificationContent,
+            trigger: trigger
+        )
         
         notificationCenter.add(request)
         print("NotificationCenter Add Success")
@@ -108,9 +135,11 @@ public class CommonViewModel {
         notificationCenter.removeAllDeliveredNotifications()
     }
     
-    func removeNotification(title: String, body: String, date: Date, index: Int) {
-        let identifier = title + body + "\(date) \(index)"
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
+    func removeNotification(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat = .none) {
+        // 기존(반복 미포함) 식별자와 새(반복 포함) 식별자를 모두 제거해 호환 유지
+        let legacyIdentifier = title + body + "\(date) \(index)"
+        let newIdentifier = title + body + "\(date) \(index) \(repeatRule.rawValue)"
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [legacyIdentifier, newIdentifier])
     }
     
     func filterNotification() {

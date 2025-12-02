@@ -31,7 +31,16 @@ final class AlarmViewModel: CommonViewModel {
             let date = dateText.toDateAlarm() ?? Date()
             let animalName = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
             
-            let task = Diary(type: RealmDiaryType(rawValue: 1), date: date, regDate: Date(), animalName: animalName ?? "신원 미상", content: content, photo: "", alarmTitle: titleText, repeatRule: repeatRule)
+            let task = Diary(
+                type: RealmDiaryType(rawValue: 1),
+                date: date,
+                regDate: Date(),
+                animalName: animalName ?? "신원 미상",
+                content: content,
+                photo: "",
+                alarmTitle: titleText,
+                repeatRule: repeatRule
+            )
             
             do {
                 try UserDiaryRepository.shared.write(task)
@@ -45,7 +54,7 @@ final class AlarmViewModel: CommonViewModel {
             
             if date > Date() {
                 print("date Future correct!")
-                sendNotification(title: titleText, body: content, date: date, index: alarmTaskList.count - 1)
+                sendNotification(title: titleText, body: content, date: date, index: alarmTaskList.count - 1, repeatRule: repeatRule)
             }
         }
     }
@@ -66,7 +75,7 @@ final class AlarmViewModel: CommonViewModel {
         inputDataIntoArrayToDate(date: currentDate.value)
         
         if date > Date() {
-            sendNotification(title: titleText, body: content, date: date, index: alarmTaskList.count - 1)
+            sendNotification(title: titleText, body: content, date: date, index: alarmTaskList.count - 1, repeatRule: repeatRule)
         }
         
 //        UserDiaryRepository.shared.primaryKey = nil
