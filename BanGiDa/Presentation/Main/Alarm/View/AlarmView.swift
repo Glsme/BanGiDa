@@ -40,6 +40,10 @@ final class AlarmView: BaseView {
     let secondLine = LineView()
     let thridLine = LineView()
     
+    private let repeatPicker = UIPickerView()
+    private let repeatPickerTextField = UITextField()
+    private let repeatOptions = ["반복 안함", "매일", "매주", "매월", "매년"]
+    
     let repeatButton: UIButton = {
         let view = UIButton()
         view.setTitle("반복 안함", for: .normal)
@@ -84,13 +88,17 @@ final class AlarmView: BaseView {
             thridLine,
             titleTextField,
             secondLine ,
-            memoTextView
+            memoTextView,
+            repeatPickerTextField
         ].forEach {
             self.addSubview($0)
         }
         
         dateTextField.inputView = configureDatePicker()
         dateTextField.inputAccessoryView = configureDateToolbar()
+        
+        repeatButton.addTarget(self, action: #selector(repeatButtonTapped), for: .touchUpInside)
+        configureRepeatPicker()
     }
     
     override func setConstraints() {
@@ -200,5 +208,63 @@ final class AlarmView: BaseView {
     
     @objc func cancelButtonClicked() {
         dateTextField.endEditing(true)
+    }
+    
+    private func configureRepeatPicker() {
+        repeatPicker.delegate = self
+        repeatPicker.dataSource = self
+        repeatPickerTextField.isHidden = true
+        repeatPickerTextField.inputView = repeatPicker
+        repeatPickerTextField.inputAccessoryView = configureRepeatToolbar()
+        repeatPicker.selectRow(0, inComponent: 0, animated: false)
+    }
+    
+    private func configureRepeatToolbar() -> UIToolbar {
+        let width = self.bounds.width
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: width, height: 44))
+        let cancel = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(repeatPickerCancelTapped))
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let ok = UIBarButtonItem(title: "선택", style: .plain, target: self, action: #selector(repeatPickerDoneTapped))
+        toolbar.setItems([cancel, flexible, ok], animated: false)
+        
+        return toolbar
+    }
+    
+    @objc private func repeatButtonTapped() {
+        syncPickerSelection()
+        repeatPickerTextField.becomeFirstResponder()
+    }
+    
+    private func syncPickerSelection() {
+        if let currentTitle = repeatButton.title(for: .normal),
+           let index = repeatOptions.firstIndex(of: currentTitle) {
+            repeatPicker.selectRow(index, inComponent: 0, animated: false)
+        }
+    }
+    
+    @objc private func repeatPickerDoneTapped() {
+        let selectedRow = repeatPicker.selectedRow(inComponent: 0)
+        repeatButton.setTitle(repeatOptions[selectedRow], for: .normal)
+        repeatPickerTextField.resignFirstResponder()
+    }
+    
+    @objc private func repeatPickerCancelTapped() {
+        repeatPickerTextField.resignFirstResponder()
+    }
+}
+
+// MARK: - UIPickerViewDelegate, UIPickerViewDataSource
+
+extension AlarmView: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return repeatOptions.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return repeatOptions[row]
     }
 }
