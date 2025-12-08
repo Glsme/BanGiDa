@@ -560,6 +560,7 @@
 		85E17AFF2961CDD700124C89 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				85E17B062961DDF800124C89 /* MainTabViewController.swift */,
 				85E17B002961CE5400124C89 /* Category.swift */,
 			);
 			path = Util;
@@ -568,7 +569,6 @@
 		85E17B042961DDB000124C89 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				85E17B052961DDCA00124C89 /* TabBar */,
 				85CCEAE628D897800086E5CA /* Alarm */,
 				85075C5B28CC91F200FAF6BA /* Write */,
 				85A8D01128CF60ED00F22A80 /* Home */,
@@ -576,14 +576,6 @@
 				857541EC28C9BF1E004DD880 /* Setting */,
 			);
 			path = Main;
-			sourceTree = "<group>";
-		};
-		85E17B052961DDCA00124C89 /* TabBar */ = {
-			isa = PBXGroup;
-			children = (
-				85E17B062961DDF800124C89 /* MainTabViewController.swift */,
-			);
-			path = TabBar;
 			sourceTree = "<group>";
 		};
 		85EC495E28D639070095EEB4 /* View */ = {

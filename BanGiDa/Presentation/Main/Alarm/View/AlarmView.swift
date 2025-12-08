@@ -38,6 +38,31 @@ final class AlarmView: BaseView {
     
     let firstLine = LineView()
     let secondLine = LineView()
+    let thridLine = LineView()
+    
+    private let repeatPicker = UIPickerView()
+    private let repeatPickerTextField = UITextField()
+    private let repeatOptions: [(title: String, rule: AlarmRepeat)] = [
+        ("반복 안함", .none),
+        ("매일", .daily),
+        ("매주", .weekly),
+        ("매월", .monthly),
+        ("매년", .yearly)
+    ]
+    
+    private(set) var selectedRepeatRule: AlarmRepeat = .none
+    
+    let repeatButton: UIButton = {
+        let view = UIButton()
+        view.setTitle("반복 안함", for: .normal)
+        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
+        view.setTitleColor(.black, for: .normal)
+        view.backgroundColor = UIColor(r: 252, g: 200, b: 141)
+        view.layer.cornerRadius = 10
+        view.setTitleColor(UIColor(r: 255, g: 255, b: 255), for: .normal)
+        
+        return view
+    }()
     
     let titleTextField: UITextField = {
         let view = UITextField()
@@ -63,12 +88,25 @@ final class AlarmView: BaseView {
     }
     
     override func configureUI() {
-        [dateLabel, dateTextField, firstLine, titleTextField, secondLine ,memoTextView].forEach {
+        [
+            dateLabel,
+            dateTextField,
+            firstLine,
+            repeatButton,
+            thridLine,
+            titleTextField,
+            secondLine ,
+            memoTextView,
+            repeatPickerTextField
+        ].forEach {
             self.addSubview($0)
         }
         
         dateTextField.inputView = configureDatePicker()
         dateTextField.inputAccessoryView = configureDateToolbar()
+        
+        repeatButton.addTarget(self, action: #selector(repeatButtonTapped), for: .touchUpInside)
+        configureRepeatPicker()
     }
     
     override func setConstraints() {
@@ -90,24 +128,38 @@ final class AlarmView: BaseView {
             make.height.equalTo(1)
         }
         
-        titleTextField.snp.makeConstraints { make in
-            make.width.equalTo(firstLine.snp.width)
+        repeatButton.snp.makeConstraints { make in
+            make.width.equalTo(firstLine.snp.width).inset(16)
             make.top.equalTo(firstLine.snp.bottom).offset(15)
-            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.centerX.equalTo(safeAreaLayoutGuide)
+            make.height.equalTo(44)
         }
         
         secondLine.snp.makeConstraints { make in
+            make.top.equalTo(repeatButton.snp.bottom).offset(15)
+            make.width.equalTo(firstLine.snp.width)
+            make.centerX.equalTo(safeAreaLayoutGuide)
+            make.height.equalTo(1)
+        }
+        
+        titleTextField.snp.makeConstraints { make in
+            make.width.equalTo(secondLine.snp.width)
+            make.top.equalTo(secondLine.snp.bottom).offset(15)
+            make.centerX.equalTo(safeAreaLayoutGuide)
+        }
+        
+        thridLine.snp.makeConstraints { make in
             make.top.equalTo(titleTextField.snp.bottom).offset(15)
-            make.width.equalTo(titleTextField.snp.width)
-            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.width.equalTo(firstLine)
+            make.centerX.equalTo(safeAreaLayoutGuide)
             make.height.equalTo(1)
         }
         
         memoTextView.snp.makeConstraints { make in
-            make.width.equalTo(secondLine.snp.width)
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-10)
-            make.top.equalTo(secondLine.snp.bottom).offset(15)
-            make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
+            make.width.equalTo(thridLine.snp.width)
+            make.bottom.equalTo(safeAreaLayoutGuide).offset(-10)
+            make.top.equalTo(thridLine.snp.bottom).offset(15)
+            make.centerX.equalTo(safeAreaLayoutGuide)
         }
     }
     
@@ -164,5 +216,65 @@ final class AlarmView: BaseView {
     
     @objc func cancelButtonClicked() {
         dateTextField.endEditing(true)
+    }
+    
+    private func configureRepeatPicker() {
+        repeatPicker.delegate = self
+        repeatPicker.dataSource = self
+        repeatPickerTextField.isHidden = true
+        repeatPickerTextField.inputView = repeatPicker
+        repeatPickerTextField.inputAccessoryView = configureRepeatToolbar()
+        repeatPicker.selectRow(0, inComponent: 0, animated: false)
+    }
+    
+    private func configureRepeatToolbar() -> UIToolbar {
+        let width = self.bounds.width
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: width, height: 44))
+        let cancel = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(repeatPickerCancelTapped))
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let ok = UIBarButtonItem(title: "선택", style: .plain, target: self, action: #selector(repeatPickerDoneTapped))
+        toolbar.setItems([cancel, flexible, ok], animated: false)
+        
+        return toolbar
+    }
+    
+    @objc private func repeatButtonTapped() {
+        syncPickerSelection()
+        repeatPickerTextField.becomeFirstResponder()
+    }
+    
+    private func syncPickerSelection() {
+        if let currentTitle = repeatButton.title(for: .normal),
+           let index = repeatOptions.firstIndex(where: { $0.title == currentTitle }) {
+            repeatPicker.selectRow(index, inComponent: 0, animated: false)
+        }
+    }
+    
+    @objc private func repeatPickerDoneTapped() {
+        let selectedRow = repeatPicker.selectedRow(inComponent: 0)
+        let selection = repeatOptions[selectedRow]
+        repeatButton.setTitle(selection.title, for: .normal)
+        selectedRepeatRule = selection.rule
+        repeatPickerTextField.resignFirstResponder()
+    }
+    
+    @objc private func repeatPickerCancelTapped() {
+        repeatPickerTextField.resignFirstResponder()
+    }
+}
+
+// MARK: - UIPickerViewDelegate, UIPickerViewDataSource
+
+extension AlarmView: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return repeatOptions.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return repeatOptions[row].title
     }
 }

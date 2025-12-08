@@ -8,10 +8,10 @@
 import UIKit
 
 final class MainTabViewController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureUI()
     }
     
@@ -22,7 +22,12 @@ final class MainTabViewController: UITabBarController {
         
         setViewControllers([homeVC, searchVC, settingVC], animated: true)
         tabBar.tintColor = .red
-        tabBar.backgroundColor = .tabBarColor
+        
+        if #available(iOS 26.0, *) {
+            tabBar.backgroundColor = .clear
+        } else {
+            tabBar.backgroundColor = .tabBarColor
+        }
         
         if let items = tabBar.items {
             items[0].image = UIImage(systemName: "square.and.pencil")

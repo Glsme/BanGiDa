@@ -71,7 +71,7 @@ final class SettingViewModel: CommonViewModel {
         
         for item in alarmTaskList {
             if item.date > Date() {
-                sendNotification(title: item.animalName, body: item.content, date: item.date, index: index)
+                sendNotification(title: item.animalName, body: item.content, date: item.date, index: index, repeatRule: item.repeatRule)
             }
             
             index += 1

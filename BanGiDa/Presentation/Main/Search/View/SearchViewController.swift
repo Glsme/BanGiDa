@@ -166,7 +166,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                     self.viewModel.removeNotification(title: self.viewModel.alarmTaskList[indexPath.row].alarmTitle ?? "",
                                                       body: self.viewModel.alarmTaskList[indexPath.row].content,
                                                       date: self.viewModel.alarmTaskList[indexPath.row].date,
-                                                      index: indexPath.row)
+                                                      index: indexPath.row,
+                                                      repeatRule: self.viewModel.alarmTaskList[indexPath.row].repeatRule)
                     task = self.viewModel.alarmTaskList[indexPath.row]
                 case .growth:
                     task = self.viewModel.growthTaskList[indexPath.row]

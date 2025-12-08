@@ -26,6 +26,14 @@ enum DiaryType: Int {
     case abnormal
 }
 
+enum AlarmRepeat: Int, PersistableEnum, Codable {
+    case none = 0
+    case daily
+    case weekly
+    case monthly
+    case yearly
+}
+
 class Diary: Object, Codable {
     private override init() { }
     
@@ -36,10 +44,11 @@ class Diary: Object, Codable {
     @Persisted var content: String
     @Persisted var photo: String?
     @Persisted var alarmTitle: String?
+    @Persisted var repeatRule: AlarmRepeat = .none
     
     @Persisted(primaryKey: true) var objectId: ObjectId
     
-    convenience init(type: RealmDiaryType?, date: Date, regDate: Date, animalName: String, content: String, photo: String?, alarmTitle: String?) {
+    convenience init(type: RealmDiaryType?, date: Date, regDate: Date, animalName: String, content: String, photo: String?, alarmTitle: String?, repeatRule: AlarmRepeat = .none) {
         self.init()
         self.type = type
         self.date = date
@@ -48,6 +57,7 @@ class Diary: Object, Codable {
         self.content = content
         self.photo = photo
         self.alarmTitle = alarmTitle
+        self.repeatRule = repeatRule
     }
     
     enum CodingKeys: String, CodingKey {
@@ -59,6 +69,7 @@ class Diary: Object, Codable {
         case content
         case photo
         case alarmTitle
+        case repeatRule
     }
     
     func encode(to encoder: Encoder) throws {
@@ -71,6 +82,7 @@ class Diary: Object, Codable {
         try containter.encode(content, forKey: .content)
         try containter.encode(photo, forKey: .photo)
         try containter.encode(alarmTitle, forKey: .alarmTitle)
+        try containter.encode(repeatRule, forKey: .repeatRule)
     }
     
     required init(from decoder: Decoder) throws {
@@ -83,5 +95,6 @@ class Diary: Object, Codable {
         self._content = try container.decode(Persisted<String>.self, forKey: .content)
         self._photo = try container.decode(Persisted<String?>.self, forKey: .photo)
         self._alarmTitle = try container.decode(Persisted<String?>.self, forKey: .alarmTitle)
+        self._repeatRule = try container.decode(Persisted<AlarmRepeat>.self, forKey: .repeatRule)
     }
 }
