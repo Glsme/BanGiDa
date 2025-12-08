@@ -95,6 +95,7 @@ class Diary: Object, Codable {
         self._content = try container.decode(Persisted<String>.self, forKey: .content)
         self._photo = try container.decode(Persisted<String?>.self, forKey: .photo)
         self._alarmTitle = try container.decode(Persisted<String?>.self, forKey: .alarmTitle)
+        
         if let decodedRepeatRule = try container.decodeIfPresent(Persisted<AlarmRepeat>.self, forKey: .repeatRule) {
             self._repeatRule = decodedRepeatRule
         } else {
