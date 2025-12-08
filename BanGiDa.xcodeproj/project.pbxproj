@@ -898,7 +898,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BanGiDa/BanGiDa.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3K4KWAG7KD;
 				ENABLE_DEBUG_DYLIB = NO;
@@ -915,7 +915,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.8;
+				MARKETING_VERSION = 1.2.1;
 				OTHER_LDFLAGS = "-Ojbc";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsj.bangida;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -936,7 +936,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BanGiDa/BanGiDa.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3K4KWAG7KD;
 				ENABLE_DEBUG_DYLIB = NO;
@@ -953,7 +953,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.8;
+				MARKETING_VERSION = 1.2.1;
 				OTHER_LDFLAGS = "-Ojbc";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsj.bangida;
 				PRODUCT_NAME = "$(TARGET_NAME)";
