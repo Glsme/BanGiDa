@@ -233,10 +233,10 @@ extension SettingViewController: UIDocumentPickerDelegate {
                     viewModel.setNotifications()
                     tabBarController?.selectedIndex = 0
                 } catch {
-                    print("복구 실패")
+                    showAlert(message: "\(error.localizedDescription)\n복구에 실패하였습니다.\n다시 시도해 주세요.\n 계속 실패 시 관리자에게 문의해주세요.")
                 }
             } catch {
-                print("압축 풀기 실패")
+                showAlert(message: "\(error.localizedDescription)\n복구에 실패하였습니다.\n다시 시도해 주세요.\n 계속 실패 시 관리자에게 문의해주세요.")
             }
         } else {
             do {
