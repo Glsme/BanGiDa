@@ -69,6 +69,7 @@ struct DocumentManager {
         }
     }
     
+    @discardableResult
     func fetchDocumentZipFile() throws -> [URL] {
         do {
             guard let path = documentDirectoryPath() else { return [] }
@@ -88,6 +89,7 @@ struct DocumentManager {
         try data.write(to: jsonDataPath)
     }
     
+    @discardableResult
     func createBackupFile() throws -> URL {
         var urlPaths: [URL] = []
         
