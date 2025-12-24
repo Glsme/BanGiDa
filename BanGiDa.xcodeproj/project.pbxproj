@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		340CB6B62EFC1188007C7695 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340CB6B52EFC1188007C7695 /* Color+Extension.swift */; };
 		346922332DEED96400E1B110 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 346922322DEED96400E1B110 /* FirebaseCrashlytics */; };
 		85075C5A28CC90E900FAF6BA /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C5928CC90E900FAF6BA /* UIViewController+Extension.swift */; };
 		85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C5E28CC923500FAF6BA /* WriteViewController.swift */; };
@@ -92,6 +93,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		340CB6B52EFC1188007C7695 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		85075C5928CC90E900FAF6BA /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		85075C5E28CC923500FAF6BA /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		85075C6028CC93CE00FAF6BA /* WriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewModel.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 			children = (
 				85075C5928CC90E900FAF6BA /* UIViewController+Extension.swift */,
 				85A8D00F28CF0DBF00F22A80 /* UIColor+Extension.swift */,
+				340CB6B52EFC1188007C7695 /* Color+Extension.swift */,
 				85A93CD928D31A90006C06D6 /* String+Extension.swift */,
 				8594821328DCB2DA000C6AD7 /* Date+Extension.swift */,
 			);
@@ -731,6 +734,7 @@
 				85A8D02C28D0C08900F22A80 /* SettingTableViewCell.swift in Sources */,
 				8594820428DC838C000C6AD7 /* WalkThroughView.swift in Sources */,
 				8594820A28DC984A000C6AD7 /* UserDefaultsKey.swift in Sources */,
+				340CB6B62EFC1188007C7695 /* Color+Extension.swift in Sources */,
 				85E17B072961DDF800124C89 /* MainTabViewController.swift in Sources */,
 				8575420228C9C9CF004DD880 /* HomeView.swift in Sources */,
 				8557A8052B877A5E009A3CF0 /* SettingTableHeaderView.swift in Sources */,
