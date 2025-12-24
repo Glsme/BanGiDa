@@ -33,7 +33,7 @@ struct StoryRow: View {
     }
     
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 16) {
             image
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -44,8 +44,11 @@ struct StoryRow: View {
                 Spacer()
                 timeView(time)
             }
+            .padding(.trailing, 4)
+            .padding(.bottom, 4)
             
             writingView(nickname: nickname, text: text)
+                .padding(.leading, 2)
         }
     }
 }
@@ -60,12 +63,12 @@ private extension StoryRow {
                 Image(systemName: isHearted ? "heart.fill" : "heart")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .foregroundColor(isHearted ? .red : .black)
+                    .foregroundColor(isHearted ? .red : .systemTintColor)
                     .frame(width: 20, height: 20)
             }
             
             Text("\(count)")
-                .font(.custom("HelveticaNeue-Regular", size: 16))
+                .font(.custom("HelveticaNeue-Regular", size: 14))
         }
         .frame(maxHeight: 20)
     }
@@ -73,16 +76,16 @@ private extension StoryRow {
     @ViewBuilder
     func timeView(_ time: String) -> some View {
         Text(time)
-            .font(.custom("HelveticaNeue-Regular", size: 16))
+            .font(.custom("HelveticaNeue-Regular", size: 14))
     }
     
     @ViewBuilder
     func writingView(nickname: String, text: String) -> some View {
         (
             Text(nickname)
-                .font(.custom("HelveticaNeue-Bold", size: 16))
+                .font(.custom("HelveticaNeue-Bold", size: 14))
             + Text(" " + text)
-                .font(.custom("HelveticaNeue-Regular", size: 16))
+                .font(.custom("HelveticaNeue-Regular", size: 14))
         )
         .frame(maxWidth: .infinity, alignment: .leading)
         .lineLimit(2)
