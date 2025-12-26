@@ -12,6 +12,7 @@ struct StoryView: View {
     
     @State private var currentPage = 0
     @State private var stories: [Story] = Story.mock
+    @State private var isWriteStoryPresented = false
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -51,7 +52,7 @@ struct StoryView: View {
                 }
             }
             
-            Button(action: {}) {
+            Button(action: presentWriteStoryView) {
                 Image(systemName: "plus")
                     .font(.system(size: 22, weight: .bold))
                     .foregroundColor(.white)
@@ -64,6 +65,15 @@ struct StoryView: View {
             .padding(.bottom, 24)
         }
         .background(Color.backgroundColor)
+        .fullScreenCover(isPresented: $isWriteStoryPresented) {
+            WriteStoryView()
+        }
+    }
+}
+
+private extension StoryView {
+    func presentWriteStoryView() {
+        isWriteStoryPresented = true
     }
 }
 

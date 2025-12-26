@@ -11,6 +11,7 @@ import UIKit
 import Photos
 
 struct WriteStoryView: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @State private var selectedImage: UIImage?
     @State private var selectedItem: PhotosPickerItem?
@@ -22,6 +23,22 @@ struct WriteStoryView: View {
     var body: some View {
         ScrollView {
             VStack {
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(Color.systemTintColor)
+                            .frame(width: 16, height: 16)
+                    }
+                }
+                .padding(.bottom, 12)
+                
                 Group {
                     if let selectedImage {
                         Image(uiImage: selectedImage)
