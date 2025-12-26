@@ -73,6 +73,13 @@ struct WriteStoryView: View {
                 
                 textInputSection
                     .padding(.top, 12)
+                
+                Button {
+                    // TODO: 공유하기 동작 연결
+                } label: {
+                    shareCapsuleLabel
+                }
+                .padding(.top, 12)
             }
             .padding(.horizontal, 16)
         }
@@ -133,6 +140,17 @@ private extension WriteStoryView {
                     .foregroundColor(.black.opacity(0.6))
             }
         }
+    }
+
+    var shareCapsuleLabel: some View {
+        Text("공유하기")
+            .font(.custom("HelveticaNeue-Bold", size: 16))
+            .foregroundColor(.white)
+            .padding(.vertical, 16)
+            .padding(.horizontal, 16)
+            .frame(maxWidth: .infinity)
+            .background(Color.unaBlue)
+            .clipShape(Capsule())
     }
     enum PhotoAlert: Identifiable {
         case denied
