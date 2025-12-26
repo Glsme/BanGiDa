@@ -19,6 +19,7 @@ struct WriteStoryView: View {
     @State private var photoAlert: PhotoAlert?
     @State private var photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
     @State private var storyText = ""
+    @FocusState private var isTextEditorFocused: Bool
 
     var body: some View {
         ScrollView {
@@ -83,6 +84,11 @@ struct WriteStoryView: View {
             }
             .padding(.horizontal, 16)
         }
+        .simultaneousGesture(
+            DragGesture().onChanged { _ in
+                isTextEditorFocused = false
+            }
+        )
         .background(Color.backgroundColor)
         .alert(item: $photoAlert) { alert in
             switch alert {
@@ -125,6 +131,7 @@ private extension WriteStoryView {
     var textInputSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             TextEditor(text: $storyText)
+                .focused($isTextEditorFocused)
                 .frame(minHeight: 120)
                 .padding(8)
                 .background(Color.white)
