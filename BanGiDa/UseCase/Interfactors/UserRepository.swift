@@ -1,0 +1,16 @@
+//
+//  UserRepository.swift
+//  BanGiDa
+//
+//  Created by 홍석준 on 12/26/25.
+//
+
+import Foundation
+
+public protocol UserRepository {
+    func signIn() async throws
+    func createUser() async throws
+    func updateLastSeenAt() async throws
+    func checkRegistration(uid: String) async throws -> Bool
+    func loadUID() -> String?
+}
