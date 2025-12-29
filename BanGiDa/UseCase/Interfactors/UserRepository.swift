@@ -11,6 +11,7 @@ public protocol UserRepository {
     func signIn() async throws
     func createUser() async throws
     func updateLastSeenAt() async throws
+    func update(nickname: String) async throws
     func checkRegistration(uid: String) async throws -> Bool
     func loadUID() -> String?
 }

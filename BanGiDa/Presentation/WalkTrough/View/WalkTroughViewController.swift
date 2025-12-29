@@ -36,6 +36,8 @@ final class WalkThroughViewController: BaseViewController {
             } else {
                 UserDefaults.standard.set(text, forKey: UserDefaultsKey.name.rawValue)
                 UserDefaults.standard.set(true, forKey: UserDefaultsKey.first.rawValue)
+                viewModel.update(nickname: text)
+                
                 if let isNameChanged = isNameChanged {
                     isNameChanged()
                 } else {

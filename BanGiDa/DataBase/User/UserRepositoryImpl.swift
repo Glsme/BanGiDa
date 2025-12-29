@@ -45,7 +45,7 @@ public final class UserRepositoryImpl: UserRepository {
         try await db.collection("users").document(uid).updateData(["lastSeenAt": Date()])
     }
     
-    public func updateNickname(nickname: String) async throws {
+    public func update(nickname: String) async throws {
         guard let uid = loadUID() else { throw UserError.emptyUID }
         
         try await db.collection("users").document(uid).updateData(["nickname": nickname])
