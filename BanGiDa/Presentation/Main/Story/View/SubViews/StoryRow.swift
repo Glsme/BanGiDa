@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StoryRow: View {
-    let image: Image
+    let imageURL: String
     let time: String
     let nickname: String
     let text: String
@@ -17,14 +17,14 @@ struct StoryRow: View {
     @Binding var isHearted: Bool
     
     init(
-        image: Image,
+        imageURL: String,
         time: String,
         nickname: String,
         text: String,
         isHearted: Binding<Bool>,
         heartCount: Int
     ) {
-        self.image = image
+        self.imageURL = imageURL
         self.time = time
         self.nickname = nickname
         self.text = text
@@ -35,10 +35,7 @@ struct StoryRow: View {
     var body: some View {
         VStack(spacing: 16) {
             ZStack(alignment: .topTrailing) {
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                storyImageView
                 
                 Button {
                     print("신고 버튼 탭")
@@ -68,6 +65,30 @@ struct StoryRow: View {
 }
 
 private extension StoryRow {
+    @ViewBuilder
+    var storyImageView: some View {
+        if let url = URL(string: imageURL), url.scheme != nil {
+            CachedAsyncImage(url: url) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                default:
+                    Image("BasicDog")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        } else {
+            Image(imageURL)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
     @ViewBuilder
     func heartView(count: Int) -> some View {
         HStack(spacing: 4) {
@@ -109,7 +130,7 @@ private extension StoryRow {
 
 #Preview {
     StoryRow(
-        image: Image("BasicDog"),
+        imageURL: "BasicDog",
         time: "5 hours ago",
         nickname: "안경줄복학생",
         text: "저희집 고양이 귀엽죠? 너도 한번 보시길 바라요! 12345678901234567890123456789012345678901234567890123456789",

@@ -19,7 +19,7 @@ struct StoryView: View {
                 LazyVStack(spacing: Self.spacing) {
                     ForEach(Array(viewModel.stories.enumerated()), id: \.element.id) { index, story in
                         StoryRow(
-                            image: Image(story.imageURL),
+                            imageURL: story.imageURL,
                             time: story.time,
                             nickname: story.nickname,
                             text: story.text,
