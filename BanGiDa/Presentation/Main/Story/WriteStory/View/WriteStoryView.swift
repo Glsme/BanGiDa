@@ -156,7 +156,7 @@ private extension WriteStoryView {
             .padding(.vertical, 16)
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
-            .background(Color.unaBlue)
+            .background(Color.greenblue)
             .clipShape(Capsule())
     }
     enum PhotoAlert: Identifiable {

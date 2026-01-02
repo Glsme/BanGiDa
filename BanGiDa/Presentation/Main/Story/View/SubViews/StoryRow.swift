@@ -43,7 +43,7 @@ struct StoryRow: View {
                 Button {
                     print("신고 버튼 탭")
                 } label: {
-                    Image(systemName: "light.beacon.max")
+                    Image(systemName: "light.beacon.max.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 24, height: 24)

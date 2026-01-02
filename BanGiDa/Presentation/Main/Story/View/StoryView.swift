@@ -54,7 +54,7 @@ struct StoryView: View {
                     .font(.system(size: 22, weight: .bold))
                     .foregroundColor(.white)
                     .frame(width: 56, height: 56)
-                    .background(Color.unaBlue)
+                    .background(Color.greenblue)
                     .clipShape(Circle())
                     .shadow(color: Color.black.opacity(0.2), radius: 6, x: 0, y: 4)
             }
