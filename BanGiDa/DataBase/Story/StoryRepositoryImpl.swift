@@ -14,6 +14,13 @@ public final class StoryRepositoryImpl: StoryRepository {
     private let db: Firestore
     private let storage: Storage
     
+    private static let fallbackDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "yyyy.MM.dd"
+        return formatter
+    }()
+    
     public init(db: Firestore = Firestore.firestore(), storage: Storage = Storage.storage()) {
         self.db = db
         self.storage = storage
@@ -112,7 +119,7 @@ public final class StoryRepositoryImpl: StoryRepository {
         return snapshot.documents.compactMap { document in
             let data = document.data()
             
-            guard let writerUUID = data["writerUUID"] as? String,
+            guard let _ = data["writerUUID"] as? String,
                   let writerNickname = data["writerNickname"] as? String,
                   let imageURL = data["imageURL"] as? String,
                   let text = data["text"] as? String,
@@ -131,12 +138,37 @@ public final class StoryRepositoryImpl: StoryRepository {
             
             return Story(
                 imageURL: imageURL,
-                time: "\(createdAt)",
+                time: formattedTime(from: createdAt),
                 nickname: writerNickname,
                 text: text,
                 isHearted: false,
                 heartCount: likeCount
             )
         }
+    }
+    
+    private func formattedTime(from createdAt: Date, now: Date = Date()) -> String {
+        let interval = max(0, now.timeIntervalSince(createdAt))
+        
+        if interval < 60 {
+            return "방금 전"
+        }
+        
+        if interval < 3600 {
+            let minutes = Int(interval / 60)
+            return "\(minutes)분 전"
+        }
+        
+        if interval < 86400 {
+            let hours = Int(interval / 3600)
+            return "\(hours)시간 전"
+        }
+        
+        if interval < 604800 {
+            let days = Int(interval / 86400)
+            return "\(days)일 전"
+        }
+        
+        return Self.fallbackDateFormatter.string(from: createdAt)
     }
 }
