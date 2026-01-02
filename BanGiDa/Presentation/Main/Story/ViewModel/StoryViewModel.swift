@@ -36,6 +36,12 @@ final class StoryViewModel: ObservableObject {
         guard !isEnd else { return }
         Task { await fetchStories(reset: false) }
     }
+
+    func refresh() async {
+        cursor = nil
+        isEnd = false
+        await fetchStories(reset: true)
+    }
     
     private func fetchStories(reset: Bool) async {
         guard !isLoading else { return }

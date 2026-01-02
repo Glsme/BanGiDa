@@ -44,6 +44,9 @@ struct StoryView: View {
                     }
                 }
             }
+            .refreshable {
+                await viewModel.refresh()
+            }
             
             Button(action: presentWriteStoryView) {
                 Image(systemName: "plus")

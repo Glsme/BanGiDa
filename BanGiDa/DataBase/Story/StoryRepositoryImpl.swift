@@ -120,6 +120,7 @@ public final class StoryRepositoryImpl: StoryRepository {
             else { return nil }
             
             let createdAt: Date
+            
             if let timestamp = data["createdAt"] as? Timestamp {
                 createdAt = timestamp.dateValue()
             } else if let date = data["createdAt"] as? Date {
@@ -130,7 +131,7 @@ public final class StoryRepositoryImpl: StoryRepository {
             
             return Story(
                 imageURL: imageURL,
-                time: "createdAt",
+                time: "\(createdAt)",
                 nickname: writerNickname,
                 text: text,
                 isHearted: false,

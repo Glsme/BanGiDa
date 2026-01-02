@@ -139,15 +139,17 @@ private extension WriteStoryView {
     var textInputSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             TextEditor(text: $viewModel.storyText)
+                .scrollContentBackground(.hidden)
                 .focused($isTextEditorFocused)
                 .font(.custom("HelveticaNeue-Medium", size: 12))
                 .frame(minHeight: 120)
                 .padding(8)
-                .background(Color.white)
+                .background(Color.memoBackgroundColor)
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
                         .stroke(Color.black.opacity(0.2), lineWidth: 1)
                 )
+                
             
             HStack {
                 Spacer()
