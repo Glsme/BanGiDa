@@ -13,13 +13,15 @@ struct StoryView: View {
     @State private var currentPage = 0
     @State private var stories: [Story] = Story.mock
     @State private var isWriteStoryPresented = false
+    @State private var lastLoadedStoryID: Story.ID?
+    @State private var hasMoreStories = true
+    private let maxPage = 3
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             ScrollView {
-                ForEach(stories.indices, id: \.self) { index in
-                    LazyVStack(spacing: Self.spacing) {
-                        let story = stories[index]
+                LazyVStack(spacing: Self.spacing) {
+                    ForEach(Array(stories.enumerated()), id: \.element.id) { index, story in
                         StoryRow(
                             image: Image(story.imageName),
                             time: story.time,
@@ -28,26 +30,21 @@ struct StoryView: View {
                             isHearted: $stories[index].isHearted,
                             heartCount: story.heartCount
                         )
-                            .padding(.top, index == 0 ? 0 : 44)
-                            .padding(.bottom, 44)
-                            .padding(.horizontal, 16)
-                            .onAppear {
-                                if index % 10 == 7 {
-                                    currentPage += 1
-                                    stories.append(
-                                        Story(
-                                            imageName: "BasicDog",
-                                            time: "just now",
-                                            nickname: "새로운친구",
-                                            text: "새로운 스토리가 추가됐어요.",
-                                            isHearted: false,
-                                            heartCount: 0
-                                        )
-                                    )
-                                }
-                            }
+                        .padding(.top, index == 0 ? 0 : 44)
+                        .padding(.bottom, 44)
+                        .padding(.horizontal, 16)
+                        .onAppear {
+                            loadMoreIfNeeded(currentStoryID: story.id)
+                        }
                         
                         Divider()
+                    }
+
+                    if !hasMoreStories {
+                        Text("더 이상 불러올 스토리가 없어요.")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                            .padding(.vertical, 24)
                     }
                 }
             }
@@ -74,6 +71,28 @@ struct StoryView: View {
 private extension StoryView {
     func presentWriteStoryView() {
         isWriteStoryPresented = true
+    }
+
+    func loadMoreIfNeeded(currentStoryID: Story.ID) {
+        guard currentStoryID == stories.last?.id else { return }
+        guard lastLoadedStoryID != currentStoryID else { return }
+        guard hasMoreStories else { return }
+        lastLoadedStoryID = currentStoryID
+        if currentPage >= maxPage {
+            hasMoreStories = false
+            return
+        }
+        currentPage += 1
+        stories.append(
+            Story(
+                imageName: "BasicDog",
+                time: "just now",
+                nickname: "새로운친구",
+                text: "새로운 스토리가 추가됐어요.",
+                isHearted: false,
+                heartCount: 0
+            )
+        )
     }
 }
 
