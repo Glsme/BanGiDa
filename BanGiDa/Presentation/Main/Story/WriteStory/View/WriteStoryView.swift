@@ -80,6 +80,8 @@ struct WriteStoryView: View {
                 } label: {
                     shareCapsuleLabel
                 }
+                .disabled(!isShareEnabled)
+                .opacity(isShareEnabled ? 1 : 0.5)
                 .padding(.top, 12)
             }
             .padding(.horizontal, 16)
@@ -132,6 +134,7 @@ private extension WriteStoryView {
         VStack(alignment: .leading, spacing: 8) {
             TextEditor(text: $storyText)
                 .focused($isTextEditorFocused)
+                .font(.custom("HelveticaNeue-Medium", size: 12))
                 .frame(minHeight: 120)
                 .padding(8)
                 .background(Color.white)
@@ -156,9 +159,10 @@ private extension WriteStoryView {
             .padding(.vertical, 16)
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
-            .background(Color.greenblue)
+            .background(isShareEnabled ? Color.greenblue : Color.gray)
             .clipShape(Capsule())
     }
+    
     enum PhotoAlert: Identifiable {
         case denied
         
@@ -167,6 +171,11 @@ private extension WriteStoryView {
     
     var isPhotoAccessDenied: Bool {
         photoAuthorizationStatus == .denied || photoAuthorizationStatus == .restricted
+    }
+
+    var isShareEnabled: Bool {
+        selectedImage != nil
+        && !storyText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
     
     func handlePhotoTap() {
