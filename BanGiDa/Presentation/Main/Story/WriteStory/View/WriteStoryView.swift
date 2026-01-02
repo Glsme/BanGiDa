@@ -121,6 +121,10 @@ struct WriteStoryView: View {
                 viewModel.storyText = String(newValue.prefix(100))
             }
         }
+        .onChange(of: viewModel.didFinish) { didFinish in
+            guard didFinish else { return }
+            dismiss()
+        }
         .onAppear {
             updatePhotoAuthorizationStatus()
         }

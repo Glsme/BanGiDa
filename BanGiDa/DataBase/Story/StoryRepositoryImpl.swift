@@ -31,6 +31,8 @@ public final class StoryRepositoryImpl: StoryRepository {
         )
     }
     
+    // MARK: - Private
+    
     private func createImageID() -> (postReference: DocumentReference, id: String) {
         let postRefrence = db.collection("images").document()
         let imageID = postRefrence.documentID

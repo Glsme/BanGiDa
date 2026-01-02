@@ -7,15 +7,19 @@
 
 import Foundation
 
+@MainActor
 final class WriteStoryViewModel: ObservableObject {
     @Injected private var writeStoryUseCase: WriteStoryUseCase
     
     @Published var selectedImageData: Data?
     @Published var storyText = ""
+    @Published var isSharing = false
+    @Published var didFinish = false
 
     var isShareEnabled: Bool {
-        selectedImageData != nil
-        && !storyText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        !isSharing
+            && selectedImageData != nil
+            && !storyText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     func writeStory() {
@@ -26,7 +30,16 @@ final class WriteStoryViewModel: ObservableObject {
                     return
                 }
                 
+                isSharing = true
+                
+                defer {
+                    Task { @MainActor in
+                        isSharing = false
+                    }
+                }
+                
                 try await writeStoryUseCase.execute(image: selectedImageData, text: storyText)
+                didFinish = true
             } catch {
                 print(error)
             }
