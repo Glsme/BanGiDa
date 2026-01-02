@@ -14,6 +14,7 @@ struct WriteStoryView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var viewModel = WriteStoryViewModel()
+    let onFinish: () -> Void
     
     @State private var selectedItem: PhotosPickerItem?
     @State private var isPhotoPickerPresented = false
@@ -21,6 +22,10 @@ struct WriteStoryView: View {
     @State private var photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
     
     @FocusState private var isTextEditorFocused: Bool
+    
+    init(onFinish: @escaping () -> Void = {}) {
+        self.onFinish = onFinish
+    }
 
     var body: some View {
         ScrollView {
@@ -124,6 +129,7 @@ struct WriteStoryView: View {
         }
         .onChange(of: viewModel.didFinish) { didFinish in
             guard didFinish else { return }
+            onFinish()
             dismiss()
         }
         .onAppear {

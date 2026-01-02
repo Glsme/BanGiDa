@@ -12,6 +12,7 @@ struct StoryView: View {
     
     @StateObject private var viewModel = StoryViewModel()
     @State private var isWriteStoryPresented = false
+    @State private var shouldRefreshAfterWrite = false
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -65,8 +66,14 @@ struct StoryView: View {
         .task {
             viewModel.loadInitialIfNeeded()
         }
-        .fullScreenCover(isPresented: $isWriteStoryPresented) {
-            WriteStoryView()
+        .fullScreenCover(isPresented: $isWriteStoryPresented, onDismiss: {
+            guard shouldRefreshAfterWrite else { return }
+            shouldRefreshAfterWrite = false
+            Task { await viewModel.refresh() }
+        }) {
+            WriteStoryView(onFinish: {
+                shouldRefreshAfterWrite = true
+            })
         }
     }
 }
