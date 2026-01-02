@@ -109,10 +109,11 @@ struct WriteStoryView: View {
         }
         .onChange(of: selectedItem) { newItem in
             guard let newItem else { return }
+            
             Task {
                 if let data = try? await newItem.loadTransferable(type: Data.self),
                    let uiImage = UIImage(data: data) {
-                    viewModel.selectedImageData = uiImage.jpegData(compressionQuality: 0.8)
+                    viewModel.selectedImageData = uiImage.jpegData(compressionQuality: 0.7)
                 }
             }
         }
@@ -152,7 +153,7 @@ private extension WriteStoryView {
                 Spacer()
                 Text("\(viewModel.storyText.count)/100")
                     .font(.custom("HelveticaNeue-Medium", size: 12))
-                    .foregroundColor(.black.opacity(0.6))
+                    .foregroundColor(Color.systemTintColor.opacity(0.5))
             }
         }
     }

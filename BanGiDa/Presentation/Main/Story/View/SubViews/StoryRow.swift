@@ -44,7 +44,7 @@ struct StoryRow: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 24, height: 24)
-                        .foregroundStyle(Color.black)
+                        .foregroundStyle(.gray)
                         .fontWeight(.bold)
                 }
                 .padding(12)
@@ -123,7 +123,7 @@ private extension StoryRow {
                 .font(.custom("HelveticaNeue-Regular", size: 14))
         )
         .frame(maxWidth: .infinity, alignment: .leading)
-        .lineLimit(2)
+//        .lineLimit(2)
         .truncationMode(.tail)
     }
 }
