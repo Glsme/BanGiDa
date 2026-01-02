@@ -145,10 +145,7 @@ private extension WriteStoryView {
                 .frame(minHeight: 120)
                 .padding(8)
                 .background(Color.memoBackgroundColor)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.black.opacity(0.2), lineWidth: 1)
-                )
+                .clipShape(RoundedRectangle(cornerRadius: 12))
                 
             
             HStack {
