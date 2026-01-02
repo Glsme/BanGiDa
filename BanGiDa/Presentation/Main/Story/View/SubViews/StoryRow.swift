@@ -34,10 +34,24 @@ struct StoryRow: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+            ZStack(alignment: .topTrailing) {
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                
+                Button {
+                    print("신고 버튼 탭")
+                } label: {
+                    Image(systemName: "light.beacon.max")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(Color.black)
+                        .fontWeight(.bold)
+                }
+                .padding(12)
+            }
             
             HStack {
                 heartView(count: heartCount)
@@ -103,4 +117,3 @@ private extension StoryRow {
         heartCount: 2
     )
 }
-
