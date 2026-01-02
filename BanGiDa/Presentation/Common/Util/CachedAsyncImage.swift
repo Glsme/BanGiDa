@@ -16,17 +16,17 @@ enum CachedAsyncImagePhase {
 
 private final class ImageCache {
     static let shared = ImageCache()
-    private let cache = NSCache<NSURL, UIImage>()
+    private let cache = NSCache<NSString, UIImage>()
 
     private init() { }
 
-    subscript(url: NSURL) -> UIImage? {
-        get { cache.object(forKey: url) }
+    subscript(key: String) -> UIImage? {
+        get { cache.object(forKey: key as NSString) }
         set {
             if let image = newValue {
-                cache.setObject(image, forKey: url)
+                cache.setObject(image, forKey: key as NSString)
             } else {
-                cache.removeObject(forKey: url)
+                cache.removeObject(forKey: key as NSString)
             }
         }
     }
@@ -43,12 +43,28 @@ private final class ImageLoader: ObservableObject {
         self.url = url
     }
 
+    private func cacheKey(for url: URL) -> String {
+        let absolute = url.absoluteString
+        guard let range = absolute.range(of: "images%2F") else {
+            return url.absoluteString
+        }
+
+        let idStart = range.upperBound
+        let remaining = absolute[idStart...]
+        let uid = remaining.split(separator: "?").first.map(String.init) ?? url.absoluteString
+        return uid.isEmpty ? url.absoluteString : uid
+    }
+
     func load() {
         guard !isLoading else { return }
         guard let url = url else { return }
 
-        let cacheKey = url as NSURL
+        let cacheKey = cacheKey(for: url)
+        let cacheFileName = "\(cacheKey).jpg"
+        let documentManager = DocumentManager()
+        
         if let cached = ImageCache.shared[cacheKey] {
+            print("CachedAsyncImage: memory cache hit - \(cacheKey)")
             if Thread.isMainThread {
                 image = cached
             } else {
@@ -60,9 +76,12 @@ private final class ImageLoader: ObservableObject {
         }
 
         let request = URLRequest(url: url)
-        if let cachedResponse = URLCache.shared.cachedResponse(for: request),
-           let uiImage = UIImage(data: cachedResponse.data) {
+        
+        if let cachedData = documentManager.loadImageDataFromDocument(fileName: cacheFileName),
+           let uiImage = UIImage(data: cachedData) {
+            print("CachedAsyncImage: disk cache hit - \(cacheKey)")
             ImageCache.shared[cacheKey] = uiImage
+            
             if Thread.isMainThread {
                 image = uiImage
             } else {
@@ -73,6 +92,8 @@ private final class ImageLoader: ObservableObject {
             return
         }
 
+        print("CachedAsyncImage: cache miss - \(cacheKey)")
+        
         if Thread.isMainThread {
             isLoading = true
         } else {
@@ -80,8 +101,10 @@ private final class ImageLoader: ObservableObject {
                 self.isLoading = true
             }
         }
-        task = URLSession.shared.dataTask(with: request) { [weak self] data, response, _ in
+        
+        task = URLSession.shared.dataTask(with: request) { [weak self] data, _, _ in
             guard let self = self else { return }
+            
             defer {
                 DispatchQueue.main.async {
                     self.isLoading = false
@@ -92,10 +115,7 @@ private final class ImageLoader: ObservableObject {
                 return
             }
 
-            if let response = response {
-                let cachedResponse = CachedURLResponse(response: response, data: data)
-                URLCache.shared.storeCachedResponse(cachedResponse, for: request)
-            }
+            documentManager.saveImageDataFromDocument(fileName: cacheFileName, image: data)
             ImageCache.shared[cacheKey] = uiImage
             DispatchQueue.main.async {
                 self.image = uiImage

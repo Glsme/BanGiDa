@@ -44,6 +44,17 @@ struct DocumentManager {
             return UIImage(named: "BasicDog")
         }
     }
+
+    func loadImageDataFromDocument(fileName: String) -> Data? {
+        guard let documentDirectory = imageDirectoryPath() else { return nil }
+        let fileURL = documentDirectory.appendingPathComponent(fileName)
+
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            return try? Data(contentsOf: fileURL)
+        }
+
+        return nil
+    }
     
     func removeImageFromDocument(fileName: String) {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
