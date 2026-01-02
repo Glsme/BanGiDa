@@ -13,12 +13,13 @@ import Photos
 struct WriteStoryView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
-    @State private var selectedImage: UIImage?
+    @StateObject private var viewModel = WriteStoryViewModel()
+    
     @State private var selectedItem: PhotosPickerItem?
     @State private var isPhotoPickerPresented = false
     @State private var photoAlert: PhotoAlert?
     @State private var photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-    @State private var storyText = ""
+    
     @FocusState private var isTextEditorFocused: Bool
 
     var body: some View {
@@ -41,7 +42,8 @@ struct WriteStoryView: View {
                 .padding(.bottom, 12)
                 
                 Group {
-                    if let selectedImage {
+                    if let imageData = viewModel.selectedImageData,
+                       let selectedImage = UIImage(data: imageData) {
                         Image(uiImage: selectedImage)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -76,12 +78,12 @@ struct WriteStoryView: View {
                     .padding(.top, 12)
                 
                 Button {
-                    // TODO: 공유하기 동작 연결
+                    viewModel.writeStory()
                 } label: {
                     shareCapsuleLabel
                 }
-                .disabled(!isShareEnabled)
-                .opacity(isShareEnabled ? 1 : 0.5)
+                .disabled(!viewModel.isShareEnabled)
+                .opacity(viewModel.isShareEnabled ? 1 : 0.5)
                 .padding(.top, 12)
             }
             .padding(.horizontal, 16)
@@ -110,13 +112,13 @@ struct WriteStoryView: View {
             Task {
                 if let data = try? await newItem.loadTransferable(type: Data.self),
                    let uiImage = UIImage(data: data) {
-                    selectedImage = uiImage
+                    viewModel.selectedImageData = uiImage.jpegData(compressionQuality: 0.8)
                 }
             }
         }
-        .onChange(of: storyText) { newValue in
+        .onChange(of: viewModel.storyText) { newValue in
             if newValue.count > 100 {
-                storyText = String(newValue.prefix(100))
+                viewModel.storyText = String(newValue.prefix(100))
             }
         }
         .onAppear {
@@ -132,7 +134,7 @@ struct WriteStoryView: View {
 private extension WriteStoryView {
     var textInputSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            TextEditor(text: $storyText)
+            TextEditor(text: $viewModel.storyText)
                 .focused($isTextEditorFocused)
                 .font(.custom("HelveticaNeue-Medium", size: 12))
                 .frame(minHeight: 120)
@@ -145,7 +147,7 @@ private extension WriteStoryView {
             
             HStack {
                 Spacer()
-                Text("\(storyText.count)/100")
+                Text("\(viewModel.storyText.count)/100")
                     .font(.custom("HelveticaNeue-Medium", size: 12))
                     .foregroundColor(.black.opacity(0.6))
             }
@@ -159,7 +161,7 @@ private extension WriteStoryView {
             .padding(.vertical, 16)
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
-            .background(isShareEnabled ? Color.greenblue : Color.gray)
+            .background(viewModel.isShareEnabled ? Color.greenblue : Color.gray)
             .clipShape(Capsule())
     }
     
@@ -173,10 +175,6 @@ private extension WriteStoryView {
         photoAuthorizationStatus == .denied || photoAuthorizationStatus == .restricted
     }
 
-    var isShareEnabled: Bool {
-        selectedImage != nil
-        && !storyText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    }
     
     func handlePhotoTap() {
         let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)

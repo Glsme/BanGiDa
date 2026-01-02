@@ -61,4 +61,8 @@ public final class UserRepositoryImpl: UserRepository {
     public func loadUID() -> String? {
         return Auth.auth().currentUser?.uid
     }
+    
+    public func readNickname() -> String? {
+        return UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
+    }
 }

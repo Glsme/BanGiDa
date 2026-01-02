@@ -168,6 +168,7 @@
 		34725AA02EFE38E400A3D939 /* UseCase */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UseCase; sourceTree = "<group>"; };
 		34725AA82EFE3C3A00A3D939 /* User */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = User; sourceTree = "<group>"; };
 		34725AD12F024D7C00A3D939 /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
+		34725AFB2F07B9CF00A3D939 /* Story */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Story; sourceTree = "<group>"; };
 		34CE93822EE6B19800C9776D /* Story */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Story; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -384,6 +385,7 @@
 		8594820D28DCAAE6000C6AD7 /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
+				34725AFB2F07B9CF00A3D939 /* Story */,
 				34725AA82EFE3C3A00A3D939 /* User */,
 				85A8D03D28D2167800F22A80 /* Realm */,
 				8594820928DC984A000C6AD7 /* UserDefaultsKey.swift */,
@@ -635,6 +637,7 @@
 				34725AA02EFE38E400A3D939 /* UseCase */,
 				34725AA82EFE3C3A00A3D939 /* User */,
 				34725AD12F024D7C00A3D939 /* Core */,
+				34725AFB2F07B9CF00A3D939 /* Story */,
 				34CE93822EE6B19800C9776D /* Story */,
 			);
 			name = BanGiDa;
