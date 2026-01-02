@@ -32,6 +32,77 @@ private final class ImageCache {
     }
 }
 
+private func cacheKey(for url: URL) -> String {
+    let absolute = url.absoluteString
+    guard let range = absolute.range(of: "images%2F") else {
+        return url.absoluteString
+    }
+
+    let idStart = range.upperBound
+    let remaining = absolute[idStart...]
+    let uid = remaining.split(separator: "?").first.map(String.init) ?? url.absoluteString
+    return uid.isEmpty ? url.absoluteString : uid
+}
+
+final class ImagePrefetcher {
+    static let shared = ImagePrefetcher()
+    private let queue = DispatchQueue(label: "CachedAsyncImage.prefetch", qos: .utility)
+    private let lock = DispatchQueue(label: "CachedAsyncImage.prefetch.lock")
+    private var inFlight: Set<String> = []
+
+    private init() { }
+
+    func prefetch(urls: [URL]) {
+        guard !urls.isEmpty else { return }
+        queue.async {
+            urls.forEach { self.prefetch(url: $0) }
+        }
+    }
+
+    private func prefetch(url: URL) {
+        let key = cacheKey(for: url)
+        if ImageCache.shared[key] != nil {
+            return
+        }
+
+        let cacheFileName = "\(key).jpg"
+        let documentManager = DocumentManager()
+        if let cachedData = documentManager.loadImageDataFromDocument(fileName: cacheFileName),
+           let uiImage = UIImage(data: cachedData) {
+            ImageCache.shared[key] = uiImage
+            return
+        }
+
+        guard startInFlight(key) else { return }
+        let request = URLRequest(url: url)
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, _ in
+            defer { self?.finishInFlight(key) }
+            guard let data = data, let uiImage = UIImage(data: data) else {
+                return
+            }
+            documentManager.saveImageDataFromDocument(fileName: cacheFileName, image: data)
+            ImageCache.shared[key] = uiImage
+        }
+        task.resume()
+    }
+
+    private func startInFlight(_ key: String) -> Bool {
+        lock.sync {
+            if inFlight.contains(key) {
+                return false
+            }
+            inFlight.insert(key)
+            return true
+        }
+    }
+
+    private func finishInFlight(_ key: String) {
+        lock.async {
+            self.inFlight.remove(key)
+        }
+    }
+}
+
 private final class ImageLoader: ObservableObject {
     @Published var image: UIImage?
     @Published var isLoading = false
@@ -41,18 +112,6 @@ private final class ImageLoader: ObservableObject {
 
     init(url: URL?) {
         self.url = url
-    }
-
-    private func cacheKey(for url: URL) -> String {
-        let absolute = url.absoluteString
-        guard let range = absolute.range(of: "images%2F") else {
-            return url.absoluteString
-        }
-
-        let idStart = range.upperBound
-        let remaining = absolute[idStart...]
-        let uid = remaining.split(separator: "?").first.map(String.init) ?? url.absoluteString
-        return uid.isEmpty ? url.absoluteString : uid
     }
 
     func load() {
@@ -75,25 +134,6 @@ private final class ImageLoader: ObservableObject {
             return
         }
 
-        let request = URLRequest(url: url)
-        
-        if let cachedData = documentManager.loadImageDataFromDocument(fileName: cacheFileName),
-           let uiImage = UIImage(data: cachedData) {
-            print("CachedAsyncImage: disk cache hit - \(cacheKey)")
-            ImageCache.shared[cacheKey] = uiImage
-            
-            if Thread.isMainThread {
-                image = uiImage
-            } else {
-                DispatchQueue.main.async {
-                    self.image = uiImage
-                }
-            }
-            return
-        }
-
-        print("CachedAsyncImage: cache miss - \(cacheKey)")
-        
         if Thread.isMainThread {
             isLoading = true
         } else {
@@ -102,26 +142,42 @@ private final class ImageLoader: ObservableObject {
             }
         }
         
-        task = URLSession.shared.dataTask(with: request) { [weak self] data, _, _ in
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else { return }
-            
-            defer {
+            if let cachedData = documentManager.loadImageDataFromDocument(fileName: cacheFileName),
+               let uiImage = UIImage(data: cachedData) {
+                print("CachedAsyncImage: disk cache hit - \(cacheKey)")
+                ImageCache.shared[cacheKey] = uiImage
                 DispatchQueue.main.async {
+                    self.image = uiImage
                     self.isLoading = false
                 }
-            }
-
-            guard let data = data, let uiImage = UIImage(data: data) else {
                 return
             }
 
-            documentManager.saveImageDataFromDocument(fileName: cacheFileName, image: data)
-            ImageCache.shared[cacheKey] = uiImage
-            DispatchQueue.main.async {
-                self.image = uiImage
+            print("CachedAsyncImage: cache miss - \(cacheKey)")
+            let request = URLRequest(url: url)
+            self.task = URLSession.shared.dataTask(with: request) { [weak self] data, _, _ in
+                guard let self = self else { return }
+                
+                defer {
+                    DispatchQueue.main.async {
+                        self.isLoading = false
+                    }
+                }
+
+                guard let data = data, let uiImage = UIImage(data: data) else {
+                    return
+                }
+
+                documentManager.saveImageDataFromDocument(fileName: cacheFileName, image: data)
+                ImageCache.shared[cacheKey] = uiImage
+                DispatchQueue.main.async {
+                    self.image = uiImage
+                }
             }
+            self.task?.resume()
         }
-        task?.resume()
     }
 
     func cancel() {
@@ -147,9 +203,9 @@ struct CachedAsyncImage<Content: View>: View {
             .onAppear {
                 loader.load()
             }
-            .onDisappear {
-                loader.cancel()
-            }
+//            .onDisappear {
+//                loader.cancel()
+//            }
     }
 
     private var phase: CachedAsyncImagePhase {

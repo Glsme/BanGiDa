@@ -37,6 +37,16 @@ final class StoryViewModel: ObservableObject {
         Task { await fetchStories(reset: false) }
     }
 
+    func prefetchImages(from index: Int, count: Int = 5) {
+        let startIndex = index + 1
+        guard startIndex < stories.count else { return }
+        let endIndex = min(startIndex + count, stories.count)
+        let urls = stories[startIndex..<endIndex]
+            .compactMap { URL(string: $0.imageURL) }
+            .filter { $0.scheme != nil }
+        ImagePrefetcher.shared.prefetch(urls: urls)
+    }
+
     func refresh() async {
         cursor = nil
         isEnd = false

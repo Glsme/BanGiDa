@@ -31,6 +31,7 @@ struct StoryView: View {
                         .padding(.horizontal, 16)
                         .onAppear {
                             viewModel.loadMoreIfNeeded(currentStoryID: story.id)
+                            viewModel.prefetchImages(from: index)
                         }
                         
                         Divider()
