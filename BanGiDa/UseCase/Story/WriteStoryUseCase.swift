@@ -28,7 +28,7 @@ public final class WriteStoryUseCaseImpl: WriteStoryUseCase {
         
         // 그래도 실패한다면 Error throw
         guard let uid = userRepository.loadUID() else { throw UserError.emptyUID }
-        guard let nickname = userRepository.loadUID() else { throw UserError.emptyNickname }
+        guard let nickname = userRepository.readNickname() else { throw UserError.emptyNickname }
         
         try await storyRepository.writeStory(image: image, text: text, nickname: nickname, uid: uid)
     }
