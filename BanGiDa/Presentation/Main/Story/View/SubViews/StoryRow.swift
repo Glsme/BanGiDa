@@ -16,6 +16,7 @@ struct StoryRow: View {
     let onHeartTap: () -> Void
     
     @Binding var isHearted: Bool
+    @State private var isReportSheetPresented = false
     
     init(
         imageURL: String,
@@ -41,7 +42,7 @@ struct StoryRow: View {
                 storyImageView
                 
                 Button {
-                    print("신고 버튼 탭")
+                    isReportSheetPresented = true
                 } label: {
                     Image(systemName: "light.beacon.max.fill")
                         .resizable()
@@ -63,6 +64,9 @@ struct StoryRow: View {
             
             writingView(nickname: nickname, text: text)
                 .padding(.leading, 2)
+        }
+        .sheet(isPresented: $isReportSheetPresented) {
+            ReportSheetView()
         }
     }
 }
