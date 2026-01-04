@@ -7,6 +7,7 @@
 
 import Foundation
 
+import FirebaseAnalytics
 import FirebaseCrashlytics
 
 final class ReportViewModel: ObservableObject {
@@ -16,6 +17,7 @@ final class ReportViewModel: ObservableObject {
         Task {
             do {
                 try await reportStoryUseCase.execute(imageURL: imageURL, reason: text)
+                Analytics.logEvent("Report_Story", parameters: ["text": text])
             } catch {
                 Crashlytics.crashlytics().record(error: error, userInfo: ["function": "\(#function)"])
             }
