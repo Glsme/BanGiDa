@@ -12,6 +12,7 @@ struct ReportSheetView: View {
     
     @Environment(\.dismiss) private var dismiss
     @State private var reason = ""
+    @State private var isReportCompleted = false
     
     private let imageURL: String
     
@@ -56,8 +57,9 @@ struct ReportSheetView: View {
             }
 
             Button {
+                dismissKeyboard()
                 viewModel.report(text: reason, imageURL: imageURL)
-                dismiss()
+                isReportCompleted = true
             } label: {
                 Text("신고 접수")
                     .font(.custom("HelveticaNeue-Bold", size: 16))
@@ -79,6 +81,27 @@ struct ReportSheetView: View {
         }
         .padding(20)
         .presentationDetents([.medium])
+        .alert(
+            "신고가 접수되었습니다.",
+            isPresented: $isReportCompleted
+        ) {
+            Button("확인") {
+                dismiss()
+            }
+        } message: {
+            Text(
+                "해당 콘텐츠는 운영 정책에 따라\n24시간 이내에 운영자가 검토 후\n필요한 조치를 취할 예정입니다."
+            )
+        }
+    }
+
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+        )
     }
 }
 
