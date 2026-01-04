@@ -8,5 +8,6 @@
 import Foundation
 
 public enum WriteStoryError: Error {
+    case emptyImage
     case emptyURL
 }

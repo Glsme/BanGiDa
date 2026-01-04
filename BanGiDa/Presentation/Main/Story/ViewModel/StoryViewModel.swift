@@ -7,6 +7,8 @@
 
 import Foundation
 
+import FirebaseCrashlytics
+
 @MainActor
 final class StoryViewModel: ObservableObject {
     @Injected private var fetchStoriesUseCase: FetchStoriesUseCase
@@ -75,7 +77,7 @@ final class StoryViewModel: ObservableObject {
                 let delta = wasHearted ? -1 : 1
                 self.stories[currentIndex].heartCount = max(0, self.stories[currentIndex].heartCount + delta)
             } catch {
-                print(error)
+                Crashlytics.crashlytics().record(error: error, userInfo: ["function": "\(#function)"])
             }
         }
     }
@@ -98,7 +100,7 @@ final class StoryViewModel: ObservableObject {
             cursor = page.nextCursor
             isEnd = page.isEnd
         } catch {
-            print(error)
+            Crashlytics.crashlytics().record(error: error, userInfo: ["function": "\(#function)"])
         }
     }
 }

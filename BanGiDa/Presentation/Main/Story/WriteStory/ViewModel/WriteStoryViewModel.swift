@@ -7,6 +7,8 @@
 
 import Foundation
 
+import FirebaseCrashlytics
+
 @MainActor
 final class WriteStoryViewModel: ObservableObject {
     @Injected private var writeStoryUseCase: WriteStoryUseCase
@@ -25,23 +27,20 @@ final class WriteStoryViewModel: ObservableObject {
     func writeStory() {
         Task {
             do {
-                #warning("추후 이미지 없을 경우, 비어있는 텍스트에 대한 error 처리 필요")
                 guard let selectedImageData, !storyText.isEmpty else {
-                    return
+                    throw WriteStoryError.emptyImage
                 }
                 
                 isSharing = true
                 
                 defer {
-                    Task { @MainActor in
-                        isSharing = false
-                    }
+                    isSharing = false
                 }
                 
                 try await writeStoryUseCase.execute(image: selectedImageData, text: storyText)
                 didFinish = true
             } catch {
-                print(error)
+                Crashlytics.crashlytics().record(error: error, userInfo: ["function": "\(#function)"])
             }
         }
     }
