@@ -118,6 +118,21 @@ public final class StoryRepositoryImpl: StoryRepository {
         }
     }
     
+    public func report(imageID: String, uid: String, reason: String) async throws {
+        let reportReference = db.collection("images")
+            .document(imageID)
+            .collection("reports")
+            .document(uid)
+        
+        var data: [String: Any] = ["createdAt": FieldValue.serverTimestamp()]
+        
+        if !reason.isEmpty {
+            data["reason"] = reason
+        }
+        
+        try await reportReference.setData(data, merge: false)
+    }
+    
     // MARK: - Private
     
     private func createImageID() -> (postReference: DocumentReference, id: String) {

@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct ReportSheetView: View {
+    @StateObject private var viewModel = ReportViewModel()
+    
     @Environment(\.dismiss) private var dismiss
     @State private var reason = ""
+    
+    private let imageURL: String
+    
+    public init(imageURL: String) {
+        self.imageURL = imageURL
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -48,6 +56,7 @@ struct ReportSheetView: View {
             }
 
             Button {
+                viewModel.report(text: reason, imageURL: imageURL)
                 dismiss()
             } label: {
                 Text("신고 접수")
@@ -74,5 +83,5 @@ struct ReportSheetView: View {
 }
 
 #Preview {
-    ReportSheetView()
+    ReportSheetView(imageURL: "")
 }

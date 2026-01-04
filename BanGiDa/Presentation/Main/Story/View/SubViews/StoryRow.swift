@@ -66,7 +66,7 @@ struct StoryRow: View {
                 .padding(.leading, 2)
         }
         .sheet(isPresented: $isReportSheetPresented) {
-            ReportSheetView()
+            ReportSheetView(imageURL: imageURL)
         }
     }
 }
