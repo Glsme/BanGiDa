@@ -75,7 +75,14 @@ final class AppDIContainer {
                 fatalError("StoryRepository dependency has not been registered.")
             }
             
-            return FetchStoriesUseCaseImpl(storyRepository: storyRepository)
+            guard let userRepository = resolver.resolve(UserRepository.self) else {
+                fatalError("UserRepository dependency has not been registered.")
+            }
+            
+            return FetchStoriesUseCaseImpl(
+                storyRepository: storyRepository,
+                userRepository: userRepository
+            )
         }
         
         container.register(ToggleStoryLikeUseCase.self) { resolver in
