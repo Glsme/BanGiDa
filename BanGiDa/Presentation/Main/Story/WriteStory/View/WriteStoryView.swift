@@ -9,15 +9,19 @@ import SwiftUI
 import PhotosUI
 import UIKit
 import Photos
+import CropViewController
 
 struct WriteStoryView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var viewModel = WriteStoryViewModel()
+    
     let onFinish: () -> Void
     
     @State private var selectedItem: PhotosPickerItem?
     @State private var isPhotoPickerPresented = false
+    @State private var isCropPresented = false
+    @State private var cropImage: UIImage?
     @State private var photoAlert: PhotoAlert?
     @State private var photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
     
@@ -118,8 +122,28 @@ struct WriteStoryView: View {
             Task {
                 if let data = try? await newItem.loadTransferable(type: Data.self),
                    let uiImage = UIImage(data: data) {
-                    viewModel.selectedImageData = uiImage.jpegData(compressionQuality: 0.7)
+                    cropImage = uiImage
+                    isCropPresented = true
                 }
+            }
+        }
+        .sheet(isPresented: $isCropPresented) {
+            if let cropImage {
+                CropViewControllerRepresentable(
+                    image: cropImage,
+                    onCropped: { croppedImage in
+                        viewModel.selectedImageData = croppedImage.jpegData(compressionQuality: 0.7)
+                        self.cropImage = nil
+                        selectedItem = nil
+                        isCropPresented = false
+                    },
+                    onCancelled: {
+                        self.cropImage = nil
+                        selectedItem = nil
+                        isCropPresented = false
+                    }
+                )
+                .ignoresSafeArea()
             }
         }
         .onChange(of: viewModel.storyText) { newValue in
@@ -241,6 +265,54 @@ private extension WriteStoryView {
                 .stroke(Color.black.opacity(0.2), lineWidth: 1)
         )
         .clipShape(Capsule())
+    }
+}
+
+private struct CropViewControllerRepresentable: UIViewControllerRepresentable {
+    let image: UIImage
+    let onCropped: (UIImage) -> Void
+    let onCancelled: () -> Void
+
+    func makeUIViewController(context: Context) -> CropViewController {
+        let cropViewController = CropViewController(image: image)
+        cropViewController.delegate = context.coordinator
+        cropViewController.doneButtonTitle = "완료"
+        cropViewController.cancelButtonTitle = "취소"
+        return cropViewController
+    }
+
+    func updateUIViewController(_ uiViewController: CropViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onCropped: onCropped, onCancelled: onCancelled)
+    }
+
+    final class Coordinator: NSObject, CropViewControllerDelegate {
+        private let onCropped: (UIImage) -> Void
+        private let onCancelled: () -> Void
+
+        init(onCropped: @escaping (UIImage) -> Void, onCancelled: @escaping () -> Void) {
+            self.onCropped = onCropped
+            self.onCancelled = onCancelled
+        }
+
+        func cropViewController(
+            _ cropViewController: CropViewController,
+            didCropToImage image: UIImage,
+            withRect cropRect: CGRect,
+            angle: Int
+        ) {
+            onCropped(image)
+        }
+
+        func cropViewController(
+            _ cropViewController: CropViewController,
+            didFinishCancelled cancelled: Bool
+        ) {
+            if cancelled {
+                onCancelled()
+            }
+        }
     }
 }
 
