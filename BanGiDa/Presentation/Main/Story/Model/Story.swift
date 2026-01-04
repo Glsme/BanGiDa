@@ -123,3 +123,15 @@ public struct StoryCursor: Hashable, Codable {
         self.id = id
     }
 }
+
+public extension StoryCursor {
+    static let initialTopStoriesCursorID = "__INITIAL_TOP_STORIES__"
+
+    static func initialTopStories() -> StoryCursor {
+        StoryCursor(createdAt: .distantPast, id: initialTopStoriesCursorID)
+    }
+
+    var isInitialTopStories: Bool {
+        id == Self.initialTopStoriesCursorID
+    }
+}

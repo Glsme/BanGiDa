@@ -24,6 +24,7 @@ struct StoryView: View {
                             time: story.time,
                             nickname: story.nickname,
                             text: story.text,
+                            showsHotBadge: index < 3 && story.heartCount > 0,
                             isHearted: $viewModel.stories[index].isHearted,
                             heartCount: story.heartCount,
                             onHeartTap: {

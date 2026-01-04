@@ -27,12 +27,26 @@ public final class StoryRepositoryImpl: StoryRepository {
     }
     
     public func fetchStories(after cursor: StoryCursor?, uid: String) async throws -> StoryPage {
+        if cursor == nil {
+            let topSnapshot = try await fetchTopStoriesSnapshot(limit: 3)
+            let likedIDs: Set<String> = try await fetchLikedIDs(
+                for: topSnapshot.documents.map { $0.documentID },
+                uid: uid
+            )
+
+            let stories = parseStory(topSnapshot, likedIDs: likedIDs)
+            let isEnd = topSnapshot.documents.isEmpty
+            let nextCursor = isEnd ? nil : StoryCursor.initialTopStories()
+
+            return StoryPage(stories: stories, nextCursor: nextCursor, isEnd: isEnd)
+        }
+
         var query = db.collection("images")
             .order(by: "createdAt", descending: true)
             .order(by: FieldPath.documentID(), descending: true)
             .limit(to: 10)
 
-        if let cursor = cursor {
+        if let cursor = cursor, !cursor.isInitialTopStories {
             let createdAt = Timestamp(date: cursor.createdAt)
             query = query.start(after: [createdAt, cursor.id])
         }
@@ -230,6 +244,15 @@ public final class StoryRepositoryImpl: StoryRepository {
             return liked
         }
     }
+
+    private func fetchTopStoriesSnapshot(limit: Int) async throws -> QuerySnapshot {
+        let query = db.collection("images")
+            .order(by: "likeCount", descending: true)
+            .order(by: "createdAt", descending: true)
+            .limit(to: limit)
+
+        return try await query.getDocuments()
+    }
     
     private func formattedTime(from createdAt: Date, now: Date = Date()) -> String {
         let interval = max(0, now.timeIntervalSince(createdAt))
@@ -256,4 +279,3 @@ public final class StoryRepositoryImpl: StoryRepository {
         return Self.fallbackDateFormatter.string(from: createdAt)
     }
 }
-

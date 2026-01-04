@@ -21,6 +21,7 @@ final class StoryViewModel: ObservableObject {
     
     private var cursor: StoryCursor?
     private var hasLoadedOnce = false
+    private var loadedImageURLs: Set<String> = []
     
     private var isRunningForPreviews: Bool {
         ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
@@ -58,6 +59,7 @@ final class StoryViewModel: ObservableObject {
     func refresh() async {
         cursor = nil
         isEnd = false
+        loadedImageURLs.removeAll()
         await fetchStories(reset: true)
     }
     
@@ -93,11 +95,15 @@ final class StoryViewModel: ObservableObject {
         defer { isLoading = false }
         
         do {
-            let page = try await fetchStoriesUseCase.execute(after: reset ? nil : cursor)
             if reset {
-                stories = page.stories
+                loadedImageURLs.removeAll()
+            }
+            let page = try await fetchStoriesUseCase.execute(after: reset ? nil : cursor)
+            let uniqueStories = page.stories.filter { loadedImageURLs.insert($0.imageURL).inserted }
+            if reset {
+                stories = uniqueStories
             } else {
-                stories.append(contentsOf: page.stories)
+                stories.append(contentsOf: uniqueStories)
             }
             cursor = page.nextCursor
             isEnd = page.isEnd

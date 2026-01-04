@@ -13,6 +13,7 @@ struct StoryRow: View {
     let nickname: String
     let text: String
     let heartCount: Int
+    let showsHotBadge: Bool
     let onHeartTap: () -> Void
     
     @Binding var isHearted: Bool
@@ -23,6 +24,7 @@ struct StoryRow: View {
         time: String,
         nickname: String,
         text: String,
+        showsHotBadge: Bool,
         isHearted: Binding<Bool>,
         heartCount: Int,
         onHeartTap: @escaping () -> Void = {}
@@ -31,6 +33,7 @@ struct StoryRow: View {
         self.time = time
         self.nickname = nickname
         self.text = text
+        self.showsHotBadge = showsHotBadge
         self._isHearted = isHearted
         self.heartCount = heartCount
         self.onHeartTap = onHeartTap
@@ -38,20 +41,39 @@ struct StoryRow: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            ZStack(alignment: .topTrailing) {
+            ZStack(alignment: .top) {
                 storyImageView
                 
-                Button {
-                    isReportSheetPresented = true
-                } label: {
-                    Image(systemName: "light.beacon.max.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 24, height: 24)
-                        .foregroundStyle(.gray)
-                        .fontWeight(.bold)
+                HStack(alignment: .top) {
+                    if showsHotBadge {
+                        VStack(spacing: 2) {
+                            Image(systemName: "flame.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .foregroundStyle(Color.red)
+                            
+                            Text("HOT")
+                                .font(.custom("HelveticaNeue-Bold", size: 8))
+                                .foregroundStyle(Color.red)
+                        }
+                        .padding(12)
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        isReportSheetPresented = true
+                    } label: {
+                        Image(systemName: "light.beacon.max.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(.gray)
+                            .fontWeight(.bold)
+                    }
+                    .padding(12)
                 }
-                .padding(12)
             }
             
             HStack {
@@ -141,6 +163,7 @@ private extension StoryRow {
         time: "5 hours ago",
         nickname: "안경줄복학생",
         text: "저희집 고양이 귀엽죠? 너도 한번 보시길 바라요! 12345678901234567890123456789012345678901234567890123456789",
+        showsHotBadge: true,
         isHearted: .constant(false),
         heartCount: 2,
         onHeartTap: {}
