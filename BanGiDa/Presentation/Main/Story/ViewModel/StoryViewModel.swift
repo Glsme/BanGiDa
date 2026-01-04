@@ -10,6 +10,7 @@ import Foundation
 @MainActor
 final class StoryViewModel: ObservableObject {
     @Injected private var fetchStoriesUseCase: FetchStoriesUseCase
+    @Injected private var toggleStoryLikeUseCase: ToggleStoryLikeUseCase
     
     @Published var stories: [Story] = []
     @Published private(set) var isEnd = false
@@ -17,6 +18,10 @@ final class StoryViewModel: ObservableObject {
     
     private var cursor: StoryCursor?
     private var hasLoadedOnce = false
+    
+    private var isRunningForPreviews: Bool {
+        ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+    }
     
     func loadInitialIfNeeded() {
         guard !hasLoadedOnce else { return }
@@ -53,6 +58,30 @@ final class StoryViewModel: ObservableObject {
         await fetchStories(reset: true)
     }
     
+    func toggleStoryLike(index: Int) {
+        guard stories.indices.contains(index) else { return }
+        let storyID = stories[index].id
+        let imageURL = stories[index].imageURL
+
+        Task {
+            do {
+                try await toggleStoryLikeUseCase.execute(imageURL: imageURL)
+                guard let currentIndex = self.stories.firstIndex(where: { $0.id == storyID }) else {
+                    return
+                }
+                
+                let wasHearted = self.stories[currentIndex].isHearted
+                self.stories[currentIndex].isHearted.toggle()
+                let delta = wasHearted ? -1 : 1
+                self.stories[currentIndex].heartCount = max(0, self.stories[currentIndex].heartCount + delta)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    // MARK: - Private
+    
     private func fetchStories(reset: Bool) async {
         guard !isLoading else { return }
         isLoading = true
@@ -71,9 +100,5 @@ final class StoryViewModel: ObservableObject {
         } catch {
             print(error)
         }
-    }
-    
-    private var isRunningForPreviews: Bool {
-        ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
     }
 }

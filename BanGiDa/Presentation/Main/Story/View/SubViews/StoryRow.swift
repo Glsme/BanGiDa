@@ -13,6 +13,7 @@ struct StoryRow: View {
     let nickname: String
     let text: String
     let heartCount: Int
+    let onHeartTap: () -> Void
     
     @Binding var isHearted: Bool
     
@@ -22,7 +23,8 @@ struct StoryRow: View {
         nickname: String,
         text: String,
         isHearted: Binding<Bool>,
-        heartCount: Int
+        heartCount: Int,
+        onHeartTap: @escaping () -> Void = {}
     ) {
         self.imageURL = imageURL
         self.time = time
@@ -30,6 +32,7 @@ struct StoryRow: View {
         self.text = text
         self._isHearted = isHearted
         self.heartCount = heartCount
+        self.onHeartTap = onHeartTap
     }
     
     var body: some View {
@@ -93,7 +96,7 @@ private extension StoryRow {
     func heartView(count: Int) -> some View {
         HStack(spacing: 4) {
             Button {
-                isHearted.toggle()
+                onHeartTap()
             } label: {
                 Image(systemName: isHearted ? "heart.fill" : "heart")
                     .resizable()
@@ -135,6 +138,7 @@ private extension StoryRow {
         nickname: "안경줄복학생",
         text: "저희집 고양이 귀엽죠? 너도 한번 보시길 바라요! 12345678901234567890123456789012345678901234567890123456789",
         isHearted: .constant(false),
-        heartCount: 2
+        heartCount: 2,
+        onHeartTap: {}
     )
 }

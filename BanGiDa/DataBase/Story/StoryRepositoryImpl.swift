@@ -76,6 +76,43 @@ public final class StoryRepositoryImpl: StoryRepository {
         )
     }
     
+    public func toggleLike(imageID: String, uid: String) async throws {
+        let imageRefrerence = db.collection("images").document(imageID)
+        let likeRefrerence = imageRefrerence.collection("likes").document(uid)
+
+        // Firestore's runTransaction expects a non-throwing closure with an NSErrorPointer.
+        // Use the error pointer instead of throwing inside the closure.
+        _ = try await db.runTransaction { transaction, errorPointer in
+            do {
+                let likeSnapshot = try transaction.getDocument(likeRefrerence)
+
+                if likeSnapshot.exists {
+                    transaction.deleteDocument(likeRefrerence)
+                    transaction.updateData(
+                        ["likeCount": FieldValue.increment(Int64(-1))],
+                        forDocument: imageRefrerence
+                    )
+                } else {
+                    transaction.setData(
+                        ["createdAt": FieldValue.serverTimestamp()],
+                        forDocument: likeRefrerence
+                    )
+
+                    transaction.updateData(
+                        ["likeCount": FieldValue.increment(Int64(1))],
+                        forDocument: imageRefrerence
+                    )
+                }
+            } catch {
+                // Assign the error to the provided error pointer and return nil
+                errorPointer?.pointee = error as NSError
+                return nil
+            }
+
+            return nil
+        }
+    }
+    
     // MARK: - Private
     
     private func createImageID() -> (postReference: DocumentReference, id: String) {
@@ -172,3 +209,4 @@ public final class StoryRepositoryImpl: StoryRepository {
         return Self.fallbackDateFormatter.string(from: createdAt)
     }
 }
+

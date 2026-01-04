@@ -14,7 +14,7 @@ public struct Story: Identifiable {
     public let nickname: String
     public let text: String
     public var isHearted: Bool
-    public let heartCount: Int
+    public var heartCount: Int
 }
 
 extension Story {
