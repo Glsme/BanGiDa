@@ -13,6 +13,7 @@ struct StoryView: View {
     @StateObject private var viewModel = StoryViewModel()
     @State private var isWriteStoryPresented = false
     @State private var shouldRefreshAfterWrite = false
+    @AppStorage(UserDefaultsKey.storyAgreement.rawValue) private var hasAgreedToStoryGuide = false
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -65,6 +66,12 @@ struct StoryView: View {
             }
             .padding(.trailing, 20)
             .padding(.bottom, 24)
+
+            if !hasAgreedToStoryGuide {
+                StoryGuideOverlay(onAgree: {
+                    hasAgreedToStoryGuide = true
+                })
+            }
         }
         .background(Color.backgroundColor)
         .task {

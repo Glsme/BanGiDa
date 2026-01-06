@@ -10,4 +10,5 @@ import Foundation
 enum UserDefaultsKey: String {
     case first = "first"
     case name = "name"
+    case storyAgreement = "storyAgreement"
 }

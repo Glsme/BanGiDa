@@ -123,7 +123,7 @@ private final class ImageLoader: ObservableObject {
         let documentManager = DocumentManager()
         
         if let cached = ImageCache.shared[cacheKey] {
-            print("CachedAsyncImage: memory cache hit - \(cacheKey)")
+//            print("CachedAsyncImage: memory cache hit - \(cacheKey)")
             if Thread.isMainThread {
                 image = cached
             } else {
@@ -146,7 +146,7 @@ private final class ImageLoader: ObservableObject {
             guard let self = self else { return }
             if let cachedData = documentManager.loadImageDataFromDocument(fileName: cacheFileName),
                let uiImage = UIImage(data: cachedData) {
-                print("CachedAsyncImage: disk cache hit - \(cacheKey)")
+//                print("CachedAsyncImage: disk cache hit - \(cacheKey)")
                 ImageCache.shared[cacheKey] = uiImage
                 DispatchQueue.main.async {
                     self.image = uiImage
@@ -155,7 +155,7 @@ private final class ImageLoader: ObservableObject {
                 return
             }
 
-            print("CachedAsyncImage: cache miss - \(cacheKey)")
+//            print("CachedAsyncImage: cache miss - \(cacheKey)")
             let request = URLRequest(url: url)
             self.task = URLSession.shared.dataTask(with: request) { [weak self] data, _, _ in
                 guard let self = self else { return }
