@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 final class MainTabViewController: UITabBarController {
     
@@ -18,9 +19,10 @@ final class MainTabViewController: UITabBarController {
     func configureUI() {
         let homeVC = UINavigationController(rootViewController: HomeViewViewController())
         let searchVC = UINavigationController(rootViewController: SearchViewController())
+        let storyVC = UIHostingController(rootView: StoryView())
         let settingVC = UINavigationController(rootViewController: SettingViewController())
         
-        setViewControllers([homeVC, searchVC, settingVC], animated: true)
+        setViewControllers([homeVC, searchVC, storyVC, settingVC], animated: true)
         tabBar.tintColor = .red
         
         if #available(iOS 26.0, *) {
@@ -32,7 +34,8 @@ final class MainTabViewController: UITabBarController {
         if let items = tabBar.items {
             items[0].image = UIImage(systemName: "square.and.pencil")
             items[1].image = UIImage(systemName: "magnifyingglass")
-            items[2].image = UIImage(systemName: "gearshape")
+            items[2].image = UIImage(systemName: "photo.on.rectangle.angled")
+            items[3].image = UIImage(systemName: "gearshape")
         }
     }
 }

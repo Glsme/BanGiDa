@@ -3,11 +3,19 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		340CB6B62EFC1188007C7695 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340CB6B52EFC1188007C7695 /* Color+Extension.swift */; };
 		346922332DEED96400E1B110 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 346922322DEED96400E1B110 /* FirebaseCrashlytics */; };
+		34725AB12EFE3DB800A3D939 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 34725AB02EFE3DB800A3D939 /* Swinject */; };
+		34725ACA2EFE505800A3D939 /* Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34725AC92EFE505800A3D939 /* Injected.swift */; };
+		34725ACC2EFE526E00A3D939 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 34725ACB2EFE526E00A3D939 /* FirebaseAuth */; };
+		34725ACE2EFE526E00A3D939 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 34725ACD2EFE526E00A3D939 /* FirebaseFirestore */; };
+		34725AD02EFE526E00A3D939 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 34725ACF2EFE526E00A3D939 /* FirebaseStorage */; };
+		34725B372F07D77700A3D939 /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34725B362F07D77700A3D939 /* CachedAsyncImage.swift */; };
+		34F1A0022F00000100A1B2C3 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F1A0012F00000100A1B2C3 /* DIContainer.swift */; };
 		85075C5A28CC90E900FAF6BA /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C5928CC90E900FAF6BA /* UIViewController+Extension.swift */; };
 		85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C5E28CC923500FAF6BA /* WriteViewController.swift */; };
 		85075C6128CC93CE00FAF6BA /* WriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85075C6028CC93CE00FAF6BA /* WriteViewModel.swift */; };
@@ -92,6 +100,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		340CB6B52EFC1188007C7695 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
+		34725AC92EFE505800A3D939 /* Injected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injected.swift; sourceTree = "<group>"; };
+		34725B362F07D77700A3D939 /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
+		34F1A0012F00000100A1B2C3 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		85075C5928CC90E900FAF6BA /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		85075C5E28CC923500FAF6BA /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		85075C6028CC93CE00FAF6BA /* WriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewModel.swift; sourceTree = "<group>"; };
@@ -154,6 +166,14 @@
 		85EC495F28D6392B0095EEB4 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		34725AA02EFE38E400A3D939 /* UseCase */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UseCase; sourceTree = "<group>"; };
+		34725AA82EFE3C3A00A3D939 /* User */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = User; sourceTree = "<group>"; };
+		34725AD12F024D7C00A3D939 /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
+		34725AFB2F07B9CF00A3D939 /* Story */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Story; sourceTree = "<group>"; };
+		34CE93822EE6B19800C9776D /* Story */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Story; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		857541CE28C9BBF1004DD880 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -167,9 +187,13 @@
 				346922332DEED96400E1B110 /* FirebaseCrashlytics in Frameworks */,
 				85B3C27928E089F400B592C9 /* TOCropViewController in Frameworks */,
 				8575420028C9C985004DD880 /* FSCalendar in Frameworks */,
+				34725AD02EFE526E00A3D939 /* FirebaseStorage in Frameworks */,
 				85C7557B2CCBE29B00F1C541 /* RealmSwift in Frameworks */,
 				85A8D03828D1A45F00F22A80 /* IQKeyboardManagerSwift in Frameworks */,
+				34725ACC2EFE526E00A3D939 /* FirebaseAuth in Frameworks */,
 				85B3C27728E089F400B592C9 /* CropViewController in Frameworks */,
+				34725AB12EFE3DB800A3D939 /* Swinject in Frameworks */,
+				34725ACE2EFE526E00A3D939 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,6 +212,7 @@
 			children = (
 				85075C5928CC90E900FAF6BA /* UIViewController+Extension.swift */,
 				85A8D00F28CF0DBF00F22A80 /* UIColor+Extension.swift */,
+				340CB6B52EFC1188007C7695 /* Color+Extension.swift */,
 				85A93CD928D31A90006C06D6 /* String+Extension.swift */,
 				8594821328DCB2DA000C6AD7 /* Date+Extension.swift */,
 			);
@@ -233,6 +258,7 @@
 			children = (
 				8594820828DC9833000C6AD7 /* Utility */,
 				857541D428C9BBF1004DD880 /* AppDelegate.swift */,
+				34F1A0012F00000100A1B2C3 /* DIContainer.swift */,
 				857541D628C9BBF1004DD880 /* SceneDelegate.swift */,
 			);
 			path = Application;
@@ -260,6 +286,8 @@
 		857541D328C9BBF1004DD880 /* BanGiDa */ = {
 			isa = PBXGroup;
 			children = (
+				34725AD12F024D7C00A3D939 /* Core */,
+				34725AA02EFE38E400A3D939 /* UseCase */,
 				85770EF32BB460BA00336EBE /* PrivacyInfo.xcprivacy */,
 				854A00EA28F5539E00575556 /* BanGiDa.entitlements */,
 				854A00E828F5514200575556 /* GoogleService-Info.plist */,
@@ -351,6 +379,7 @@
 			isa = PBXGroup;
 			children = (
 				859BBCE428CB7035006EF18A /* Observable.swift */,
+				34725AC92EFE505800A3D939 /* Injected.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -358,6 +387,8 @@
 		8594820D28DCAAE6000C6AD7 /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
+				34725AFB2F07B9CF00A3D939 /* Story */,
+				34725AA82EFE3C3A00A3D939 /* User */,
 				85A8D03D28D2167800F22A80 /* Realm */,
 				8594820928DC984A000C6AD7 /* UserDefaultsKey.swift */,
 				8594820E28DCAB10000C6AD7 /* DocumentManager.swift */,
@@ -560,6 +591,7 @@
 		85E17AFF2961CDD700124C89 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				34725B362F07D77700A3D939 /* CachedAsyncImage.swift */,
 				85E17B062961DDF800124C89 /* MainTabViewController.swift */,
 				85E17B002961CE5400124C89 /* Category.swift */,
 			);
@@ -569,6 +601,7 @@
 		85E17B042961DDB000124C89 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				34CE93822EE6B19800C9776D /* Story */,
 				85CCEAE628D897800086E5CA /* Alarm */,
 				85075C5B28CC91F200FAF6BA /* Write */,
 				85A8D01128CF60ED00F22A80 /* Home */,
@@ -603,6 +636,13 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				34725AA02EFE38E400A3D939 /* UseCase */,
+				34725AA82EFE3C3A00A3D939 /* User */,
+				34725AD12F024D7C00A3D939 /* Core */,
+				34725AFB2F07B9CF00A3D939 /* Story */,
+				34CE93822EE6B19800C9776D /* Story */,
+			);
 			name = BanGiDa;
 			packageProductDependencies = (
 				857541FC28C9C957004DD880 /* SnapKit */,
@@ -616,6 +656,10 @@
 				854A00E628F54CA100575556 /* FirebaseMessaging */,
 				85C7557A2CCBE29B00F1C541 /* RealmSwift */,
 				346922322DEED96400E1B110 /* FirebaseCrashlytics */,
+				34725AB02EFE3DB800A3D939 /* Swinject */,
+				34725ACB2EFE526E00A3D939 /* FirebaseAuth */,
+				34725ACD2EFE526E00A3D939 /* FirebaseFirestore */,
+				34725ACF2EFE526E00A3D939 /* FirebaseStorage */,
 			);
 			productName = BanGiDa;
 			productReference = 857541D128C9BBF1004DD880 /* BanGiDa.app */;
@@ -654,6 +698,7 @@
 				853111BD28E2D5EE007F1804 /* XCRemoteSwiftPackageReference "AcknowList" */,
 				854A00E128F54CA100575556 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				85C755792CCBE29B00F1C541 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				34725AAF2EFE3DB800A3D939 /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			productRefGroup = 857541D228C9BBF1004DD880 /* Products */;
 			projectDirPath = "";
@@ -711,6 +756,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34F1A0022F00000100A1B2C3 /* DIContainer.swift in Sources */,
 				8514435128FEBC2F003BB1E9 /* AnimalNameButton.swift in Sources */,
 				85075C5A28CC90E900FAF6BA /* UIViewController+Extension.swift in Sources */,
 				85075C5F28CC923500FAF6BA /* WriteViewController.swift in Sources */,
@@ -725,6 +771,7 @@
 				85A8D02C28D0C08900F22A80 /* SettingTableViewCell.swift in Sources */,
 				8594820428DC838C000C6AD7 /* WalkThroughView.swift in Sources */,
 				8594820A28DC984A000C6AD7 /* UserDefaultsKey.swift in Sources */,
+				340CB6B62EFC1188007C7695 /* Color+Extension.swift in Sources */,
 				85E17B072961DDF800124C89 /* MainTabViewController.swift in Sources */,
 				8575420228C9C9CF004DD880 /* HomeView.swift in Sources */,
 				8557A8052B877A5E009A3CF0 /* SettingTableHeaderView.swift in Sources */,
@@ -732,8 +779,10 @@
 				85CCEAE828D8978C0086E5CA /* AlarmView.swift in Sources */,
 				85A8D01928CF89F900F22A80 /* MemoView.swift in Sources */,
 				8594821928DDF2AA000C6AD7 /* AlarmListTableViewCell.swift in Sources */,
+				34725ACA2EFE505800A3D939 /* Injected.swift in Sources */,
 				85075C6128CC93CE00FAF6BA /* WriteViewModel.swift in Sources */,
 				8594820228DC8327000C6AD7 /* WalkTroughViewController.swift in Sources */,
+				34725B372F07D77700A3D939 /* CachedAsyncImage.swift in Sources */,
 				8594820F28DCAB10000C6AD7 /* DocumentManager.swift in Sources */,
 				8575422A28C9D1C3004DD880 /* ReusableProtocol.swift in Sources */,
 				85A8D04128D216B300F22A80 /* Diary.swift in Sources */,
@@ -900,10 +949,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BanGiDa/BanGiDa.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3K4KWAG7KD;
-				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_DEBUG_DYLIB = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BanGiDa/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "반기다";
@@ -912,12 +961,12 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_LDFLAGS = "-Ojbc";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsj.bangida;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -938,10 +987,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BanGiDa/BanGiDa.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3K4KWAG7KD;
-				ENABLE_DEBUG_DYLIB = NO;
+				ENABLE_DEBUG_DYLIB = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BanGiDa/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "반기다";
@@ -950,12 +999,12 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_LDFLAGS = "-Ojbc";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hsj.bangida;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -993,6 +1042,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		34725AAF2EFE3DB800A3D939 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.0;
+			};
+		};
 		853111BD28E2D5EE007F1804 /* XCRemoteSwiftPackageReference "AcknowList" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/vtourraine/AcknowList.git";
@@ -1064,6 +1121,23 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 854A00E128F54CA100575556 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCrashlytics;
+		};
+		34725AB02EFE3DB800A3D939 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 34725AAF2EFE3DB800A3D939 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		34725ACB2EFE526E00A3D939 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseAuth;
+		};
+		34725ACD2EFE526E00A3D939 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseFirestore;
+		};
+		34725ACF2EFE526E00A3D939 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FirebaseStorage;
 		};
 		853111BE28E2D5EE007F1804 /* AcknowList */ = {
 			isa = XCSwiftPackageProductDependency;

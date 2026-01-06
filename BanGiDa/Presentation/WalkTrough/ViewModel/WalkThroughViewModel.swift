@@ -10,6 +10,8 @@ import UIKit
 import FirebaseCrashlytics
 
 final class WalkthroughViewModel: CommonViewModel {
+    @Injected private var updateNicknameUseCase: UpdateNicknameUseCase
+    
     func saveDescriptionData() {
         let animalName = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
         let task = Diary(type: RealmDiaryType(rawValue: 0),
@@ -26,6 +28,16 @@ final class WalkthroughViewModel: CommonViewModel {
             print("error \(error)")
             let userInfo = ["class": "\(self)", "method": "\(#function)"]
             Crashlytics.crashlytics().record(error: error, userInfo: userInfo)
+        }
+    }
+    
+    func update(nickname: String) {
+        Task {
+            do {
+                try await updateNicknameUseCase.execute(nickname)
+            } catch {
+                print("\(#function) error: \(error)")
+            }
         }
     }
 }

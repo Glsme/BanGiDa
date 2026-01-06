@@ -9,6 +9,7 @@ import UIKit
 
 import IQKeyboardManagerSwift
 import FirebaseCore
+import FirebaseFirestore
 import FirebaseMessaging
 import RealmSwift
 
@@ -19,7 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         configureRealmMigration()
         IQKeyboardManager.shared.enable = true
+        _ = AppDIContainer.shared
+        
         FirebaseApp.configure()
+        _ = Firestore.firestore()
         
         //원격 알림 시스템에 앱을 등록
         if #available(iOS 10.0, *) {

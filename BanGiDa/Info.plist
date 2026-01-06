@@ -29,5 +29,7 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>스토리에 사용할 사진을 선택하기 위해 사진 접근이 필요합니다.</string>
 </dict>
 </plist>
