@@ -45,7 +45,7 @@ struct StoryGuideOverlay: View {
                 }
             }
             .padding(24)
-            .background(Color.white)
+            .background(Color.backgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             .padding(.horizontal, 20)
         }
