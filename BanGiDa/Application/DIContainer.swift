@@ -48,6 +48,13 @@ final class AppDIContainer {
             return CheckUserRegistrationUseCaseImpl(userRepository: userRepository)
         }
         
+        container.register(UpdateLastSeenAtUseCase.self) { resolver in
+            guard let userRepository = resolver.resolve(UserRepository.self) else {
+                fatalError("UserRepository dependency has not been registered.")
+            }
+            return UpdateLastSeenAtUseCaseImpl(userRepository: userRepository)
+        }
+
         container.register(UpdateNicknameUseCase.self) { resolver in
             guard let userRepository = resolver.resolve(UserRepository.self) else {
                 fatalError("UserRepository dependency has not been registered.")

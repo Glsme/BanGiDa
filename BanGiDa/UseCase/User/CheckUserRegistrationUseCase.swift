@@ -21,12 +21,6 @@ public final class CheckUserRegistrationUseCaseImpl: CheckUserRegistrationUseCas
     public func execute() async throws -> Bool {
         guard let uid = userRepository.loadUID() else { return false }
         
-        let result = try await userRepository.checkRegistration(uid: uid)
-        
-        if result {
-            try await userRepository.updateLastSeenAt()
-        }
-        
-        return result
+        return try await userRepository.checkRegistration(uid: uid)
     }
 }
