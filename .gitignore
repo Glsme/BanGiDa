@@ -1,0 +1,36 @@
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+build/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# CocoaPods
+Pods/
+
+# SPM
+.build/
+Package.resolved
+
+# oh-my-claudecode
+.omc/
+
+# Claude Code
+.claude/
+
+# OS
+.DS_Store
+*.swp
+*~
+
+# Firebase
+GoogleService-Info.plist
+
+# Secrets
+*.env
+*.pem
+*.p12
+*.key
