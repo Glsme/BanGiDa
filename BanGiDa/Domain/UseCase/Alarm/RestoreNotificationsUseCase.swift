@@ -21,17 +21,15 @@ final class RestoreNotificationsUseCaseImpl: RestoreNotificationsUseCase {
     }
 
     func execute() {
-        let alarms = diaryRepository.fetchByType(DiaryType(rawValue: 1)!)
-        for (index, alarm) in alarms.enumerated() {
-            if alarm.date > Date() {
-                notificationRepository.schedule(
-                    title: alarm.alarmTitle ?? alarm.animalName,
-                    body: alarm.content,
-                    date: alarm.date,
-                    index: index,
-                    repeatRule: alarm.repeatRule
-                )
-            }
+        let alarms = diaryRepository.fetchByType(.alarm)
+        for alarm in alarms where alarm.date > Date() {
+            notificationRepository.schedule(
+                identifier: alarm.id,
+                title: alarm.alarmTitle ?? alarm.animalName,
+                body: alarm.content,
+                date: alarm.date,
+                repeatRule: alarm.repeatRule
+            )
         }
     }
 }

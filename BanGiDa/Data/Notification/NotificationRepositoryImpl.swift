@@ -24,53 +24,65 @@ final class NotificationRepositoryImpl: NotificationRepository {
         }
     }
 
-    func schedule(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat) {
+    func schedule(identifier: String, title: String, body: String, date: Date, repeatRule: AlarmRepeat) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
         content.sound = .default
 
-        let calendar = Calendar.current
-        let baseComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .weekday], from: date)
-
-        var dateComponent = DateComponents()
-        switch repeatRule {
-        case .none:
-            dateComponent.year = baseComponents.year
-            dateComponent.month = baseComponents.month
-            dateComponent.day = baseComponents.day
-            dateComponent.hour = baseComponents.hour
-            dateComponent.minute = baseComponents.minute
-        case .daily:
-            dateComponent.hour = baseComponents.hour
-            dateComponent.minute = baseComponents.minute
-        case .weekly:
-            dateComponent.weekday = baseComponents.weekday
-            dateComponent.hour = baseComponents.hour
-            dateComponent.minute = baseComponents.minute
-        case .monthly:
-            dateComponent.day = baseComponents.day
-            dateComponent.hour = baseComponents.hour
-            dateComponent.minute = baseComponents.minute
-        case .yearly:
-            dateComponent.month = baseComponents.month
-            dateComponent.day = baseComponents.day
-            dateComponent.hour = baseComponents.hour
-            dateComponent.minute = baseComponents.minute
-        }
-
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: repeatRule != .none)
-
-        let identifier = title + body + "\(date) \(index) \(repeatRule.rawValue)"
+        let trigger = UNCalendarNotificationTrigger(
+            dateMatching: dateComponents(for: date, repeatRule: repeatRule),
+            repeats: repeatRule != .none
+        )
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-
         notificationCenter.add(request)
+    }
+
+    func schedule(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat) {
+        let identifier = title + body + "\(date) \(index) \(repeatRule.rawValue)"
+        schedule(identifier: identifier, title: title, body: body, date: date, repeatRule: repeatRule)
+    }
+
+    func remove(identifier: String) {
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
     }
 
     func remove(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat) {
         let legacyIdentifier = title + body + "\(date) \(index)"
         let newIdentifier = title + body + "\(date) \(index) \(repeatRule.rawValue)"
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [legacyIdentifier, newIdentifier])
+    }
+
+    private func dateComponents(for date: Date, repeatRule: AlarmRepeat) -> DateComponents {
+        let calendar = Calendar.current
+        let base = calendar.dateComponents([.year, .month, .day, .hour, .minute, .weekday], from: date)
+
+        var components = DateComponents()
+        switch repeatRule {
+        case .none:
+            components.year = base.year
+            components.month = base.month
+            components.day = base.day
+            components.hour = base.hour
+            components.minute = base.minute
+        case .daily:
+            components.hour = base.hour
+            components.minute = base.minute
+        case .weekly:
+            components.weekday = base.weekday
+            components.hour = base.hour
+            components.minute = base.minute
+        case .monthly:
+            components.day = base.day
+            components.hour = base.hour
+            components.minute = base.minute
+        case .yearly:
+            components.month = base.month
+            components.day = base.day
+            components.hour = base.hour
+            components.minute = base.minute
+        }
+        return components
     }
 
     func removeAllDelivered() {

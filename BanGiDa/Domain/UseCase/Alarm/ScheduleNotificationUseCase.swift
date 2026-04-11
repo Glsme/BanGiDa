@@ -8,6 +8,7 @@
 import Foundation
 
 protocol ScheduleNotificationUseCase {
+    func execute(identifier: String, title: String, body: String, date: Date, repeatRule: AlarmRepeat)
     func execute(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat)
 }
 
@@ -16,6 +17,10 @@ final class ScheduleNotificationUseCaseImpl: ScheduleNotificationUseCase {
 
     init(notificationRepository: NotificationRepository) {
         self.notificationRepository = notificationRepository
+    }
+
+    func execute(identifier: String, title: String, body: String, date: Date, repeatRule: AlarmRepeat) {
+        notificationRepository.schedule(identifier: identifier, title: title, body: body, date: date, repeatRule: repeatRule)
     }
 
     func execute(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat) {

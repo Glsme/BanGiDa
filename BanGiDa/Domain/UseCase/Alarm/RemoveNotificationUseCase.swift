@@ -8,6 +8,7 @@
 import Foundation
 
 protocol RemoveNotificationUseCase {
+    func execute(identifier: String)
     func execute(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat)
 }
 
@@ -16,6 +17,10 @@ final class RemoveNotificationUseCaseImpl: RemoveNotificationUseCase {
 
     init(notificationRepository: NotificationRepository) {
         self.notificationRepository = notificationRepository
+    }
+
+    func execute(identifier: String) {
+        notificationRepository.remove(identifier: identifier)
     }
 
     func execute(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat) {
