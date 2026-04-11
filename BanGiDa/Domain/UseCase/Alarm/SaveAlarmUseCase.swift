@@ -33,20 +33,17 @@ final class SaveAlarmUseCaseImpl: SaveAlarmUseCase {
             repeatRule: repeatRule
         )
 
-        try diaryRepository.save(entry)
+        let savedEntry = try diaryRepository.save(entry)
 
-        let saved = diaryRepository.fetchByDateAndType(date: date, type: .alarm)
-            .first(where: { $0.content == content && $0.registeredDate >= entry.registeredDate })
-
-        let savedEntry = saved ?? entry
-
-        notificationRepository.schedule(
-            title: alarmTitle,
-            body: content,
-            date: date,
-            index: 1,
-            repeatRule: repeatRule
-        )
+        if date > Date() || repeatRule != .none {
+            notificationRepository.schedule(
+                identifier: savedEntry.id,
+                title: alarmTitle,
+                body: content,
+                date: date,
+                repeatRule: repeatRule
+            )
+        }
 
         return savedEntry
     }

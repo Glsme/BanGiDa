@@ -33,20 +33,18 @@ final class SaveDiaryUseCaseImpl: SaveDiaryUseCase {
             repeatRule: repeatRule
         )
 
-        try diaryRepository.save(entry)
+        let saved = try diaryRepository.save(entry)
 
-        // 저장 후 실제 Realm이 생성한 ID로 최신 항목을 가져옴
-        let saved = diaryRepository.fetchByDate(date)
-            .first(where: { $0.content == content && $0.registeredDate >= entry.registeredDate })
-
-        if let saved = saved, let photoData = photoData {
-            imageRepository.saveImageData(fileName: "\(saved.id).jpg", data: photoData)
-            var updated = saved
-            updated.photoFileName = "\(saved.id).jpg"
-            try diaryRepository.update(updated)
-            return updated
+        guard let photoData = photoData else {
+            return saved
         }
 
-        return saved ?? entry
+        let fileName = "\(saved.id).jpg"
+        imageRepository.saveImageData(fileName: fileName, data: photoData)
+
+        var updated = saved
+        updated.photoFileName = fileName
+        try diaryRepository.update(updated)
+        return updated
     }
 }
