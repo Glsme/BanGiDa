@@ -68,7 +68,7 @@
 		85A8D03828D1A45F00F22A80 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85A8D03728D1A45F00F22A80 /* IQKeyboardManagerSwift */; };
 		85A8D03F28D216A000F22A80 /* UserDiaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D03E28D216A000F22A80 /* UserDiaryRepository.swift */; };
 		85A8D04128D216B300F22A80 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8D04028D216B300F22A80 /* Diary.swift */; };
-		85A93CD828D30232006C06D6 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CD728D30232006C06D6 /* CommonViewModel.swift */; };
+
 		85A93CDA28D31A90006C06D6 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CD928D31A90006C06D6 /* String+Extension.swift */; };
 		85A93CDF28D49623006C06D6 /* MemoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */; };
 		85B3C27728E089F400B592C9 /* CropViewController in Frameworks */ = {isa = PBXBuildFile; productRef = 85B3C27628E089F400B592C9 /* CropViewController */; };
@@ -153,7 +153,7 @@
 		85A8D03128D0DB6400F22A80 /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
 		85A8D03E28D216A000F22A80 /* UserDiaryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDiaryRepository.swift; sourceTree = "<group>"; };
 		85A8D04028D216B300F22A80 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
-		85A93CD728D30232006C06D6 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
+
 		85A93CD928D31A90006C06D6 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		85A93CDE28D49623006C06D6 /* MemoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoHeaderView.swift; sourceTree = "<group>"; };
 		85C1381B28FE9E4700ACBC8E /* AnimalNameCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalNameCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -167,6 +167,8 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		34725B002F20000100A3D939 /* Domain */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Domain; sourceTree = "<group>"; };
+		34725B012F20000200A3D939 /* Data */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Data; sourceTree = "<group>"; };
 		34725AA02EFE38E400A3D939 /* UseCase */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UseCase; sourceTree = "<group>"; };
 		34725AA82EFE3C3A00A3D939 /* User */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = User; sourceTree = "<group>"; };
 		34725AD12F024D7C00A3D939 /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
@@ -286,6 +288,8 @@
 		857541D328C9BBF1004DD880 /* BanGiDa */ = {
 			isa = PBXGroup;
 			children = (
+				34725B002F20000100A3D939 /* Domain */,
+				34725B012F20000200A3D939 /* Data */,
 				34725AD12F024D7C00A3D939 /* Core */,
 				34725AA02EFE38E400A3D939 /* UseCase */,
 				85770EF32BB460BA00336EBE /* PrivacyInfo.xcprivacy */,
@@ -547,7 +551,6 @@
 		85A93CD628D30224006C06D6 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				85A93CD728D30232006C06D6 /* CommonViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -637,6 +640,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				34725B002F20000100A3D939 /* Domain */,
+				34725B012F20000200A3D939 /* Data */,
 				34725AA02EFE38E400A3D939 /* UseCase */,
 				34725AA82EFE3C3A00A3D939 /* User */,
 				34725AD12F024D7C00A3D939 /* Core */,
