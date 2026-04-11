@@ -34,8 +34,8 @@ final class WalkThroughViewController: BaseViewController {
             if text.count == 0 {
                 showAlert(message: "반려 동물 이름을 입력해주세요!")
             } else {
-                UserDefaults.standard.set(text, forKey: UserDefaultsKey.name.rawValue)
-                UserDefaults.standard.set(true, forKey: UserDefaultsKey.first.rawValue)
+                viewModel.savePetName(text)
+                viewModel.setFirstLaunchCompleted()
                 viewModel.update(nickname: text)
                 
                 if let isNameChanged = isNameChanged {
