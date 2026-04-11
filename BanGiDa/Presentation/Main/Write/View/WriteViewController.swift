@@ -130,10 +130,12 @@ final class WriteViewController: BaseViewController {
             return
         }
         
-        guard let image = memoView.imageView.image,
-              let imageData = convertImageToData(image: image)
-        else { return }
-        
+        let imageData: Data? = {
+            guard let image = memoView.imageView.image,
+                  image != UIImage(named: "BasicDog") else { return nil }
+            return convertImageToData(image: image)
+        }()
+
         viewModel.saveData(image: imageData, content: contentText, dateText: dateText)
         navigationController?.popViewController(animated: true)
     }
