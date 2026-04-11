@@ -16,9 +16,11 @@ final class SettingViewController: BaseViewController {
     
     private let mainView = SettingView()
     private let viewModel = SettingViewModel()
-    private let repository = UserDiaryRepository.shared
-    
-    private var zipFiles: [URL] = []
+    @Injected private var createBackupUseCase: CreateBackupUseCase
+    @Injected private var restoreBackupUseCase: RestoreBackupUseCase
+    @Injected private var saveImageUseCase: SaveImageUseCase
+    @Injected private var loadImageUseCase: LoadImageUseCase
+
     private var dataSource: UICollectionViewDiffableDataSource<Int, String>!
     
     //MARK: - Life Cycle
@@ -35,8 +37,14 @@ final class SettingViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let name = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
+        let name = viewModel.getPetName()
         mainView.profileView.nameButton.setTitle(name ?? "이름을 입력해주세요", for: .normal)
+
+        if let imageData = loadImageUseCase.execute(fileName: "UserProfile.jpg") {
+            mainView.profileView.setProfileImage(UIImage(data: imageData))
+        } else {
+            mainView.profileView.setProfileImage(nil)
+        }
     }
     
     //MARK: - UI
@@ -54,13 +62,10 @@ final class SettingViewController: BaseViewController {
     
     private func backupFileButtonDidTap() {
         do {
-            try repository.saveEncodedDataToDocument()
-            let backupFilePath = try self.repository.documentManager.createBackupFile()
-            
+            let backupFilePath = try createBackupUseCase.execute()
             showActivityViewController(filePath: backupFilePath)
-            fetchZipFiles()
         } catch {
-            
+
         }
     }
     
@@ -76,15 +81,6 @@ final class SettingViewController: BaseViewController {
     private func showActivityViewController(filePath: URL) {
         let vc = UIActivityViewController(activityItems: [filePath], applicationActivities: [])
         self.transViewController(ViewController: vc, type: .present)
-    }
-    
-    private func fetchZipFiles() {
-        do {
-            zipFiles = try repository.documentManager.fetchDocumentZipFile()
-        }
-        catch {
-            print(#function, "실패여~")
-        }
     }
     
     @objc private func imageButtonClicked(_ sender: UIButton) {
@@ -104,7 +100,7 @@ final class SettingViewController: BaseViewController {
         vc.modalPresentationStyle = .automatic
         vc.walkThroughView.textLabel.text = "반려동물의 이름을 변경해주세요."
         vc.isNameChanged = {
-            self.mainView.profileView.nameButton.setTitle(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? "", for: .normal)
+            self.mainView.profileView.nameButton.setTitle(self.viewModel.getPetName() ?? "", for: .normal)
         }
         self.present(vc, animated: true)
     }
@@ -211,57 +207,13 @@ extension SettingViewController: UIDocumentPickerDelegate {
             showAlert(message: "선택하신 파일에 오류가 있습니다.")
             return
         }
-        
-        guard let path = repository.documentManager.documentDirectoryPath() else {
-            showAlert(message: "도큐먼트 위치에 오류가 있습니다.")
-            return
-        }
-        
-        let sandboxFileURL = path.appendingPathComponent(selectedFileURL.lastPathComponent)
-        
-        if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
-            let fileZip = selectedFileURL.lastPathComponent
-            let zipFileURL = path.appendingPathComponent(fileZip)
-            do {
-                try repository.documentManager.unzipFile(fileURL: zipFileURL, documentURL: path)
-                
-                do {
-                    try repository.documentManager.fetchDocumentZipFile() // ????
-                    try repository.restoreRealmForBackupFile()
-                    try repository.documentManager.createBackupFile()
-//                                        showActivityViewController(filePath: backupFilePath)
-                    viewModel.setNotifications()
-                    tabBarController?.selectedIndex = 0
-                } catch {
-                    showAlert(message: "\(error.localizedDescription)\n복구에 실패하였습니다.\n다시 시도해 주세요.\n 계속 실패 시 관리자에게 문의해주세요.")
-                }
-            } catch {
-                showAlert(message: "\(error.localizedDescription)\n복구에 실패하였습니다.\n다시 시도해 주세요.\n 계속 실패 시 관리자에게 문의해주세요.")
-            }
-        } else {
-            do {
-                try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
-                let fileZip = selectedFileURL.lastPathComponent
-                let zipfileURL = path.appendingPathComponent(fileZip)
-                
-                do {
-                    try repository.documentManager.unzipFile(fileURL: zipfileURL, documentURL: path)
-                    
-                    do {
-                        try repository.restoreRealmForBackupFile()
-                        try repository.documentManager.createBackupFile()
-                        //                        showActivityViewController(filePath: backupFilePath)
-                        viewModel.setNotifications()
-                        tabBarController?.selectedIndex = 0
-                    } catch {
-                        print("복구 실패")
-                    }
-                } catch {
-                    print("압출 풀기 실패")
-                }
-            } catch {
-                print("압축 해제 실패")
-            }
+
+        do {
+            try restoreBackupUseCase.execute(fileURL: selectedFileURL)
+            viewModel.setNotifications()
+            tabBarController?.selectedIndex = 0
+        } catch {
+            showAlert(message: "\(error.localizedDescription)\n복구에 실패하였습니다.\n다시 시도해 주세요.\n 계속 실패 시 관리자에게 문의해주세요.")
         }
     }
 }
@@ -333,8 +285,7 @@ extension SettingViewController: CropViewControllerDelegate {
         mainView.profileView.imageView.image = image
         if image != UIImage(named: "BasicDog"),
            let imageData = image.jpegData(compressionQuality: 0.8) {
-            UserDiaryRepository.shared.documentManager.saveImageDataFromDocument(fileName: "UserProfile.jpg",
-                                                                                 image: imageData)
+            saveImageUseCase.execute(fileName: "UserProfile.jpg", data: imageData)
         }
         dismiss(animated: true)
     }

@@ -25,7 +25,7 @@ final class ProfileView: UICollectionViewCell {
         let view = UIButton()
         view.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
         view.setTitleColor(.systemTintColor, for: .normal)
-        view.setTitle(UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? "이름을 입력해주세요", for: .normal)
+        view.setTitle("이름을 입력해주세요", for: .normal)
         return view
     }()
     
@@ -52,8 +52,10 @@ final class ProfileView: UICollectionViewCell {
         [imageView, nameButton, imageButton].forEach {
             self.addSubview($0)
         }
-        
-        imageView.image = UserDiaryRepository.shared.documentManager.loadImageFromDocument(fileName: "UserProfile.jpg") ?? UIImage(named: "BasicDog")
+    }
+
+    func setProfileImage(_ image: UIImage?) {
+        imageView.image = image ?? UIImage(named: "BasicDog")
     }
     
     func setConstraints() {
