@@ -10,15 +10,19 @@ import RealmSwift
 
 final class BackupRepositoryImpl: BackupRepository {
     private let documentManager: DocumentManager
-    private let realm: Realm
+    private let imageRepository: ImageRepository
 
-    init(documentManager: DocumentManager = DocumentManager(), realm: Realm = try! Realm()) {
+    init(documentManager: DocumentManager = DocumentManager(), imageRepository: ImageRepository) {
         self.documentManager = documentManager
-        self.realm = realm
+        self.imageRepository = imageRepository
+    }
+
+    private func makeRealm() throws -> Realm {
+        try Realm()
     }
 
     func createBackup() throws -> URL {
-        // Encode current diary data to JSON
+        let realm = try makeRealm()
         let diaryList = realm.objects(Diary.self).sorted(byKeyPath: "regDate", ascending: false)
         let encoder = JSONEncoder()
         let dateFormatter = DateFormatter()
@@ -35,6 +39,7 @@ final class BackupRepositoryImpl: BackupRepository {
     }
 
     func restoreFromFile(_ fileURL: URL) throws {
+        let realm = try makeRealm()
         guard let path = documentManager.documentDirectoryPath() else {
             throw DocumentError.fetchDirectoryPathError
         }
@@ -45,6 +50,9 @@ final class BackupRepositoryImpl: BackupRepository {
         if !FileManager.default.fileExists(atPath: sandboxFileURL.path) {
             try FileManager.default.copyItem(at: fileURL, to: sandboxFileURL)
         }
+
+        // 기존 이미지를 비워 백업과 무관한 orphan 파일이 남지 않도록 한다.
+        imageRepository.removeAll()
 
         // Unzip
         let zipFileURL = path.appendingPathComponent(fileURL.lastPathComponent)

@@ -57,13 +57,27 @@ struct DocumentManager {
     }
     
     func removeImageFromDocument(fileName: String) {
-        guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        let fileURL = documentDirectory.appendingPathComponent(fileName) // 세부 경로. 이미지를 저장할 위치
-        
+        guard let imagesDirectory = imageDirectoryPath() else { return }
+        let fileURL = imagesDirectory.appendingPathComponent(fileName)
+
         do {
             try FileManager.default.removeItem(at: fileURL)
         } catch {
             print(error)
+        }
+    }
+
+    func removeAllImagesFromDocument() {
+        guard let imagesDirectory = imageDirectoryPath() else { return }
+        guard FileManager.default.fileExists(atPath: imagesDirectory.path) else { return }
+
+        do {
+            let contents = try FileManager.default.contentsOfDirectory(at: imagesDirectory, includingPropertiesForKeys: nil)
+            for url in contents {
+                try FileManager.default.removeItem(at: url)
+            }
+        } catch {
+            print("removeAllImagesFromDocument error: \(error)")
         }
     }
     

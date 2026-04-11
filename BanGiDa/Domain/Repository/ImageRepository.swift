@@ -11,4 +11,5 @@ protocol ImageRepository {
     func loadImageData(fileName: String) -> Data?
     func saveImageData(fileName: String, data: Data)
     func removeImage(fileName: String)
+    func removeAll()
 }

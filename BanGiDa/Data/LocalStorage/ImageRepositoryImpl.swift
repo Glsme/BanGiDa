@@ -25,4 +25,8 @@ final class ImageRepositoryImpl: ImageRepository {
     func removeImage(fileName: String) {
         documentManager.removeImageFromDocument(fileName: fileName)
     }
+
+    func removeAll() {
+        documentManager.removeAllImagesFromDocument()
+    }
 }

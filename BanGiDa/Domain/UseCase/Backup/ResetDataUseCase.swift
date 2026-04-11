@@ -15,11 +15,18 @@ final class ResetDataUseCaseImpl: ResetDataUseCase {
     private let diaryRepository: DiaryRepository
     private let notificationRepository: NotificationRepository
     private let userPreferencesRepository: UserPreferencesRepository
+    private let imageRepository: ImageRepository
 
-    init(diaryRepository: DiaryRepository, notificationRepository: NotificationRepository, userPreferencesRepository: UserPreferencesRepository) {
+    init(
+        diaryRepository: DiaryRepository,
+        notificationRepository: NotificationRepository,
+        userPreferencesRepository: UserPreferencesRepository,
+        imageRepository: ImageRepository
+    ) {
         self.diaryRepository = diaryRepository
         self.notificationRepository = notificationRepository
         self.userPreferencesRepository = userPreferencesRepository
+        self.imageRepository = imageRepository
     }
 
     func execute() throws {
@@ -28,6 +35,7 @@ final class ResetDataUseCaseImpl: ResetDataUseCase {
         prefs.petName = nil
         userPreferencesRepository.save(prefs)
         try diaryRepository.deleteAll()
+        imageRepository.removeAll()
         notificationRepository.removeAllPending()
         notificationRepository.removeAllDelivered()
     }
