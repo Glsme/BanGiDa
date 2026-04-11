@@ -72,7 +72,11 @@ final class SettingViewModel {
     }
 
     public func resetData() {
-        try? resetDataUseCase.execute()
+        do {
+            try resetDataUseCase.execute()
+        } catch {
+            print("SettingViewModel.resetData error: \(error)")
+        }
     }
 
     public func getPetName() -> String? {

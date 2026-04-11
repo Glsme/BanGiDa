@@ -26,6 +26,8 @@ final class UserPreferencesRepositoryImpl: UserPreferencesRepository {
         userDefaults.set(preferences.isFirstLaunchCompleted, forKey: UserDefaultsKey.first.rawValue)
         if let petName = preferences.petName {
             userDefaults.set(petName, forKey: UserDefaultsKey.name.rawValue)
+        } else {
+            userDefaults.removeObject(forKey: UserDefaultsKey.name.rawValue)
         }
         userDefaults.set(preferences.storyAgreement, forKey: UserDefaultsKey.storyAgreement.rawValue)
     }

@@ -65,7 +65,7 @@ final class SettingViewController: BaseViewController {
             let backupFilePath = try createBackupUseCase.execute()
             showActivityViewController(filePath: backupFilePath)
         } catch {
-
+            showAlert(message: "백업 파일 생성에 실패했습니다.\n\(error.localizedDescription)")
         }
     }
     
@@ -99,7 +99,8 @@ final class SettingViewController: BaseViewController {
         let vc = WalkThroughViewController()
         vc.modalPresentationStyle = .automatic
         vc.walkThroughView.textLabel.text = "반려동물의 이름을 변경해주세요."
-        vc.isNameChanged = {
+        vc.isNameChanged = { [weak self] in
+            guard let self = self else { return }
             self.mainView.profileView.nameButton.setTitle(self.viewModel.getPetName() ?? "", for: .normal)
         }
         self.present(vc, animated: true)
@@ -112,7 +113,8 @@ final class SettingViewController: BaseViewController {
     }
     
     private func initalizeButtonDidTap() {
-        showSelectAlert(message: "데이터 초기화 시 기존 데이터는 전부 사라집니다. \n\n데이터 초기화를 진행할까요?") { _ in
+        showSelectAlert(message: "데이터 초기화 시 기존 데이터는 전부 사라집니다. \n\n데이터 초기화를 진행할까요?") { [weak self] _ in
+            guard let self = self else { return }
             self.viewModel.resetData()
             let walkthorughVC = WalkThroughViewController()
             self.tabBarController?.selectedIndex = 0
@@ -250,7 +252,7 @@ extension SettingViewController : MFMailComposeViewControllerDelegate {
         case .sent: // 보내짐
             showAlert(message: "메일이 전송되었습니다.")
         @unknown default:
-            fatalError()
+            showAlert(message: "알 수 없는 메일 결과입니다.")
         }
         
         controller.dismiss(animated: true)
