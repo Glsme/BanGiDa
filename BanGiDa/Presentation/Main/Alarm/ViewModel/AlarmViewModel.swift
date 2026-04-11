@@ -15,6 +15,7 @@ final class AlarmViewModel {
     @Injected private var saveAlarmUseCase: SaveAlarmUseCase
     @Injected private var updateDiaryUseCase: UpdateDiaryUseCase
     @Injected private var scheduleNotificationUseCase: ScheduleNotificationUseCase
+    @Injected private var removeNotificationUseCase: RemoveNotificationUseCase
     @Injected private var userPreferencesRepository: UserPreferencesRepository
     @Injected private var diaryRepository: DiaryRepository
     @Injected private var fetchDiariesByDateUseCase: FetchDiariesByDateUseCase
@@ -70,12 +71,13 @@ final class AlarmViewModel {
 
             fetchData(date: currentDate)
 
+            removeNotificationUseCase.execute(identifier: existing.id)
             if date > Date() {
                 scheduleNotificationUseCase.execute(
+                    identifier: existing.id,
                     title: titleText,
                     body: content,
                     date: date,
-                    index: alarmTaskList.count - 1,
                     repeatRule: repeatRule
                 )
             }
@@ -107,10 +109,11 @@ final class AlarmViewModel {
     }
 
     func requestAuthorization() {
-        Task {
-            let granted = await notificationRepository.requestAuthorization()
-            await MainActor.run {
-                self.alarmPrivacy = granted
+        Task { [weak self] in
+            guard let self = self else { return }
+            let granted = await self.notificationRepository.requestAuthorization()
+            await MainActor.run { [weak self] in
+                self?.alarmPrivacy = granted
             }
         }
     }

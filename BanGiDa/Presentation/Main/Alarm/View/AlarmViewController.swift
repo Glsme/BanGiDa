@@ -28,6 +28,7 @@ final class AlarmViewController: BaseViewController {
         super.viewDidLoad()
 
         bindValue()
+        viewModel.requestAuthorization()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,12 +88,7 @@ final class AlarmViewController: BaseViewController {
             showAlert(message: "날짜 형식을 맞춰주세요.")
             return
         }
-        
-        if !viewModel.alarmPrivacy {
-            showAlert(message: "알람 사용을 위해 알람 권한을 허용해주세요.")
-            return
-        }
-        
+
         viewModel.saveData(content: contentText, dateText: dateText, titleText: titleText, repeatRule: alarmView.selectedRepeatRule)
 
         navigationController?.popViewController(animated: true)
