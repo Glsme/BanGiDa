@@ -162,13 +162,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
                 let entry = entries[indexPath.row]
 
                 if category == .alarm {
-                    self.viewModel.removeNotification(
-                        title: entry.alarmTitle ?? "",
-                        body: entry.content,
-                        date: entry.date,
-                        index: indexPath.row,
-                        repeatRule: entry.repeatRule
-                    )
+                    self.viewModel.removeNotification(identifier: entry.id)
                 }
 
                 self.viewModel.deleteDiary(entry)

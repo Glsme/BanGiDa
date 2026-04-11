@@ -55,16 +55,24 @@ final class SearchViewModel {
     }
 
     func inputDataIntoArray() {
-        memoTaskList = searchDiariesUseCase.execute(type: DiaryType(rawValue: 0)!)
-        alarmTaskList = searchDiariesUseCase.execute(type: DiaryType(rawValue: 1)!)
-        growthTaskList = searchDiariesUseCase.execute(type: DiaryType(rawValue: 2)!)
-        showerTaskList = searchDiariesUseCase.execute(type: DiaryType(rawValue: 3)!)
-        hospitalTaskList = searchDiariesUseCase.execute(type: DiaryType(rawValue: 4)!)
-        abnormalTaskList = searchDiariesUseCase.execute(type: DiaryType(rawValue: 5)!)
+        memoTaskList = searchDiariesUseCase.execute(type: .memo)
+        alarmTaskList = searchDiariesUseCase.execute(type: .alarm)
+        growthTaskList = searchDiariesUseCase.execute(type: .hospital)
+        showerTaskList = searchDiariesUseCase.execute(type: .shower)
+        hospitalTaskList = searchDiariesUseCase.execute(type: .pill)
+        abnormalTaskList = searchDiariesUseCase.execute(type: .abnormal)
     }
 
     func deleteDiary(_ entry: DiaryEntry) {
-        try? deleteDiaryUseCase.execute(entry: entry)
+        do {
+            try deleteDiaryUseCase.execute(entry: entry)
+        } catch {
+            print("SearchViewModel.deleteDiary error: \(error)")
+        }
+    }
+
+    func removeNotification(identifier: String) {
+        removeNotificationUseCase.execute(identifier: identifier)
     }
 
     func removeNotification(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat) {

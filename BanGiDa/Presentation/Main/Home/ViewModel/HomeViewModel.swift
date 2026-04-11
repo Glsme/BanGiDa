@@ -5,7 +5,8 @@
 //  Created by Seokjune Hong on 2022/09/09.
 //
 
-import UIKit
+import Foundation
+import CoreGraphics
 
 //MARK: - Home ViewModel
 
@@ -50,12 +51,12 @@ final class HomeViewModel {
     // MARK: - Data Handling
 
     func inputDataIntoArrayToDate(date: Date) {
-        memoTaskList = diaryRepository.fetchByDateAndType(date: date, type: DiaryType(rawValue: 0)!)
-        alarmTaskList = diaryRepository.fetchByDateAndType(date: date, type: DiaryType(rawValue: 1)!)
-        growthTaskList = diaryRepository.fetchByDateAndType(date: date, type: DiaryType(rawValue: 2)!)
-        showerTaskList = diaryRepository.fetchByDateAndType(date: date, type: DiaryType(rawValue: 3)!)
-        hospitalTaskList = diaryRepository.fetchByDateAndType(date: date, type: DiaryType(rawValue: 4)!)
-        abnormalTaskList = diaryRepository.fetchByDateAndType(date: date, type: DiaryType(rawValue: 5)!)
+        memoTaskList = diaryRepository.fetchByDateAndType(date: date, type: .memo)
+        alarmTaskList = diaryRepository.fetchByDateAndType(date: date, type: .alarm)
+        growthTaskList = diaryRepository.fetchByDateAndType(date: date, type: .hospital)
+        showerTaskList = diaryRepository.fetchByDateAndType(date: date, type: .shower)
+        hospitalTaskList = diaryRepository.fetchByDateAndType(date: date, type: .pill)
+        abnormalTaskList = diaryRepository.fetchByDateAndType(date: date, type: .abnormal)
     }
 
     func fetchData() {
@@ -80,7 +81,15 @@ final class HomeViewModel {
     // MARK: - Actions
 
     func deleteDiary(_ entry: DiaryEntry) {
-        try? deleteDiaryUseCase.execute(entry: entry)
+        do {
+            try deleteDiaryUseCase.execute(entry: entry)
+        } catch {
+            print("HomeViewModel.deleteDiary error: \(error)")
+        }
+    }
+
+    func removeNotification(identifier: String) {
+        removeNotificationUseCase.execute(identifier: identifier)
     }
 
     func removeNotification(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat) {
@@ -104,9 +113,8 @@ final class HomeViewModel {
         userPreferencesRepository.isFirstLaunchCompleted()
     }
 
-    func loadImage(id: String) -> UIImage? {
-        guard let data = loadImageUseCase.execute(fileName: "\(id).jpg") else { return nil }
-        return UIImage(data: data)
+    func loadImageData(id: String) -> Data? {
+        loadImageUseCase.execute(fileName: "\(id).jpg")
     }
 
     // MARK: - Table View Helpers

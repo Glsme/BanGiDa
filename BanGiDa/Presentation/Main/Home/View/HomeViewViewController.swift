@@ -215,7 +215,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             guard let memoCell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.reuseIdentifier, for: indexPath) as? MemoListTableViewCell else { return UITableViewCell() }
             let dateText = viewModel.dateAndTimeFormatter.string(from: entry.registeredDate)
-            let image = viewModel.loadImage(id: entry.id) ?? UIImage(named: "BasicDog")!
+            let image = viewModel.loadImageData(id: entry.id).flatMap(UIImage.init(data:)) ?? UIImage(named: "BasicDog") ?? UIImage()
             memoCell.configureCell(image: image, date: dateText, content: entry.content, memoBackgroundColor: .memoBackgroundColor)
             return memoCell
         }
@@ -239,7 +239,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
             let writeVC = WriteViewController()
             writeVC.memoView.textView.text = entry.content
             writeVC.memoView.dateTextField.text = viewModel.dateFormatter.string(from: entry.date)
-            writeVC.memoView.imageView.image = viewModel.loadImage(id: entry.id)
+            writeVC.memoView.imageView.image = viewModel.loadImageData(id: entry.id).flatMap(UIImage.init(data:))
             writeVC.viewModel.editingEntryID = entry.id
             writeVC.viewModel.currentIndex.value = indexPath.section
 
@@ -262,13 +262,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
             let entry = entries[indexPath.row]
 
             if category == .alarm {
-                self.viewModel.removeNotification(
-                    title: entry.alarmTitle ?? "",
-                    body: entry.content,
-                    date: entry.date,
-                    index: indexPath.row,
-                    repeatRule: entry.repeatRule
-                )
+                self.viewModel.removeNotification(identifier: entry.id)
             }
 
             self.viewModel.deleteDiary(entry)
