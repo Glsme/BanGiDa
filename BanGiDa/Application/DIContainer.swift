@@ -51,222 +51,148 @@ final class AppDIContainer {
         }
         .inObjectScope(.container)
 
-        
-        // MARK: - UseCases
-        
+        container.register(BackupRepository.self) { resolver in
+            BackupRepositoryImpl(imageRepository: resolver.force(ImageRepository.self))
+        }
+        .inObjectScope(.container)
+
+        // MARK: - User UseCases
+
         container.register(CreateAuthUserUseCase.self) { resolver in
-            guard let userRepository = resolver.resolve(UserRepository.self) else {
-                fatalError("UserRepository dependency has not been registered.")
-            }
-            return CreateAuthUserUseCaseImpl(userRepository: userRepository)
+            CreateAuthUserUseCaseImpl(userRepository: resolver.force(UserRepository.self))
         }
 
         container.register(CheckUserRegistrationUseCase.self) { resolver in
-            guard let userRepository = resolver.resolve(UserRepository.self) else {
-                fatalError("UserRepository dependency has not been registered.")
-            }
-            return CheckUserRegistrationUseCaseImpl(userRepository: userRepository)
+            CheckUserRegistrationUseCaseImpl(userRepository: resolver.force(UserRepository.self))
         }
-        
+
         container.register(UpdateNicknameUseCase.self) { resolver in
-            guard let userRepository = resolver.resolve(UserRepository.self) else {
-                fatalError("UserRepository dependency has not been registered.")
-            }
-            return UpdateNicknameUseCaseImpl(userRepository: userRepository)
+            UpdateNicknameUseCaseImpl(userRepository: resolver.force(UserRepository.self))
         }
-        
+
+        // MARK: - Story UseCases
+
         container.register(WriteStoryUseCase.self) { resolver in
-            guard let storyRepository = resolver.resolve(StoryRepository.self) else {
-                fatalError("StoryRepository dependency has not been registered.")
-            }
-            
-            guard let userRepository = resolver.resolve(UserRepository.self) else {
-                fatalError("UserRepository dependency has not been registered.")
-            }
-            
-            return WriteStoryUseCaseImpl(
-                storyRepository: storyRepository,
-                userRepository: userRepository
+            WriteStoryUseCaseImpl(
+                storyRepository: resolver.force(StoryRepository.self),
+                userRepository: resolver.force(UserRepository.self)
             )
         }
 
         container.register(FetchStoriesUseCase.self) { resolver in
-            guard let storyRepository = resolver.resolve(StoryRepository.self) else {
-                fatalError("StoryRepository dependency has not been registered.")
-            }
-            
-            guard let userRepository = resolver.resolve(UserRepository.self) else {
-                fatalError("UserRepository dependency has not been registered.")
-            }
-            
-            return FetchStoriesUseCaseImpl(
-                storyRepository: storyRepository,
-                userRepository: userRepository
+            FetchStoriesUseCaseImpl(
+                storyRepository: resolver.force(StoryRepository.self),
+                userRepository: resolver.force(UserRepository.self)
             )
         }
-        
+
         container.register(ToggleStoryLikeUseCase.self) { resolver in
-            guard let storyRepository = resolver.resolve(StoryRepository.self) else {
-                fatalError("StoryRepository dependency has not been registered.")
-            }
-            
-            guard let userRepository = resolver.resolve(UserRepository.self) else {
-                fatalError("UserRepository dependency has not been registered.")
-            }
-            
-            return ToggleStoryLikeUseCaseImpl(
-                storyRepository: storyRepository,
-                userRepository: userRepository
+            ToggleStoryLikeUseCaseImpl(
+                storyRepository: resolver.force(StoryRepository.self),
+                userRepository: resolver.force(UserRepository.self)
             )
         }
-        
+
         container.register(ReportStoryUseCase.self) { resolver in
-            guard let storyRepository = resolver.resolve(StoryRepository.self) else {
-                fatalError("StoryRepository dependency has not been registered.")
-            }
-
-            guard let userRepository = resolver.resolve(UserRepository.self) else {
-                fatalError("UserRepository dependency has not been registered.")
-            }
-
-            return ReportStoryUseCaseImpl(
-                storyRepository: storyRepository,
-                userRepository: userRepository
+            ReportStoryUseCaseImpl(
+                storyRepository: resolver.force(StoryRepository.self),
+                userRepository: resolver.force(UserRepository.self)
             )
         }
 
         // MARK: - Diary UseCases
 
         container.register(FetchDiariesByDateUseCase.self) { resolver in
-            guard let diaryRepository = resolver.resolve(DiaryRepository.self) else {
-                fatalError("DiaryRepository dependency has not been registered.")
-            }
-            return FetchDiariesByDateUseCaseImpl(diaryRepository: diaryRepository)
+            FetchDiariesByDateUseCaseImpl(diaryRepository: resolver.force(DiaryRepository.self))
         }
 
         container.register(SaveDiaryUseCase.self) { resolver in
-            guard let diaryRepository = resolver.resolve(DiaryRepository.self) else {
-                fatalError("DiaryRepository dependency has not been registered.")
-            }
-            guard let imageRepository = resolver.resolve(ImageRepository.self) else {
-                fatalError("ImageRepository dependency has not been registered.")
-            }
-            return SaveDiaryUseCaseImpl(diaryRepository: diaryRepository, imageRepository: imageRepository)
+            SaveDiaryUseCaseImpl(
+                diaryRepository: resolver.force(DiaryRepository.self),
+                imageRepository: resolver.force(ImageRepository.self)
+            )
         }
 
         container.register(UpdateDiaryUseCase.self) { resolver in
-            guard let diaryRepository = resolver.resolve(DiaryRepository.self) else {
-                fatalError("DiaryRepository dependency has not been registered.")
-            }
-            guard let imageRepository = resolver.resolve(ImageRepository.self) else {
-                fatalError("ImageRepository dependency has not been registered.")
-            }
-            return UpdateDiaryUseCaseImpl(diaryRepository: diaryRepository, imageRepository: imageRepository)
+            UpdateDiaryUseCaseImpl(
+                diaryRepository: resolver.force(DiaryRepository.self),
+                imageRepository: resolver.force(ImageRepository.self)
+            )
         }
 
         container.register(DeleteDiaryUseCase.self) { resolver in
-            guard let diaryRepository = resolver.resolve(DiaryRepository.self) else {
-                fatalError("DiaryRepository dependency has not been registered.")
-            }
-            guard let imageRepository = resolver.resolve(ImageRepository.self) else {
-                fatalError("ImageRepository dependency has not been registered.")
-            }
-            return DeleteDiaryUseCaseImpl(diaryRepository: diaryRepository, imageRepository: imageRepository)
+            DeleteDiaryUseCaseImpl(
+                diaryRepository: resolver.force(DiaryRepository.self),
+                imageRepository: resolver.force(ImageRepository.self)
+            )
         }
 
         container.register(SearchDiariesUseCase.self) { resolver in
-            guard let diaryRepository = resolver.resolve(DiaryRepository.self) else {
-                fatalError("DiaryRepository dependency has not been registered.")
-            }
-            return SearchDiariesUseCaseImpl(diaryRepository: diaryRepository)
+            SearchDiariesUseCaseImpl(diaryRepository: resolver.force(DiaryRepository.self))
         }
 
         // MARK: - Image UseCases
 
         container.register(LoadImageUseCase.self) { resolver in
-            guard let imageRepository = resolver.resolve(ImageRepository.self) else {
-                fatalError("ImageRepository dependency has not been registered.")
-            }
-            return LoadImageUseCaseImpl(imageRepository: imageRepository)
+            LoadImageUseCaseImpl(imageRepository: resolver.force(ImageRepository.self))
         }
 
         container.register(SaveImageUseCase.self) { resolver in
-            guard let imageRepository = resolver.resolve(ImageRepository.self) else {
-                fatalError("ImageRepository dependency has not been registered.")
-            }
-            return SaveImageUseCaseImpl(imageRepository: imageRepository)
+            SaveImageUseCaseImpl(imageRepository: resolver.force(ImageRepository.self))
         }
 
         // MARK: - Alarm UseCases
 
         container.register(ScheduleNotificationUseCase.self) { resolver in
-            guard let notificationRepository = resolver.resolve(NotificationRepository.self) else {
-                fatalError("NotificationRepository dependency has not been registered.")
-            }
-            return ScheduleNotificationUseCaseImpl(notificationRepository: notificationRepository)
+            ScheduleNotificationUseCaseImpl(notificationRepository: resolver.force(NotificationRepository.self))
         }
 
         container.register(RemoveNotificationUseCase.self) { resolver in
-            guard let notificationRepository = resolver.resolve(NotificationRepository.self) else {
-                fatalError("NotificationRepository dependency has not been registered.")
-            }
-            return RemoveNotificationUseCaseImpl(notificationRepository: notificationRepository)
+            RemoveNotificationUseCaseImpl(notificationRepository: resolver.force(NotificationRepository.self))
         }
 
         container.register(SaveAlarmUseCase.self) { resolver in
-            guard let diaryRepository = resolver.resolve(DiaryRepository.self) else {
-                fatalError("DiaryRepository dependency has not been registered.")
-            }
-            guard let notificationRepository = resolver.resolve(NotificationRepository.self) else {
-                fatalError("NotificationRepository dependency has not been registered.")
-            }
-            return SaveAlarmUseCaseImpl(diaryRepository: diaryRepository, notificationRepository: notificationRepository)
+            SaveAlarmUseCaseImpl(
+                diaryRepository: resolver.force(DiaryRepository.self),
+                notificationRepository: resolver.force(NotificationRepository.self)
+            )
         }
-
-        // MARK: - Backup Repositories
-
-        container.register(BackupRepository.self) { _ in
-            BackupRepositoryImpl()
-        }
-        .inObjectScope(.container)
 
         // MARK: - Backup UseCases
 
         container.register(CreateBackupUseCase.self) { resolver in
-            guard let backupRepository = resolver.resolve(BackupRepository.self) else {
-                fatalError("BackupRepository dependency has not been registered.")
-            }
-            return CreateBackupUseCaseImpl(backupRepository: backupRepository)
+            CreateBackupUseCaseImpl(backupRepository: resolver.force(BackupRepository.self))
         }
 
         container.register(RestoreBackupUseCase.self) { resolver in
-            guard let backupRepository = resolver.resolve(BackupRepository.self) else {
-                fatalError("BackupRepository dependency has not been registered.")
-            }
-            return RestoreBackupUseCaseImpl(backupRepository: backupRepository)
+            RestoreBackupUseCaseImpl(backupRepository: resolver.force(BackupRepository.self))
         }
 
         container.register(ResetDataUseCase.self) { resolver in
-            guard let diaryRepository = resolver.resolve(DiaryRepository.self) else {
-                fatalError("DiaryRepository dependency has not been registered.")
-            }
-            guard let notificationRepository = resolver.resolve(NotificationRepository.self) else {
-                fatalError("NotificationRepository dependency has not been registered.")
-            }
-            guard let userPreferencesRepository = resolver.resolve(UserPreferencesRepository.self) else {
-                fatalError("UserPreferencesRepository dependency has not been registered.")
-            }
-            return ResetDataUseCaseImpl(diaryRepository: diaryRepository, notificationRepository: notificationRepository, userPreferencesRepository: userPreferencesRepository)
+            ResetDataUseCaseImpl(
+                diaryRepository: resolver.force(DiaryRepository.self),
+                notificationRepository: resolver.force(NotificationRepository.self),
+                userPreferencesRepository: resolver.force(UserPreferencesRepository.self),
+                imageRepository: resolver.force(ImageRepository.self)
+            )
         }
 
         container.register(RestoreNotificationsUseCase.self) { resolver in
-            guard let diaryRepository = resolver.resolve(DiaryRepository.self) else {
-                fatalError("DiaryRepository dependency has not been registered.")
-            }
-            guard let notificationRepository = resolver.resolve(NotificationRepository.self) else {
-                fatalError("NotificationRepository dependency has not been registered.")
-            }
-            return RestoreNotificationsUseCaseImpl(diaryRepository: diaryRepository, notificationRepository: notificationRepository)
+            RestoreNotificationsUseCaseImpl(
+                diaryRepository: resolver.force(DiaryRepository.self),
+                notificationRepository: resolver.force(NotificationRepository.self)
+            )
         }
+    }
+}
+
+private extension Resolver {
+    func force<Service>(_ serviceType: Service.Type) -> Service {
+        guard let service = resolve(serviceType) else {
+            assertionFailure("\(serviceType) is not registered in DIContainer.")
+            // 해소 실패는 DIContainer 등록 누락이라는 명백한 프로그래머 오류이므로 즉시 종료한다.
+            return resolve(serviceType)!
+        }
+        return service
     }
 }
