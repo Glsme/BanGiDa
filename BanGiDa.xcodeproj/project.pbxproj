@@ -294,7 +294,6 @@
 				854A00EA28F5539E00575556 /* BanGiDa.entitlements */,
 				854A00E828F5514200575556 /* GoogleService-Info.plist */,
 				85719E762917C0ED00E8F88D /* Application */,
-				8594820D28DCAAE6000C6AD7 /* DataBase */,
 				85A8D01628CF777F00F22A80 /* Presentation */,
 				85A8D00328CEF8BF00F22A80 /* Resource */,
 				85075C5828CC90DA00FAF6BA /* Extension */,
@@ -384,19 +383,6 @@
 				34725AC92EFE505800A3D939 /* Injected.swift */,
 			);
 			path = Utility;
-			sourceTree = "<group>";
-		};
-		8594820D28DCAAE6000C6AD7 /* DataBase */ = {
-			isa = PBXGroup;
-			children = (
-				34725AFB2F07B9CF00A3D939 /* Story */,
-				34725AA82EFE3C3A00A3D939 /* User */,
-				85A8D03D28D2167800F22A80 /* Realm */,
-				8594820928DC984A000C6AD7 /* UserDefaultsKey.swift */,
-				8594820E28DCAB10000C6AD7 /* DocumentManager.swift */,
-				85A8D03E28D216A000F22A80 /* UserDiaryRepository.swift */,
-			);
-			path = DataBase;
 			sourceTree = "<group>";
 		};
 		859BBCE628CB729A006EF18A /* ViewModel */ = {
