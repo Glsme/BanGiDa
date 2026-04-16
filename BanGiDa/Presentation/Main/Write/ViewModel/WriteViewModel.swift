@@ -13,8 +13,8 @@ final class WriteViewModel {
     @Injected private var saveDiaryUseCase: SaveDiaryUseCase
     @Injected private var updateDiaryUseCase: UpdateDiaryUseCase
     @Injected private var saveImageUseCase: SaveImageUseCase
-    @Injected private var userPreferencesRepository: UserPreferencesRepository
-    @Injected private var diaryRepository: DiaryRepository
+    @Injected private var findDiaryByIDUseCase: FindDiaryByIDUseCase
+    @Injected private var userPreferencesUseCase: UserPreferencesUseCase
 
     let currentIndex = CurrentValueSubject<Int, Never>(0)
     let dateText = CurrentValueSubject<String, Never>("")
@@ -35,7 +35,7 @@ final class WriteViewModel {
           "full_text": "Save Data",
         ])
 
-        if let editingEntryID, let existing = diaryRepository.findByID(editingEntryID) {
+        if let editingEntryID, let existing = findDiaryByIDUseCase.execute(id: editingEntryID) {
             var updatedEntry = existing
             updatedEntry.date = dateText.toDate() ?? Date()
             updatedEntry.registeredDate = Date()
@@ -56,7 +56,7 @@ final class WriteViewModel {
             }
         } else {
             let date = dateText.toDate() ?? Date()
-            let animalName = userPreferencesRepository.getPetName() ?? "신원 미상"
+            let animalName = userPreferencesUseCase.getPetName() ?? "신원 미상"
 
             guard let diaryType = DiaryType(rawValue: currentIndex.value) else {
                 print("error: Invalid diary type for index \(currentIndex.value)")

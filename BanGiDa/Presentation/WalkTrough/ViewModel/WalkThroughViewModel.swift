@@ -11,10 +11,10 @@ final class WalkthroughViewModel {
     @Injected private var analyticsRepository: AnalyticsRepository
     @Injected private var updateNicknameUseCase: UpdateNicknameUseCase
     @Injected private var saveDiaryUseCase: SaveDiaryUseCase
-    @Injected private var userPreferencesRepository: UserPreferencesRepository
+    @Injected private var userPreferencesUseCase: UserPreferencesUseCase
 
     func saveDescriptionData() {
-        let petName = userPreferencesRepository.getPetName()
+        let petName = userPreferencesUseCase.getPetName()
 
         do {
             try saveDiaryUseCase.execute(
@@ -44,10 +44,10 @@ final class WalkthroughViewModel {
     }
 
     func savePetName(_ name: String) {
-        userPreferencesRepository.setPetName(name)
+        userPreferencesUseCase.setPetName(name)
     }
 
     func setFirstLaunchCompleted() {
-        userPreferencesRepository.setFirstLaunchCompleted()
+        userPreferencesUseCase.setFirstLaunchCompleted()
     }
 }

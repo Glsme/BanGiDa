@@ -14,10 +14,10 @@ final class AlarmViewModel {
     @Injected private var updateDiaryUseCase: UpdateDiaryUseCase
     @Injected private var scheduleNotificationUseCase: ScheduleNotificationUseCase
     @Injected private var removeNotificationUseCase: RemoveNotificationUseCase
-    @Injected private var userPreferencesRepository: UserPreferencesRepository
-    @Injected private var diaryRepository: DiaryRepository
     @Injected private var fetchDiariesByDateUseCase: FetchDiariesByDateUseCase
-    @Injected private var notificationRepository: NotificationRepository
+    @Injected private var findDiaryByIDUseCase: FindDiaryByIDUseCase
+    @Injected private var userPreferencesUseCase: UserPreferencesUseCase
+    @Injected private var requestNotificationAuthorizationUseCase: RequestNotificationAuthorizationUseCase
 
     let dateText = CurrentValueSubject<String, Never>("")
     let diaryContent = CurrentValueSubject<String, Never>("")
@@ -49,7 +49,7 @@ final class AlarmViewModel {
           "full_text": "Save Alarm",
         ])
 
-        if let editingEntryID, let existing = diaryRepository.findByID(editingEntryID) {
+        if let editingEntryID, let existing = findDiaryByIDUseCase.execute(id: editingEntryID) {
             let date = dateText.toDateAlarm() ?? Date()
 
             var updatedEntry = existing
@@ -81,7 +81,7 @@ final class AlarmViewModel {
             }
         } else {
             let date = dateText.toDateAlarm() ?? Date()
-            let animalName = userPreferencesRepository.getPetName() ?? "신원 미상"
+            let animalName = userPreferencesUseCase.getPetName() ?? "신원 미상"
 
             do {
                 _ = try saveAlarmUseCase.execute(
@@ -109,7 +109,7 @@ final class AlarmViewModel {
     func requestAuthorization() {
         Task { [weak self] in
             guard let self = self else { return }
-            let granted = await self.notificationRepository.requestAuthorization()
+            let granted = await self.requestNotificationAuthorizationUseCase.execute()
             await MainActor.run { [weak self] in
                 self?.alarmPrivacy = granted
             }

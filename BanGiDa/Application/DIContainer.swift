@@ -146,6 +146,16 @@ final class AppDIContainer {
             SaveImageUseCaseImpl(imageRepository: resolver.force(ImageRepository.self))
         }
 
+        // MARK: - Preferences UseCase
+
+        container.register(UserPreferencesUseCase.self) { resolver in
+            UserPreferencesUseCaseImpl(userPreferencesRepository: resolver.force(UserPreferencesRepository.self))
+        }
+
+        container.register(FindDiaryByIDUseCase.self) { resolver in
+            FindDiaryByIDUseCaseImpl(diaryRepository: resolver.force(DiaryRepository.self))
+        }
+
         // MARK: - Alarm UseCases
 
         container.register(ScheduleNotificationUseCase.self) { resolver in
@@ -154,6 +164,10 @@ final class AppDIContainer {
 
         container.register(RemoveNotificationUseCase.self) { resolver in
             RemoveNotificationUseCaseImpl(notificationRepository: resolver.force(NotificationRepository.self))
+        }
+
+        container.register(RequestNotificationAuthorizationUseCase.self) { resolver in
+            RequestNotificationAuthorizationUseCaseImpl(notificationRepository: resolver.force(NotificationRepository.self))
         }
 
         container.register(SaveAlarmUseCase.self) { resolver in

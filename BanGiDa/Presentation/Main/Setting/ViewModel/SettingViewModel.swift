@@ -11,7 +11,7 @@ final class SettingViewModel {
 
     @Injected private var resetDataUseCase: ResetDataUseCase
     @Injected private var restoreNotificationsUseCase: RestoreNotificationsUseCase
-    @Injected private var userPreferencesRepository: UserPreferencesRepository
+    @Injected private var userPreferencesUseCase: UserPreferencesUseCase
 
     let dataLabel = ["백업", "복구", "초기화"]
     let serviceLabel = ["리뷰 남기기", "문의하기"]
@@ -80,6 +80,6 @@ final class SettingViewModel {
     }
 
     public func getPetName() -> String? {
-        userPreferencesRepository.getPetName()
+        userPreferencesUseCase.getPetName()
     }
 }

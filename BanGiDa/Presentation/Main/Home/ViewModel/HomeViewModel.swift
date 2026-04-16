@@ -19,9 +19,8 @@ final class HomeViewModel {
     @Injected private var deleteDiaryUseCase: DeleteDiaryUseCase
     @Injected private var loadImageUseCase: LoadImageUseCase
     @Injected private var removeNotificationUseCase: RemoveNotificationUseCase
-    @Injected private var notificationRepository: NotificationRepository
-    @Injected private var diaryRepository: DiaryRepository
-    @Injected private var userPreferencesRepository: UserPreferencesRepository
+    @Injected private var requestNotificationAuthorizationUseCase: RequestNotificationAuthorizationUseCase
+    @Injected private var userPreferencesUseCase: UserPreferencesUseCase
 
     // MARK: - Data
 
@@ -52,12 +51,13 @@ final class HomeViewModel {
     // MARK: - Data Handling
 
     func inputDataIntoArrayToDate(date: Date) {
-        memoTaskList = diaryRepository.fetchByDateAndType(date: date, type: .memo)
-        alarmTaskList = diaryRepository.fetchByDateAndType(date: date, type: .alarm)
-        growthTaskList = diaryRepository.fetchByDateAndType(date: date, type: .hospital)
-        showerTaskList = diaryRepository.fetchByDateAndType(date: date, type: .shower)
-        hospitalTaskList = diaryRepository.fetchByDateAndType(date: date, type: .pill)
-        abnormalTaskList = diaryRepository.fetchByDateAndType(date: date, type: .abnormal)
+        let grouped = fetchDiariesByDateUseCase.execute(date: date)
+        memoTaskList = grouped[.memo] ?? []
+        alarmTaskList = grouped[.alarm] ?? []
+        growthTaskList = grouped[.hospital] ?? []
+        showerTaskList = grouped[.shower] ?? []
+        hospitalTaskList = grouped[.pill] ?? []
+        abnormalTaskList = grouped[.abnormal] ?? []
     }
 
     func fetchData() {
@@ -65,7 +65,7 @@ final class HomeViewModel {
     }
 
     func fetchEventCount(date: Date) -> Int {
-        diaryRepository.fetchByDate(date).count
+        fetchDiariesByDateUseCase.executeFlat(date: date).count
     }
 
     func taskListFor(category: Category) -> [DiaryEntry] {
@@ -99,7 +99,7 @@ final class HomeViewModel {
 
     func requestNotificationAuthorization() {
         Task {
-            let granted = await notificationRepository.requestAuthorization()
+            let granted = await requestNotificationAuthorizationUseCase.execute()
             await MainActor.run { self.alarmPrivacy = granted }
         }
     }
@@ -111,7 +111,7 @@ final class HomeViewModel {
     }
 
     func isFirstLaunchCompleted() -> Bool {
-        userPreferencesRepository.isFirstLaunchCompleted()
+        userPreferencesUseCase.isFirstLaunchCompleted()
     }
 
     func loadImageData(id: String) -> Data? {
