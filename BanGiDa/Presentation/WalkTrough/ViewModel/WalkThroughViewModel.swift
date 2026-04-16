@@ -7,9 +7,8 @@
 
 import Foundation
 
-import FirebaseCrashlytics
-
 final class WalkthroughViewModel {
+    @Injected private var analyticsRepository: AnalyticsRepository
     @Injected private var updateNicknameUseCase: UpdateNicknameUseCase
     @Injected private var saveDiaryUseCase: SaveDiaryUseCase
     @Injected private var userPreferencesRepository: UserPreferencesRepository
@@ -30,7 +29,7 @@ final class WalkthroughViewModel {
         } catch {
             print("error \(error)")
             let userInfo = ["class": "\(self)", "method": "\(#function)"]
-            Crashlytics.crashlytics().record(error: error, userInfo: userInfo)
+            analyticsRepository.recordError(error, userInfo: userInfo)
         }
     }
 

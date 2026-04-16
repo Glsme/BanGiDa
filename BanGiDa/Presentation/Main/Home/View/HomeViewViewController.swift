@@ -9,10 +9,10 @@ import UIKit
 import Combine
 
 import FSCalendar
-import FirebaseAnalytics
 
 final class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
 
+    @Injected private var analyticsRepository: AnalyticsRepository
     let mainView = HomeView()
     let viewModel = HomeViewModel()
     private var cancellables = Set<AnyCancellable>()
@@ -159,7 +159,7 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     //MARK: - Private
 
     private func sendFireBaseAnalytics(_ name: String, parameters: [String: Any]? = nil) {
-        Analytics.logEvent(name, parameters: parameters)
+        analyticsRepository.logEvent(name, parameters: parameters)
     }
 
     private func checkWalkThrough() {

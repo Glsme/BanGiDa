@@ -8,10 +8,8 @@
 import Combine
 import Foundation
 
-import FirebaseAnalytics
-import FirebaseCrashlytics
-
 final class AlarmViewModel {
+    @Injected private var analyticsRepository: AnalyticsRepository
     @Injected private var saveAlarmUseCase: SaveAlarmUseCase
     @Injected private var updateDiaryUseCase: UpdateDiaryUseCase
     @Injected private var scheduleNotificationUseCase: ScheduleNotificationUseCase
@@ -46,7 +44,7 @@ final class AlarmViewModel {
     var editingEntryID: String?
 
     func saveData(content: String, dateText: String, titleText: String, repeatRule: AlarmRepeat) {
-        Analytics.logEvent("SaveAlarm", parameters: [
+        analyticsRepository.logEvent("SaveAlarm", parameters: [
           "name": "BangiDaLog",
           "full_text": "Save Alarm",
         ])
@@ -66,7 +64,7 @@ final class AlarmViewModel {
             } catch {
                 print("error: \(error)")
                 let userInfo = ["class": "\(self)", "method": "\(#function)"]
-                Crashlytics.crashlytics().record(error: error, userInfo: userInfo)
+                analyticsRepository.recordError(error, userInfo: userInfo)
             }
 
             fetchData(date: currentDate)
@@ -96,7 +94,7 @@ final class AlarmViewModel {
             } catch {
                 print("error: \(error)")
                 let userInfo = ["class": "\(self)", "method": "\(#function)"]
-                Crashlytics.crashlytics().record(error: error, userInfo: userInfo)
+                analyticsRepository.recordError(error, userInfo: userInfo)
             }
 
             fetchData(date: currentDate)

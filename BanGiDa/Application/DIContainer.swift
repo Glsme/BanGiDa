@@ -56,6 +56,11 @@ final class AppDIContainer {
         }
         .inObjectScope(.container)
 
+        container.register(AnalyticsRepository.self) { _ in
+            AnalyticsRepositoryImpl()
+        }
+        .inObjectScope(.container)
+
         // MARK: - User UseCases
 
         container.register(CreateAuthUserUseCase.self) { resolver in

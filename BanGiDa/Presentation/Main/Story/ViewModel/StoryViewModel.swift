@@ -7,11 +7,9 @@
 
 import Foundation
 
-import FirebaseAnalytics
-import FirebaseCrashlytics
-
 @MainActor
 final class StoryViewModel: ObservableObject {
+    @Injected private var analyticsRepository: AnalyticsRepository
     @Injected private var fetchStoriesUseCase: FetchStoriesUseCase
     @Injected private var toggleStoryLikeUseCase: ToggleStoryLikeUseCase
     
@@ -79,9 +77,9 @@ final class StoryViewModel: ObservableObject {
                 self.stories[currentIndex].isHearted.toggle()
                 let delta = wasHearted ? -1 : 1
                 self.stories[currentIndex].heartCount = max(0, self.stories[currentIndex].heartCount + delta)
-                Analytics.logEvent("Toggle_Heart", parameters: nil)
+                analyticsRepository.logEvent("Toggle_Heart", parameters: nil)
             } catch {
-                Crashlytics.crashlytics().record(error: error, userInfo: ["function": "\(#function)"])
+                analyticsRepository.recordError(error, userInfo: ["function": "\(#function)"])
             }
         }
     }
@@ -108,7 +106,7 @@ final class StoryViewModel: ObservableObject {
             cursor = page.nextCursor
             isEnd = page.isEnd
         } catch {
-            Crashlytics.crashlytics().record(error: error, userInfo: ["function": "\(#function)"])
+            analyticsRepository.recordError(error, userInfo: ["function": "\(#function)"])
         }
     }
 }

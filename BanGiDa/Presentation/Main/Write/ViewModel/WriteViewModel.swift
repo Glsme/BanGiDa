@@ -8,9 +8,8 @@
 import Combine
 import Foundation
 
-import FirebaseAnalytics
-
 final class WriteViewModel {
+    @Injected private var analyticsRepository: AnalyticsRepository
     @Injected private var saveDiaryUseCase: SaveDiaryUseCase
     @Injected private var updateDiaryUseCase: UpdateDiaryUseCase
     @Injected private var saveImageUseCase: SaveImageUseCase
@@ -31,7 +30,7 @@ final class WriteViewModel {
     var editingEntryID: String?
 
     func saveData(image: Data?, content: String, dateText: String) {
-        Analytics.logEvent("SaveData", parameters: [
+        analyticsRepository.logEvent("SaveData", parameters: [
           "name": "BangiDaLog",
           "full_text": "Save Data",
         ])
@@ -53,7 +52,7 @@ final class WriteViewModel {
                     "method": #function,
                 ]
 
-                Analytics.logEvent("Memo Edit Error", parameters: parameter)
+                analyticsRepository.logEvent("Memo Edit Error", parameters: parameter)
             }
         } else {
             let date = dateText.toDate() ?? Date()
@@ -85,7 +84,7 @@ final class WriteViewModel {
 
                 parameter["type"] = currentIndex.value
 
-                Analytics.logEvent("Memo Saving Error", parameters: parameter)
+                analyticsRepository.logEvent("Memo Saving Error", parameters: parameter)
             }
         }
     }
