@@ -92,6 +92,13 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
                 self.mainView.homeTableView.reloadData()
             }
             .store(in: &cancellables)
+
+        viewModel.$alarmPrivacy
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.mainView.selectCollectionView.reloadData()
+            }
+            .store(in: &cancellables)
     }
 
     @objc func todayButtonClicked() {
