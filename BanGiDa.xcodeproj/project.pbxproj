@@ -169,7 +169,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		34725B002F20000100A3D939 /* Domain */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Domain; sourceTree = "<group>"; };
 		34725B012F20000200A3D939 /* Data */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Data; sourceTree = "<group>"; };
-		34725AA02EFE38E400A3D939 /* UseCase */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UseCase; sourceTree = "<group>"; };
 		34725AA82EFE3C3A00A3D939 /* User */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = User; sourceTree = "<group>"; };
 		34725AD12F024D7C00A3D939 /* Core */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Core; sourceTree = "<group>"; };
 		34725AFB2F07B9CF00A3D939 /* Story */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Story; sourceTree = "<group>"; };
@@ -291,7 +290,6 @@
 				34725B002F20000100A3D939 /* Domain */,
 				34725B012F20000200A3D939 /* Data */,
 				34725AD12F024D7C00A3D939 /* Core */,
-				34725AA02EFE38E400A3D939 /* UseCase */,
 				85770EF32BB460BA00336EBE /* PrivacyInfo.xcprivacy */,
 				854A00EA28F5539E00575556 /* BanGiDa.entitlements */,
 				854A00E828F5514200575556 /* GoogleService-Info.plist */,
@@ -642,7 +640,6 @@
 			fileSystemSynchronizedGroups = (
 				34725B002F20000100A3D939 /* Domain */,
 				34725B012F20000200A3D939 /* Data */,
-				34725AA02EFE38E400A3D939 /* UseCase */,
 				34725AA82EFE3C3A00A3D939 /* User */,
 				34725AD12F024D7C00A3D939 /* Core */,
 				34725AFB2F07B9CF00A3D939 /* Story */,
