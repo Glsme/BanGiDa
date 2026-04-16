@@ -1,3 +1,21 @@
 # OMC / Claude Code
 .claude/
 .omc/
+
+# Tuist
+Derived/
+Tuist/.build/
+# Tuist/Package.resolved 은 재현 가능한 빌드를 위해 의도적으로 추적
+
+# Xcode
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+DerivedData/
+build/
+
+# DS_Store
+.DS_Store
+
+# CocoaPods (if any)
+Pods/
