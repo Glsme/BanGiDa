@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import CoreGraphics
 
 //MARK: - Home ViewModel
@@ -31,9 +32,9 @@ final class HomeViewModel {
     var hospitalTaskList: [DiaryEntry] = []
     var abnormalTaskList: [DiaryEntry] = []
 
-    var alarmPrivacy: Observable<Bool> = Observable(false)
-    var currentDate: Observable<Date> = Observable(Date())
-    var currentDateString: Observable<String> = Observable("")
+    @Published var alarmPrivacy: Bool = false
+    @Published var currentDate: Date = Date()
+    @Published var currentDateString: String = ""
 
     let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -60,7 +61,7 @@ final class HomeViewModel {
     }
 
     func fetchData() {
-        inputDataIntoArrayToDate(date: currentDate.value)
+        inputDataIntoArrayToDate(date: currentDate)
     }
 
     func fetchEventCount(date: Date) -> Int {
@@ -99,12 +100,12 @@ final class HomeViewModel {
     func requestNotificationAuthorization() {
         Task {
             let granted = await notificationRepository.requestAuthorization()
-            await MainActor.run { self.alarmPrivacy.value = granted }
+            await MainActor.run { self.alarmPrivacy = granted }
         }
     }
 
     func filterNotification() {
-        if !alarmPrivacy.value {
+        if !alarmPrivacy {
             requestNotificationAuthorization()
         }
     }

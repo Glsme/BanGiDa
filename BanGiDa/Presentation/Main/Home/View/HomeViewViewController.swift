@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 import FSCalendar
 import FirebaseAnalytics
@@ -14,6 +15,7 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
 
     let mainView = HomeView()
     let viewModel = HomeViewModel()
+    private var cancellables = Set<AnyCancellable>()
 
     lazy var scopeGesture: UIPanGestureRecognizer = {
         [unowned self] in
@@ -31,7 +33,7 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.currentDate.value = mainView.homeTableView.calendar.today ?? Date()
+        viewModel.currentDate = mainView.homeTableView.calendar.today ?? Date()
         bind()
         todayButtonClicked()
         sendFireBaseAnalytics("AppOpen")
@@ -73,7 +75,7 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     }
 
     func setData() {
-        viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
+        viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate)
 
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -83,11 +85,13 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     }
 
     func bind() {
-        viewModel.currentDate.bind { [weak self] date in
-            guard let self = self else { return }
-            self.viewModel.inputDataIntoArrayToDate(date: date)
-            self.mainView.homeTableView.reloadData()
-        }
+        viewModel.$currentDate
+            .sink { [weak self] date in
+                guard let self = self else { return }
+                self.viewModel.inputDataIntoArrayToDate(date: date)
+                self.mainView.homeTableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
 
     @objc func todayButtonClicked() {
@@ -122,13 +126,13 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
         let ok = UIAlertAction(title: "선택 완료", style: .cancel) { [weak self] action in
             guard let self = self else { return }
 
-            self.viewModel.currentDateString.value = self.dateFormatter.string(from: datePicker.date)
-            self.viewModel.currentDate.value = self.dateFormatter.date(from: self.viewModel.currentDateString.value) ?? Date()
+            self.viewModel.currentDateString = self.dateFormatter.string(from: datePicker.date)
+            self.viewModel.currentDate = self.dateFormatter.date(from: self.viewModel.currentDateString) ?? Date()
 
-            self.calendar(self.mainView.homeTableView.calendar, didSelect: self.viewModel.currentDate.value, at: .current)
+            self.calendar(self.mainView.homeTableView.calendar, didSelect: self.viewModel.currentDate, at: .current)
 
-            self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate.value, animated: true)
-            self.mainView.homeTableView.calendar.select(self.viewModel.currentDate.value, scrollToDate: true)
+            self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate, animated: true)
+            self.mainView.homeTableView.calendar.select(self.viewModel.currentDate, scrollToDate: true)
         }
 
         alert.addAction(ok)
@@ -321,8 +325,8 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
 
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        viewModel.currentDate.value = date
-        viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate.value)
+        viewModel.currentDate = date
+        viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate)
 
         mainView.homeTableView.reloadData()
     }
@@ -355,7 +359,7 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
             let vc = WriteViewController()
             push(vc, category: category)
         case .alarm:
-            if viewModel.alarmPrivacy.value {
+            if viewModel.alarmPrivacy {
                 let vc = AlarmViewController()
                 vc.navigationItem.title = category.title
                 transViewController(ViewController: vc, type: .push)
@@ -370,7 +374,7 @@ extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewData
     private func push(_ viewController: WriteViewController, category: Category) {
         viewController.navigationItem.title = title
         viewController.viewModel.currentIndex.value = category.rawValue
-        viewController.memoView.dateTextField.text = dateFormatter.string(from: viewModel.currentDate.value)
+        viewController.memoView.dateTextField.text = dateFormatter.string(from: viewModel.currentDate)
         viewController.category = category
         transViewController(ViewController: viewController, type: .push)
     }
