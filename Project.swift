@@ -77,7 +77,12 @@ let project = Project(
                 .package(product: "FirebaseAuth", type: .runtime),
                 .package(product: "FirebaseFirestore", type: .runtime),
                 .package(product: "FirebaseStorage", type: .runtime),
-            ]
+            ],
+            settings: .settings(
+                base: [
+                    "OTHER_LDFLAGS": "$(inherited) -ObjC",
+                ]
+            )
         ),
     ]
 )
