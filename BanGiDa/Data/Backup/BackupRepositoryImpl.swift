@@ -46,21 +46,27 @@ final class BackupRepositoryImpl: BackupRepository {
 
         let sandboxFileURL = path.appendingPathComponent(fileURL.lastPathComponent)
 
-        // Copy file if needed
+        // Copy file into sandbox if needed
         if !FileManager.default.fileExists(atPath: sandboxFileURL.path) {
             try FileManager.default.copyItem(at: fileURL, to: sandboxFileURL)
         }
 
-        // 기존 이미지를 비워 백업과 무관한 orphan 파일이 남지 않도록 한다.
-        imageRepository.removeAll()
+        // --- Phase 1: verification (no destructive operations yet) ---
 
-        // Unzip
+        // Unzip into a staging directory so the live images directory is untouched
+        // until we know the archive is valid.
+        let stagingURL = path.appendingPathComponent("restore_staging_\(UUID().uuidString)")
+        defer {
+            try? FileManager.default.removeItem(at: stagingURL)
+        }
+        try FileManager.default.createDirectory(at: stagingURL, withIntermediateDirectories: true, attributes: nil)
+
         let zipFileURL = path.appendingPathComponent(fileURL.lastPathComponent)
-        try documentManager.unzipFile(fileURL: zipFileURL, documentURL: path)
+        try documentManager.unzipFile(fileURL: zipFileURL, documentURL: stagingURL)
 
-        // Decode and restore Realm
-        let dataPath = path.appendingPathComponent("encodedData.json")
-        let jsonData = try Data(contentsOf: dataPath)
+        // Decode JSON from the staging directory — throws before touching live data if invalid
+        let stagingDataPath = stagingURL.appendingPathComponent("encodedData.json")
+        let jsonData = try Data(contentsOf: stagingDataPath)
 
         let decoder = JSONDecoder()
         let dateFormatter = DateFormatter()
@@ -68,12 +74,35 @@ final class BackupRepositoryImpl: BackupRepository {
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         let decodedData = try decoder.decode([Diary].self, from: jsonData)
 
+        // --- Phase 2: destructive operations (archive is known-good) ---
+
+        // Remove existing images
+        imageRepository.removeAll()
+
+        // Move extracted images from staging into the live images directory
+        let stagingImagesURL = stagingURL.appendingPathComponent("images")
+        let liveImagesURL = path.appendingPathComponent("images")
+        if FileManager.default.fileExists(atPath: stagingImagesURL.path) {
+            if !FileManager.default.fileExists(atPath: liveImagesURL.path) {
+                try FileManager.default.createDirectory(at: liveImagesURL, withIntermediateDirectories: true, attributes: nil)
+            }
+            let stagedFiles = try FileManager.default.contentsOfDirectory(at: stagingImagesURL, includingPropertiesForKeys: nil)
+            for stagedFile in stagedFiles {
+                let destination = liveImagesURL.appendingPathComponent(stagedFile.lastPathComponent)
+                if FileManager.default.fileExists(atPath: destination.path) {
+                    try FileManager.default.removeItem(at: destination)
+                }
+                try FileManager.default.moveItem(at: stagedFile, to: destination)
+            }
+        }
+
+        // Overwrite Realm with decoded data
         try realm.write {
             realm.deleteAll()
             realm.add(decodedData)
         }
 
-        // Re-create backup file (same as original code's behavior)
+        // Re-create backup file (preserves existing behavior)
         _ = try documentManager.createBackupFile()
     }
 }
