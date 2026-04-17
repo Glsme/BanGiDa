@@ -17,23 +17,6 @@ enum RealmDiaryType: Int, PersistableEnum, Codable {
     case abnormal
 }
 
-enum DiaryType: Int {
-    case memo = 0
-    case alarm
-    case hospital
-    case shower
-    case pill
-    case abnormal
-}
-
-enum AlarmRepeat: Int, PersistableEnum, Codable {
-    case none = 0
-    case daily
-    case weekly
-    case monthly
-    case yearly
-}
-
 class Diary: Object, Codable {
     private override init() { }
     
