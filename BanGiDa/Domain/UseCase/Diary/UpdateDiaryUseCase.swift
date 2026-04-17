@@ -23,7 +23,7 @@ final class UpdateDiaryUseCaseImpl: UpdateDiaryUseCase {
     func execute(entry: DiaryEntry, photoData: Data?) throws {
         if let photoData = photoData {
             let fileName = "\(entry.id).jpg"
-            imageRepository.saveImageData(fileName: fileName, data: photoData)
+            try imageRepository.saveImageData(fileName: fileName, data: photoData)
             var updatedEntry = entry
             updatedEntry.photoFileName = fileName
             try diaryRepository.update(updatedEntry)

@@ -40,7 +40,7 @@ final class SaveDiaryUseCaseImpl: SaveDiaryUseCase {
         }
 
         let fileName = "\(saved.id).jpg"
-        imageRepository.saveImageData(fileName: fileName, data: photoData)
+        try imageRepository.saveImageData(fileName: fileName, data: photoData)
 
         var updated = saved
         updated.photoFileName = fileName

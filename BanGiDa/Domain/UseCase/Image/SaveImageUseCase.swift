@@ -8,7 +8,7 @@
 import Foundation
 
 protocol SaveImageUseCase {
-    func execute(fileName: String, data: Data)
+    func execute(fileName: String, data: Data) throws
 }
 
 final class SaveImageUseCaseImpl: SaveImageUseCase {
@@ -18,7 +18,7 @@ final class SaveImageUseCaseImpl: SaveImageUseCase {
         self.imageRepository = imageRepository
     }
 
-    func execute(fileName: String, data: Data) {
-        imageRepository.saveImageData(fileName: fileName, data: data)
+    func execute(fileName: String, data: Data) throws {
+        try imageRepository.saveImageData(fileName: fileName, data: data)
     }
 }
