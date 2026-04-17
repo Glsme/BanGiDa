@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00558901FE7176C1E2209FBD /* DiaryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92421B06EC033F54846AE3B1 /* DiaryType.swift */; };
 		0536AF7D3CA39F8AD1825EFA /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA71DE674BBC7B87C76B7AA /* HomeViewModel.swift */; };
 		07D92C35C200E2174D2245AA /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D673D1A32701424839FEE01D /* StoryView.swift */; };
 		07F3F426EF399C8EC0D43E36 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C943FF4E3DF7D78EF1DFC0C7 /* CalendarView.swift */; };
@@ -42,6 +43,8 @@
 		38A9735D67F7A4537EA3C4D7 /* RealmDiary+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D84876FD8616798100B25A7 /* RealmDiary+Mapping.swift */; };
 		3B416F7CDE996164B29B4517 /* AnalyticsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF693CF86EAE4C8DFD782C4 /* AnalyticsRepository.swift */; };
 		418FE61806CE53748BEDFB83 /* IQKeyboardManagerSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4391371AE2D3DC89511D514 /* IQKeyboardManagerSwift.framework */; };
+		42C6AA422A76A025DE3FA990 /* AlarmRepeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1726A1395CCA6E085D5933 /* AlarmRepeat.swift */; };
+		44743705617EB5925112168D /* AlarmRepeat+Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4F35A1B1943B0CE151D7DC /* AlarmRepeat+Realm.swift */; };
 		46941499BF1316D40BB2CA18 /* Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFFF5EF8F5B44B9D3257C20 /* Injected.swift */; };
 		470943594CFC71B9FE7C3C72 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7D079002C47A7594FCE44DB7 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4814E5733E09E078354653D3 /* SaveAlarmUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0ADCFE513365B6130BF572D /* SaveAlarmUseCase.swift */; };
@@ -80,6 +83,7 @@
 		7A14F7EFED303A7F436AD8D3 /* TOCropViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D3E124ACA5CD3995578F17 /* TOCropViewController.framework */; };
 		7FC71E6AB8EEC740D01569A2 /* MemoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8022317B9E74F73AC396C7 /* MemoHeaderView.swift */; };
 		80894ADDC0403B3A66E019CB /* FetchDiariesByDateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F03F4AEB90F1F38569C4B3B /* FetchDiariesByDateUseCase.swift */; };
+		816E87CA4DBD710422254428 /* UpdateAlarmUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5239E8A11363068CB8147FB /* UpdateAlarmUseCase.swift */; };
 		821E7F35E7525BF11D29A21C /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842D0774D9EA00FDF5DE0575 /* Category.swift */; };
 		8374B6EB42C4579F2F419B73 /* WriteStoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA34565AD9F5768A865FEBA /* WriteStoryError.swift */; };
 		88082D996A5A7733E368BF0E /* SaveImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15DDEF1DB73B0D504568F9CE /* SaveImageUseCase.swift */; };
@@ -240,6 +244,7 @@
 		749B174B4600852B438DC91F /* FindDiaryByIDUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDiaryByIDUseCase.swift; sourceTree = "<group>"; };
 		750186CDC3688EA3267EAF9D /* FontList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontList.swift; sourceTree = "<group>"; };
 		75553C04E5EFE767D4BC90CD /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		7C1726A1395CCA6E085D5933 /* AlarmRepeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmRepeat.swift; sourceTree = "<group>"; };
 		7D079002C47A7594FCE44DB7 /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EE45DCE327091885DC44222 /* AnalyticsRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsRepositoryImpl.swift; sourceTree = "<group>"; };
 		836EA51219F02D1B8BE063EC /* AnimalNameCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimalNameCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -250,6 +255,7 @@
 		913DCECDFAE3CBF351F0D2BA /* UserPreferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferencesUseCase.swift; sourceTree = "<group>"; };
 		9181A4AE469001E58432E6C4 /* MainTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewController.swift; sourceTree = "<group>"; };
 		922A95CB7C3FDC91EA6D485D /* HomeTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableView.swift; sourceTree = "<group>"; };
+		92421B06EC033F54846AE3B1 /* DiaryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryType.swift; sourceTree = "<group>"; };
 		94978FB11146EC9205040FB8 /* UserRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryImpl.swift; sourceTree = "<group>"; };
 		9573DAE2EDF68AC5AA21DAC9 /* NotificationRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRepositoryImpl.swift; sourceTree = "<group>"; };
 		967AB4532254E0022F81B156 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -313,8 +319,10 @@
 		F07DC4FBC45BA4E83169B916 /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		F2A4F863BDE983913E8A8947 /* DiaryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRepository.swift; sourceTree = "<group>"; };
 		F354EA0C9CFEF4FAE8343901 /* SearchDiariesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDiariesUseCase.swift; sourceTree = "<group>"; };
+		F5239E8A11363068CB8147FB /* UpdateAlarmUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAlarmUseCase.swift; sourceTree = "<group>"; };
 		F8AAB81FDBF63667330A63CE /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		FAD9ECCB0815CD5C5978EA46 /* CreateBackupUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateBackupUseCase.swift; sourceTree = "<group>"; };
+		FD4F35A1B1943B0CE151D7DC /* AlarmRepeat+Realm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlarmRepeat+Realm.swift"; sourceTree = "<group>"; };
 		FF3D0CBD2233C1D9BF2A52A9 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -505,6 +513,7 @@
 				D6F586FA644A8EC9162B474B /* RestoreNotificationsUseCase.swift */,
 				E0ADCFE513365B6130BF572D /* SaveAlarmUseCase.swift */,
 				CB896A0ADF97336628672029 /* ScheduleNotificationUseCase.swift */,
+				F5239E8A11363068CB8147FB /* UpdateAlarmUseCase.swift */,
 			);
 			path = Alarm;
 			sourceTree = "<group>";
@@ -714,7 +723,9 @@
 		7F05FB1848E20E468E420F6E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7C1726A1395CCA6E085D5933 /* AlarmRepeat.swift */,
 				3AF5F7EDA383BA33D2775471 /* DiaryEntry.swift */,
+				92421B06EC033F54846AE3B1 /* DiaryType.swift */,
 				0642A6E2379113846324D7B2 /* StoryTypes.swift */,
 				619BCAE50E108EA566631093 /* UserPreferences.swift */,
 			);
@@ -1042,6 +1053,7 @@
 		EAF18C969947288CE6EFB7CF /* Realm */ = {
 			isa = PBXGroup;
 			children = (
+				FD4F35A1B1943B0CE151D7DC /* AlarmRepeat+Realm.swift */,
 				EDA2B0529BE4FB072CCA8FB0 /* Diary.swift */,
 				0D84876FD8616798100B25A7 /* RealmDiary+Mapping.swift */,
 				1B8CADF7185070ABD899CD15 /* RealmDiaryRepository.swift */,
@@ -1180,10 +1192,13 @@
 				F924A9916EB30688F2659C11 /* UserDefaultsKey.swift in Sources */,
 				186E6894519E6E57E1189754 /* UserPreferencesRepositoryImpl.swift in Sources */,
 				4F46817D28151AAB10121389 /* NotificationRepositoryImpl.swift in Sources */,
+				44743705617EB5925112168D /* AlarmRepeat+Realm.swift in Sources */,
 				AF0B86C77AF084779BE3A78E /* Diary.swift in Sources */,
 				38A9735D67F7A4537EA3C4D7 /* RealmDiary+Mapping.swift in Sources */,
 				98B1A4AA1A81D8760AE24177 /* RealmDiaryRepository.swift in Sources */,
+				42C6AA422A76A025DE3FA990 /* AlarmRepeat.swift in Sources */,
 				A9AB83B2FA1A3B7F062814D9 /* DiaryEntry.swift in Sources */,
+				00558901FE7176C1E2209FBD /* DiaryType.swift in Sources */,
 				55192D1A40CEDDD29E0160B4 /* StoryTypes.swift in Sources */,
 				A43EF7024817E4A546DF575A /* UserPreferences.swift in Sources */,
 				3B416F7CDE996164B29B4517 /* AnalyticsRepository.swift in Sources */,
@@ -1199,6 +1214,7 @@
 				11F92E40BE2125A48F1C8A61 /* RestoreNotificationsUseCase.swift in Sources */,
 				4814E5733E09E078354653D3 /* SaveAlarmUseCase.swift in Sources */,
 				6940C7471848F46834E44A9D /* ScheduleNotificationUseCase.swift in Sources */,
+				816E87CA4DBD710422254428 /* UpdateAlarmUseCase.swift in Sources */,
 				2C9AD67D73B5B842395F7C15 /* CreateBackupUseCase.swift in Sources */,
 				1192D892400BB3CE20F35D2B /* ResetDataUseCase.swift in Sources */,
 				D340376B109945AF98F0FF0F /* RestoreBackupUseCase.swift in Sources */,
@@ -1387,7 +1403,7 @@
 					"-fmodule-map-file=$(SRCROOT)/Tuist/.build/tuist-derived/s2geometry/s2geometry.modulemap",
 				);
 				OTHER_LDFLAGS = (
-					"$(inherited)",
+					"$(inherited) -ObjC",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 				);
 				OTHER_SWIFT_FLAGS = (
@@ -1461,7 +1477,7 @@
 					"-fmodule-map-file=$(SRCROOT)/Tuist/.build/tuist-derived/s2geometry/s2geometry.modulemap",
 				);
 				OTHER_LDFLAGS = (
-					"$(inherited)",
+					"$(inherited) -ObjC",
 					"-L$(DT_TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)",
 				);
 				OTHER_SWIFT_FLAGS = (
