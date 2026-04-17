@@ -21,6 +21,7 @@ final class RestoreNotificationsUseCaseImpl: RestoreNotificationsUseCase {
     }
 
     func execute() {
+        notificationRepository.removeAllPending()
         let alarms = diaryRepository.fetchByType(.alarm)
         for alarm in alarms where alarm.date > Date() {
             notificationRepository.schedule(
