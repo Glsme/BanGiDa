@@ -8,10 +8,14 @@
 import Combine
 import Foundation
 
-import FirebaseAnalytics
-import RealmSwift
-
 final class WriteViewModel {
+    @Injected private var analyticsRepository: AnalyticsRepository
+    @Injected private var saveDiaryUseCase: SaveDiaryUseCase
+    @Injected private var updateDiaryUseCase: UpdateDiaryUseCase
+    @Injected private var saveImageUseCase: SaveImageUseCase
+    @Injected private var findDiaryByIDUseCase: FindDiaryByIDUseCase
+    @Injected private var userPreferencesUseCase: UserPreferencesUseCase
+
     let currentIndex = CurrentValueSubject<Int, Never>(0)
     let dateText = CurrentValueSubject<String, Never>("")
     let diaryContent = CurrentValueSubject<String, Never>("")
@@ -22,94 +26,66 @@ final class WriteViewModel {
         formatter.dateFormat = "yyyy.MM.dd EE"
         return formatter
     }()
-    
-    var primaryKey: ObjectId?
-    
+
+    var editingEntryID: String?
+
     func saveData(image: Data?, content: String, dateText: String) {
-        Analytics.logEvent("SaveData", parameters: [
+        analyticsRepository.logEvent("SaveData", parameters: [
           "name": "BangiDaLog",
           "full_text": "Save Data",
         ])
-        
-        if let primaryKey {
-            editData(image: image, content: content, dateText: dateText, primaryKey: primaryKey)
-        } else {
-            let date = dateText.toDate() ?? Date()
-            let animalName = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
-            
-            let task = Diary(type: RealmDiaryType(rawValue: currentIndex.value), 
-                             date: date,
-                             regDate: Date(),
-                             animalName: animalName ?? "신원 미상",
-                             content: content,
-                             photo: "",
-                             alarmTitle: nil)
-            
+
+        if let editingEntryID, let existing = findDiaryByIDUseCase.execute(id: editingEntryID) {
+            var updatedEntry = existing
+            updatedEntry.date = dateText.toDate() ?? Date()
+            updatedEntry.registeredDate = Date()
+            updatedEntry.content = content
+
             do {
-                try UserDiaryRepository.shared.write(task)
+                try updateDiaryUseCase.execute(entry: updatedEntry, photoData: image)
             } catch {
                 print("error: \(error)")
-                
-                var parameter: [String: Any] = [
-                    "object": self,
-                    "error": error,
+
+                let parameter: [String: Any] = [
+                    "object": "\(self)",
+                    "error": "\(error)",
                     "method": #function,
                 ]
-                
-                if let type = task.type {
-                    parameter["file"] = type
-                }
-                
-                Analytics.logEvent("Memo Saving Error", parameters: parameter)
-                
+
+                analyticsRepository.logEvent("Memo Edit Error", parameters: parameter)
             }
-            
-            if let image = image {
-                saveImageData(image: image, name: "\(task.objectId)")
+        } else {
+            let date = dateText.toDate() ?? Date()
+            let animalName = userPreferencesUseCase.getPetName() ?? "신원 미상"
+
+            guard let diaryType = DiaryType(rawValue: currentIndex.value) else {
+                print("error: Invalid diary type for index \(currentIndex.value)")
+                return
+            }
+
+            do {
+                _ = try saveDiaryUseCase.execute(
+                    type: diaryType,
+                    date: date,
+                    content: content,
+                    animalName: animalName,
+                    photoData: image,
+                    alarmTitle: nil,
+                    repeatRule: .none
+                )
+            } catch {
+                print("error: \(error)")
+
+                var parameter: [String: Any] = [
+                    "object": "\(self)",
+                    "error": "\(error)",
+                    "method": #function,
+                ]
+
+                parameter["type"] = currentIndex.value
+
+                analyticsRepository.logEvent("Memo Saving Error", parameters: parameter)
             }
         }
-    }
-    
-    func editData(image: Data?, content: String, dateText: String, primaryKey: ObjectId) {
-        var task = Diary(
-            type: nil,
-            date: Date(),
-            regDate: Date(),
-            animalName: "",
-            content: "",
-            photo: nil,
-            alarmTitle: nil
-        )
-        
-        for item in UserDiaryRepository.shared.localRealm.objects(Diary.self) {
-            if item.objectId == primaryKey {
-                task = item
-            }
-        }
-        
-        let date = dateText.toDate() ?? Date()
-        let regDate = Date()
-        
-        UserDiaryRepository.shared.update(task, 
-                                          date: date,
-                                          regDate: regDate,
-                                          content: content,
-                                          image: "",
-                                          alarmTitle: nil)
-        
-//        UserDiaryRepository.shared.primaryKey = nil
-        
-        if let image = image {
-            saveImageData(image: image, name: "\(task.objectId)")
-        }
-    }
-    
-    //MARK: - private
-    
-    private func saveImageData(image: Data, name: String) {
-        UserDiaryRepository.shared.documentManager.saveImageDataFromDocument(
-            fileName: "\(name).jpg",
-            image: image
-        )
     }
 }

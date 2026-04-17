@@ -7,11 +7,9 @@
 
 import Foundation
 
-import FirebaseAnalytics
-import FirebaseCrashlytics
-
 @MainActor
 final class WriteStoryViewModel: ObservableObject {
+    @Injected private var analyticsRepository: AnalyticsRepository
     @Injected private var writeStoryUseCase: WriteStoryUseCase
     
     @Published var selectedImageData: Data?
@@ -40,9 +38,9 @@ final class WriteStoryViewModel: ObservableObject {
                 
                 try await writeStoryUseCase.execute(image: selectedImageData, text: storyText)
                 didFinish = true
-                Analytics.logEvent("Write_Story", parameters: nil)
+                analyticsRepository.logEvent("Write_Story", parameters: nil)
             } catch {
-                Crashlytics.crashlytics().record(error: error, userInfo: ["function": "\(#function)"])
+                analyticsRepository.recordError(error, userInfo: ["function": "\(#function)"])
             }
         }
     }
