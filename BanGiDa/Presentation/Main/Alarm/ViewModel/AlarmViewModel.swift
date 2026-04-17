@@ -11,9 +11,7 @@ import Foundation
 final class AlarmViewModel {
     @Injected private var analyticsRepository: AnalyticsRepository
     @Injected private var saveAlarmUseCase: SaveAlarmUseCase
-    @Injected private var updateDiaryUseCase: UpdateDiaryUseCase
-    @Injected private var scheduleNotificationUseCase: ScheduleNotificationUseCase
-    @Injected private var removeNotificationUseCase: RemoveNotificationUseCase
+    @Injected private var updateAlarmUseCase: UpdateAlarmUseCase
     @Injected private var fetchDiariesByDateUseCase: FetchDiariesByDateUseCase
     @Injected private var findDiaryByIDUseCase: FindDiaryByIDUseCase
     @Injected private var userPreferencesUseCase: UserPreferencesUseCase
@@ -60,7 +58,7 @@ final class AlarmViewModel {
             updatedEntry.repeatRule = repeatRule
 
             do {
-                try updateDiaryUseCase.execute(entry: updatedEntry, photoData: nil)
+                _ = try updateAlarmUseCase.execute(entry: updatedEntry)
             } catch {
                 print("error: \(error)")
                 let userInfo = ["class": "\(self)", "method": "\(#function)"]
@@ -68,17 +66,6 @@ final class AlarmViewModel {
             }
 
             fetchData(date: currentDate)
-
-            removeNotificationUseCase.execute(identifier: existing.id)
-            if date > Date() {
-                scheduleNotificationUseCase.execute(
-                    identifier: existing.id,
-                    title: titleText,
-                    body: content,
-                    date: date,
-                    repeatRule: repeatRule
-                )
-            }
         } else {
             let date = dateText.toDateAlarm() ?? Date()
             let animalName = userPreferencesUseCase.getPetName() ?? "신원 미상"
