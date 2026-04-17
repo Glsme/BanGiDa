@@ -177,6 +177,13 @@ final class AppDIContainer {
             )
         }
 
+        container.register(UpdateAlarmUseCase.self) { resolver in
+            UpdateAlarmUseCaseImpl(
+                diaryRepository: resolver.force(DiaryRepository.self),
+                notificationRepository: resolver.force(NotificationRepository.self)
+            )
+        }
+
         // MARK: - Backup UseCases
 
         container.register(CreateBackupUseCase.self) { resolver in
