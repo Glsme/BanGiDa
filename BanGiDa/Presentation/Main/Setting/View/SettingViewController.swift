@@ -287,7 +287,11 @@ extension SettingViewController: CropViewControllerDelegate {
         mainView.profileView.imageView.image = image
         if image != UIImage(named: "BasicDog"),
            let imageData = image.jpegData(compressionQuality: 0.8) {
-            saveImageUseCase.execute(fileName: "UserProfile.jpg", data: imageData)
+            do {
+                try saveImageUseCase.execute(fileName: "UserProfile.jpg", data: imageData)
+            } catch {
+                showAlert(message: "프로필 이미지 저장에 실패했습니다.")
+            }
         }
         dismiss(animated: true)
     }

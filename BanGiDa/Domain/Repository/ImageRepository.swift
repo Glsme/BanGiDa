@@ -9,7 +9,7 @@ import Foundation
 
 protocol ImageRepository {
     func loadImageData(fileName: String) -> Data?
-    func saveImageData(fileName: String, data: Data)
+    func saveImageData(fileName: String, data: Data) throws
     func removeImage(fileName: String)
     func removeAll()
 }

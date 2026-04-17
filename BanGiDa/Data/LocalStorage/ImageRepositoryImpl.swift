@@ -18,8 +18,18 @@ final class ImageRepositoryImpl: ImageRepository {
         documentManager.loadImageDataFromDocument(fileName: fileName)
     }
 
-    func saveImageData(fileName: String, data: Data) {
-        documentManager.saveImageDataFromDocument(fileName: fileName, image: data)
+    func saveImageData(fileName: String, data: Data) throws {
+        documentManager.createImagesDirectoryPath()
+
+        guard let documentDirectory = documentManager.documentDirectoryPath() else {
+            throw DocumentError.fetchDirectoryPathError
+        }
+
+        let fileURL = documentDirectory
+            .appendingPathComponent("images")
+            .appendingPathComponent(fileName)
+
+        try data.write(to: fileURL)
     }
 
     func removeImage(fileName: String) {

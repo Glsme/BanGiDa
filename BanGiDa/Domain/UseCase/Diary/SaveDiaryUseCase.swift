@@ -21,7 +21,7 @@ final class SaveDiaryUseCaseImpl: SaveDiaryUseCase {
     }
 
     func execute(type: DiaryType, date: Date, content: String, animalName: String, photoData: Data?, alarmTitle: String?, repeatRule: AlarmRepeat) throws -> DiaryEntry {
-        let entry = DiaryEntry(
+        var entry = DiaryEntry(
             id: UUID().uuidString,
             type: type,
             date: date,
@@ -33,18 +33,14 @@ final class SaveDiaryUseCaseImpl: SaveDiaryUseCase {
             repeatRule: repeatRule
         )
 
-        let saved = try diaryRepository.save(entry)
-
         guard let photoData = photoData else {
-            return saved
+            return try diaryRepository.save(entry)
         }
 
-        let fileName = "\(saved.id).jpg"
-        imageRepository.saveImageData(fileName: fileName, data: photoData)
+        let fileName = "\(entry.id).jpg"
+        entry.photoFileName = fileName
+        try imageRepository.saveImageData(fileName: fileName, data: photoData)
 
-        var updated = saved
-        updated.photoFileName = fileName
-        try diaryRepository.update(updated)
-        return updated
+        return try diaryRepository.save(entry)
     }
 }
