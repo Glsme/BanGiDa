@@ -192,7 +192,7 @@ extension SearchViewController {
         var image = UIImage()
 
         if Category(rawValue: index) != .alarm {
-            if let imageData = viewModel.loadImage(id: entry.id) {
+            if let imageData = viewModel.loadImage(for: entry) {
                 image = UIImage(data: imageData) ?? UIImage(named: "BasicDog")!
             } else {
                 image = UIImage(named: "BasicDog")!
@@ -224,7 +224,7 @@ extension SearchViewController {
         writeVC.memoView.textView.text = entry.content
         writeVC.memoView.dateTextField.text = viewModel.dateFormatter.string(from: entry.date)
 
-        if let imageData = viewModel.loadImage(id: entry.id) {
+        if let imageData = viewModel.loadImage(for: entry) {
             writeVC.memoView.imageView.image = UIImage(data: imageData)
         }
         writeVC.viewModel.editingEntryID = entry.id

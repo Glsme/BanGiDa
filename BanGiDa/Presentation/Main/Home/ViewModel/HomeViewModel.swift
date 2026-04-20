@@ -114,8 +114,9 @@ final class HomeViewModel {
         userPreferencesUseCase.isFirstLaunchCompleted()
     }
 
-    func loadImageData(id: String) -> Data? {
-        loadImageUseCase.execute(fileName: "\(id).jpg")
+    func loadImageData(for entry: DiaryEntry) -> Data? {
+        guard let fileName = entry.photoFileName else { return nil }
+        return loadImageUseCase.execute(fileName: fileName)
     }
 
     // MARK: - Table View Helpers

@@ -79,8 +79,9 @@ final class SearchViewModel {
         removeNotificationUseCase.execute(title: title, body: body, date: date, index: index, repeatRule: repeatRule)
     }
 
-    func loadImage(id: String) -> Data? {
-        loadImageUseCase.execute(fileName: "\(id).jpg")
+    func loadImage(for entry: DiaryEntry) -> Data? {
+        guard let fileName = entry.photoFileName else { return nil }
+        return loadImageUseCase.execute(fileName: fileName)
     }
 
     func taskListFor(index: Int) -> [DiaryEntry] {
