@@ -9,18 +9,41 @@ import UIKit
 import RealmSwift
 import Zip
 
-enum DocumentError: Error {
+enum DocumentError: LocalizedError {
     case createDirectoryError
     case saveImageError
     case removeDirectoryError
     case fetchImagesError
     case fetchZipFileError
     case fetchDirectoryPathError
-    
+
     case compressionFailedError
     case restoreFailedError
-    
+
     case fetchJsonDataError
+
+    var errorDescription: String? {
+        switch self {
+        case .createDirectoryError:
+            return "폴더를 생성하지 못했습니다."
+        case .saveImageError:
+            return "이미지를 저장하지 못했습니다."
+        case .removeDirectoryError:
+            return "폴더를 삭제하지 못했습니다."
+        case .fetchImagesError:
+            return "이미지 파일을 불러오지 못했습니다."
+        case .fetchZipFileError:
+            return "백업 파일을 불러오지 못했습니다."
+        case .fetchDirectoryPathError:
+            return "저장소 경로를 확인하지 못했습니다."
+        case .compressionFailedError:
+            return "백업 파일을 만들지 못했습니다."
+        case .restoreFailedError:
+            return "백업 파일을 복구하지 못했습니다."
+        case .fetchJsonDataError:
+            return "백업 데이터를 읽지 못했습니다."
+        }
+    }
 }
 
 enum CodableError: Error {
