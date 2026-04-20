@@ -101,8 +101,5 @@ final class BackupRepositoryImpl: BackupRepository {
             realm.deleteAll()
             realm.add(decodedData)
         }
-
-        // Re-create backup file (preserves existing behavior)
-        _ = try documentManager.createBackupFile()
     }
 }
