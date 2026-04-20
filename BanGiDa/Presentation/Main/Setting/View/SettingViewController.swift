@@ -284,15 +284,23 @@ extension SettingViewController: PHPickerViewControllerDelegate {
 
 extension SettingViewController: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        mainView.profileView.imageView.image = image
-        if image != UIImage(named: "BasicDog"),
-           let imageData = image.jpegData(compressionQuality: 0.8) {
+        mainView.profileView.setProfileImage(image)
+
+        var saveError: Error?
+        if let imageData = image.jpegData(compressionQuality: 0.8) {
             do {
                 try saveImageUseCase.execute(fileName: "UserProfile.jpg", data: imageData)
             } catch {
-                showAlert(message: "프로필 이미지 저장에 실패했습니다.")
+                saveError = error
             }
+        } else {
+            saveError = DocumentError.saveImageError
         }
-        dismiss(animated: true)
+
+        dismiss(animated: true) { [weak self] in
+            guard let self, let saveError else { return }
+            print("SettingViewController profile image save failed: \(saveError)")
+            self.showAlert(message: "프로필 이미지 저장에 실패했습니다.")
+        }
     }
 }
