@@ -77,12 +77,30 @@ let project = Project(
                 .package(product: "FirebaseAuth", type: .runtime),
                 .package(product: "FirebaseFirestore", type: .runtime),
                 .package(product: "FirebaseStorage", type: .runtime),
+                .package(product: "FirebaseRemoteConfig", type: .runtime),
             ],
             settings: .settings(
                 base: [
                     "OTHER_LDFLAGS": "$(inherited) -ObjC",
+                    // 계절 아이콘은 Asset Catalog에 두고, CFBundleAlternateIcons는 빌드 시 생성시킨다.
+                    "ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES": .array([
+                        "AppIconWinter",
+                        "AppIconAutumn",
+                    ]),
                 ]
             )
+        ),
+        .target(
+            name: "BanGiDaTests",
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: "com.hsj.bangida.tests",
+            deploymentTargets: .iOS("16.0"),
+            infoPlist: .default,
+            sources: ["BanGiDaTests/**/*.swift"],
+            dependencies: [
+                .target(name: "BanGiDa"),
+            ]
         ),
     ]
 )
