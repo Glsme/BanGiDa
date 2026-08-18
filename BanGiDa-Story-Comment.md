@@ -858,7 +858,7 @@ service cloud.firestore {
 
 | # | 작업 | 대상 |
 |---|---|---|
-| R1 | `Story.id`를 Firestore documentID로, `writerUID`·`commentCount`·`previewComments` 추가 | `StoryTypes.swift` |
+| R1 | `Story.id`를 Firestore documentID(String)로 변경, `writerUID` 추가 | `StoryTypes.swift` |
 | R2 | `parseStory`에서 `document.documentID`, `writerUUID`, `commentCount` 매핑 | `StoryRepositoryImpl.swift:189-221` |
 | R3 | `cacheKey(for:)` URL 파싱 제거, `execute(storyID:)`로 시그니처 변경 | `ToggleStoryLikeUseCase.swift:39-49`, `ReportStoryUseCase.swift:33-43` |
 | R4 | 호출부 수정 (`imageURL` → `storyID`) | `StoryViewModel.swift:64-85`, `StoryRow.swift:91`, `ReportSheetView.swift:19-21`, `ReportViewModel.swift:14` |
@@ -868,6 +868,8 @@ service cloud.firestore {
 | R8 | 단위 테스트 타깃 추가 | `Project.swift` |
 
 R3/R4는 인터페이스가 바뀌므로 컴파일러가 누락된 호출부를 잡아준다. R1의 `id` 타입 변경(`UUID` → `String`)도 마찬가지다.
+
+> `Story.commentCount`는 M1(댓글 작성 시 카운터가 필요해지는 시점), `Story.previewComments`는 M2(`Comment` 타입이 존재하는 시점)에 추가한다. M0에서는 `Comment` 타입이 아직 없으므로 §4.3의 최종 형태를 한 번에 만들 수 없다.
 
 ### R8 참고: 테스트 타깃
 
@@ -914,7 +916,7 @@ ATDD로 §3.2 인수 기준을 고정하고 → BDD로 ViewModel·UseCase 행동
 
 **테스트 프레임워크: Swift Testing (D9).** 신규 타깃이라 기존 XCTest 자산에 묶이지 않고, `@Test`·`#expect` 기반이라 이 프로젝트의 UseCase처럼 전부 `async throws`인 코드를 표현하기 간결하다. `#expect(throws: CommentError.textTooLong)` 형태로 오류 검증도 한 줄로 끝난다.
 
-전제: Xcode 16 이상 툴체인이 필요하다. CI나 팀원 환경이 그보다 낮으면 XCTest로 내려야 하므로, M0 착수 시 툴체인 버전을 먼저 확인한다. 두 프레임워크는 한 타깃 안에 공존할 수 있어 이후 전환·혼용에 제약은 없다.
+전제 확인 완료: 로컬 툴체인은 Xcode 26.2 / Swift 6.2.3으로 Swift Testing 요구 조건(Xcode 16 이상)을 충족한다. 두 프레임워크는 한 타깃 안에 공존할 수 있어 이후 전환·혼용에 제약은 없다.
 
 ### 12.1 단계별 최소 검증 명령
 
@@ -964,7 +966,7 @@ firebase emulators:start --only firestore
 | Q7 | 신고 이력 보존 | 최상위 `reports` 스냅샷 병행 | D11, §8.6 |
 | Q8 | Blaze 요금제 | 이미 적용 완료 | D4, §7.3 |
 
-**남은 확인 사항**: Xcode 툴체인 버전(Swift Testing 요구, §12) — M0 착수 시 확인.
+**남은 확인 사항 없음.** Xcode 툴체인 버전(Swift Testing 요구, §12)은 Xcode 26.2 / Swift 6.2.3으로 확인 완료.
 
 ---
 
