@@ -11,10 +11,10 @@ final class ReportViewModel: ObservableObject {
     @Injected private var analyticsRepository: AnalyticsRepository
     @Injected private var reportStoryUseCase: ReportStoryUseCase
     
-    func report(text: String, imageURL: String) {
+    func report(text: String, storyID: String) {
         Task {
             do {
-                try await reportStoryUseCase.execute(imageURL: imageURL, reason: text)
+                try await reportStoryUseCase.execute(storyID: storyID, reason: text)
                 analyticsRepository.logEvent("Report_Story", parameters: ["text": text])
             } catch {
                 analyticsRepository.recordError(error, userInfo: ["function": "\(#function)"])

@@ -19,7 +19,7 @@ final class StoryViewModel: ObservableObject {
     
     private var cursor: StoryCursor?
     private var hasLoadedOnce = false
-    private var loadedImageURLs: Set<String> = []
+    private var loadedStoryIDs: Set<String> = []
     
     private var isRunningForPreviews: Bool {
         ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
@@ -57,18 +57,17 @@ final class StoryViewModel: ObservableObject {
     func refresh() async {
         cursor = nil
         isEnd = false
-        loadedImageURLs.removeAll()
+        loadedStoryIDs.removeAll()
         await fetchStories(reset: true)
     }
     
     func toggleStoryLike(index: Int) {
         guard stories.indices.contains(index) else { return }
         let storyID = stories[index].id
-        let imageURL = stories[index].imageURL
 
         Task {
             do {
-                try await toggleStoryLikeUseCase.execute(imageURL: imageURL)
+                try await toggleStoryLikeUseCase.execute(storyID: storyID)
                 guard let currentIndex = self.stories.firstIndex(where: { $0.id == storyID }) else {
                     return
                 }
@@ -94,10 +93,10 @@ final class StoryViewModel: ObservableObject {
         
         do {
             if reset {
-                loadedImageURLs.removeAll()
+                loadedStoryIDs.removeAll()
             }
             let page = try await fetchStoriesUseCase.execute(after: reset ? nil : cursor)
-            let uniqueStories = page.stories.filter { loadedImageURLs.insert($0.imageURL).inserted }
+            let uniqueStories = page.stories.filter { loadedStoryIDs.insert($0.id).inserted }
             if reset {
                 stories = uniqueStories
             } else {

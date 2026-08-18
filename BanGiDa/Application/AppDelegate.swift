@@ -15,6 +15,7 @@ import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    @Injected private var analyticsRepository: AnalyticsRepository
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -57,6 +58,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        analyticsRepository.recordError(error, userInfo: ["function": "\(#function)"])
+    }
     
     // MARK: UISceneSession Lifecycle
     
@@ -90,11 +99,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    func application(application: UIApplication,
-                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-      Messaging.messaging().apnsToken = deviceToken
-    }
-    
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.list, .banner, .sound])
     }

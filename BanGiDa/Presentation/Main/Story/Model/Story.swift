@@ -10,6 +10,8 @@ import Foundation
 extension Story {
     static let mock: [Story] = [
         Story(
+            id: "mock-1",
+            writerUID: "mock-writer-1",
             imageURL: "BasicDog",
             time: "5 years ago",
             nickname: "안경줄복학생",
@@ -18,6 +20,8 @@ extension Story {
             heartCount: 3
         ),
         Story(
+            id: "mock-2",
+            writerUID: "mock-writer-2",
             imageURL: "BasicDog",
             time: "2 hours ago",
             nickname: "산책러버",
@@ -26,6 +30,8 @@ extension Story {
             heartCount: 8
         ),
         Story(
+            id: "mock-3",
+            writerUID: "mock-writer-3",
             imageURL: "BasicDog",
             time: "1 day ago",
             nickname: "고양이집사",
@@ -34,6 +40,8 @@ extension Story {
             heartCount: 1
         ),
         Story(
+            id: "mock-4",
+            writerUID: "mock-writer-4",
             imageURL: "BasicDog",
             time: "3 days ago",
             nickname: "동네영웅",
@@ -42,6 +50,8 @@ extension Story {
             heartCount: 5
         ),
         Story(
+            id: "mock-5",
+            writerUID: "mock-writer-5",
             imageURL: "BasicDog",
             time: "1 week ago",
             nickname: "비오는날",
@@ -50,6 +60,8 @@ extension Story {
             heartCount: 12
         ),
         Story(
+            id: "mock-6",
+            writerUID: "mock-writer-6",
             imageURL: "BasicDog",
             time: "2 weeks ago",
             nickname: "사진사",
@@ -58,6 +70,8 @@ extension Story {
             heartCount: 2
         ),
         Story(
+            id: "mock-7",
+            writerUID: "mock-writer-7",
             imageURL: "BasicDog",
             time: "3 weeks ago",
             nickname: "간식중독",
@@ -66,6 +80,8 @@ extension Story {
             heartCount: 21
         ),
         Story(
+            id: "mock-8",
+            writerUID: "mock-writer-8",
             imageURL: "BasicDog",
             time: "1 month ago",
             nickname: "훈련중",
@@ -74,6 +90,8 @@ extension Story {
             heartCount: 6
         ),
         Story(
+            id: "mock-9",
+            writerUID: "mock-writer-9",
             imageURL: "BasicDog",
             time: "2 months ago",
             nickname: "장난꾸러기",
@@ -82,6 +100,8 @@ extension Story {
             heartCount: 4
         ),
         Story(
+            id: "mock-10",
+            writerUID: "mock-writer-10",
             imageURL: "BasicDog",
             time: "6 months ago",
             nickname: "아침산책",

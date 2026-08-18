@@ -8,7 +8,8 @@
 import Foundation
 
 public struct Story: Identifiable {
-    public let id = UUID()
+    public let id: String
+    public let writerUID: String
     public let imageURL: String
     public let time: String
     public let nickname: String

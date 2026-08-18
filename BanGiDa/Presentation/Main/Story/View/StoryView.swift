@@ -21,6 +21,7 @@ struct StoryView: View {
                 LazyVStack(spacing: Self.spacing) {
                     ForEach(Array(viewModel.stories.enumerated()), id: \.element.id) { index, story in
                         StoryRow(
+                            storyID: story.id,
                             imageURL: story.imageURL,
                             time: story.time,
                             nickname: story.nickname,

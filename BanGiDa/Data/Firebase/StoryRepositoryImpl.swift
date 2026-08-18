@@ -95,8 +95,8 @@ public final class StoryRepositoryImpl: StoryRepository {
         )
     }
     
-    public func toggleLike(imageID: String, uid: String) async throws {
-        let imageRefrerence = db.collection("images").document(imageID)
+    public func toggleLike(storyID: String, uid: String) async throws {
+        let imageRefrerence = db.collection("images").document(storyID)
         let likeRefrerence = imageRefrerence.collection("likes").document(uid)
 
         // Firestore's runTransaction expects a non-throwing closure with an NSErrorPointer.
@@ -132,9 +132,9 @@ public final class StoryRepositoryImpl: StoryRepository {
         }
     }
     
-    public func report(imageID: String, uid: String, reason: String) async throws {
+    public func report(storyID: String, uid: String, reason: String) async throws {
         let reportReference = db.collection("images")
-            .document(imageID)
+            .document(storyID)
             .collection("reports")
             .document(uid)
         
@@ -190,7 +190,7 @@ public final class StoryRepositoryImpl: StoryRepository {
         return snapshot.documents.compactMap { document in
             let data = document.data()
 
-            guard let _ = data["writerUUID"] as? String,
+            guard let writerUID = data["writerUUID"] as? String,
                   let writerNickname = data["writerNickname"] as? String,
                   let imageURL = data["imageURL"] as? String,
                   let text = data["text"] as? String,
@@ -210,6 +210,8 @@ public final class StoryRepositoryImpl: StoryRepository {
             let isHearted = likedIDs.contains(document.documentID)
 
             return Story(
+                id: document.documentID,
+                writerUID: writerUID,
                 imageURL: imageURL,
                 time: formattedTime(from: createdAt),
                 nickname: writerNickname,

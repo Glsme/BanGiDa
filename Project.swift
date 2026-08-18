@@ -84,5 +84,15 @@ let project = Project(
                 ]
             )
         ),
+        .target(
+            name: "BanGiDaTests",
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: "com.hsj.bangida.tests",
+            deploymentTargets: .iOS("16.0"),
+            infoPlist: .default,
+            sources: ["BanGiDaTests/**/*.swift"],
+            dependencies: [.target(name: "BanGiDa")]
+        )
     ]
 )

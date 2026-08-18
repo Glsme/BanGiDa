@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct StoryRow: View {
+    let storyID: String
     let imageURL: String
     let time: String
     let nickname: String
@@ -20,6 +21,7 @@ struct StoryRow: View {
     @State private var isReportSheetPresented = false
     
     init(
+        storyID: String,
         imageURL: String,
         time: String,
         nickname: String,
@@ -29,6 +31,7 @@ struct StoryRow: View {
         heartCount: Int,
         onHeartTap: @escaping () -> Void = {}
     ) {
+        self.storyID = storyID
         self.imageURL = imageURL
         self.time = time
         self.nickname = nickname
@@ -88,7 +91,7 @@ struct StoryRow: View {
                 .padding(.leading, 2)
         }
         .sheet(isPresented: $isReportSheetPresented) {
-            ReportSheetView(imageURL: imageURL)
+            ReportSheetView(storyID: storyID)
         }
     }
 }
@@ -159,6 +162,7 @@ private extension StoryRow {
 
 #Preview {
     StoryRow(
+        storyID: "preview-story",
         imageURL: "BasicDog",
         time: "5 hours ago",
         nickname: "안경줄복학생",
