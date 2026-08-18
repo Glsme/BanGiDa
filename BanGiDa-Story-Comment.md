@@ -922,18 +922,47 @@ ATDD로 §3.2 인수 기준을 고정하고 → BDD로 ViewModel·UseCase 행동
 
 ```bash
 # 생성 (Project.swift 변경 시)
-tuist generate
+tuist generate --no-open
+
+# 사용 가능한 destination 확인 — 아래 "함정 1" 참고. 이름을 추측하지 마라
+xcodebuild build -workspace BanGiDa.xcworkspace -scheme BanGiDa \
+  -destination 'platform=iOS Simulator,name=__INVALID__' 2>&1 \
+  | sed -n '/Available destinations/,/Ineligible destinations/p'
 
 # 테스트 타깃만 실행 — 전체 빌드보다 가볍다
+# UDID로 지정해 이름 모호성을 없앤다 (iPhone 17 Pro, iOS 26.2 예시)
 xcodebuild test \
   -workspace BanGiDa.xcworkspace \
   -scheme BanGiDa \
-  -destination 'platform=iOS Simulator,name=iPhone 16' \
+  -destination 'platform=iOS Simulator,id=7185DA6C-23CC-481F-8C1D-DCBD425EC252' \
   -only-testing:BanGiDaTests
 
 # Firestore 에뮬레이터 (규칙 + Repository 통합)
 firebase emulators:start --only firestore
 ```
+
+### 12.2 검증 시 걸린 함정 (M0에서 실제로 겪음)
+
+**함정 1 — 시뮬레이터 런타임 불일치.** Xcode 26.2에서는 iOS 17.5·18.1·18.3.1 런타임 시뮬레이터가 전부 *ineligible*로 분류된다. 기기 목록(`xcrun simctl list devices available`)에는 iPhone 16이 버젓이 보이지만 빌드에 지정하면 다음으로 실패한다.
+
+```
+xcodebuild: error: Unable to find a device matching the provided destination specifier
+```
+
+eligible한 것은 **OS 26.2 런타임**뿐이다(iPhone 16e, 17, 17 Pro, 17 Pro Max, Air). `simctl`의 available 목록과 xcodebuild의 eligible 목록이 다르다는 점에 주의한다. 위 명령처럼 일부러 잘못된 이름을 넣어 Available 섹션을 확인하는 편이 빠르다.
+
+**함정 2 — `Executed 0 tests`는 실패가 아니다.** Swift Testing으로 작성한 테스트는 XCTest 카운터에 잡히지 않는다. 로그에 다음이 나와도 정상이다.
+
+```
+Test Suite 'All tests' passed
+	 Executed 0 tests, with 0 failures (0 unexpected)
+◇ Test run started.
+✔ Test run with 2 tests in 1 suite passed
+```
+
+판정은 `Executed N tests`가 아니라 **`✔ Test run with N tests ... passed`** 줄로 해야 한다. 로그를 `tail`로 자르면 이 줄을 놓치기 쉬우므로 `grep -E "Test run with|✘|BUILD (SUCCEEDED|FAILED)"`로 뽑는다.
+
+**함정 3 — codex 서브에이전트는 빌드 검증을 할 수 없다.** Codex 샌드박스는 CoreSimulatorService 접근과 외부 패키지 네트워크가 차단되어 `xcodebuild`와 `xcrun simctl`이 모두 실패한다. 서브에이전트에는 코드 작성과 `xcrun swiftc -parse` 구문 검사까지만 맡기고, 빌드·테스트는 호출자 세션에서 수행한다.
 
 ---
 
