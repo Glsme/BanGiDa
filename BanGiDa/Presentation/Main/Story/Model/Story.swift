@@ -17,7 +17,8 @@ extension Story {
             nickname: "안경줄복학생",
             text: "hihihihihihihihih",
             isHearted: false,
-            heartCount: 3
+            heartCount: 3,
+            commentCount: 2
         ),
         Story(
             id: "mock-2",
@@ -27,7 +28,8 @@ extension Story {
             nickname: "산책러버",
             text: "오늘은 산책 다녀왔어요!",
             isHearted: true,
-            heartCount: 8
+            heartCount: 8,
+            commentCount: 0
         ),
         Story(
             id: "mock-3",
@@ -37,7 +39,8 @@ extension Story {
             nickname: "고양이집사",
             text: "집사가 최고입니다.",
             isHearted: false,
-            heartCount: 1
+            heartCount: 1,
+            commentCount: 4
         ),
         Story(
             id: "mock-4",
@@ -47,7 +50,8 @@ extension Story {
             nickname: "동네영웅",
             text: "산책 중에 친구를 만났어요.",
             isHearted: false,
-            heartCount: 5
+            heartCount: 5,
+            commentCount: 1
         ),
         Story(
             id: "mock-5",
@@ -57,7 +61,8 @@ extension Story {
             nickname: "비오는날",
             text: "비가 와도 산책은 필수!",
             isHearted: true,
-            heartCount: 12
+            heartCount: 12,
+            commentCount: 8
         ),
         Story(
             id: "mock-6",
@@ -67,7 +72,8 @@ extension Story {
             nickname: "사진사",
             text: "오늘은 베스트샷 건졌습니다.",
             isHearted: false,
-            heartCount: 2
+            heartCount: 2,
+            commentCount: 0
         ),
         Story(
             id: "mock-7",
@@ -77,7 +83,8 @@ extension Story {
             nickname: "간식중독",
             text: "간식은 언제나 옳다.",
             isHearted: true,
-            heartCount: 21
+            heartCount: 21,
+            commentCount: 5
         ),
         Story(
             id: "mock-8",
@@ -87,7 +94,8 @@ extension Story {
             nickname: "훈련중",
             text: "앉아를 완벽하게 배웠어요!",
             isHearted: false,
-            heartCount: 6
+            heartCount: 6,
+            commentCount: 3
         ),
         Story(
             id: "mock-9",
@@ -97,7 +105,8 @@ extension Story {
             nickname: "장난꾸러기",
             text: "신발과의 전쟁은 계속된다.",
             isHearted: false,
-            heartCount: 4
+            heartCount: 4,
+            commentCount: 0
         ),
         Story(
             id: "mock-10",
@@ -107,7 +116,8 @@ extension Story {
             nickname: "아침산책",
             text: "아침 공기는 역시 최고네요.",
             isHearted: true,
-            heartCount: 9
+            heartCount: 9,
+            commentCount: 6
         )
     ]
 }

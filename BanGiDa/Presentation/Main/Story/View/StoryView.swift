@@ -26,11 +26,16 @@ struct StoryView: View {
                             time: story.time,
                             nickname: story.nickname,
                             text: story.text,
+                            storyWriterUID: story.writerUID,
                             showsHotBadge: index < 3 && story.heartCount > 0,
                             isHearted: $viewModel.stories[index].isHearted,
                             heartCount: story.heartCount,
+                            commentCount: story.commentCount,
                             onHeartTap: {
                                 viewModel.toggleStoryLike(index: index)
+                            },
+                            onCommentCountChanged: { count in
+                                viewModel.updateCommentCount(storyID: story.id, count: count)
                             }
                         )
                         .padding(.top, index == 0 ? 0 : 44)

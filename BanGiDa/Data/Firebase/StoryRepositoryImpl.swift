@@ -14,13 +14,6 @@ public final class StoryRepositoryImpl: StoryRepository {
     private let db: Firestore
     private let storage: Storage
     
-    private static let fallbackDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "yyyy.MM.dd"
-        return formatter
-    }()
-    
     public init(db: Firestore = Firestore.firestore(), storage: Storage = Storage.storage()) {
         self.db = db
         self.storage = storage
@@ -180,7 +173,8 @@ public final class StoryRepositoryImpl: StoryRepository {
             "imageURL": imageURL.absoluteString,
             "createdAt": FieldValue.serverTimestamp(),
             "text": text,
-            "likeCount": 0
+            "likeCount": 0,
+            "commentCount": 0
         ]
 
         try await postReference.setData(data)
@@ -213,11 +207,12 @@ public final class StoryRepositoryImpl: StoryRepository {
                 id: document.documentID,
                 writerUID: writerUID,
                 imageURL: imageURL,
-                time: formattedTime(from: createdAt),
+                time: RelativeTimeFormatter.formattedTime(from: createdAt),
                 nickname: writerNickname,
                 text: text,
                 isHearted: isHearted,
-                heartCount: likeCount
+                heartCount: likeCount,
+                commentCount: data["commentCount"] as? Int ?? 0
             )
         }
     }
@@ -256,28 +251,4 @@ public final class StoryRepositoryImpl: StoryRepository {
         return try await query.getDocuments()
     }
     
-    private func formattedTime(from createdAt: Date, now: Date = Date()) -> String {
-        let interval = max(0, now.timeIntervalSince(createdAt))
-        
-        if interval < 60 {
-            return "방금 전"
-        }
-        
-        if interval < 3600 {
-            let minutes = Int(interval / 60)
-            return "\(minutes)분 전"
-        }
-        
-        if interval < 86400 {
-            let hours = Int(interval / 3600)
-            return "\(hours)시간 전"
-        }
-        
-        if interval < 604800 {
-            let days = Int(interval / 86400)
-            return "\(days)일 전"
-        }
-        
-        return Self.fallbackDateFormatter.string(from: createdAt)
-    }
 }

@@ -82,6 +82,11 @@ final class StoryViewModel: ObservableObject {
             }
         }
     }
+
+    func updateCommentCount(storyID: String, count: Int) {
+        guard let index = stories.firstIndex(where: { $0.id == storyID }) else { return }
+        stories[index].commentCount = max(0, count)
+    }
     
     // MARK: - Private
     

@@ -31,6 +31,11 @@ final class AppDIContainer {
         }
         .inObjectScope(.container)
 
+        container.register(CommentRepository.self) { _ in
+            CommentRepositoryImpl()
+        }
+        .inObjectScope(.container)
+
         container.register(DiaryRepository.self) { _ in
             RealmDiaryRepository()
         }
@@ -101,6 +106,21 @@ final class AppDIContainer {
         container.register(ReportStoryUseCase.self) { resolver in
             ReportStoryUseCaseImpl(
                 storyRepository: resolver.force(StoryRepository.self),
+                userRepository: resolver.force(UserRepository.self)
+            )
+        }
+
+        // MARK: - Comment UseCases
+
+        container.register(FetchCommentsUseCase.self) { resolver in
+            FetchCommentsUseCaseImpl(
+                commentRepository: resolver.force(CommentRepository.self)
+            )
+        }
+
+        container.register(WriteCommentUseCase.self) { resolver in
+            WriteCommentUseCaseImpl(
+                commentRepository: resolver.force(CommentRepository.self),
                 userRepository: resolver.force(UserRepository.self)
             )
         }

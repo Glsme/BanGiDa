@@ -16,6 +16,7 @@ public struct Story: Identifiable {
     public let text: String
     public var isHearted: Bool
     public var heartCount: Int
+    public var commentCount: Int
 }
 
 public struct StoryPage {

@@ -12,7 +12,8 @@ struct StoryTests {
             nickname: "닉네임",
             text: "스토리",
             isHearted: false,
-            heartCount: 0
+            heartCount: 0,
+            commentCount: 0
         )
 
         #expect(story.id == "firestore-document-id")

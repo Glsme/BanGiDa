@@ -13,12 +13,16 @@ struct StoryRow: View {
     let time: String
     let nickname: String
     let text: String
+    let storyWriterUID: String
     let heartCount: Int
+    let commentCount: Int
     let showsHotBadge: Bool
     let onHeartTap: () -> Void
+    let onCommentCountChanged: (Int) -> Void
     
     @Binding var isHearted: Bool
     @State private var isReportSheetPresented = false
+    @State private var isCommentSheetPresented = false
     
     init(
         storyID: String,
@@ -26,20 +30,26 @@ struct StoryRow: View {
         time: String,
         nickname: String,
         text: String,
+        storyWriterUID: String,
         showsHotBadge: Bool,
         isHearted: Binding<Bool>,
         heartCount: Int,
-        onHeartTap: @escaping () -> Void = {}
+        commentCount: Int,
+        onHeartTap: @escaping () -> Void = {},
+        onCommentCountChanged: @escaping (Int) -> Void = { _ in }
     ) {
         self.storyID = storyID
         self.imageURL = imageURL
         self.time = time
         self.nickname = nickname
         self.text = text
+        self.storyWriterUID = storyWriterUID
         self.showsHotBadge = showsHotBadge
         self._isHearted = isHearted
         self.heartCount = heartCount
+        self.commentCount = commentCount
         self.onHeartTap = onHeartTap
+        self.onCommentCountChanged = onCommentCountChanged
     }
     
     var body: some View {
@@ -81,6 +91,7 @@ struct StoryRow: View {
             
             HStack {
                 heartView(count: heartCount)
+                commentView(count: commentCount)
                 Spacer()
                 timeView(time)
             }
@@ -92,6 +103,14 @@ struct StoryRow: View {
         }
         .sheet(isPresented: $isReportSheetPresented) {
             ReportSheetView(storyID: storyID)
+        }
+        .sheet(isPresented: $isCommentSheetPresented) {
+            CommentSheetView(
+                storyID: storyID,
+                storyWriterUID: storyWriterUID,
+                initialCommentCount: commentCount,
+                onCommentCountChanged: onCommentCountChanged
+            )
         }
     }
 }
@@ -139,6 +158,26 @@ private extension StoryRow {
         }
         .frame(maxHeight: 20)
     }
+
+    @ViewBuilder
+    func commentView(count: Int) -> some View {
+        Button {
+            isCommentSheetPresented = true
+        } label: {
+            HStack(spacing: 4) {
+                Image(systemName: "bubble.left")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 20, height: 20)
+
+                Text("\(count)")
+                    .font(.custom("HelveticaNeue-Regular", size: 14))
+            }
+            .foregroundColor(Color.systemTintColor)
+        }
+        .frame(maxHeight: 20)
+        .accessibilityLabel("댓글 \(count)개")
+    }
     
     @ViewBuilder
     func timeView(_ time: String) -> some View {
@@ -167,9 +206,11 @@ private extension StoryRow {
         time: "5 hours ago",
         nickname: "안경줄복학생",
         text: "저희집 고양이 귀엽죠? 너도 한번 보시길 바라요! 12345678901234567890123456789012345678901234567890123456789",
+        storyWriterUID: "preview-writer",
         showsHotBadge: true,
         isHearted: .constant(false),
         heartCount: 2,
+        commentCount: 3,
         onHeartTap: {}
     )
 }
