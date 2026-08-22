@@ -1,0 +1,13 @@
+{
+  "parameters": {
+    "app_icon_name": {
+      "defaultValue": {
+        "value": "AppIconDefault"
+      },
+      "description": "홈 화면 앱 아이콘. 허용 값: AppIconDefault, AppIconWinter, AppIconAutumn. 값은 앱 콜드스타트 시 반영되며, 그 외 문자열은 앱에서 AppIconDefault로 처리한다.",
+      "valueType": "STRING"
+    }
+  },
+  "parameterGroups": {},
+  "conditions": []
+}

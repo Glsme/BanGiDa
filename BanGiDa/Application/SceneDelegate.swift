@@ -14,6 +14,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     @Injected private var checkUserRegistrationUseCase: CheckUserRegistrationUseCase
     @Injected private var createAuthUserUseCase: CreateAuthUserUseCase
     @Injected private var updateFCMTokenUseCase: UpdateFCMTokenUseCase
+    @Injected private var syncAppIconUseCase: SyncAppIconUseCase
+
+    private var hasSyncedAppIcon = false
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -39,6 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
         
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        syncAppIconIfNeeded()
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -59,6 +63,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
 private extension SceneDelegate {
+    /// 아이콘 교체는 시스템 알림을 동반하므로 백그라운드 복귀마다가 아니라 콜드스타트에 한 번만 수행한다.
+    func syncAppIconIfNeeded() {
+        guard !hasSyncedAppIcon else { return }
+        hasSyncedAppIcon = true
+
+        Task {
+            do {
+                try await syncAppIconUseCase.execute()
+            } catch {
+                print("syncAppIcon Error: ", error)
+            }
+        }
+    }
+
     func checkUserRegistration() {
         Task {
             do {

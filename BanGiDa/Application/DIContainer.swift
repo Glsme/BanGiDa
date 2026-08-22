@@ -71,6 +71,16 @@ final class AppDIContainer {
         }
         .inObjectScope(.container)
 
+        container.register(AppIconRepository.self) { _ in
+            AppIconRepositoryImpl()
+        }
+        .inObjectScope(.container)
+
+        container.register(AppIconRemoteRepository.self) { _ in
+            AppIconRemoteRepositoryImpl()
+        }
+        .inObjectScope(.container)
+
         // MARK: - User UseCases
 
         container.register(CreateAuthUserUseCase.self) { resolver in
@@ -271,6 +281,15 @@ final class AppDIContainer {
             RestoreNotificationsUseCaseImpl(
                 diaryRepository: resolver.force(DiaryRepository.self),
                 notificationRepository: resolver.force(NotificationRepository.self)
+            )
+        }
+
+        // MARK: - AppIcon UseCase
+
+        container.register(SyncAppIconUseCase.self) { resolver in
+            SyncAppIconUseCaseImpl(
+                appIconRepository: resolver.force(AppIconRepository.self),
+                appIconRemoteRepository: resolver.force(AppIconRemoteRepository.self)
             )
         }
     }
