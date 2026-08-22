@@ -12,7 +12,14 @@ public protocol UserRepository {
     func createUser() async throws
     func updateLastSeenAt() async throws
     func update(nickname: String) async throws
+    func updateFCMToken(_ token: String) async throws
+    func updateCommentNotificationEnabled(_ isEnabled: Bool) async throws
+    func fetchCommentNotificationEnabled() async throws -> Bool
     func readNickname() -> String?
     func checkRegistration(uid: String) async throws -> Bool
     func loadUID() -> String?
+    func fetchBlockedUIDs() async throws -> Set<String>
+    func fetchBlockedUsers() async throws -> [BlockedUser]
+    func block(uid: String, nickname: String) async throws
+    func unblock(uid: String) async throws
 }

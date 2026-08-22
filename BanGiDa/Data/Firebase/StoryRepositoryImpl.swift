@@ -14,13 +14,6 @@ public final class StoryRepositoryImpl: StoryRepository {
     private let db: Firestore
     private let storage: Storage
     
-    private static let fallbackDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "yyyy.MM.dd"
-        return formatter
-    }()
-    
     public init(db: Firestore = Firestore.firestore(), storage: Storage = Storage.storage()) {
         self.db = db
         self.storage = storage
@@ -95,8 +88,8 @@ public final class StoryRepositoryImpl: StoryRepository {
         )
     }
     
-    public func toggleLike(imageID: String, uid: String) async throws {
-        let imageRefrerence = db.collection("images").document(imageID)
+    public func toggleLike(storyID: String, uid: String) async throws {
+        let imageRefrerence = db.collection("images").document(storyID)
         let likeRefrerence = imageRefrerence.collection("likes").document(uid)
 
         // Firestore's runTransaction expects a non-throwing closure with an NSErrorPointer.
@@ -132,19 +125,44 @@ public final class StoryRepositoryImpl: StoryRepository {
         }
     }
     
-    public func report(imageID: String, uid: String, reason: String) async throws {
+    public func report(
+        storyID: String,
+        uid: String,
+        reason: String,
+        targetAuthorUID: String,
+        contentSnapshot: String
+    ) async throws {
         let reportReference = db.collection("images")
-            .document(imageID)
+            .document(storyID)
             .collection("reports")
             .document(uid)
-        
+
         var data: [String: Any] = ["createdAt": FieldValue.serverTimestamp()]
-        
+
         if !reason.isEmpty {
             data["reason"] = reason
         }
-        
+
         try await reportReference.setData(data, merge: false)
+
+        // §8.6(D11): 스토리 신고도 댓글 신고와 같은 최상위 reports 컬렉션에 스냅샷을 남겨
+        // 운영자가 한 곳만 보면 되게 통일한다.
+        let topLevelReference = db.collection("reports").document()
+        var topLevelData: [String: Any] = [
+            "targetType": "story",
+            "targetPath": "images/\(storyID)",
+            "storyID": storyID,
+            "targetAuthorUID": targetAuthorUID,
+            "reporterUID": uid,
+            "contentSnapshot": contentSnapshot,
+            "createdAt": FieldValue.serverTimestamp()
+        ]
+
+        if !reason.isEmpty {
+            topLevelData["reason"] = reason
+        }
+
+        try await topLevelReference.setData(topLevelData)
     }
     
     // MARK: - Private
@@ -180,7 +198,8 @@ public final class StoryRepositoryImpl: StoryRepository {
             "imageURL": imageURL.absoluteString,
             "createdAt": FieldValue.serverTimestamp(),
             "text": text,
-            "likeCount": 0
+            "likeCount": 0,
+            "commentCount": 0
         ]
 
         try await postReference.setData(data)
@@ -190,7 +209,7 @@ public final class StoryRepositoryImpl: StoryRepository {
         return snapshot.documents.compactMap { document in
             let data = document.data()
 
-            guard let _ = data["writerUUID"] as? String,
+            guard let writerUID = data["writerUUID"] as? String,
                   let writerNickname = data["writerNickname"] as? String,
                   let imageURL = data["imageURL"] as? String,
                   let text = data["text"] as? String,
@@ -210,12 +229,16 @@ public final class StoryRepositoryImpl: StoryRepository {
             let isHearted = likedIDs.contains(document.documentID)
 
             return Story(
+                id: document.documentID,
+                writerUID: writerUID,
                 imageURL: imageURL,
-                time: formattedTime(from: createdAt),
+                time: RelativeTimeFormatter.formattedTime(from: createdAt),
                 nickname: writerNickname,
                 text: text,
                 isHearted: isHearted,
-                heartCount: likeCount
+                heartCount: likeCount,
+                commentCount: data["commentCount"] as? Int ?? 0,
+                previewComments: []
             )
         }
     }
@@ -254,28 +277,4 @@ public final class StoryRepositoryImpl: StoryRepository {
         return try await query.getDocuments()
     }
     
-    private func formattedTime(from createdAt: Date, now: Date = Date()) -> String {
-        let interval = max(0, now.timeIntervalSince(createdAt))
-        
-        if interval < 60 {
-            return "방금 전"
-        }
-        
-        if interval < 3600 {
-            let minutes = Int(interval / 60)
-            return "\(minutes)분 전"
-        }
-        
-        if interval < 86400 {
-            let hours = Int(interval / 3600)
-            return "\(hours)시간 전"
-        }
-        
-        if interval < 604800 {
-            let days = Int(interval / 86400)
-            return "\(days)일 전"
-        }
-        
-        return Self.fallbackDateFormatter.string(from: createdAt)
-    }
 }

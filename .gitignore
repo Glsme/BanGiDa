@@ -20,5 +20,8 @@ build/
 # CocoaPods (if any)
 Pods/
 
+# Firebase Cloud Functions
+functions/node_modules/
+
 # Logs
 Logs

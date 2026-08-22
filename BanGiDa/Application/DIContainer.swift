@@ -31,6 +31,16 @@ final class AppDIContainer {
         }
         .inObjectScope(.container)
 
+        container.register(CommentRepository.self) { _ in
+            CommentRepositoryImpl()
+        }
+        .inObjectScope(.container)
+
+        container.register(ProfanityFilter.self) { _ in
+            BundleProfanityFilter()
+        }
+        .inObjectScope(.container)
+
         container.register(DiaryRepository.self) { _ in
             RealmDiaryRepository()
         }
@@ -85,6 +95,14 @@ final class AppDIContainer {
             UpdateNicknameUseCaseImpl(userRepository: resolver.force(UserRepository.self))
         }
 
+        container.register(UpdateFCMTokenUseCase.self) { resolver in
+            UpdateFCMTokenUseCaseImpl(userRepository: resolver.force(UserRepository.self))
+        }
+
+        container.register(CommentNotificationSettingsUseCase.self) { resolver in
+            CommentNotificationSettingsUseCaseImpl(userRepository: resolver.force(UserRepository.self))
+        }
+
         // MARK: - Story UseCases
 
         container.register(WriteStoryUseCase.self) { resolver in
@@ -97,6 +115,7 @@ final class AppDIContainer {
         container.register(FetchStoriesUseCase.self) { resolver in
             FetchStoriesUseCaseImpl(
                 storyRepository: resolver.force(StoryRepository.self),
+                commentRepository: resolver.force(CommentRepository.self),
                 userRepository: resolver.force(UserRepository.self)
             )
         }
@@ -113,6 +132,51 @@ final class AppDIContainer {
                 storyRepository: resolver.force(StoryRepository.self),
                 userRepository: resolver.force(UserRepository.self)
             )
+        }
+
+        // MARK: - Comment UseCases
+
+        container.register(FetchCommentsUseCase.self) { resolver in
+            FetchCommentsUseCaseImpl(
+                commentRepository: resolver.force(CommentRepository.self),
+                userRepository: resolver.force(UserRepository.self)
+            )
+        }
+
+        container.register(WriteCommentUseCase.self) { resolver in
+            WriteCommentUseCaseImpl(
+                commentRepository: resolver.force(CommentRepository.self),
+                userRepository: resolver.force(UserRepository.self),
+                profanityFilter: resolver.force(ProfanityFilter.self)
+            )
+        }
+
+        container.register(DeleteCommentUseCase.self) { resolver in
+            DeleteCommentUseCaseImpl(
+                commentRepository: resolver.force(CommentRepository.self),
+                userRepository: resolver.force(UserRepository.self)
+            )
+        }
+
+        container.register(ReportCommentUseCase.self) { resolver in
+            ReportCommentUseCaseImpl(
+                commentRepository: resolver.force(CommentRepository.self),
+                userRepository: resolver.force(UserRepository.self)
+            )
+        }
+
+        // MARK: - User UseCases (차단)
+
+        container.register(BlockUserUseCase.self) { resolver in
+            BlockUserUseCaseImpl(userRepository: resolver.force(UserRepository.self))
+        }
+
+        container.register(UnblockUserUseCase.self) { resolver in
+            UnblockUserUseCaseImpl(userRepository: resolver.force(UserRepository.self))
+        }
+
+        container.register(FetchBlockedUsersUseCase.self) { resolver in
+            FetchBlockedUsersUseCaseImpl(userRepository: resolver.force(UserRepository.self))
         }
 
         // MARK: - Diary UseCases

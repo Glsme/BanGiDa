@@ -13,7 +13,7 @@ struct StoryView: View {
     @StateObject private var viewModel = StoryViewModel()
     @State private var isWriteStoryPresented = false
     @State private var shouldRefreshAfterWrite = false
-    @AppStorage(UserDefaultsKey.storyAgreement.rawValue) private var hasAgreedToStoryGuide = false
+    @AppStorage(UserDefaultsKey.storyAgreementVersion.rawValue) private var storyAgreementVersion = 0
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -21,15 +21,23 @@ struct StoryView: View {
                 LazyVStack(spacing: Self.spacing) {
                     ForEach(Array(viewModel.stories.enumerated()), id: \.element.id) { index, story in
                         StoryRow(
+                            storyID: story.id,
                             imageURL: story.imageURL,
                             time: story.time,
                             nickname: story.nickname,
                             text: story.text,
+                            storyWriterUID: story.writerUID,
                             showsHotBadge: index < 3 && story.heartCount > 0,
                             isHearted: $viewModel.stories[index].isHearted,
                             heartCount: story.heartCount,
+                            commentCount: story.commentCount,
+                            previewComments: story.previewComments,
                             onHeartTap: {
                                 viewModel.toggleStoryLike(index: index)
+                            },
+                            onCommentChanged: { count, comments in
+                                viewModel.updateCommentCount(storyID: story.id, count: count)
+                                viewModel.updateCommentPreview(storyID: story.id, comments: comments)
                             }
                         )
                         .padding(.top, index == 0 ? 0 : 44)
@@ -67,14 +75,17 @@ struct StoryView: View {
             .padding(.trailing, 20)
             .padding(.bottom, 24)
 
-            if !hasAgreedToStoryGuide {
+            if storyAgreementVersion < StoryGuidePolicy.currentVersion {
                 StoryGuideOverlay(onAgree: {
-                    hasAgreedToStoryGuide = true
+                    storyAgreementVersion = StoryGuidePolicy.currentVersion
                 })
             }
         }
         .background(Color.backgroundColor)
         .task {
+            // 댓글은 새로운 종류의 UGC다. 사진 정책에만 동의한 사용자에게 댓글 제재
+            // 조항을 고지 없이 적용할 수 없어, 레거시 동의를 버전 1로 올려 재동의를 받는다.
+            StoryGuidePolicy.migrateLegacyAgreementIfNeeded()
             viewModel.loadInitialIfNeeded()
         }
         .fullScreenCover(isPresented: $isWriteStoryPresented, onDismiss: {

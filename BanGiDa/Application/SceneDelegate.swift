@@ -13,6 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     @Injected private var checkUserRegistrationUseCase: CheckUserRegistrationUseCase
     @Injected private var createAuthUserUseCase: CreateAuthUserUseCase
+    @Injected private var updateFCMTokenUseCase: UpdateFCMTokenUseCase
     @Injected private var syncAppIconUseCase: SyncAppIconUseCase
 
     private var hasSyncedAppIcon = false
@@ -79,12 +80,16 @@ private extension SceneDelegate {
     func checkUserRegistration() {
         Task {
             do {
-                guard try await !checkUserRegistrationUseCase.execute() else { return }
-                try await createAuthUserUseCase.execute()
+                let isRegistered = try await checkUserRegistrationUseCase.execute()
+
+                if !isRegistered {
+                    try await createAuthUserUseCase.execute()
+                }
+
+                try await updateFCMTokenUseCase.flushPendingToken()
             } catch {
                 print("checkUserRegistration Error: ", error)
             }
         }
     }
 }
-

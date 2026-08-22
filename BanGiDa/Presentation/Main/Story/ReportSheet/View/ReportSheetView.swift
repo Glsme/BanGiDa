@@ -14,10 +14,14 @@ struct ReportSheetView: View {
     @State private var reason = ""
     @State private var isReportCompleted = false
     
-    private let imageURL: String
-    
-    public init(imageURL: String) {
-        self.imageURL = imageURL
+    private let target: ReportTarget
+    private let targetAuthorUID: String
+    private let contentSnapshot: String
+
+    public init(target: ReportTarget, targetAuthorUID: String, contentSnapshot: String) {
+        self.target = target
+        self.targetAuthorUID = targetAuthorUID
+        self.contentSnapshot = contentSnapshot
     }
 
     var body: some View {
@@ -58,7 +62,12 @@ struct ReportSheetView: View {
 
             Button {
                 dismissKeyboard()
-                viewModel.report(text: reason, imageURL: imageURL)
+                viewModel.report(
+                    target: target,
+                    reason: reason,
+                    targetAuthorUID: targetAuthorUID,
+                    contentSnapshot: contentSnapshot
+                )
                 isReportCompleted = true
             } label: {
                 Text("신고 접수")
@@ -106,5 +115,9 @@ struct ReportSheetView: View {
 }
 
 #Preview {
-    ReportSheetView(imageURL: "")
+    ReportSheetView(
+        target: .story(storyID: "preview-story"),
+        targetAuthorUID: "preview-writer",
+        contentSnapshot: "미리보기 스토리 본문"
+    )
 }

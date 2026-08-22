@@ -5,11 +5,13 @@
 //  Created by Seokjune Hong on 2022/09/08.
 //
 
-import UIKit
 import MessageUI
-import AcknowList
-import StoreKit
 import PhotosUI
+import StoreKit
+import SwiftUI
+import UIKit
+
+import AcknowList
 import CropViewController
 
 final class SettingViewController: BaseViewController {
@@ -45,6 +47,8 @@ final class SettingViewController: BaseViewController {
         } else {
             mainView.profileView.setProfileImage(nil)
         }
+
+        viewModel.loadCommentNotificationEnabled()
     }
     
     //MARK: - UI
@@ -56,6 +60,12 @@ final class SettingViewController: BaseViewController {
         self.navigationItem.title = "설정"
         mainView.profileView.imageButton.addTarget(self, action: #selector(imageButtonClicked), for: .touchUpInside)
         mainView.profileView.nameButton.addTarget(self, action: #selector(nameButtonClicked), for: .touchUpInside)
+        viewModel.onCommentNotificationEnabledChanged = { [weak self] _ in
+            self?.mainView.settingTableView.reloadData()
+        }
+        viewModel.onCommentNotificationUpdateFailed = { [weak self] _ in
+            self?.showAlert(message: "댓글 알림 설정을 저장하지 못했어요. 다시 시도해 주세요.")
+        }
     }
     
     //MARK: - Private
@@ -133,6 +143,16 @@ final class SettingViewController: BaseViewController {
         vc.acknowledgements = acknowList.acknowledgements
         transViewController(ViewController: vc, type: .push)
     }
+
+    private func showBlockedUsers() {
+        let viewController = UIHostingController(rootView: BlockedUsersView())
+        viewController.title = "차단 목록"
+        transViewController(ViewController: viewController, type: .push)
+    }
+
+    @objc private func commentNotificationSwitchChanged(_ sender: UISwitch) {
+        viewModel.setCommentNotificationEnabled(sender.isOn)
+    }
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
@@ -167,6 +187,19 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.label.text = title
+
+        if indexPath.section == 1 && indexPath.row == viewModel.serviceLabel.count - 1 {
+            let notificationSwitch = UISwitch()
+            notificationSwitch.isOn = viewModel.isCommentNotificationEnabled
+            notificationSwitch.addTarget(
+                self,
+                action: #selector(commentNotificationSwitchChanged),
+                for: .valueChanged
+            )
+            cell.image.isHidden = true
+            cell.accessoryView = notificationSwitch
+            cell.selectionStyle = .none
+        }
         
         if indexPath.section == 2 && indexPath.row == 1 {
             cell.image.isHidden = true
@@ -188,6 +221,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             moveToReview()
         case 1 where indexPath.row == 1:
             sendMail()
+        case 1 where indexPath.row == 2:
+            showBlockedUsers()
         case 2 where indexPath.row == 0:
             openSourceLibraryButtonDidTap()
         default:

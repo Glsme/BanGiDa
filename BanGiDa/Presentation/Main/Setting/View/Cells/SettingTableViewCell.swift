@@ -38,6 +38,8 @@ final class SettingTableViewCell: BaseTableViewCell {
     override func prepareForReuse() {
         image.isHidden = false
         versionLabel.text = ""
+        accessoryView = nil
+        selectionStyle = .default
     }
     
     override func configureUI() {

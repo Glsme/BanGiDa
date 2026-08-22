@@ -5,38 +5,55 @@
 //  Created by 홍석준 on 12/23/25.
 //
 
+import Foundation
 import SwiftUI
 
 struct StoryRow: View {
+    let storyID: String
     let imageURL: String
     let time: String
     let nickname: String
     let text: String
+    let storyWriterUID: String
     let heartCount: Int
+    let commentCount: Int
+    let previewComments: [Comment]
     let showsHotBadge: Bool
     let onHeartTap: () -> Void
+    let onCommentChanged: (Int, [Comment]) -> Void
     
     @Binding var isHearted: Bool
     @State private var isReportSheetPresented = false
+    @State private var isCommentSheetPresented = false
     
     init(
+        storyID: String,
         imageURL: String,
         time: String,
         nickname: String,
         text: String,
+        storyWriterUID: String,
         showsHotBadge: Bool,
         isHearted: Binding<Bool>,
         heartCount: Int,
-        onHeartTap: @escaping () -> Void = {}
+        commentCount: Int,
+        previewComments: [Comment],
+        onHeartTap: @escaping () -> Void = {},
+        onCommentChanged: @escaping (Int, [Comment]) -> Void = { _, _ in }
     ) {
+        self.storyID = storyID
         self.imageURL = imageURL
         self.time = time
         self.nickname = nickname
         self.text = text
+        self.storyWriterUID = storyWriterUID
         self.showsHotBadge = showsHotBadge
         self._isHearted = isHearted
         self.heartCount = heartCount
+        self.commentCount = commentCount
+        self.previewComments = previewComments
         self.onHeartTap = onHeartTap
+        self.onCommentChanged = onCommentChanged
     }
     
     var body: some View {
@@ -78,6 +95,7 @@ struct StoryRow: View {
             
             HStack {
                 heartView(count: heartCount)
+                commentView(count: commentCount)
                 Spacer()
                 timeView(time)
             }
@@ -86,9 +104,28 @@ struct StoryRow: View {
             
             writingView(nickname: nickname, text: text)
                 .padding(.leading, 2)
+
+            CommentPreviewView(
+                comments: previewComments,
+                commentCount: commentCount,
+                storyWriterUID: storyWriterUID,
+                onTap: { isCommentSheetPresented = true }
+            )
         }
         .sheet(isPresented: $isReportSheetPresented) {
-            ReportSheetView(imageURL: imageURL)
+            ReportSheetView(
+                target: .story(storyID: storyID),
+                targetAuthorUID: storyWriterUID,
+                contentSnapshot: text
+            )
+        }
+        .sheet(isPresented: $isCommentSheetPresented) {
+            CommentSheetView(
+                storyID: storyID,
+                storyWriterUID: storyWriterUID,
+                initialCommentCount: commentCount,
+                onCommentChanged: onCommentChanged
+            )
         }
     }
 }
@@ -136,6 +173,26 @@ private extension StoryRow {
         }
         .frame(maxHeight: 20)
     }
+
+    @ViewBuilder
+    func commentView(count: Int) -> some View {
+        Button {
+            isCommentSheetPresented = true
+        } label: {
+            HStack(spacing: 4) {
+                Image(systemName: "bubble.left")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 20, height: 20)
+
+                Text("\(count)")
+                    .font(.custom("HelveticaNeue-Regular", size: 14))
+            }
+            .foregroundColor(Color.systemTintColor)
+        }
+        .frame(maxHeight: 20)
+        .accessibilityLabel("댓글 \(count)개")
+    }
     
     @ViewBuilder
     func timeView(_ time: String) -> some View {
@@ -159,13 +216,36 @@ private extension StoryRow {
 
 #Preview {
     StoryRow(
+        storyID: "preview-story",
         imageURL: "BasicDog",
         time: "5 hours ago",
         nickname: "안경줄복학생",
         text: "저희집 고양이 귀엽죠? 너도 한번 보시길 바라요! 12345678901234567890123456789012345678901234567890123456789",
+        storyWriterUID: "preview-writer",
         showsHotBadge: true,
         isHearted: .constant(false),
         heartCount: 2,
+        commentCount: 3,
+        previewComments: [
+            Comment(
+                id: "preview-comment-1",
+                storyID: "preview-story",
+                authorUID: "preview-writer",
+                authorNickname: "안경줄복학생",
+                text: "날씨가 정말 좋네요!",
+                createdAt: Date(),
+                displayTime: "방금 전"
+            ),
+            Comment(
+                id: "preview-comment-2",
+                storyID: "preview-story",
+                authorUID: "preview-reader",
+                authorNickname: "고양이집사",
+                text: "정말 귀여워요.",
+                createdAt: Date(),
+                displayTime: "1분 전"
+            )
+        ],
         onHeartTap: {}
     )
 }

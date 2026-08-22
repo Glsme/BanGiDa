@@ -9,6 +9,14 @@ import UIKit
 import SwiftUI
 
 final class MainTabViewController: UITabBarController {
+    // setViewControllers 순서와 묶여 있으므로 탭을 추가·재배치하면 함께 고쳐야 한다.
+    enum Tab: Int {
+        case home
+        case search
+        case story
+        case setting
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -1,0 +1,93 @@
+// 이 파일은 레포에서 버전 관리만 하며, 실제 적용은 Firebase 콘솔 또는
+// firebase deploy --only firestore:rules로 별도 수행해야 한다.
+//
+// §9.1의 트레이드오프: commentCount를 클라이언트 FieldValue.increment로 올리는
+// 현재 방식은 규칙으로 "1씩만"을 강제할 수 없다(increment sentinel은 규칙에서 값 검증이
+// 불가). 좋아요가 이미 같은 방식이라 일관성을 위해 A안을 택했고, 어뷰징이 관측되면
+// 좋아요와 함께 Cloud Functions 집계로 옮긴다.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    match /images/{storyID} {
+      allow read: if isSignedIn();
+
+      // StoryRepositoryImpl의 스토리 생성 필드와 서버 타임스탬프를 그대로 허용한다.
+      allow create: if isSignedIn()
+        && request.resource.data.keys().hasOnly([
+          'writerUUID', 'writerNickname', 'imageURL', 'createdAt', 'text', 'likeCount', 'commentCount'
+        ])
+        && request.resource.data.writerUUID == request.auth.uid
+        && request.resource.data.writerNickname is string
+        && request.resource.data.imageURL is string
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.text is string
+        // 구버전 앱은 commentCount 없이 6개 필드만 쓴다(이 필드는 M2에서 추가됨).
+        // 값을 단정하면 앱스토어에 나가 있는 버전의 스토리 작성이 전부 거부되므로
+        // 기본값을 두고 검사한다. likeCount도 같은 이유로 방어한다.
+        && request.resource.data.get('likeCount', 0) == 0
+        && request.resource.data.get('commentCount', 0) == 0;
+
+      // §9.1: increment sentinel은 값이 아닌 변환으로 평가되어 증감 폭을 검증할 수 없다.
+      allow update: if isSignedIn()
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['likeCount', 'commentCount']);
+
+      match /likes/{uid} {
+        allow read: if isSignedIn();
+        allow write: if isSignedIn() && uid == request.auth.uid;
+      }
+
+      match /comments/{commentID} {
+        allow read: if isSignedIn();
+
+        allow create: if isSignedIn()
+          && request.resource.data.authorUID == request.auth.uid
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() <= 300
+          && request.resource.data.authorNickname is string
+          && request.resource.data.createdAt == request.time;
+
+        // D5: 스토리 작성자는 타인의 댓글을 삭제할 수 없다.
+        allow delete: if isSignedIn()
+          && resource.data.authorUID == request.auth.uid;
+
+        allow update: if false;
+
+        // M3-1: 댓글 문서 삭제와 무관하게 운영 이력은 최상위 reports에 보존한다.
+        match /reports/{reporterUID} {
+          allow create: if isSignedIn() && reporterUID == request.auth.uid;
+          allow read, update, delete: if false;
+        }
+      }
+
+      // 기존 스토리 신고의 중복 방지용 서브컬렉션.
+      match /reports/{reporterUID} {
+        allow create: if isSignedIn() && reporterUID == request.auth.uid;
+        allow read, update, delete: if false;
+      }
+    }
+
+    match /users/{uid} {
+      // UserRepositoryImpl의 생성, 닉네임/lastSeenAt 갱신을 유지한다.
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && request.auth.uid == uid;
+
+      match /blocks/{blockedUID} {
+        allow read, write: if isSignedIn() && request.auth.uid == uid;
+      }
+    }
+
+    // D11: 운영 추적용 신고 스냅샷. 운영자는 Firebase 콘솔에서만 조회한다.
+    match /reports/{reportID} {
+      allow create: if isSignedIn()
+        && request.resource.data.reporterUID == request.auth.uid
+        && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if false;
+    }
+  }
+}
