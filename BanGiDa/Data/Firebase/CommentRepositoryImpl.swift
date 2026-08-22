@@ -47,6 +47,37 @@ public final class CommentRepositoryImpl: CommentRepository {
         )
     }
 
+    public func fetchPreviewComments(
+        storyIDs: [String],
+        limit: Int
+    ) async throws -> [String: [Comment]] {
+        guard !storyIDs.isEmpty else { return [:] }
+
+        return try await withThrowingTaskGroup(of: (String, [Comment]).self) { group in
+            for storyID in storyIDs {
+                group.addTask {
+                    let snapshot = try await self.db.collection("images")
+                        .document(storyID)
+                        .collection("comments")
+                        .order(by: "createdAt", descending: true)
+                        .limit(to: limit)
+                        .getDocuments()
+                    let comments = snapshot.documents.compactMap {
+                        self.parseComment($0, storyID: storyID)
+                    }
+
+                    return (storyID, comments)
+                }
+            }
+
+            var previews: [String: [Comment]] = [:]
+            for try await (storyID, comments) in group {
+                previews[storyID] = comments
+            }
+            return previews
+        }
+    }
+
     public func writeComment(
         storyID: String,
         text: String,

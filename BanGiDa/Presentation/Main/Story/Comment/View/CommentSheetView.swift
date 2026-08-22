@@ -11,18 +11,18 @@ struct CommentSheetView: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    private let onCommentCountChanged: (Int) -> Void
+    private let onCommentChanged: (Int, [Comment]) -> Void
 
     init(
         storyID: String,
         storyWriterUID: String,
-        onCommentCountChanged: @escaping (Int) -> Void
+        onCommentChanged: @escaping (Int, [Comment]) -> Void
     ) {
         self.init(
             storyID: storyID,
             storyWriterUID: storyWriterUID,
             initialCommentCount: 0,
-            onCommentCountChanged: onCommentCountChanged
+            onCommentChanged: onCommentChanged
         )
     }
 
@@ -30,7 +30,7 @@ struct CommentSheetView: View {
         storyID: String,
         storyWriterUID: String,
         initialCommentCount: Int = 0,
-        onCommentCountChanged: @escaping (Int) -> Void
+        onCommentChanged: @escaping (Int, [Comment]) -> Void
     ) {
         _viewModel = StateObject(
             wrappedValue: CommentViewModel(
@@ -39,7 +39,7 @@ struct CommentSheetView: View {
             )
         )
         _commentCount = State(initialValue: initialCommentCount)
-        self.onCommentCountChanged = onCommentCountChanged
+        self.onCommentChanged = onCommentChanged
     }
 
     var body: some View {
@@ -60,7 +60,10 @@ struct CommentSheetView: View {
         .onAppear {
             viewModel.observeSuccessfulSend {
                 commentCount += 1
-                onCommentCountChanged(commentCount)
+                onCommentChanged(
+                    commentCount,
+                    Array(viewModel.comments.prefix(CommentPolicy.previewCount))
+                )
             }
             viewModel.loadInitialIfNeeded()
         }

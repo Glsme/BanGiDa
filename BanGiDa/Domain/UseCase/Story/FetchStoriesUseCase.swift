@@ -13,10 +13,16 @@ public protocol FetchStoriesUseCase {
 
 public final class FetchStoriesUseCaseImpl: FetchStoriesUseCase {
     private let storyRepository: StoryRepository
+    private let commentRepository: CommentRepository
     private let userRepository: UserRepository
     
-    public init(storyRepository: StoryRepository, userRepository: UserRepository) {
+    public init(
+        storyRepository: StoryRepository,
+        commentRepository: CommentRepository,
+        userRepository: UserRepository
+    ) {
         self.storyRepository = storyRepository
+        self.commentRepository = commentRepository
         self.userRepository = userRepository
     }
     
@@ -28,7 +34,18 @@ public final class FetchStoriesUseCaseImpl: FetchStoriesUseCase {
         
         // 그래도 실패한다면 Error throw
         guard let uid = userRepository.loadUID() else { throw UserError.emptyUID }
-        
-        return try await storyRepository.fetchStories(after: cursor, uid: uid)
+
+        let page = try await storyRepository.fetchStories(after: cursor, uid: uid)
+        let previews = try await commentRepository.fetchPreviewComments(
+            storyIDs: page.stories.map(\.id),
+            limit: CommentPolicy.previewCount
+        )
+        let merged = page.stories.map { story -> Story in
+            var story = story
+            story.previewComments = previews[story.id] ?? []
+            return story
+        }
+
+        return StoryPage(stories: merged, nextCursor: page.nextCursor, isEnd: page.isEnd)
     }
 }

@@ -212,7 +212,8 @@ public final class StoryRepositoryImpl: StoryRepository {
                 text: text,
                 isHearted: isHearted,
                 heartCount: likeCount,
-                commentCount: data["commentCount"] as? Int ?? 0
+                commentCount: data["commentCount"] as? Int ?? 0,
+                previewComments: []
             )
         }
     }

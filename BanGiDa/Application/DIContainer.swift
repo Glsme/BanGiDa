@@ -92,6 +92,7 @@ final class AppDIContainer {
         container.register(FetchStoriesUseCase.self) { resolver in
             FetchStoriesUseCaseImpl(
                 storyRepository: resolver.force(StoryRepository.self),
+                commentRepository: resolver.force(CommentRepository.self),
                 userRepository: resolver.force(UserRepository.self)
             )
         }

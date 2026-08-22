@@ -17,6 +17,7 @@ public struct Story: Identifiable {
     public var isHearted: Bool
     public var heartCount: Int
     public var commentCount: Int
+    public var previewComments: [Comment]
 }
 
 public struct StoryPage {

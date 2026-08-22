@@ -5,6 +5,7 @@
 //  Created by 홍석준 on 12/23/25.
 //
 
+import Foundation
 import SwiftUI
 
 struct StoryRow: View {
@@ -16,9 +17,10 @@ struct StoryRow: View {
     let storyWriterUID: String
     let heartCount: Int
     let commentCount: Int
+    let previewComments: [Comment]
     let showsHotBadge: Bool
     let onHeartTap: () -> Void
-    let onCommentCountChanged: (Int) -> Void
+    let onCommentChanged: (Int, [Comment]) -> Void
     
     @Binding var isHearted: Bool
     @State private var isReportSheetPresented = false
@@ -35,8 +37,9 @@ struct StoryRow: View {
         isHearted: Binding<Bool>,
         heartCount: Int,
         commentCount: Int,
+        previewComments: [Comment],
         onHeartTap: @escaping () -> Void = {},
-        onCommentCountChanged: @escaping (Int) -> Void = { _ in }
+        onCommentChanged: @escaping (Int, [Comment]) -> Void = { _, _ in }
     ) {
         self.storyID = storyID
         self.imageURL = imageURL
@@ -48,8 +51,9 @@ struct StoryRow: View {
         self._isHearted = isHearted
         self.heartCount = heartCount
         self.commentCount = commentCount
+        self.previewComments = previewComments
         self.onHeartTap = onHeartTap
-        self.onCommentCountChanged = onCommentCountChanged
+        self.onCommentChanged = onCommentChanged
     }
     
     var body: some View {
@@ -100,6 +104,13 @@ struct StoryRow: View {
             
             writingView(nickname: nickname, text: text)
                 .padding(.leading, 2)
+
+            CommentPreviewView(
+                comments: previewComments,
+                commentCount: commentCount,
+                storyWriterUID: storyWriterUID,
+                onTap: { isCommentSheetPresented = true }
+            )
         }
         .sheet(isPresented: $isReportSheetPresented) {
             ReportSheetView(storyID: storyID)
@@ -109,7 +120,7 @@ struct StoryRow: View {
                 storyID: storyID,
                 storyWriterUID: storyWriterUID,
                 initialCommentCount: commentCount,
-                onCommentCountChanged: onCommentCountChanged
+                onCommentChanged: onCommentChanged
             )
         }
     }
@@ -211,6 +222,26 @@ private extension StoryRow {
         isHearted: .constant(false),
         heartCount: 2,
         commentCount: 3,
+        previewComments: [
+            Comment(
+                id: "preview-comment-1",
+                storyID: "preview-story",
+                authorUID: "preview-writer",
+                authorNickname: "안경줄복학생",
+                text: "날씨가 정말 좋네요!",
+                createdAt: Date(),
+                displayTime: "방금 전"
+            ),
+            Comment(
+                id: "preview-comment-2",
+                storyID: "preview-story",
+                authorUID: "preview-reader",
+                authorNickname: "고양이집사",
+                text: "정말 귀여워요.",
+                createdAt: Date(),
+                displayTime: "1분 전"
+            )
+        ],
         onHeartTap: {}
     )
 }

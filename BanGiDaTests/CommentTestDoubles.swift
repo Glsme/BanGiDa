@@ -4,7 +4,9 @@ import Foundation
 
 final class MockCommentRepository: CommentRepository {
     var fetchedPage = CommentPage(comments: [], nextCursor: nil, isEnd: true)
+    var previewCommentsByStoryID: [String: [Comment]] = [:]
     var fetchError: Error?
+    var previewFetchError: Error?
     var writeError: Error?
     var writtenComment = Comment(
         id: "written-comment",
@@ -19,6 +21,8 @@ final class MockCommentRepository: CommentRepository {
     private(set) var requestedStoryID: String?
     private(set) var requestedCursor: CommentCursor?
     private(set) var requestedLimit: Int?
+    private(set) var requestedPreviewStoryIDs: [String] = []
+    private(set) var requestedPreviewLimit: Int?
     private(set) var writtenStoryID: String?
     private(set) var writtenText: String?
     private(set) var writtenAuthorUID: String?
@@ -40,6 +44,20 @@ final class MockCommentRepository: CommentRepository {
         return fetchedPage
     }
 
+    func fetchPreviewComments(
+        storyIDs: [String],
+        limit: Int
+    ) async throws -> [String: [Comment]] {
+        requestedPreviewStoryIDs = storyIDs
+        requestedPreviewLimit = limit
+
+        if let previewFetchError {
+            throw previewFetchError
+        }
+
+        return previewCommentsByStoryID
+    }
+
     func writeComment(
         storyID: String,
         text: String,
@@ -57,6 +75,31 @@ final class MockCommentRepository: CommentRepository {
 
         return writtenComment
     }
+}
+
+final class MockStoryRepository: StoryRepository {
+    var fetchedPage = StoryPage(stories: [], nextCursor: nil, isEnd: true)
+    var fetchError: Error?
+
+    private(set) var requestedCursor: StoryCursor?
+    private(set) var requestedUID: String?
+
+    func fetchStories(after cursor: StoryCursor?, uid: String) async throws -> StoryPage {
+        requestedCursor = cursor
+        requestedUID = uid
+
+        if let fetchError {
+            throw fetchError
+        }
+
+        return fetchedPage
+    }
+
+    func writeStory(image: Data, text: String, nickname: String, uid: String) async throws {}
+
+    func toggleLike(storyID: String, uid: String) async throws {}
+
+    func report(storyID: String, uid: String, reason: String) async throws {}
 }
 
 final class MockUserRepository: UserRepository {

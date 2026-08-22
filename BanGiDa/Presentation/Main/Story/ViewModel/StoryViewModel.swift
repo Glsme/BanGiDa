@@ -87,6 +87,11 @@ final class StoryViewModel: ObservableObject {
         guard let index = stories.firstIndex(where: { $0.id == storyID }) else { return }
         stories[index].commentCount = max(0, count)
     }
+
+    func updateCommentPreview(storyID: String, comments: [Comment]) {
+        guard let index = stories.firstIndex(where: { $0.id == storyID }) else { return }
+        stories[index].previewComments = Array(comments.prefix(CommentPolicy.previewCount))
+    }
     
     // MARK: - Private
     

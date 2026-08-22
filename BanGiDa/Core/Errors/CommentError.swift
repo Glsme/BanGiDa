@@ -13,6 +13,7 @@ public enum CommentError: Error, Equatable {
 
 public enum CommentPolicy {
     public static let maxLength = 300
+    public static let previewCount = 2
     public static let pageSize = 20
     public static let writeCooldown: TimeInterval = 3
 }

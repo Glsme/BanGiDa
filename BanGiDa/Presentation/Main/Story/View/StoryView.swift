@@ -31,11 +31,13 @@ struct StoryView: View {
                             isHearted: $viewModel.stories[index].isHearted,
                             heartCount: story.heartCount,
                             commentCount: story.commentCount,
+                            previewComments: story.previewComments,
                             onHeartTap: {
                                 viewModel.toggleStoryLike(index: index)
                             },
-                            onCommentCountChanged: { count in
+                            onCommentChanged: { count, comments in
                                 viewModel.updateCommentCount(storyID: story.id, count: count)
+                                viewModel.updateCommentPreview(storyID: story.id, comments: comments)
                             }
                         )
                         .padding(.top, index == 0 ? 0 : 44)
