@@ -29,8 +29,10 @@ struct CommentInputBar: View {
                 TextField("댓글을 입력해 주세요", text: $text, axis: .vertical)
                     .lineLimit(1...4)
                     .font(.custom("HelveticaNeue-Regular", size: 14))
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 9)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 12)
+                    // 한 줄만 입력해도 눌리는 영역이 확보되도록 최소 높이를 준다(HIG 44pt).
+                    .frame(minHeight: 44)
                     .background(Color.memoBackgroundColor)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .onChange(of: text) { newValue in

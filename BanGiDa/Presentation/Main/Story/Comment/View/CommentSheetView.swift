@@ -110,7 +110,9 @@ private extension CommentSheetView {
             .accessibilityLabel("댓글 시트 닫기")
         }
         .padding(.horizontal, 20)
-        .padding(.vertical, 16)
+        // 시트 상단 drag indicator와 겹쳐 보이지 않도록 위쪽 여백을 더 준다.
+        .padding(.top, 28)
+        .padding(.bottom, 16)
     }
 
     @ViewBuilder

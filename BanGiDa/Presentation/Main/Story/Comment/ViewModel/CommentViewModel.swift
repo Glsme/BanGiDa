@@ -55,6 +55,10 @@ final class CommentViewModel: ObservableObject {
     func send() {
         guard !isSending else { return }
 
+        // 버튼은 이미 비활성이지만, 어떤 경로로 호출되든 공백뿐인 입력은 전송하지 않는다.
+        // UseCase까지 보내면 emptyText 오류로 알럿이 떠서 사용자에게 불필요한 경고가 된다.
+        guard !inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+
         if let lastSuccessfulSendAt,
            Date().timeIntervalSince(lastSuccessfulSendAt) < CommentPolicy.writeCooldown {
             handle(error: CommentError.rateLimited)

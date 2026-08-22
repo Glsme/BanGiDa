@@ -298,6 +298,21 @@ struct CommentViewModelTests {
     }
 
     @MainActor
+    @Test func doesNotSendWhenInputIsOnlyWhitespace() async {
+        let commentRepository = MockCommentRepository()
+        let viewModel = makeViewModel(commentRepository: commentRepository)
+        viewModel.inputText = "   \n\n  "
+
+        viewModel.send()
+        await Task.yield()
+
+        // 전송 시도 자체가 없어야 한다. UseCase까지 가면 불필요한 오류 알럿이 뜬다.
+        #expect(commentRepository.writtenText == nil)
+        #expect(viewModel.errorMessage == nil)
+        #expect(viewModel.inputText == "   \n\n  ")
+    }
+
+    @MainActor
     @Test func identifiesOnlyTheStoryWritersComments() {
         let viewModel = makeViewModel(commentRepository: MockCommentRepository())
 
