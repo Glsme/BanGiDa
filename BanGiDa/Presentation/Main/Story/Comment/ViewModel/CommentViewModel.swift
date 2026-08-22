@@ -113,7 +113,10 @@ final class CommentViewModel: ObservableObject {
     func block(comment: Comment) {
         Task {
             do {
-                try await blockUserUseCase.execute(targetUID: comment.authorUID)
+                try await blockUserUseCase.execute(
+                    targetUID: comment.authorUID,
+                    nickname: comment.authorNickname
+                )
                 // §8.2: 차단은 화면에서 즉시 숨기는 클라이언트 필터다. 서버의 commentCount는
                 // 그대로 두고(다음 새로고침에서 FetchCommentsUseCase가 다시 걸러낸다) 목록에서만 제거한다.
                 comments.removeAll { $0.authorUID == comment.authorUID }

@@ -16,6 +16,7 @@ public protocol UserRepository {
     func checkRegistration(uid: String) async throws -> Bool
     func loadUID() -> String?
     func fetchBlockedUIDs() async throws -> Set<String>
-    func block(uid: String) async throws
+    func fetchBlockedUsers() async throws -> [BlockedUser]
+    func block(uid: String, nickname: String) async throws
     func unblock(uid: String) async throws
 }

@@ -157,6 +157,10 @@ final class AppDIContainer {
             UnblockUserUseCaseImpl(userRepository: resolver.force(UserRepository.self))
         }
 
+        container.register(FetchBlockedUsersUseCase.self) { resolver in
+            FetchBlockedUsersUseCaseImpl(userRepository: resolver.force(UserRepository.self))
+        }
+
         // MARK: - Diary UseCases
 
         container.register(FetchDiariesByDateUseCase.self) { resolver in

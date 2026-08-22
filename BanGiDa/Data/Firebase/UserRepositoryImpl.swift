@@ -77,7 +77,30 @@ public final class UserRepositoryImpl: UserRepository {
         return Set(snapshot.documents.map { $0.documentID })
     }
 
-    public func block(uid: String) async throws {
+    public func fetchBlockedUsers() async throws -> [BlockedUser] {
+        guard let uid = loadUID() else { throw UserError.emptyUID }
+
+        let snapshot = try await db.collection("users")
+            .document(uid)
+            .collection("blocks")
+            .order(by: "createdAt", descending: true)
+            .getDocuments()
+
+        return snapshot.documents.map { document in
+            let data = document.data()
+            let blockedAt = blockedAt(from: data["createdAt"])
+            let nickname = data["nickname"] as? String ?? "알 수 없는 사용자"
+
+            return BlockedUser(
+                id: document.documentID,
+                nickname: nickname.isEmpty ? "알 수 없는 사용자" : nickname,
+                blockedAt: blockedAt,
+                displayTime: RelativeTimeFormatter.formattedTime(from: blockedAt)
+            )
+        }
+    }
+
+    public func block(uid: String, nickname: String) async throws {
         guard let currentUID = loadUID() else { throw UserError.emptyUID }
 
         let blockReference = db.collection("users")
@@ -85,7 +108,10 @@ public final class UserRepositoryImpl: UserRepository {
             .collection("blocks")
             .document(uid)
 
-        try await blockReference.setData(["createdAt": FieldValue.serverTimestamp()])
+        try await blockReference.setData([
+            "nickname": nickname,
+            "createdAt": FieldValue.serverTimestamp()
+        ])
     }
 
     public func unblock(uid: String) async throws {
@@ -97,5 +123,19 @@ public final class UserRepositoryImpl: UserRepository {
             .document(uid)
 
         try await blockReference.delete()
+    }
+
+    // MARK: - Private
+
+    private func blockedAt(from value: Any?) -> Date {
+        if let timestamp = value as? Timestamp {
+            return timestamp.dateValue()
+        }
+
+        if let date = value as? Date {
+            return date
+        }
+
+        return Date()
     }
 }

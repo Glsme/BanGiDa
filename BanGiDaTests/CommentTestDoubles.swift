@@ -171,9 +171,13 @@ final class MockUserRepository: UserRepository {
     var nickname: String?
     var blockedUIDs: Set<String> = []
     var fetchBlockedUIDsError: Error?
+    var blockedUsers: [BlockedUser] = []
+    var fetchBlockedUsersError: Error?
+    var unblockError: Error?
 
     private(set) var createUserCallCount = 0
     private(set) var blockedUID: String?
+    private(set) var blockedNickname: String?
     private(set) var unblockedUID: String?
 
     func signIn() async throws {}
@@ -209,14 +213,36 @@ final class MockUserRepository: UserRepository {
         return blockedUIDs
     }
 
-    func block(uid: String) async throws {
+    func fetchBlockedUsers() async throws -> [BlockedUser] {
+        if let fetchBlockedUsersError {
+            throw fetchBlockedUsersError
+        }
+
+        return blockedUsers
+    }
+
+    func block(uid: String, nickname: String) async throws {
         blockedUID = uid
+        blockedNickname = nickname
         blockedUIDs.insert(uid)
+        blockedUsers.append(
+            BlockedUser(
+                id: uid,
+                nickname: nickname,
+                blockedAt: Date(),
+                displayTime: "방금 전"
+            )
+        )
     }
 
     func unblock(uid: String) async throws {
+        if let unblockError {
+            throw unblockError
+        }
+
         unblockedUID = uid
         blockedUIDs.remove(uid)
+        blockedUsers.removeAll { $0.id == uid }
     }
 }
 

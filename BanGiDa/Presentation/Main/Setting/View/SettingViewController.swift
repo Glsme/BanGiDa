@@ -5,11 +5,13 @@
 //  Created by Seokjune Hong on 2022/09/08.
 //
 
-import UIKit
 import MessageUI
-import AcknowList
-import StoreKit
 import PhotosUI
+import StoreKit
+import SwiftUI
+import UIKit
+
+import AcknowList
 import CropViewController
 
 final class SettingViewController: BaseViewController {
@@ -133,6 +135,12 @@ final class SettingViewController: BaseViewController {
         vc.acknowledgements = acknowList.acknowledgements
         transViewController(ViewController: vc, type: .push)
     }
+
+    private func showBlockedUsers() {
+        let viewController = UIHostingController(rootView: BlockedUsersView())
+        viewController.title = "차단 목록"
+        transViewController(ViewController: viewController, type: .push)
+    }
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
@@ -188,6 +196,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             moveToReview()
         case 1 where indexPath.row == 1:
             sendMail()
+        case 1 where indexPath.row == 2:
+            showBlockedUsers()
         case 2 where indexPath.row == 0:
             openSourceLibraryButtonDidTap()
         default:

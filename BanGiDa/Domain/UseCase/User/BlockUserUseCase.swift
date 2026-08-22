@@ -6,7 +6,7 @@
 import Foundation
 
 public protocol BlockUserUseCase {
-    func execute(targetUID: String) async throws
+    func execute(targetUID: String, nickname: String) async throws
 }
 
 public final class BlockUserUseCaseImpl: BlockUserUseCase {
@@ -16,7 +16,7 @@ public final class BlockUserUseCaseImpl: BlockUserUseCase {
         self.userRepository = userRepository
     }
 
-    public func execute(targetUID: String) async throws {
+    public func execute(targetUID: String, nickname: String) async throws {
         // 기존 WriteCommentUseCase와 동일한 UID 확보 절차.
         if userRepository.loadUID()?.isEmpty ?? true {
             try await userRepository.createUser()
@@ -24,6 +24,6 @@ public final class BlockUserUseCaseImpl: BlockUserUseCase {
 
         guard userRepository.loadUID() != nil else { throw UserError.emptyUID }
 
-        try await userRepository.block(uid: targetUID)
+        try await userRepository.block(uid: targetUID, nickname: nickname)
     }
 }

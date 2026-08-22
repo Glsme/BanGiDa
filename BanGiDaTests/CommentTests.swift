@@ -216,14 +216,15 @@ struct ReportCommentUseCaseTests {
 }
 
 struct BlockUserUseCaseTests {
-    @Test func blocksTargetUIDThroughRepository() async throws {
+    @Test func forwardsTargetUIDAndNicknameToRepository() async throws {
         let userRepository = MockUserRepository()
         userRepository.uid = "my-uid"
         let useCase = BlockUserUseCaseImpl(userRepository: userRepository)
 
-        try await useCase.execute(targetUID: "target-uid")
+        try await useCase.execute(targetUID: "target-uid", nickname: "차단 대상")
 
         #expect(userRepository.blockedUID == "target-uid")
+        #expect(userRepository.blockedNickname == "차단 대상")
         #expect(userRepository.blockedUIDs.contains("target-uid"))
     }
 
@@ -232,10 +233,11 @@ struct BlockUserUseCaseTests {
         userRepository.uidAfterCreate = "new-uid"
         let useCase = BlockUserUseCaseImpl(userRepository: userRepository)
 
-        try await useCase.execute(targetUID: "target-uid")
+        try await useCase.execute(targetUID: "target-uid", nickname: "차단 대상")
 
         #expect(userRepository.createUserCallCount == 1)
         #expect(userRepository.blockedUID == "target-uid")
+        #expect(userRepository.blockedNickname == "차단 대상")
     }
 }
 
