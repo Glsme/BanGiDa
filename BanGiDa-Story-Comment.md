@@ -890,15 +890,23 @@ R3/R4는 인터페이스가 바뀌므로 컴파일러가 누락된 호출부를 
 
 ## 11. 구현 마일스톤
 
-| 단계 | 내용 | 산출물 | 검증 |
-|---|---|---|---|
-| **M0** | 선행 리팩토링 (§10) | storyID·writerUID 노출, 테스트 타깃 | 빌드 통과 + 기존 좋아요/신고 수동 회귀 |
-| **M1** | 댓글 조회·작성 | `CommentTypes`, `CommentRepository(+Impl)`, `Fetch`/`WriteCommentUseCase`, `CommentSheetView`, `CommentViewModel`, DI 등록 | UseCase 단위 테스트 + 에뮬레이터 통합 테스트 + AC-03·04·05·10·14 |
-| **M2** | 인라인 미리보기 + 카운터 | `fetchPreviewComments`, `FetchStoriesUseCase` 조합, `CommentPreviewView`, `StoryRow` 변경 | AC-01·02·06 |
-| **M3** | 삭제·신고·차단 | `Delete`/`ReportCommentUseCase`, `BlockUserUseCase`, 컨텍스트 메뉴, `firestore.rules`, 가이드 문구 | AC-07·08·09 + 규칙 단위 테스트 |
-| **M4** | 푸시 알림 | `UpdateFCMTokenUseCase`, `AppDelegate` 교정, Cloud Functions, 설정 토글 | AC-11·12·13 (실기기 필수) |
+| 단계 | 내용 | 산출물 | 검증 | 상태 |
+|---|---|---|---|---|
+| **M0** | 선행 리팩토링 (§10) | storyID·writerUID 노출, APNs 시그니처 교정, 테스트 타깃 | 빌드 + 테스트 2건 | ✅ `57ff4d2` |
+| **M1** | 댓글 조회·작성 | `CommentTypes`, `CommentRepository(+Impl)`, `Fetch`/`WriteCommentUseCase`, `CommentSheetView`, `CommentViewModel`, `RelativeTimeFormatter` 추출, DI 등록 | 테스트 9건 + AC-03·04·05·10·14 | ✅ `0628c2e` |
+| **M2** | 인라인 미리보기 + 카운터 | `fetchPreviewComments`, `FetchStoriesUseCase` 조합, `CommentPreviewView`, `StoryRow` 변경 | 테스트 12건 + AC-01·02·06 | ✅ `a00bb45` |
+| **M3-1** | 삭제·신고·차단 | `Delete`/`ReportCommentUseCase`, `Block`/`UnblockUserUseCase`, `ReportTarget`, 컨텍스트 메뉴, 최상위 `reports` 스냅샷 | 테스트 19건 + AC-07·08·09 | ✅ `f69a25b` |
+| **M3-2** | 정책·보안 규칙 | `ProfanityFilter`(+번들 구현체·사전), `storyAgreementVersion` 재동의, `firestore.rules` | 테스트 26건 | ✅ `0ae72db` |
+| **M3-3** | 차단 목록·해제 UI | `BlockedUser`, `FetchBlockedUsersUseCase`, `BlockedUsersView`, 설정 화면 연결 | 테스트 + 수동 확인 | 진행 중 |
+| **M4** | 푸시 알림 | `UpdateFCMTokenUseCase`, FCM 토큰 저장, Cloud Functions, 설정 토글 | AC-11·12·13 (실기기 필수) | 대기 |
 
-M1~M2는 서로 의존하지만 M3, M4는 M1 완료 후 병렬 진행이 가능하다. 병렬로 갈 경우 하네스 규칙에 따라 `harness worktree`로 작업 디렉터리를 분리한다.
+M1~M2는 서로 의존한다. M3는 원래 한 단계였으나 범위가 M1보다 커져 세 단계로 분할했다 — 한 번에 맡기면 일부가 조용히 누락될 위험이 있었다. M3-3(차단 해제 UI)은 착수 시점에는 계획에 없었고, M3-1 구현 중 "차단은 되는데 해제할 방법이 없다"는 것이 드러나 추가됐다.
+
+### 11.1 실제 진행에서 배운 것
+
+- **서브에이전트는 빌드 검증을 하지 못한다** (§12.2 함정 3). 코드 작성과 `swiftc -parse`까지만 맡기고 빌드·테스트·커밋은 호출자가 맡는 분업이 자리 잡았다.
+- **`swiftc -parse`를 통과해도 컴파일은 실패할 수 있다.** 타입 해석과 모듈 스코프는 검사되지 않아, M1에서 `Comment` 이름 충돌(Swift Testing에도 동명 타입이 있다)과 `import Foundation` 누락이 뒤늦게 드러났다. 이후 마일스톤 지시서에 이 두 항목을 누적해 넣자 재발하지 않았다.
+- **빌드 실패의 다수는 코드가 아니라 환경 문제였다.** 시뮬레이터 런타임 불일치와 Realm 모듈맵 권한 문제가 그것이다(§12.2 함정 1·2).
 
 ---
 
