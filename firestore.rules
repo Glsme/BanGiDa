@@ -25,8 +25,11 @@ service cloud.firestore {
         && request.resource.data.imageURL is string
         && request.resource.data.createdAt == request.time
         && request.resource.data.text is string
-        && request.resource.data.likeCount == 0
-        && request.resource.data.commentCount == 0;
+        // 구버전 앱은 commentCount 없이 6개 필드만 쓴다(이 필드는 M2에서 추가됨).
+        // 값을 단정하면 앱스토어에 나가 있는 버전의 스토리 작성이 전부 거부되므로
+        // 기본값을 두고 검사한다. likeCount도 같은 이유로 방어한다.
+        && request.resource.data.get('likeCount', 0) == 0
+        && request.resource.data.get('commentCount', 0) == 0;
 
       // §9.1: increment sentinel은 값이 아닌 변환으로 평가되어 증감 폭을 검증할 수 없다.
       allow update: if isSignedIn()

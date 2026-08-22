@@ -6,7 +6,12 @@ admin.initializeApp();
 const db = admin.firestore();
 
 exports.onStoryCommentCreated = onDocumentCreated(
-  "images/{storyID}/comments/{commentID}",
+  {
+    document: "images/{storyID}/comments/{commentID}",
+    // Firestore가 asia-northeast3에 있으므로 함수도 같은 리전에 둔다.
+    // 기본값(us-central1)으로 두면 트리거와 함수가 대륙을 넘어 오간다.
+    region: "asia-northeast3",
+  },
   async (event) => {
     const comment = event.data?.data();
     if (!comment) return;
