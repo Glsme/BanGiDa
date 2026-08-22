@@ -75,7 +75,7 @@ struct StoryView: View {
             .padding(.trailing, 20)
             .padding(.bottom, 24)
 
-            if shouldPresentStoryGuide {
+            if storyAgreementVersion < StoryGuidePolicy.currentVersion {
                 StoryGuideOverlay(onAgree: {
                     storyAgreementVersion = StoryGuidePolicy.currentVersion
                 })
@@ -83,6 +83,9 @@ struct StoryView: View {
         }
         .background(Color.backgroundColor)
         .task {
+            // 댓글은 새로운 종류의 UGC다. 사진 정책에만 동의한 사용자에게 댓글 제재
+            // 조항을 고지 없이 적용할 수 없어, 레거시 동의를 버전 1로 올려 재동의를 받는다.
+            StoryGuidePolicy.migrateLegacyAgreementIfNeeded()
             viewModel.loadInitialIfNeeded()
         }
         .fullScreenCover(isPresented: $isWriteStoryPresented, onDismiss: {
@@ -98,23 +101,6 @@ struct StoryView: View {
 }
 
 private extension StoryView {
-    // 댓글은 새로운 종류의 UGC다. 사진 정책에만 동의한 사용자에게 댓글 제재 조항을
-    // 고지 없이 적용하면 근거가 약하고, 심사 대응 시 댓글 정책 고지 시점을 설명할 수 없다.
-    var shouldPresentStoryGuide: Bool {
-        effectiveStoryAgreementVersion < StoryGuidePolicy.currentVersion
-    }
-
-    var effectiveStoryAgreementVersion: Int {
-        let versionKey = UserDefaultsKey.storyAgreementVersion.rawValue
-
-        if UserDefaults.standard.object(forKey: versionKey) == nil,
-           UserDefaults.standard.bool(forKey: UserDefaultsKey.storyAgreement.rawValue) {
-            return 1
-        }
-
-        return storyAgreementVersion
-    }
-
     func presentWriteStoryView() {
         isWriteStoryPresented = true
     }
