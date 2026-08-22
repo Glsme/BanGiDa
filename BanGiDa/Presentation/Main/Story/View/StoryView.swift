@@ -13,7 +13,7 @@ struct StoryView: View {
     @StateObject private var viewModel = StoryViewModel()
     @State private var isWriteStoryPresented = false
     @State private var shouldRefreshAfterWrite = false
-    @AppStorage(UserDefaultsKey.storyAgreement.rawValue) private var hasAgreedToStoryGuide = false
+    @AppStorage(UserDefaultsKey.storyAgreementVersion.rawValue) private var storyAgreementVersion = 0
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -75,9 +75,9 @@ struct StoryView: View {
             .padding(.trailing, 20)
             .padding(.bottom, 24)
 
-            if !hasAgreedToStoryGuide {
+            if shouldPresentStoryGuide {
                 StoryGuideOverlay(onAgree: {
-                    hasAgreedToStoryGuide = true
+                    storyAgreementVersion = StoryGuidePolicy.currentVersion
                 })
             }
         }
@@ -98,6 +98,23 @@ struct StoryView: View {
 }
 
 private extension StoryView {
+    // 댓글은 새로운 종류의 UGC다. 사진 정책에만 동의한 사용자에게 댓글 제재 조항을
+    // 고지 없이 적용하면 근거가 약하고, 심사 대응 시 댓글 정책 고지 시점을 설명할 수 없다.
+    var shouldPresentStoryGuide: Bool {
+        effectiveStoryAgreementVersion < StoryGuidePolicy.currentVersion
+    }
+
+    var effectiveStoryAgreementVersion: Int {
+        let versionKey = UserDefaultsKey.storyAgreementVersion.rawValue
+
+        if UserDefaults.standard.object(forKey: versionKey) == nil,
+           UserDefaults.standard.bool(forKey: UserDefaultsKey.storyAgreement.rawValue) {
+            return 1
+        }
+
+        return storyAgreementVersion
+    }
+
     func presentWriteStoryView() {
         isWriteStoryPresented = true
     }

@@ -2,6 +2,18 @@ import Foundation
 
 @testable import BanGiDa
 
+final class MockProfanityFilter: ProfanityFilter {
+    var isProhibited = false
+    var prohibitedTexts: Set<String> = []
+
+    private(set) var checkedTexts: [String] = []
+
+    func containsProhibitedWord(_ text: String) -> Bool {
+        checkedTexts.append(text)
+        return isProhibited || prohibitedTexts.contains(text)
+    }
+}
+
 final class MockCommentRepository: CommentRepository {
     var fetchedPage = CommentPage(comments: [], nextCursor: nil, isEnd: true)
     var previewCommentsByStoryID: [String: [Comment]] = [:]

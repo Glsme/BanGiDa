@@ -36,6 +36,11 @@ final class AppDIContainer {
         }
         .inObjectScope(.container)
 
+        container.register(ProfanityFilter.self) { _ in
+            BundleProfanityFilter()
+        }
+        .inObjectScope(.container)
+
         container.register(DiaryRepository.self) { _ in
             RealmDiaryRepository()
         }
@@ -123,7 +128,8 @@ final class AppDIContainer {
         container.register(WriteCommentUseCase.self) { resolver in
             WriteCommentUseCaseImpl(
                 commentRepository: resolver.force(CommentRepository.self),
-                userRepository: resolver.force(UserRepository.self)
+                userRepository: resolver.force(UserRepository.self),
+                profanityFilter: resolver.force(ProfanityFilter.self)
             )
         }
 

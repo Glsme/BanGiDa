@@ -11,7 +11,8 @@ struct WriteCommentUseCaseTests {
         userRepository.nickname = "닉네임"
         let useCase = WriteCommentUseCaseImpl(
             commentRepository: commentRepository,
-            userRepository: userRepository
+            userRepository: userRepository,
+            profanityFilter: MockProfanityFilter()
         )
 
         await #expect(throws: CommentError.emptyText) {
@@ -26,7 +27,8 @@ struct WriteCommentUseCaseTests {
         userRepository.nickname = "닉네임"
         let useCase = WriteCommentUseCaseImpl(
             commentRepository: commentRepository,
-            userRepository: userRepository
+            userRepository: userRepository,
+            profanityFilter: MockProfanityFilter()
         )
 
         await #expect(throws: CommentError.textTooLong) {
@@ -44,7 +46,8 @@ struct WriteCommentUseCaseTests {
         userRepository.nickname = "닉네임"
         let useCase = WriteCommentUseCaseImpl(
             commentRepository: commentRepository,
-            userRepository: userRepository
+            userRepository: userRepository,
+            profanityFilter: MockProfanityFilter()
         )
 
         _ = try await useCase.execute(storyID: "story-id", text: "  반가워요! \n")
@@ -60,13 +63,65 @@ struct WriteCommentUseCaseTests {
         userRepository.nickname = "닉네임"
         let useCase = WriteCommentUseCaseImpl(
             commentRepository: commentRepository,
-            userRepository: userRepository
+            userRepository: userRepository,
+            profanityFilter: MockProfanityFilter()
         )
 
         _ = try await useCase.execute(storyID: "story-id", text: "댓글")
 
         #expect(userRepository.createUserCallCount == 1)
         #expect(commentRepository.writtenAuthorUID == "new-uid")
+    }
+
+    @Test func rejectsProhibitedTextBeforeWritingToRepository() async {
+        let commentRepository = MockCommentRepository()
+        let userRepository = MockUserRepository()
+        let profanityFilter = MockProfanityFilter()
+        userRepository.uid = "uid"
+        userRepository.nickname = "닉네임"
+        profanityFilter.prohibitedTexts = ["금칙어가 있는 댓글"]
+        let useCase = WriteCommentUseCaseImpl(
+            commentRepository: commentRepository,
+            userRepository: userRepository,
+            profanityFilter: profanityFilter
+        )
+
+        await #expect(throws: CommentError.containsProhibitedWord) {
+            try await useCase.execute(storyID: "story-id", text: "금칙어가 있는 댓글")
+        }
+
+        #expect(profanityFilter.checkedTexts == ["금칙어가 있는 댓글"])
+        #expect(commentRepository.writtenStoryID == nil)
+    }
+
+    @Test func validatesEmptyTextThenLengthThenProhibitedText() async {
+        let commentRepository = MockCommentRepository()
+        let userRepository = MockUserRepository()
+        let profanityFilter = MockProfanityFilter()
+        userRepository.uid = "uid"
+        userRepository.nickname = "닉네임"
+        profanityFilter.isProhibited = true
+        let useCase = WriteCommentUseCaseImpl(
+            commentRepository: commentRepository,
+            userRepository: userRepository,
+            profanityFilter: profanityFilter
+        )
+
+        await #expect(throws: CommentError.emptyText) {
+            try await useCase.execute(storyID: "story-id", text: " \n ")
+        }
+        await #expect(throws: CommentError.textTooLong) {
+            try await useCase.execute(
+                storyID: "story-id",
+                text: String(repeating: "가", count: CommentPolicy.maxLength + 1)
+            )
+        }
+        await #expect(throws: CommentError.containsProhibitedWord) {
+            try await useCase.execute(storyID: "story-id", text: "검사 대상 댓글")
+        }
+
+        #expect(profanityFilter.checkedTexts == ["검사 대상 댓글"])
+        #expect(commentRepository.writtenStoryID == nil)
     }
 }
 
@@ -201,6 +256,25 @@ struct CommentViewModelTests {
     }
 
     @MainActor
+    @Test func showsProhibitedWordMessageWithoutClearingInput() async {
+        let commentRepository = MockCommentRepository()
+        let profanityFilter = MockProfanityFilter()
+        profanityFilter.isProhibited = true
+        let viewModel = makeViewModel(
+            commentRepository: commentRepository,
+            profanityFilter: profanityFilter
+        )
+        viewModel.inputText = "금칙어 포함 댓글"
+
+        viewModel.send()
+        await waitUntil { viewModel.errorMessage != nil }
+
+        #expect(viewModel.errorMessage == "사용할 수 없는 표현이 포함되어 있어요")
+        #expect(viewModel.inputText == "금칙어 포함 댓글")
+        #expect(commentRepository.writtenStoryID == nil)
+    }
+
+    @MainActor
     @Test func insertsSuccessfulCommentAtFrontOfNewestFirstList() async {
         let commentRepository = MockCommentRepository()
         let existingComment = makeComment(id: "existing-comment", authorUID: "other-uid")
@@ -231,7 +305,10 @@ struct CommentViewModelTests {
 }
 
 @MainActor
-private func makeViewModel(commentRepository: MockCommentRepository) -> CommentViewModel {
+private func makeViewModel(
+    commentRepository: MockCommentRepository,
+    profanityFilter: MockProfanityFilter = MockProfanityFilter()
+) -> CommentViewModel {
     let userRepository = MockUserRepository()
     userRepository.uid = "commenter-uid"
     userRepository.nickname = "댓글러"
@@ -248,7 +325,8 @@ private func makeViewModel(commentRepository: MockCommentRepository) -> CommentV
     AppDIContainer.shared.container.register(WriteCommentUseCase.self) { _ in
         WriteCommentUseCaseImpl(
             commentRepository: commentRepository,
-            userRepository: userRepository
+            userRepository: userRepository,
+            profanityFilter: profanityFilter
         )
     }
     .inObjectScope(.transient)

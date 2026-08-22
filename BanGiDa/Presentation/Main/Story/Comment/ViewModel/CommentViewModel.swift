@@ -160,6 +160,8 @@ final class CommentViewModel: ObservableObject {
             errorMessage = "댓글 내용을 입력해 주세요."
         case CommentError.textTooLong:
             errorMessage = "댓글은 300자까지 입력할 수 있어요."
+        case CommentError.containsProhibitedWord:
+            errorMessage = "사용할 수 없는 표현이 포함되어 있어요"
         case CommentError.rateLimited:
             errorMessage = "잠시 후 다시 전송해 주세요."
         case CommentError.notAuthor:

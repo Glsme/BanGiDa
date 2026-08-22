@@ -12,10 +12,16 @@ public protocol WriteCommentUseCase {
 public final class WriteCommentUseCaseImpl: WriteCommentUseCase {
     private let commentRepository: CommentRepository
     private let userRepository: UserRepository
+    private let profanityFilter: ProfanityFilter
 
-    public init(commentRepository: CommentRepository, userRepository: UserRepository) {
+    public init(
+        commentRepository: CommentRepository,
+        userRepository: UserRepository,
+        profanityFilter: ProfanityFilter
+    ) {
         self.commentRepository = commentRepository
         self.userRepository = userRepository
+        self.profanityFilter = profanityFilter
     }
 
     public func execute(storyID: String, text: String) async throws -> Comment {
@@ -29,6 +35,9 @@ public final class WriteCommentUseCaseImpl: WriteCommentUseCase {
         let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedText.isEmpty else { throw CommentError.emptyText }
         guard trimmedText.count <= CommentPolicy.maxLength else { throw CommentError.textTooLong }
+        guard !profanityFilter.containsProhibitedWord(trimmedText) else {
+            throw CommentError.containsProhibitedWord
+        }
 
         return try await commentRepository.writeComment(
             storyID: storyID,

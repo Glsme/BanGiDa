@@ -8,6 +8,7 @@ import Foundation
 public enum CommentError: Error, Equatable {
     case emptyText
     case textTooLong
+    case containsProhibitedWord
     case rateLimited
     case notAuthor
 }
