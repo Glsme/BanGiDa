@@ -8,6 +8,8 @@ final class MockCommentRepository: CommentRepository {
     var fetchError: Error?
     var previewFetchError: Error?
     var writeError: Error?
+    var deleteError: Error?
+    var reportError: Error?
     var writtenComment = Comment(
         id: "written-comment",
         storyID: "story-id",
@@ -27,6 +29,14 @@ final class MockCommentRepository: CommentRepository {
     private(set) var writtenText: String?
     private(set) var writtenAuthorUID: String?
     private(set) var writtenAuthorNickname: String?
+    private(set) var deletedStoryID: String?
+    private(set) var deletedCommentID: String?
+    private(set) var reportedStoryID: String?
+    private(set) var reportedCommentID: String?
+    private(set) var reportedReporterUID: String?
+    private(set) var reportedTargetAuthorUID: String?
+    private(set) var reportedContentSnapshot: String?
+    private(set) var reportedReason: String?
 
     func fetchComments(
         storyID: String,
@@ -75,6 +85,35 @@ final class MockCommentRepository: CommentRepository {
 
         return writtenComment
     }
+
+    func deleteComment(storyID: String, commentID: String) async throws {
+        deletedStoryID = storyID
+        deletedCommentID = commentID
+
+        if let deleteError {
+            throw deleteError
+        }
+    }
+
+    func reportComment(
+        storyID: String,
+        commentID: String,
+        reporterUID: String,
+        targetAuthorUID: String,
+        contentSnapshot: String,
+        reason: String
+    ) async throws {
+        reportedStoryID = storyID
+        reportedCommentID = commentID
+        reportedReporterUID = reporterUID
+        reportedTargetAuthorUID = targetAuthorUID
+        reportedContentSnapshot = contentSnapshot
+        reportedReason = reason
+
+        if let reportError {
+            throw reportError
+        }
+    }
 }
 
 final class MockStoryRepository: StoryRepository {
@@ -99,15 +138,31 @@ final class MockStoryRepository: StoryRepository {
 
     func toggleLike(storyID: String, uid: String) async throws {}
 
-    func report(storyID: String, uid: String, reason: String) async throws {}
+    private(set) var reportedTargetAuthorUID: String?
+    private(set) var reportedContentSnapshot: String?
+
+    func report(
+        storyID: String,
+        uid: String,
+        reason: String,
+        targetAuthorUID: String,
+        contentSnapshot: String
+    ) async throws {
+        reportedTargetAuthorUID = targetAuthorUID
+        reportedContentSnapshot = contentSnapshot
+    }
 }
 
 final class MockUserRepository: UserRepository {
     var uid: String?
     var uidAfterCreate: String?
     var nickname: String?
+    var blockedUIDs: Set<String> = []
+    var fetchBlockedUIDsError: Error?
 
     private(set) var createUserCallCount = 0
+    private(set) var blockedUID: String?
+    private(set) var unblockedUID: String?
 
     func signIn() async throws {}
 
@@ -132,6 +187,24 @@ final class MockUserRepository: UserRepository {
 
     func loadUID() -> String? {
         uid
+    }
+
+    func fetchBlockedUIDs() async throws -> Set<String> {
+        if let fetchBlockedUIDsError {
+            throw fetchBlockedUIDsError
+        }
+
+        return blockedUIDs
+    }
+
+    func block(uid: String) async throws {
+        blockedUID = uid
+        blockedUIDs.insert(uid)
+    }
+
+    func unblock(uid: String) async throws {
+        unblockedUID = uid
+        blockedUIDs.remove(uid)
     }
 }
 

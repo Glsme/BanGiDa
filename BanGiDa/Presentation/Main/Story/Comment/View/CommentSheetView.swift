@@ -65,6 +65,13 @@ struct CommentSheetView: View {
                     Array(viewModel.comments.prefix(CommentPolicy.previewCount))
                 )
             }
+            viewModel.observeSuccessfulDelete {
+                commentCount = max(0, commentCount - 1)
+                onCommentChanged(
+                    commentCount,
+                    Array(viewModel.comments.prefix(CommentPolicy.previewCount))
+                )
+            }
             viewModel.loadInitialIfNeeded()
         }
         .alert(
@@ -130,7 +137,10 @@ private extension CommentSheetView {
                     ForEach(viewModel.comments) { comment in
                         CommentRow(
                             comment: comment,
-                            isStoryAuthor: viewModel.isStoryAuthor(comment)
+                            isStoryAuthor: viewModel.isStoryAuthor(comment),
+                            isMine: viewModel.isMine(comment),
+                            onDelete: { viewModel.delete(comment: comment) },
+                            onBlock: { viewModel.block(comment: comment) }
                         )
                         .onAppear {
                             viewModel.loadMoreIfNeeded(currentCommentID: comment.id)

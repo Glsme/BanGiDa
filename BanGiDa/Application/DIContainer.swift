@@ -115,7 +115,8 @@ final class AppDIContainer {
 
         container.register(FetchCommentsUseCase.self) { resolver in
             FetchCommentsUseCaseImpl(
-                commentRepository: resolver.force(CommentRepository.self)
+                commentRepository: resolver.force(CommentRepository.self),
+                userRepository: resolver.force(UserRepository.self)
             )
         }
 
@@ -124,6 +125,30 @@ final class AppDIContainer {
                 commentRepository: resolver.force(CommentRepository.self),
                 userRepository: resolver.force(UserRepository.self)
             )
+        }
+
+        container.register(DeleteCommentUseCase.self) { resolver in
+            DeleteCommentUseCaseImpl(
+                commentRepository: resolver.force(CommentRepository.self),
+                userRepository: resolver.force(UserRepository.self)
+            )
+        }
+
+        container.register(ReportCommentUseCase.self) { resolver in
+            ReportCommentUseCaseImpl(
+                commentRepository: resolver.force(CommentRepository.self),
+                userRepository: resolver.force(UserRepository.self)
+            )
+        }
+
+        // MARK: - User UseCases (차단)
+
+        container.register(BlockUserUseCase.self) { resolver in
+            BlockUserUseCaseImpl(userRepository: resolver.force(UserRepository.self))
+        }
+
+        container.register(UnblockUserUseCase.self) { resolver in
+            UnblockUserUseCaseImpl(userRepository: resolver.force(UserRepository.self))
         }
 
         // MARK: - Diary UseCases

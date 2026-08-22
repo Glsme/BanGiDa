@@ -113,7 +113,11 @@ struct StoryRow: View {
             )
         }
         .sheet(isPresented: $isReportSheetPresented) {
-            ReportSheetView(storyID: storyID)
+            ReportSheetView(
+                target: .story(storyID: storyID),
+                targetAuthorUID: storyWriterUID,
+                contentSnapshot: text
+            )
         }
         .sheet(isPresented: $isCommentSheetPresented) {
             CommentSheetView(

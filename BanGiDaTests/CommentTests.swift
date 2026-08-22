@@ -70,6 +70,120 @@ struct WriteCommentUseCaseTests {
     }
 }
 
+struct FetchCommentsUseCaseTests {
+    @Test func excludesCommentsFromBlockedUsersWhilePreservingPageMetadata() async throws {
+        let expectedCursor = CommentCursor(createdAt: Date(timeIntervalSince1970: 42), id: "next-comment")
+        let commentRepository = MockCommentRepository()
+        commentRepository.fetchedPage = CommentPage(
+            comments: [
+                await makeComment(id: "comment-a", authorUID: "blocked-uid"),
+                await makeComment(id: "comment-b", authorUID: "visible-uid")
+            ],
+            nextCursor: expectedCursor,
+            isEnd: false
+        )
+        let userRepository = MockUserRepository()
+        userRepository.uid = "reader-uid"
+        userRepository.blockedUIDs = ["blocked-uid"]
+
+        let useCase = FetchCommentsUseCaseImpl(
+            commentRepository: commentRepository,
+            userRepository: userRepository
+        )
+
+        let page = try await useCase.execute(storyID: "story-id", after: nil)
+
+        #expect(page.comments.map(\.id) == ["comment-b"])
+        // FetchStoriesUseCase와 동일한 불변식: 필터 후 개수가 아니라 원본 페이지 메타데이터를 유지한다.
+        #expect(page.nextCursor == expectedCursor)
+        #expect(page.isEnd == false)
+    }
+}
+
+struct DeleteCommentUseCaseTests {
+    @Test func rejectsDeletingSomeoneElsesComment() async {
+        let commentRepository = MockCommentRepository()
+        let userRepository = MockUserRepository()
+        userRepository.uid = "commenter-uid"
+        let useCase = DeleteCommentUseCaseImpl(
+            commentRepository: commentRepository,
+            userRepository: userRepository
+        )
+        let othersComment = await makeComment(id: "comment-id", authorUID: "someone-else-uid")
+
+        await #expect(throws: CommentError.notAuthor) {
+            try await useCase.execute(comment: othersComment)
+        }
+        #expect(commentRepository.deletedCommentID == nil)
+    }
+
+    @Test func deletesOwnCommentThroughRepository() async throws {
+        let commentRepository = MockCommentRepository()
+        let userRepository = MockUserRepository()
+        userRepository.uid = "commenter-uid"
+        let useCase = DeleteCommentUseCaseImpl(
+            commentRepository: commentRepository,
+            userRepository: userRepository
+        )
+        let ownComment = await makeComment(id: "comment-id", authorUID: "commenter-uid")
+
+        try await useCase.execute(comment: ownComment)
+
+        #expect(commentRepository.deletedStoryID == "story-id")
+        #expect(commentRepository.deletedCommentID == "comment-id")
+    }
+}
+
+struct ReportCommentUseCaseTests {
+    @Test func forwardsContentSnapshotAndTargetAuthorUIDToRepository() async throws {
+        let commentRepository = MockCommentRepository()
+        let userRepository = MockUserRepository()
+        userRepository.uid = "reporter-uid"
+        let useCase = ReportCommentUseCaseImpl(
+            commentRepository: commentRepository,
+            userRepository: userRepository
+        )
+        try await useCase.execute(
+            storyID: "story-id",
+            commentID: "comment-id",
+            targetAuthorUID: "author-uid",
+            contentSnapshot: "댓글 내용",
+            reason: "부적절한 표현"
+        )
+
+        #expect(commentRepository.reportedStoryID == "story-id")
+        #expect(commentRepository.reportedCommentID == "comment-id")
+        #expect(commentRepository.reportedReporterUID == "reporter-uid")
+        #expect(commentRepository.reportedTargetAuthorUID == "author-uid")
+        #expect(commentRepository.reportedContentSnapshot == "댓글 내용")
+        #expect(commentRepository.reportedReason == "부적절한 표현")
+    }
+}
+
+struct BlockUserUseCaseTests {
+    @Test func blocksTargetUIDThroughRepository() async throws {
+        let userRepository = MockUserRepository()
+        userRepository.uid = "my-uid"
+        let useCase = BlockUserUseCaseImpl(userRepository: userRepository)
+
+        try await useCase.execute(targetUID: "target-uid")
+
+        #expect(userRepository.blockedUID == "target-uid")
+        #expect(userRepository.blockedUIDs.contains("target-uid"))
+    }
+
+    @Test func createsUserBeforeBlockingWhenUIDIsMissing() async throws {
+        let userRepository = MockUserRepository()
+        userRepository.uidAfterCreate = "new-uid"
+        let useCase = BlockUserUseCaseImpl(userRepository: userRepository)
+
+        try await useCase.execute(targetUID: "target-uid")
+
+        #expect(userRepository.createUserCallCount == 1)
+        #expect(userRepository.blockedUID == "target-uid")
+    }
+}
+
 @Suite(.serialized)
 struct CommentViewModelTests {
     @MainActor
@@ -124,7 +238,10 @@ private func makeViewModel(commentRepository: MockCommentRepository) -> CommentV
     let analyticsRepository = MockAnalyticsRepository()
 
     AppDIContainer.shared.container.register(FetchCommentsUseCase.self) { _ in
-        FetchCommentsUseCaseImpl(commentRepository: commentRepository)
+        FetchCommentsUseCaseImpl(
+            commentRepository: commentRepository,
+            userRepository: userRepository
+        )
     }
     .inObjectScope(.transient)
 
@@ -133,6 +250,32 @@ private func makeViewModel(commentRepository: MockCommentRepository) -> CommentV
             commentRepository: commentRepository,
             userRepository: userRepository
         )
+    }
+    .inObjectScope(.transient)
+
+    AppDIContainer.shared.container.register(DeleteCommentUseCase.self) { _ in
+        DeleteCommentUseCaseImpl(
+            commentRepository: commentRepository,
+            userRepository: userRepository
+        )
+    }
+    .inObjectScope(.transient)
+
+    AppDIContainer.shared.container.register(ReportCommentUseCase.self) { _ in
+        ReportCommentUseCaseImpl(
+            commentRepository: commentRepository,
+            userRepository: userRepository
+        )
+    }
+    .inObjectScope(.transient)
+
+    AppDIContainer.shared.container.register(BlockUserUseCase.self) { _ in
+        BlockUserUseCaseImpl(userRepository: userRepository)
+    }
+    .inObjectScope(.transient)
+
+    AppDIContainer.shared.container.register(UserRepository.self) { _ in
+        userRepository
     }
     .inObjectScope(.transient)
 

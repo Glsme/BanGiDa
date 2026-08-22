@@ -9,6 +9,7 @@ public enum CommentError: Error, Equatable {
     case emptyText
     case textTooLong
     case rateLimited
+    case notAuthor
 }
 
 public enum CommentPolicy {

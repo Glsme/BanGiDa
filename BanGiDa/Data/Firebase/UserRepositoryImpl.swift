@@ -65,4 +65,37 @@ public final class UserRepositoryImpl: UserRepository {
     public func readNickname() -> String? {
         return UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
     }
+
+    public func fetchBlockedUIDs() async throws -> Set<String> {
+        guard let uid = loadUID() else { throw UserError.emptyUID }
+
+        let snapshot = try await db.collection("users")
+            .document(uid)
+            .collection("blocks")
+            .getDocuments()
+
+        return Set(snapshot.documents.map { $0.documentID })
+    }
+
+    public func block(uid: String) async throws {
+        guard let currentUID = loadUID() else { throw UserError.emptyUID }
+
+        let blockReference = db.collection("users")
+            .document(currentUID)
+            .collection("blocks")
+            .document(uid)
+
+        try await blockReference.setData(["createdAt": FieldValue.serverTimestamp()])
+    }
+
+    public func unblock(uid: String) async throws {
+        guard let currentUID = loadUID() else { throw UserError.emptyUID }
+
+        let blockReference = db.collection("users")
+            .document(currentUID)
+            .collection("blocks")
+            .document(uid)
+
+        try await blockReference.delete()
+    }
 }

@@ -125,19 +125,44 @@ public final class StoryRepositoryImpl: StoryRepository {
         }
     }
     
-    public func report(storyID: String, uid: String, reason: String) async throws {
+    public func report(
+        storyID: String,
+        uid: String,
+        reason: String,
+        targetAuthorUID: String,
+        contentSnapshot: String
+    ) async throws {
         let reportReference = db.collection("images")
             .document(storyID)
             .collection("reports")
             .document(uid)
-        
+
         var data: [String: Any] = ["createdAt": FieldValue.serverTimestamp()]
-        
+
         if !reason.isEmpty {
             data["reason"] = reason
         }
-        
+
         try await reportReference.setData(data, merge: false)
+
+        // §8.6(D11): 스토리 신고도 댓글 신고와 같은 최상위 reports 컬렉션에 스냅샷을 남겨
+        // 운영자가 한 곳만 보면 되게 통일한다.
+        let topLevelReference = db.collection("reports").document()
+        var topLevelData: [String: Any] = [
+            "targetType": "story",
+            "targetPath": "images/\(storyID)",
+            "storyID": storyID,
+            "targetAuthorUID": targetAuthorUID,
+            "reporterUID": uid,
+            "contentSnapshot": contentSnapshot,
+            "createdAt": FieldValue.serverTimestamp()
+        ]
+
+        if !reason.isEmpty {
+            topLevelData["reason"] = reason
+        }
+
+        try await topLevelReference.setData(topLevelData)
     }
     
     // MARK: - Private
