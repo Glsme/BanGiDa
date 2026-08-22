@@ -7,17 +7,25 @@
 
 import Foundation
 
+@MainActor
 final class SettingViewModel {
 
     @Injected private var resetDataUseCase: ResetDataUseCase
     @Injected private var restoreNotificationsUseCase: RestoreNotificationsUseCase
     @Injected private var userPreferencesUseCase: UserPreferencesUseCase
+    @Injected private var commentNotificationSettingsUseCase: CommentNotificationSettingsUseCase
 
     let dataLabel = ["백업", "복구", "초기화"]
-    let serviceLabel = ["리뷰 남기기", "문의하기", "차단 목록"]
+    let serviceLabel = ["리뷰 남기기", "문의하기", "차단 목록", "댓글 알림"]
     let appInfoLabel = ["오픈소스 라이브러리", "버전 정보"]
 
     let settingTitleLabels = ["데이터", "서비스", "앱 정보"]
+
+    private(set) var isCommentNotificationEnabled = true
+    var onCommentNotificationEnabledChanged: ((Bool) -> Void)?
+    var onCommentNotificationUpdateFailed: ((Error) -> Void)?
+
+    private var isLoadingCommentNotificationEnabled = false
 
     var version: String? {
         guard let dictionary = Bundle.main.infoDictionary,
@@ -81,5 +89,45 @@ final class SettingViewModel {
 
     public func getPetName() -> String? {
         userPreferencesUseCase.getPetName()
+    }
+
+    public func loadCommentNotificationEnabled() {
+        guard !isLoadingCommentNotificationEnabled else { return }
+
+        isLoadingCommentNotificationEnabled = true
+
+        Task { [weak self] in
+            guard let self else { return }
+
+            do {
+                let isEnabled = try await commentNotificationSettingsUseCase.fetchEnabled()
+                isCommentNotificationEnabled = isEnabled
+                onCommentNotificationEnabledChanged?(isEnabled)
+            } catch {
+                onCommentNotificationUpdateFailed?(error)
+            }
+
+            isLoadingCommentNotificationEnabled = false
+        }
+    }
+
+    public func setCommentNotificationEnabled(_ isEnabled: Bool) {
+        let previousValue = isCommentNotificationEnabled
+        isCommentNotificationEnabled = isEnabled
+        onCommentNotificationEnabledChanged?(isEnabled)
+
+        Task { [weak self] in
+            guard let self else { return }
+
+            do {
+                try await commentNotificationSettingsUseCase.update(isEnabled: isEnabled)
+            } catch {
+                guard isCommentNotificationEnabled == isEnabled else { return }
+
+                isCommentNotificationEnabled = previousValue
+                onCommentNotificationEnabledChanged?(previousValue)
+                onCommentNotificationUpdateFailed?(error)
+            }
+        }
     }
 }

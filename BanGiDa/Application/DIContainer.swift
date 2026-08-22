@@ -85,6 +85,14 @@ final class AppDIContainer {
             UpdateNicknameUseCaseImpl(userRepository: resolver.force(UserRepository.self))
         }
 
+        container.register(UpdateFCMTokenUseCase.self) { resolver in
+            UpdateFCMTokenUseCaseImpl(userRepository: resolver.force(UserRepository.self))
+        }
+
+        container.register(CommentNotificationSettingsUseCase.self) { resolver in
+            CommentNotificationSettingsUseCaseImpl(userRepository: resolver.force(UserRepository.self))
+        }
+
         // MARK: - Story UseCases
 
         container.register(WriteStoryUseCase.self) { resolver in

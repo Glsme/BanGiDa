@@ -32,7 +32,8 @@ public final class UserRepositoryImpl: UserRepository {
         let data: [String: Any] = [
             "nickname": nickname,
             "createAt": Date(),
-            "lastSeenAt": Date()
+            "lastSeenAt": Date(),
+            "commentNotificationEnabled": true
         ]
         
         try await db.collection("users").document(uid).setData(data)
@@ -49,6 +50,32 @@ public final class UserRepositoryImpl: UserRepository {
         guard let uid = loadUID() else { throw UserError.emptyUID }
         
         try await db.collection("users").document(uid).updateData(["nickname": nickname])
+    }
+
+    public func updateFCMToken(_ token: String) async throws {
+        guard let uid = loadUID() else { throw UserError.emptyUID }
+
+        try await db.collection("users").document(uid).setData([
+            "fcmToken": token,
+            "fcmTokenUpdatedAt": FieldValue.serverTimestamp()
+        ], merge: true)
+    }
+
+    public func updateCommentNotificationEnabled(_ isEnabled: Bool) async throws {
+        guard let uid = loadUID() else { throw UserError.emptyUID }
+
+        try await db.collection("users").document(uid).setData([
+            "commentNotificationEnabled": isEnabled
+        ], merge: true)
+    }
+
+    public func fetchCommentNotificationEnabled() async throws -> Bool {
+        guard let uid = loadUID() else { throw UserError.emptyUID }
+
+        let snapshot = try await db.collection("users").document(uid).getDocument()
+
+        // 기존 사용자 문서에 필드가 없으면 알림을 켠 것으로 취급한다.
+        return snapshot.data()?["commentNotificationEnabled"] as? Bool ?? true
     }
     
     public func checkRegistration(uid: String) async throws -> Bool {

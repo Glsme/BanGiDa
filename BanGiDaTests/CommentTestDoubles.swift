@@ -174,11 +174,16 @@ final class MockUserRepository: UserRepository {
     var blockedUsers: [BlockedUser] = []
     var fetchBlockedUsersError: Error?
     var unblockError: Error?
+    var commentNotificationEnabled = true
+    var fetchCommentNotificationEnabledError: Error?
+    var updateCommentNotificationEnabledError: Error?
 
     private(set) var createUserCallCount = 0
     private(set) var blockedUID: String?
     private(set) var blockedNickname: String?
     private(set) var unblockedUID: String?
+    private(set) var updatedFCMTokens: [String] = []
+    private(set) var updatedCommentNotificationEnabledValues: [Bool] = []
 
     func signIn() async throws {}
 
@@ -191,6 +196,27 @@ final class MockUserRepository: UserRepository {
 
     func update(nickname: String) async throws {
         self.nickname = nickname
+    }
+
+    func updateFCMToken(_ token: String) async throws {
+        updatedFCMTokens.append(token)
+    }
+
+    func updateCommentNotificationEnabled(_ isEnabled: Bool) async throws {
+        if let updateCommentNotificationEnabledError {
+            throw updateCommentNotificationEnabledError
+        }
+
+        commentNotificationEnabled = isEnabled
+        updatedCommentNotificationEnabledValues.append(isEnabled)
+    }
+
+    func fetchCommentNotificationEnabled() async throws -> Bool {
+        if let fetchCommentNotificationEnabledError {
+            throw fetchCommentNotificationEnabledError
+        }
+
+        return commentNotificationEnabled
     }
 
     func readNickname() -> String? {
@@ -254,6 +280,24 @@ final class MockAnalyticsRepository: AnalyticsRepository {
     func recordError(_ error: Error, userInfo: [String: Any]?) {
         recordedErrors.append(error)
     }
+}
+
+final class MockResetDataUseCase: ResetDataUseCase {
+    func execute() throws {}
+}
+
+final class MockRestoreNotificationsUseCase: RestoreNotificationsUseCase {
+    func execute() {}
+}
+
+final class MockUserPreferencesUseCase: UserPreferencesUseCase {
+    func getPetName() -> String? { nil }
+
+    func setPetName(_ name: String) {}
+
+    func isFirstLaunchCompleted() -> Bool { false }
+
+    func setFirstLaunchCompleted() {}
 }
 
 enum TestCommentError: Error {

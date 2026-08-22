@@ -47,15 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //메시지 대리자 설정
         Messaging.messaging().delegate = self
         
-        //현재 등록된 토큰 가져오기
-        Messaging.messaging().token { token, error in
-//          if let error = error {
-//            print("Error fetching FCM registration token: \(error)")
-//          } else if let token = token {
-//            print("FCM registration token: \(token)")
-//          }
-        }
-        
         return true
     }
 
@@ -105,21 +96,51 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     //유저가 푸시를 클릭했을 때에만 수신 확인 가능
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("사용자가 푸시를 클릭했습니다.")
+        let userInfo = response.notification.request.content.userInfo
+
+        guard userInfo["type"] as? String == "story_comment" else {
+            completionHandler()
+            return
+        }
+
+        // storyID는 payload에 포함되지만, 커서 기반 피드에서 임의 스토리까지 이동하려면
+        // 모든 페이지를 순차 조회해야 한다. 단일 스토리 상세 화면이 생기기 전까지는 탭만 전환한다.
+        DispatchQueue.main.async { [weak self] in
+            self?.selectStoryTab()
+            completionHandler()
+        }
+    }
+
+    private func selectStoryTab() {
+        let windowScene = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first
+
+        guard let rootViewController = windowScene?.windows.first(where: \.isKeyWindow)?.rootViewController,
+              let tabViewController = rootViewController as? MainTabViewController else {
+            return
+        }
+
+        tabViewController.selectedIndex = MainTabViewController.Tab.story.rawValue
     }
 }
 
 extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-      print("Firebase registration token: \(String(describing: fcmToken))")
+        guard let fcmToken, !fcmToken.isEmpty,
+              let updateFCMTokenUseCase = AppDIContainer.shared.container.resolve(UpdateFCMTokenUseCase.self) else {
+            return
+        }
 
-      let dataDict: [String: String] = ["token": fcmToken ?? ""]
-      NotificationCenter.default.post(
-        name: Notification.Name("FCMToken"),
-        object: nil,
-        userInfo: dataDict
-      )
-      // TODO: If necessary send token to application server.
-      // Note: This callback is fired at each app startup and whenever a new token is generated.
+        Task { @MainActor [weak self] in
+            do {
+                try await updateFCMTokenUseCase.execute(token: fcmToken)
+            } catch {
+                self?.analyticsRepository.recordError(
+                    error,
+                    userInfo: ["function": #function]
+                )
+            }
+        }
     }
 }
