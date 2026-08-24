@@ -35,6 +35,8 @@ let project = Project(
             bundleId: "com.hsj.bangida",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .extendingDefault(with: [
+                "CFBundleShortVersionString": "$(MARKETING_VERSION)",
+                "CFBundleVersion": "$(CURRENT_PROJECT_VERSION)",
                 "ITSAppUsesNonExemptEncryption": false,
                 "UIAppFonts": .array([.string("Jalnan.ttf")]),
                 "UIApplicationSceneManifest": .dictionary([
@@ -82,6 +84,7 @@ let project = Project(
             settings: .settings(
                 base: [
                     "OTHER_LDFLAGS": "$(inherited) -ObjC",
+                    "TARGETED_DEVICE_FAMILY": "1",
                     // 계절 아이콘은 Asset Catalog에 두고, CFBundleAlternateIcons는 빌드 시 생성시킨다.
                     "ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES": .array([
                         "AppIconWinter",
