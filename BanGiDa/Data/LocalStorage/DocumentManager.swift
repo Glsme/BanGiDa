@@ -176,15 +176,9 @@ struct DocumentManager: DocumentManaging {
     }
     
     private func isFileExist(path: URL) -> Bool {
-        var urlString: String?
-        
-        if #available(iOS 16, *) {
-            urlString = path.path()
-        } else {
-            urlString = path.path
-        }
-        
-        return FileManager.default.fileExists(atPath: urlString ?? "")
+        let urlString = path.path()
+
+        return FileManager.default.fileExists(atPath: urlString)
     }
     
     func createImagesDirectoryPath() {
