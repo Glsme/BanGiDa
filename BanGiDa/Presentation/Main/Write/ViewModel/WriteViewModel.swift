@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import CoreKit
 
 final class WriteViewModel {
     @Injected private var analyticsRepository: AnalyticsRepository

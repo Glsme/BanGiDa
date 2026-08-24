@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct StoryView: View {
     private static let spacing: CGFloat = 2

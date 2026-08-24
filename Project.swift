@@ -21,6 +21,9 @@ let project = Project(
             "CURRENT_PROJECT_VERSION": "1",
             "CODE_SIGN_STYLE": "Automatic",
             "SWIFT_EXPLICITLY_BUILT_MODULES": "NO",
+            // package 접근 제어자는 같은 package name으로 컴파일된 모듈 사이에서만 보인다.
+            // 프로젝트 전 타깃에 동일하게 걸어 둔다.
+            "OTHER_SWIFT_FLAGS": "$(inherited) -package-name BanGiDa",
         ],
         configurations: [
             .debug(name: "Debug"),
@@ -28,6 +31,26 @@ let project = Project(
         ]
     ),
     targets: [
+        .target(
+            name: "CoreKit",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "com.hsj.bangida.corekit",
+            deploymentTargets: .iOS("17.0"),
+            infoPlist: .default,
+            sources: ["Projects/Core/CoreKit/Sources/**/*.swift"],
+            dependencies: []
+        ),
+        .target(
+            name: "DesignSystem",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "com.hsj.bangida.designsystem",
+            deploymentTargets: .iOS("17.0"),
+            infoPlist: .default,
+            sources: ["Projects/Core/DesignSystem/Sources/**/*.swift"],
+            dependencies: []
+        ),
         .target(
             name: "BanGiDa",
             destinations: .iOS,
@@ -64,6 +87,8 @@ let project = Project(
             ],
             entitlements: .file(path: "BanGiDa/BanGiDa.entitlements"),
             dependencies: [
+                .target(name: "CoreKit"),
+                .target(name: "DesignSystem"),
                 .external(name: "SnapKit"),
                 .external(name: "FSCalendar"),
                 .external(name: "Zip"),

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct ReportSheetView: View {
     @StateObject private var viewModel = ReportViewModel()

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import DesignSystem
 
 final class SettingTableViewCell: BaseTableViewCell {
     let label: UILabel = {

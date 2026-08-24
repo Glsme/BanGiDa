@@ -9,6 +9,7 @@ import UIKit
 import Combine
 
 import FSCalendar
+import DesignSystem
 
 final class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
 

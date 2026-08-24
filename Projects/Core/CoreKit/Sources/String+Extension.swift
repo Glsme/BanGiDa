@@ -5,10 +5,10 @@
 //  Created by Seokjune Hong on 2022/09/15.
 //
 
-import UIKit
+import Foundation
 
 extension String {
-    func toDate() -> Date? {
+    package func toDate() -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd EE"
 //        dateFormatter.locale = Locale(identifier: "ko_KR")
@@ -20,7 +20,7 @@ extension String {
         }
     }
     
-    func toDateAlarm() -> Date? {
+    package func toDateAlarm() -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd EE hh:mm a"
 //        dateFormatter.locale = Locale(identifier: "ko_KR")

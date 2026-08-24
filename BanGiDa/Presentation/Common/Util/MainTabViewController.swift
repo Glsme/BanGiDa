@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import DesignSystem
 
 final class MainTabViewController: UITabBarController {
     // setViewControllers 순서와 묶여 있으므로 탭을 추가·재배치하면 함께 고쳐야 한다.

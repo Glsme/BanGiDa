@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 
 class BaseTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

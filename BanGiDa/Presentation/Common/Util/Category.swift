@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 
 enum Category: Int, CaseIterable {
     case memo = 0

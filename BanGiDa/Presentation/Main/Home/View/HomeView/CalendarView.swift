@@ -8,6 +8,7 @@
 import UIKit
 
 import FSCalendar
+import DesignSystem
 
 final class CalendarView: FSCalendar {
     

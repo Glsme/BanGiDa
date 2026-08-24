@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct BlockedUsersView: View {
     @StateObject private var viewModel = BlockedUsersViewModel()

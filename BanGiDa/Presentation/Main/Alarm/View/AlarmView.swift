@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import DesignSystem
 
 /// AlarmViewController에 사용되는 View입니다.
 /**

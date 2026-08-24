@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct CommentPreviewView: View {
     let comments: [Comment]

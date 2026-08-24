@@ -10,6 +10,7 @@ import PhotosUI
 import UIKit
 import Photos
 import CropViewController
+import DesignSystem
 
 struct WriteStoryView: View {
     @Environment(\.dismiss) private var dismiss

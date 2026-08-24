@@ -8,6 +8,7 @@
 import UIKit
 import RealmSwift
 import Zip
+import CoreKit
 
 enum DocumentError: LocalizedError {
     case createDirectoryError

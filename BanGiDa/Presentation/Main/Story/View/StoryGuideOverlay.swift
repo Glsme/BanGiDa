@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct StoryGuideOverlay: View {
     let onAgree: () -> Void

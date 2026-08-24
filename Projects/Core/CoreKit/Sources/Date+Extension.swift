@@ -8,7 +8,7 @@
 import Foundation
 
 extension Date {
-    var backupFileTitle: String {
+    package var backupFileTitle: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "_yyMMdd_hh:mm:ss"
         return formatter.string(from: self)

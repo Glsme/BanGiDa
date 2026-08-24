@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import DesignSystem
 
 struct CommentInputBar: View {
     @Binding var text: String
