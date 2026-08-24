@@ -9,10 +9,10 @@ import Foundation
 import RealmSwift
 
 final class BackupRepositoryImpl: BackupRepository {
-    private let documentManager: DocumentManager
+    private let documentManager: DocumentManaging
     private let imageRepository: ImageRepository
 
-    init(documentManager: DocumentManager = DocumentManager(), imageRepository: ImageRepository) {
+    init(documentManager: DocumentManaging = DocumentManager(), imageRepository: ImageRepository) {
         self.documentManager = documentManager
         self.imageRepository = imageRepository
     }

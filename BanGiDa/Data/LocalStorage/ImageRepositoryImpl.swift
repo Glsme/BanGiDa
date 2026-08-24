@@ -8,9 +8,9 @@
 import Foundation
 
 final class ImageRepositoryImpl: ImageRepository {
-    private let documentManager: DocumentManager
+    private let documentManager: DocumentManaging
 
-    init(documentManager: DocumentManager = DocumentManager()) {
+    init(documentManager: DocumentManaging = DocumentManager()) {
         self.documentManager = documentManager
     }
 

@@ -51,7 +51,7 @@ enum CodableError: Error {
     case jsonEncodeError
 }
 
-struct DocumentManager {
+struct DocumentManager: DocumentManaging {
     func documentDirectoryPath() -> URL? {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
         return documentDirectory

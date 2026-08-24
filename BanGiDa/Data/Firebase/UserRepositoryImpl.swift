@@ -12,9 +12,11 @@ import FirebaseFirestore
 
 public final class UserRepositoryImpl: UserRepository {
     private let db: Firestore
-    
-    public init(db: Firestore = Firestore.firestore()) {
+    private let userDefaults: UserDefaults
+
+    public init(db: Firestore = Firestore.firestore(), userDefaults: UserDefaults = .standard) {
         self.db = db
+        self.userDefaults = userDefaults
     }
     
     public func signIn() async throws {
@@ -39,7 +41,7 @@ public final class UserRepositoryImpl: UserRepository {
             return
         }
 
-        let nickname = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? ""
+        let nickname = userDefaults.string(forKey: UserDefaultsKey.name.rawValue) ?? ""
         let data: [String: Any] = [
             "nickname": nickname,
             "createAt": Date(),
@@ -101,7 +103,7 @@ public final class UserRepositoryImpl: UserRepository {
     }
     
     public func readNickname() -> String? {
-        return UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue)
+        return userDefaults.string(forKey: UserDefaultsKey.name.rawValue)
     }
 
     public func fetchBlockedUIDs() async throws -> Set<String> {
