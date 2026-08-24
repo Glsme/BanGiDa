@@ -35,7 +35,7 @@ struct CommentInputBar: View {
                     .frame(minHeight: 44)
                     .background(Color.memoBackgroundColor)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
-                    .onChange(of: text) { newValue in
+                    .onChange(of: text) { _, newValue in
                         if newValue.count > CommentPolicy.maxLength {
                             text = String(newValue.prefix(CommentPolicy.maxLength))
                         }
