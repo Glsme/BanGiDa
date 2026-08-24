@@ -33,7 +33,7 @@ let project = Project(
             destinations: .iOS,
             product: .app,
             bundleId: "com.hsj.bangida",
-            deploymentTargets: .iOS("16.0"),
+            deploymentTargets: .iOS("17.0"),
             infoPlist: .extendingDefault(with: [
                 "CFBundleShortVersionString": "$(MARKETING_VERSION)",
                 "CFBundleVersion": "$(CURRENT_PROJECT_VERSION)",
@@ -98,7 +98,7 @@ let project = Project(
             destinations: .iOS,
             product: .unitTests,
             bundleId: "com.hsj.bangida.tests",
-            deploymentTargets: .iOS("16.0"),
+            deploymentTargets: .iOS("17.0"),
             infoPlist: .default,
             sources: ["BanGiDaTests/**/*.swift"],
             dependencies: [
