@@ -17,8 +17,8 @@ let project = Project(
     settings: .settings(
         base: [
             "DEVELOPMENT_TEAM": "\(developmentTeam)",
-            "MARKETING_VERSION": "2.0.0",
-            "CURRENT_PROJECT_VERSION": "6",
+            "MARKETING_VERSION": "2.0.1",
+            "CURRENT_PROJECT_VERSION": "1",
             "CODE_SIGN_STYLE": "Automatic",
             "SWIFT_EXPLICITLY_BUILT_MODULES": "NO",
         ],
