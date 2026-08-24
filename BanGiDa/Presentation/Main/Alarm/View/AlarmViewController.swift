@@ -20,6 +20,18 @@ final class AlarmViewController: BaseViewController {
     
     //MARK: - Life Cycle
     
+    // hidesBottomBarWhenPushed는 push하는 순간 읽히므로 뷰가 로드되기 전인 생성 시점에 켜야 한다.
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        hidesBottomBarWhenPushed = true
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     override func loadView() {
         self.view = alarmView
     }
