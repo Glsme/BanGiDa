@@ -12,6 +12,7 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseMessaging
 import RealmSwift
+import Domain
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

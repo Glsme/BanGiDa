@@ -7,6 +7,7 @@
 
 import Foundation
 import UserNotifications
+import Domain
 
 final class NotificationRepositoryImpl: NotificationRepository {
     private let notificationCenter: UNUserNotificationCenter

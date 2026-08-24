@@ -6,6 +6,7 @@
 import Foundation
 
 import FirebaseFirestore
+import Domain
 
 public final class CommentRepositoryImpl: CommentRepository {
     private let db: Firestore

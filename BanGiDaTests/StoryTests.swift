@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+import Domain
 
 @testable import BanGiDa
 
@@ -166,8 +167,8 @@ private func makeStory(id: String, writerUID: String? = nil) -> Story {
 }
 
 // Swift Testing에도 Comment 타입이 있어 이름이 겹치므로 모듈명을 명시한다.
-private func makePreviewComment(id: String, storyID: String, authorUID: String? = nil) -> BanGiDa.Comment {
-    BanGiDa.Comment(
+private func makePreviewComment(id: String, storyID: String, authorUID: String? = nil) -> Domain.Comment {
+    Domain.Comment(
         id: id,
         storyID: storyID,
         authorUID: authorUID ?? "author-\(id)",

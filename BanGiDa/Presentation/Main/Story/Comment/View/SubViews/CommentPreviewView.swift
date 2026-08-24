@@ -5,6 +5,7 @@
 
 import SwiftUI
 import DesignSystem
+import Domain
 
 struct CommentPreviewView: View {
     let comments: [Comment]

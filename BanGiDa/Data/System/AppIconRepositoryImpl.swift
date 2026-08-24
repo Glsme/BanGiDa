@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Domain
 
 /// 프로토콜이 `@MainActor`라 이 타입은 메인 액터로 추론된다.
 /// 다만 저장 프로퍼티가 없어 생성 자체는 격리가 필요 없으므로,

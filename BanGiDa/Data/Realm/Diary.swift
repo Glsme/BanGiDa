@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import Domain
 
 enum RealmDiaryType: Int, PersistableEnum, Codable {
     case memo = 0

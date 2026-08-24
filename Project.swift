@@ -42,6 +42,16 @@ let project = Project(
             dependencies: []
         ),
         .target(
+            name: "Domain",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "com.hsj.bangida.domain",
+            deploymentTargets: .iOS("17.0"),
+            infoPlist: .default,
+            sources: ["Projects/Domain/Sources/**/*.swift"],
+            dependencies: []
+        ),
+        .target(
             name: "DesignSystem",
             destinations: .iOS,
             product: .framework,
@@ -89,6 +99,7 @@ let project = Project(
             dependencies: [
                 .target(name: "CoreKit"),
                 .target(name: "DesignSystem"),
+                .target(name: "Domain"),
                 .external(name: "SnapKit"),
                 .external(name: "FSCalendar"),
                 .external(name: "Zip"),
@@ -128,6 +139,7 @@ let project = Project(
             sources: ["BanGiDaTests/**/*.swift"],
             dependencies: [
                 .target(name: "BanGiDa"),
+                .target(name: "Domain"),
             ]
         ),
     ]

@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import Domain
 
 public final class BundleProfanityFilter: ProfanityFilter {
     private let wordLoader: () -> Set<String>

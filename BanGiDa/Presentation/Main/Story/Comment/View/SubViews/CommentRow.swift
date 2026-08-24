@@ -5,6 +5,7 @@
 
 import SwiftUI
 import DesignSystem
+import Domain
 
 struct CommentRow: View {
     let comment: Comment

@@ -5,5 +5,6 @@
 
 import Foundation
 import RealmSwift
+import Domain
 
 extension AlarmRepeat: PersistableEnum {}

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Domain
 
 final class UserPreferencesRepositoryImpl: UserPreferencesRepository {
     private let userDefaults: UserDefaults

@@ -5,6 +5,7 @@
 
 import SwiftUI
 import DesignSystem
+import Domain
 
 struct CommentInputBar: View {
     @Binding var text: String

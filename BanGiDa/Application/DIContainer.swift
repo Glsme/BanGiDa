@@ -6,6 +6,7 @@
 //
 
 import Swinject
+import Domain
 
 final class AppDIContainer {
     static let shared = AppDIContainer()

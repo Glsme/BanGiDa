@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import Domain
 
 enum RealmDiaryRepositoryError: Error {
     case invalidObjectId(String)

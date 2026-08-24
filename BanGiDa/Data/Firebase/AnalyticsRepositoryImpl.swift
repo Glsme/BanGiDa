@@ -9,6 +9,7 @@ import Foundation
 
 import FirebaseAnalytics
 import FirebaseCrashlytics
+import Domain
 
 public final class AnalyticsRepositoryImpl: AnalyticsRepository {
 

@@ -9,6 +9,7 @@ import Foundation
 
 import FirebaseFirestore
 import FirebaseStorage
+import Domain
 
 public final class StoryRepositoryImpl: StoryRepository {
     private let db: Firestore

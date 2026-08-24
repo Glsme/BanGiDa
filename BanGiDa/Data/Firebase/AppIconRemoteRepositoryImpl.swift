@@ -8,6 +8,7 @@
 import Foundation
 
 import FirebaseRemoteConfig
+import Domain
 
 final class AppIconRemoteRepositoryImpl: AppIconRemoteRepository {
     /// Remote Config 콘솔에 등록해야 하는 파라미터 키.

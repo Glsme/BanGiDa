@@ -5,6 +5,7 @@
 
 import SwiftUI
 import DesignSystem
+import Domain
 
 struct CommentSheetView: View {
     @StateObject private var viewModel: CommentViewModel

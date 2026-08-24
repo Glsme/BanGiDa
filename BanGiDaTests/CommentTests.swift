@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+import Domain
 
 @testable import BanGiDa
 
@@ -384,8 +385,8 @@ private func makeViewModel(
 
 @MainActor
 // Swift Testing에도 Comment 타입이 있어 이름이 겹치므로 모듈명을 명시한다.
-private func makeComment(id: String, authorUID: String) -> BanGiDa.Comment {
-    BanGiDa.Comment(
+private func makeComment(id: String, authorUID: String) -> Domain.Comment {
+    Domain.Comment(
         id: id,
         storyID: "story-id",
         authorUID: authorUID,

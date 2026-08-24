@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import Domain
 
 extension Diary {
     func toDomain() -> DiaryEntry {

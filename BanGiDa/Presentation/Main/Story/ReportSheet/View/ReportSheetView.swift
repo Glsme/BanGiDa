@@ -7,6 +7,7 @@
 
 import SwiftUI
 import DesignSystem
+import Domain
 
 struct ReportSheetView: View {
     @StateObject private var viewModel = ReportViewModel()

@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import Domain
 
 final class BackupRepositoryImpl: BackupRepository {
     private let documentManager: DocumentManaging

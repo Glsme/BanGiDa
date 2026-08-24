@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Domain
 
 @MainActor
 final class StoryViewModel: ObservableObject {

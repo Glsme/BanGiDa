@@ -9,6 +9,7 @@ import Foundation
 
 import FirebaseAuth
 import FirebaseFirestore
+import Domain
 
 public final class UserRepositoryImpl: UserRepository {
     private let db: Firestore

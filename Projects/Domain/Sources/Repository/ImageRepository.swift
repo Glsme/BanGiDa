@@ -1,0 +1,15 @@
+//
+//  ImageRepository.swift
+//  BanGiDa
+//
+//  Created by Seokjune Hong on 2026/04/10.
+//
+
+import Foundation
+
+package protocol ImageRepository {
+    func loadImageData(fileName: String) -> Data?
+    func saveImageData(fileName: String, data: Data) throws
+    func removeImage(fileName: String)
+    func removeAll()
+}

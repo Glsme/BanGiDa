@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Domain
 
 final class ReportViewModel: ObservableObject {
     @Injected private var analyticsRepository: AnalyticsRepository
