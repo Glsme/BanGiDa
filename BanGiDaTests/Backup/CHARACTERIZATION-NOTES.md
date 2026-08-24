@@ -1,0 +1,15 @@
+# Backup · Preferences UseCase 특성화 테스트 — 이상 동작 보고
+
+Phase 0 안전망 작업 중 발견한 의심스러운 현재 동작을 기록한다. **프로덕션 코드는 수정하지 않았고**, 아래 동작은 모두 테스트로 고정(characterize)만 했다.
+
+| # | 위치(file:line) | 현재 동작 | 왜 의심스러운가 | 고정한 테스트 |
+|---|---|---|---|---|
+| 1 | `BanGiDa/Domain/UseCase/Backup/ResetDataUseCase.swift:36-37` | `userPreferencesRepository.save(prefs)`(36행, 설정을 "첫 실행 상태 + 펫 이름 없음"으로 커밋)가 `try diaryRepository.deleteAll()`(37행)보다 먼저 실행된다. `deleteAll()`이 throw하면 함수가 그 자리에서 종료되어 이어지는 `imageRepository.removeAll()`(38행)·`notificationRepository.removeAllPending()`(39행)·`removeAllDelivered()`(40행)는 전혀 호출되지 않는다. | **최우선 항목.** 초기화가 중간에 실패하면 "설정은 초기화됐지만 일기·이미지·알림 데이터는 그대로 남는" 반쪽짜리 상태가 만들어진다. 사용자가 재시도 없이 앱을 다시 쓰면 `isFirstLaunchCompleted == false` 때문에 온보딩이 다시 뜨는데, 정작 예전 일기·사진·알림은 그대로 남아 있어 "초기화했는데 데이터가 안 지워졌다"는 혼란을 줄 수 있다. TCA 전환 시 저장 순서를 뒤집거나(데이터 삭제를 먼저) 원자적 트랜잭션으로 묶을지 설계 논의가 필요한 지점이다. | `ResetDataUseCaseTests.commitsPreferencesResetBeforeDeleteAllAndSkipsLaterStepsWhenDeleteAllThrows` (대조군: `callsAllSixRepositoryMethodsInOrderOnHappyPath`) |
+| 2 | `BanGiDa/Domain/Repository/UserPreferencesRepository.swift:17-18`, `BanGiDa/Domain/UseCase/Preferences/UserPreferencesUseCase.swift:10-15` | `UserPreferencesRepository` 프로토콜에는 `getStoryAgreement()`/`setStoryAgreement(_:)`가 있지만, `UserPreferencesUseCase` 프로토콜에는 `storyAgreement`에 대응하는 메서드가 전혀 없다. | 버그는 아니지만 Domain 경계(UseCase 계층)에서 `storyAgreement`에 접근할 공식 통로가 없다는 뜻이다. 현재는 `ResetDataUseCase`가 `UserPreferencesRepository`를 직접 주입받아 우회하고 있어(아래 참고 항목) 드러나지 않지만, TCA 전환 시 Reducer가 UseCase 계층을 통해서만 Domain에 접근하는 구조로 정리한다면 `storyAgreement` 읽기/쓰기 기능이 통째로 빠질 수 있는 지점이라 기록해 둔다. | 별도 UseCase 테스트로 재현할 대상이 없어 테스트로 고정하지는 않았다(코드에 없는 것의 부재를 테스트로 증명할 수는 없음). 대신 `ResetDataUseCaseTests.preservesStoryAgreementValueFromLoadRatherThanResettingIt`이 `storyAgreement`가 `ResetDataUseCase` 경로에서는 초기화 대상이 아니라는 사실만 고정한다. |
+
+## 참고
+
+- 같은 `UserPreferences` 상태를 두 UseCase가 각각 소유한다. `ResetDataUseCase`는 `UserPreferencesRepository`를 직접 주입받고(`ResetDataUseCase.swift:17,23`), `UserPreferencesUseCaseImpl`도 같은 저장소를 주입받는다(`UserPreferencesUseCase.swift:18,20`). 화면 쪽은 전부 후자를 거친다 — `WalkThroughViewModel:14`, `WriteViewModel:17`, `HomeViewModel:23`, `AlarmViewModel:17`, `SettingViewModel:15`가 `@Injected`로 `UserPreferencesUseCase`를 받는다(실측). UseCase가 Repository에 의존하는 것 자체는 Clean Architecture상 정상이므로 계층 위반은 아니지만, **같은 상태의 소유자가 둘**이라는 점은 TCA 전환 시 이 상태를 어느 Dependency 하나로 모을지 판단할 때 짚어야 할 지점이다.
+- `ResetDataUseCase.execute()`는 `prefs.isFirstLaunchCompleted`와 `prefs.petName`만 초기화하고 `storyAgreement`는 `load()`가 돌려준 값을 그대로 다시 `save()`한다(`ResetDataUseCase.swift:33-36`). "초기화(reset)"라는 이름과 달리 필드 단위로는 선택적 초기화라는 뜻이므로, 어떤 필드가 초기화 대상인지 UI/기획 쪽에서 명시적으로 합의된 목록인지 확인이 필요해 보여 기록해 둔다(버그로 단정하지는 않음).
+- `CreateBackupUseCase`/`RestoreBackupUseCase`는 둘 다 `BackupRepository`에 인자·반환값을 가공 없이 그대로 위임하는 얇은 패스스루 계층이라 특별한 이상 동작은 발견되지 않았다.
+- `UserPreferencesUseCase`의 네 메서드(`getPetName`/`setPetName`/`isFirstLaunchCompleted`/`setFirstLaunchCompleted`)도 전부 저장소에 순수 위임하며, 가공이나 검증 로직이 없다. `setPetName`은 빈 문자열이나 공백 문자열에 대한 검증이 전혀 없어 그대로 저장소에 전달되는데, 이 자체가 버그인지는 저장소 구현(Realm 등) 쪽 제약을 함께 봐야 판단할 수 있어 이번 범위에서는 UseCase 계층의 "가공 없음"만 고정했다.
