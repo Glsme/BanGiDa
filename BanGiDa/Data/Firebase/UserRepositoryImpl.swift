@@ -27,7 +27,18 @@ public final class UserRepositoryImpl: UserRepository {
     
     public func createUser() async throws {
         guard let uid = loadUID() else { throw UserError.emptyUID }
-        
+
+        let reference = db.collection("users").document(uid)
+        let snapshot = try await reference.getDocument()
+
+        // setData는 문서를 통째로 대체한다. 이미 있는 문서에 그대로 쓰면 가입 시각인
+        // createAt이 매번 갱신될 뿐 아니라 fcmToken과 commentNotificationEnabled까지
+        // 지워져 푸시가 끊기고 알림 설정이 초기화된다. 기존 문서는 접속 시각만 갱신한다.
+        guard !snapshot.exists else {
+            try await reference.updateData(["lastSeenAt": Date()])
+            return
+        }
+
         let nickname = UserDefaults.standard.string(forKey: UserDefaultsKey.name.rawValue) ?? ""
         let data: [String: Any] = [
             "nickname": nickname,
@@ -35,8 +46,8 @@ public final class UserRepositoryImpl: UserRepository {
             "lastSeenAt": Date(),
             "commentNotificationEnabled": true
         ]
-        
-        try await db.collection("users").document(uid).setData(data)
+
+        try await reference.setData(data)
     }
     
     public func updateLastSeenAt() async throws {
