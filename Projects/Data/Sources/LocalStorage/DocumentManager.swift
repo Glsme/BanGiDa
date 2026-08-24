@@ -10,7 +10,7 @@ import RealmSwift
 import Zip
 import CoreKit
 
-enum DocumentError: LocalizedError {
+package enum DocumentError: LocalizedError {
     case createDirectoryError
     case saveImageError
     case removeDirectoryError
@@ -23,7 +23,7 @@ enum DocumentError: LocalizedError {
 
     case fetchJsonDataError
 
-    var errorDescription: String? {
+    package var errorDescription: String? {
         switch self {
         case .createDirectoryError:
             return "폴더를 생성하지 못했습니다."
@@ -47,18 +47,22 @@ enum DocumentError: LocalizedError {
     }
 }
 
-enum CodableError: Error {
+package enum CodableError: Error {
     case jsonDecodeError
     case jsonEncodeError
 }
 
-struct DocumentManager: DocumentManaging {
-    func documentDirectoryPath() -> URL? {
+package struct DocumentManager: DocumentManaging {
+    // Presentation의 CachedAsyncImage가 아직 이 타입을 직접 생성한다.
+    // 그 의존이 정리되면 이 이니셜라이저 노출도 함께 걷어낼 수 있다.
+    package init() {}
+
+    package func documentDirectoryPath() -> URL? {
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
         return documentDirectory
     }
     
-    func loadImageFromDocument(fileName: String) -> UIImage? {
+    package func loadImageFromDocument(fileName: String) -> UIImage? {
         guard let documentDirectory = imageDirectoryPath() else { return UIImage(named: "BasicDog") }
         let fileURL = documentDirectory.appendingPathComponent(fileName)
         
@@ -69,7 +73,7 @@ struct DocumentManager: DocumentManaging {
         }
     }
 
-    func loadImageDataFromDocument(fileName: String) -> Data? {
+    package func loadImageDataFromDocument(fileName: String) -> Data? {
         guard let documentDirectory = imageDirectoryPath() else { return nil }
         let fileURL = documentDirectory.appendingPathComponent(fileName)
 
@@ -80,7 +84,7 @@ struct DocumentManager: DocumentManaging {
         return nil
     }
     
-    func removeImageFromDocument(fileName: String) {
+    package func removeImageFromDocument(fileName: String) {
         guard let imagesDirectory = imageDirectoryPath() else { return }
         let fileURL = imagesDirectory.appendingPathComponent(fileName)
 
@@ -91,7 +95,7 @@ struct DocumentManager: DocumentManaging {
         }
     }
 
-    func removeAllImagesFromDocument() {
+    package func removeAllImagesFromDocument() {
         guard let imagesDirectory = imageDirectoryPath() else { return }
         guard FileManager.default.fileExists(atPath: imagesDirectory.path) else { return }
 
@@ -105,7 +109,7 @@ struct DocumentManager: DocumentManaging {
         }
     }
     
-    func saveImageDataFromDocument(fileName: String, image: Data) {
+    package func saveImageDataFromDocument(fileName: String, image: Data) {
         createImagesDirectoryPath()
         
         guard let documentDirectory = imageDirectoryPath() else { return }
@@ -119,7 +123,7 @@ struct DocumentManager: DocumentManaging {
     }
     
     @discardableResult
-    func fetchDocumentZipFile() throws -> [URL] {
+    package func fetchDocumentZipFile() throws -> [URL] {
         do {
             guard let path = documentDirectoryPath() else { return [] }
             let docs = try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil)
@@ -131,7 +135,7 @@ struct DocumentManager: DocumentManaging {
         }
     }
     
-    func saveDataToDocument(data: Data) throws {
+    package func saveDataToDocument(data: Data) throws {
         guard let documentPath = documentDirectoryPath() else { throw DocumentError.fetchDirectoryPathError }
         
         let jsonDataPath = documentPath.appendingPathComponent("encodedData.json")
@@ -139,7 +143,7 @@ struct DocumentManager: DocumentManaging {
     }
     
     @discardableResult
-    func createBackupFile() throws -> URL {
+    package func createBackupFile() throws -> URL {
         var urlPaths: [URL] = []
         
         let documentPath = documentDirectoryPath()
@@ -182,7 +186,7 @@ struct DocumentManager: DocumentManaging {
         return FileManager.default.fileExists(atPath: urlString)
     }
     
-    func createImagesDirectoryPath() {
+    package func createImagesDirectoryPath() {
         guard let documentPath = documentDirectoryPath() else { return }
         let imagesFilePath = documentPath.appendingPathComponent("images")
         
@@ -195,7 +199,7 @@ struct DocumentManager: DocumentManaging {
         }
     }
     
-    func unzipFile(fileURL: URL, documentURL: URL) throws {
+    package func unzipFile(fileURL: URL, documentURL: URL) throws {
         do {
             try Zip.unzipFile(fileURL, destination: documentURL, overwrite: true, password: nil, progress: { progress in
                 print(progress)

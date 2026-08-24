@@ -7,15 +7,16 @@
 
 import Foundation
 import Domain
+import CoreKit
 
-final class UserPreferencesRepositoryImpl: UserPreferencesRepository {
+package final class UserPreferencesRepositoryImpl: UserPreferencesRepository {
     private let userDefaults: UserDefaults
 
-    init(userDefaults: UserDefaults = .standard) {
+    package init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
     }
 
-    func load() -> UserPreferences {
+    package func load() -> UserPreferences {
         UserPreferences(
             isFirstLaunchCompleted: userDefaults.bool(forKey: UserDefaultsKey.first.rawValue),
             petName: userDefaults.string(forKey: UserDefaultsKey.name.rawValue),
@@ -23,7 +24,7 @@ final class UserPreferencesRepositoryImpl: UserPreferencesRepository {
         )
     }
 
-    func save(_ preferences: UserPreferences) {
+    package func save(_ preferences: UserPreferences) {
         userDefaults.set(preferences.isFirstLaunchCompleted, forKey: UserDefaultsKey.first.rawValue)
         if let petName = preferences.petName {
             userDefaults.set(petName, forKey: UserDefaultsKey.name.rawValue)
@@ -33,27 +34,27 @@ final class UserPreferencesRepositoryImpl: UserPreferencesRepository {
         userDefaults.set(preferences.storyAgreement, forKey: UserDefaultsKey.storyAgreement.rawValue)
     }
 
-    func getPetName() -> String? {
+    package func getPetName() -> String? {
         userDefaults.string(forKey: UserDefaultsKey.name.rawValue)
     }
 
-    func setPetName(_ name: String) {
+    package func setPetName(_ name: String) {
         userDefaults.set(name, forKey: UserDefaultsKey.name.rawValue)
     }
 
-    func isFirstLaunchCompleted() -> Bool {
+    package func isFirstLaunchCompleted() -> Bool {
         userDefaults.bool(forKey: UserDefaultsKey.first.rawValue)
     }
 
-    func setFirstLaunchCompleted() {
+    package func setFirstLaunchCompleted() {
         userDefaults.set(true, forKey: UserDefaultsKey.first.rawValue)
     }
 
-    func getStoryAgreement() -> Bool {
+    package func getStoryAgreement() -> Bool {
         userDefaults.bool(forKey: UserDefaultsKey.storyAgreement.rawValue)
     }
 
-    func setStoryAgreement(_ agreed: Bool) {
+    package func setStoryAgreement(_ agreed: Bool) {
         userDefaults.set(agreed, forKey: UserDefaultsKey.storyAgreement.rawValue)
     }
 }

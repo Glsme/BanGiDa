@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol DocumentManaging {
+package protocol DocumentManaging {
     func documentDirectoryPath() -> URL?
 
     func loadImageDataFromDocument(fileName: String) -> Data?

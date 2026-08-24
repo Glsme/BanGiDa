@@ -9,8 +9,8 @@ import Foundation
 import RealmSwift
 import Domain
 
-extension Diary {
-    func toDomain() -> DiaryEntry {
+package extension Diary {
+    package func toDomain() -> DiaryEntry {
         DiaryEntry(
             id: objectId.stringValue,
             type: DiaryType(rawValue: type?.rawValue ?? 0) ?? .memo,
@@ -24,7 +24,7 @@ extension Diary {
         )
     }
 
-    static func fromDomain(_ entry: DiaryEntry) -> Diary {
+    package static func fromDomain(_ entry: DiaryEntry) -> Diary {
         let diary = Diary(
             type: RealmDiaryType(rawValue: entry.type.rawValue),
             date: entry.date,

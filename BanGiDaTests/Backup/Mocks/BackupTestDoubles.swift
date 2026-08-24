@@ -1,5 +1,6 @@
 import Foundation
 import Domain
+import Data
 
 @testable import BanGiDa
 

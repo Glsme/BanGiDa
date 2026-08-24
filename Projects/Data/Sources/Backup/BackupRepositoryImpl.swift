@@ -9,11 +9,11 @@ import Foundation
 import RealmSwift
 import Domain
 
-final class BackupRepositoryImpl: BackupRepository {
+package final class BackupRepositoryImpl: BackupRepository {
     private let documentManager: DocumentManaging
     private let imageRepository: ImageRepository
 
-    init(documentManager: DocumentManaging = DocumentManager(), imageRepository: ImageRepository) {
+    package init(documentManager: DocumentManaging = DocumentManager(), imageRepository: ImageRepository) {
         self.documentManager = documentManager
         self.imageRepository = imageRepository
     }
@@ -22,7 +22,7 @@ final class BackupRepositoryImpl: BackupRepository {
         try Realm()
     }
 
-    func createBackup() throws -> URL {
+    package func createBackup() throws -> URL {
         let realm = try makeRealm()
         let diaryList = realm.objects(Diary.self).sorted(byKeyPath: "regDate", ascending: false)
         let encoder = JSONEncoder()
@@ -39,7 +39,7 @@ final class BackupRepositoryImpl: BackupRepository {
         return backupFilePath
     }
 
-    func restoreFromFile(_ fileURL: URL) throws {
+    package func restoreFromFile(_ fileURL: URL) throws {
         let realm = try makeRealm()
         guard let path = documentManager.documentDirectoryPath() else {
             throw DocumentError.fetchDirectoryPathError

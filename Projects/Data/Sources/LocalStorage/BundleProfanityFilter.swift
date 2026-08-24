@@ -14,7 +14,7 @@ public final class BundleProfanityFilter: ProfanityFilter {
         wordLoader = { BundleProfanityFilter.loadWords(from: bundle) }
     }
 
-    init(wordLoader: @escaping () -> Set<String>) {
+    package init(wordLoader: @escaping () -> Set<String>) {
         self.wordLoader = wordLoader
     }
 
@@ -28,7 +28,7 @@ public final class BundleProfanityFilter: ProfanityFilter {
 }
 
 private extension BundleProfanityFilter {
-    static func loadWords(from bundle: Bundle) -> Set<String> {
+    package static func loadWords(from bundle: Bundle) -> Set<String> {
         guard let url = bundle.url(forResource: "profanity-ko", withExtension: "txt"),
               let contents = try? String(contentsOf: url, encoding: .utf8)
         else { return [] }
@@ -44,7 +44,7 @@ private extension BundleProfanityFilter {
         )
     }
 
-    static func normalized(_ text: String) -> String {
+    package static func normalized(_ text: String) -> String {
         text
             .lowercased()
             .components(separatedBy: CharacterSet.alphanumerics.inverted)

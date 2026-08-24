@@ -10,7 +10,7 @@ import Foundation
 import FirebaseRemoteConfig
 import Domain
 
-final class AppIconRemoteRepositoryImpl: AppIconRemoteRepository {
+package final class AppIconRemoteRepositoryImpl: AppIconRemoteRepository {
     /// Remote Config 콘솔에 등록해야 하는 파라미터 키.
     private enum Key {
         static let appIconName = "app_icon_name"
@@ -18,7 +18,7 @@ final class AppIconRemoteRepositoryImpl: AppIconRemoteRepository {
 
     private let remoteConfig: RemoteConfig
 
-    init(remoteConfig: RemoteConfig = RemoteConfig.remoteConfig()) {
+    package init(remoteConfig: RemoteConfig = RemoteConfig.remoteConfig()) {
         self.remoteConfig = remoteConfig
 
         // 콘솔에 값이 없거나 한 번도 내려받지 못한 기기에서는 기본 아이콘을 쓴다.
@@ -32,7 +32,7 @@ final class AppIconRemoteRepositoryImpl: AppIconRemoteRepository {
         #endif
     }
 
-    func activateFetchedIcon() async -> AppIcon {
+    package func activateFetchedIcon() async -> AppIcon {
         // 활성화에 실패해도 직전에 활성화된 값이나 기본값이 남으므로 그대로 읽는다.
         _ = try? await remoteConfig.activate()
 
@@ -40,7 +40,7 @@ final class AppIconRemoteRepositoryImpl: AppIconRemoteRepository {
         return AppIcon(remoteValue: remoteValue)
     }
 
-    func fetchForNextLaunch() async {
+    package func fetchForNextLaunch() async {
         // 네트워크가 없거나 실패하면 다음 실행에서 다시 시도하면 되므로 오류를 흡수한다.
         _ = try? await remoteConfig.fetch()
     }

@@ -5,7 +5,7 @@
 
 import Foundation
 
-enum RelativeTimeFormatter {
+package enum RelativeTimeFormatter {
     // DateFormatter 생성 비용이 크므로 한 번만 만들어 재사용한다.
     private static let fallbackDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -14,7 +14,7 @@ enum RelativeTimeFormatter {
         return formatter
     }()
 
-    static func formattedTime(from createdAt: Date, now: Date = Date()) -> String {
+    package static func formattedTime(from createdAt: Date, now: Date = Date()) -> String {
         let interval = max(0, now.timeIntervalSince(createdAt))
 
         if interval < 60 {

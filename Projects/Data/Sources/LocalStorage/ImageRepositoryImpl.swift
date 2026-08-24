@@ -8,18 +8,18 @@
 import Foundation
 import Domain
 
-final class ImageRepositoryImpl: ImageRepository {
+package final class ImageRepositoryImpl: ImageRepository {
     private let documentManager: DocumentManaging
 
-    init(documentManager: DocumentManaging = DocumentManager()) {
+    package init(documentManager: DocumentManaging = DocumentManager()) {
         self.documentManager = documentManager
     }
 
-    func loadImageData(fileName: String) -> Data? {
+    package func loadImageData(fileName: String) -> Data? {
         documentManager.loadImageDataFromDocument(fileName: fileName)
     }
 
-    func saveImageData(fileName: String, data: Data) throws {
+    package func saveImageData(fileName: String, data: Data) throws {
         documentManager.createImagesDirectoryPath()
 
         guard let documentDirectory = documentManager.documentDirectoryPath() else {
@@ -33,11 +33,11 @@ final class ImageRepositoryImpl: ImageRepository {
         try data.write(to: fileURL)
     }
 
-    func removeImage(fileName: String) {
+    package func removeImage(fileName: String) {
         documentManager.removeImageFromDocument(fileName: fileName)
     }
 
-    func removeAll() {
+    package func removeAll() {
         documentManager.removeAllImagesFromDocument()
     }
 }

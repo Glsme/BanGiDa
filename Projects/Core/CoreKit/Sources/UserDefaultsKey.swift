@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum UserDefaultsKey: String {
+package enum UserDefaultsKey: String {
     case first = "first"
     case name = "name"
     case storyAgreement = "storyAgreement" // 레거시 (마이그레이션용 유지)

@@ -9,14 +9,14 @@ import Foundation
 import UserNotifications
 import Domain
 
-final class NotificationRepositoryImpl: NotificationRepository {
+package final class NotificationRepositoryImpl: NotificationRepository {
     private let notificationCenter: UNUserNotificationCenter
 
-    init(notificationCenter: UNUserNotificationCenter = .current()) {
+    package init(notificationCenter: UNUserNotificationCenter = .current()) {
         self.notificationCenter = notificationCenter
     }
 
-    func requestAuthorization() async -> Bool {
+    package func requestAuthorization() async -> Bool {
         let options: UNAuthorizationOptions = [.alert, .sound]
         do {
             return try await notificationCenter.requestAuthorization(options: options)
@@ -25,7 +25,7 @@ final class NotificationRepositoryImpl: NotificationRepository {
         }
     }
 
-    func schedule(identifier: String, title: String, body: String, date: Date, repeatRule: AlarmRepeat) {
+    package func schedule(identifier: String, title: String, body: String, date: Date, repeatRule: AlarmRepeat) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
@@ -39,16 +39,16 @@ final class NotificationRepositoryImpl: NotificationRepository {
         notificationCenter.add(request)
     }
 
-    func schedule(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat) {
+    package func schedule(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat) {
         let identifier = title + body + "\(date) \(index) \(repeatRule.rawValue)"
         schedule(identifier: identifier, title: title, body: body, date: date, repeatRule: repeatRule)
     }
 
-    func remove(identifier: String) {
+    package func remove(identifier: String) {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
     }
 
-    func remove(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat) {
+    package func remove(title: String, body: String, date: Date, index: Int, repeatRule: AlarmRepeat) {
         let legacyIdentifier = title + body + "\(date) \(index)"
         let newIdentifier = title + body + "\(date) \(index) \(repeatRule.rawValue)"
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [legacyIdentifier, newIdentifier])
@@ -86,11 +86,11 @@ final class NotificationRepositoryImpl: NotificationRepository {
         return components
     }
 
-    func removeAllDelivered() {
+    package func removeAllDelivered() {
         notificationCenter.removeAllDeliveredNotifications()
     }
 
-    func removeAllPending() {
+    package func removeAllPending() {
         notificationCenter.removeAllPendingNotificationRequests()
     }
 }

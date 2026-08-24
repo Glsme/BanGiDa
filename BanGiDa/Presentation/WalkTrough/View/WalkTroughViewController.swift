@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreKit
 
 final class WalkThroughViewController: BaseViewController {
     let walkThroughView = WalkThroughView()

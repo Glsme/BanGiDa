@@ -1,4 +1,5 @@
 import Foundation
+import Data
 
 @testable import BanGiDa
 

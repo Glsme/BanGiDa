@@ -9,12 +9,15 @@ import Foundation
 import RealmSwift
 import Domain
 
-enum RealmDiaryRepositoryError: Error {
+package enum RealmDiaryRepositoryError: Error {
     case invalidObjectId(String)
     case notFound(String)
 }
 
-final class RealmDiaryRepository: DiaryRepository {
+package final class RealmDiaryRepository: DiaryRepository {
+
+    // 암묵적 이니셜라이저는 internal이라 모듈 밖(DIContainer)에서 생성할 수 없다.
+    package init() {}
 
     private func makeRealm() throws -> Realm {
         try Realm()
@@ -27,14 +30,14 @@ final class RealmDiaryRepository: DiaryRepository {
         return (start, end)
     }
 
-    func fetchAll() -> [DiaryEntry] {
+    package func fetchAll() -> [DiaryEntry] {
         guard let realm = try? makeRealm() else { return [] }
         return realm.objects(Diary.self)
             .sorted(byKeyPath: "regDate", ascending: false)
             .map { $0.toDomain() }
     }
 
-    func fetchByDate(_ date: Date) -> [DiaryEntry] {
+    package func fetchByDate(_ date: Date) -> [DiaryEntry] {
         guard let realm = try? makeRealm() else { return [] }
         let range = dayRange(from: date)
         return realm.objects(Diary.self)
@@ -42,7 +45,7 @@ final class RealmDiaryRepository: DiaryRepository {
             .map { $0.toDomain() }
     }
 
-    func fetchByType(_ type: DiaryType) -> [DiaryEntry] {
+    package func fetchByType(_ type: DiaryType) -> [DiaryEntry] {
         guard let realm = try? makeRealm() else { return [] }
         return realm.objects(Diary.self)
             .filter("type == \(type.rawValue)")
@@ -50,7 +53,7 @@ final class RealmDiaryRepository: DiaryRepository {
             .map { $0.toDomain() }
     }
 
-    func fetchByDateAndType(date: Date, type: DiaryType) -> [DiaryEntry] {
+    package func fetchByDateAndType(date: Date, type: DiaryType) -> [DiaryEntry] {
         guard let realm = try? makeRealm() else { return [] }
         let range = dayRange(from: date)
         return realm.objects(Diary.self)
@@ -60,7 +63,7 @@ final class RealmDiaryRepository: DiaryRepository {
     }
 
     @discardableResult
-    func save(_ entry: DiaryEntry) throws -> DiaryEntry {
+    package func save(_ entry: DiaryEntry) throws -> DiaryEntry {
         let realm = try makeRealm()
         let diary = Diary.fromDomain(entry)
         try realm.write {
@@ -69,7 +72,7 @@ final class RealmDiaryRepository: DiaryRepository {
         return diary.toDomain()
     }
 
-    func update(_ entry: DiaryEntry) throws {
+    package func update(_ entry: DiaryEntry) throws {
         let realm = try makeRealm()
         let objectId = try ObjectId(string: entry.id)
         guard let diary = realm.object(ofType: Diary.self, forPrimaryKey: objectId) else {
@@ -86,7 +89,7 @@ final class RealmDiaryRepository: DiaryRepository {
         }
     }
 
-    func delete(_ entry: DiaryEntry) throws {
+    package func delete(_ entry: DiaryEntry) throws {
         let realm = try makeRealm()
         let objectId = try ObjectId(string: entry.id)
         guard let diary = realm.object(ofType: Diary.self, forPrimaryKey: objectId) else {
@@ -98,14 +101,14 @@ final class RealmDiaryRepository: DiaryRepository {
         }
     }
 
-    func deleteAll() throws {
+    package func deleteAll() throws {
         let realm = try makeRealm()
         try realm.write {
             realm.deleteAll()
         }
     }
 
-    func findByID(_ id: String) -> DiaryEntry? {
+    package func findByID(_ id: String) -> DiaryEntry? {
         guard let realm = try? makeRealm() else { return nil }
         guard let objectId = try? ObjectId(string: id) else { return nil }
         return realm.object(ofType: Diary.self, forPrimaryKey: objectId)?.toDomain()

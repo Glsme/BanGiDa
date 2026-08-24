@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 import Domain
 
-enum RealmDiaryType: Int, PersistableEnum, Codable {
+package enum RealmDiaryType: Int, PersistableEnum, Codable {
     case memo = 0
     case alarm
     case hospital
@@ -18,7 +18,7 @@ enum RealmDiaryType: Int, PersistableEnum, Codable {
     case abnormal
 }
 
-class Diary: Object, Codable {
+package class Diary: Object, Codable {
     private override init() { }
     
     @Persisted var type: RealmDiaryType?
@@ -32,7 +32,7 @@ class Diary: Object, Codable {
     
     @Persisted(primaryKey: true) var objectId: ObjectId
     
-    convenience init(type: RealmDiaryType?, date: Date, regDate: Date, animalName: String, content: String, photo: String?, alarmTitle: String?, repeatRule: AlarmRepeat = .none) {
+    package convenience init(type: RealmDiaryType?, date: Date, regDate: Date, animalName: String, content: String, photo: String?, alarmTitle: String?, repeatRule: AlarmRepeat = .none) {
         self.init()
         self.type = type
         self.date = date
@@ -56,7 +56,7 @@ class Diary: Object, Codable {
         case repeatRule
     }
     
-    func encode(to encoder: Encoder) throws {
+    package func encode(to encoder: Encoder) throws {
         var containter = encoder.container(keyedBy: CodingKeys.self)
         try containter.encode(objectId, forKey: .objectId)
         try containter.encode(type, forKey: .type)
@@ -69,7 +69,7 @@ class Diary: Object, Codable {
         try containter.encode(repeatRule, forKey: .repeatRule)
     }
     
-    required init(from decoder: Decoder) throws {
+    package required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self._objectId = try container.decode(Persisted<ObjectId>.self, forKey: .objectId)
         self._type = try container.decode(Persisted<RealmDiaryType?>.self, forKey: .type)
