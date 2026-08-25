@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import DesignSystem
 
 final class ProfileView: UICollectionViewCell {
     lazy var imageView: UIImageView = {

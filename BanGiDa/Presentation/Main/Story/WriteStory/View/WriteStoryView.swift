@@ -10,6 +10,7 @@ import PhotosUI
 import UIKit
 import Photos
 import CropViewController
+import DesignSystem
 
 struct WriteStoryView: View {
     @Environment(\.dismiss) private var dismiss
@@ -116,7 +117,7 @@ struct WriteStoryView: View {
                 )
             }
         }
-        .onChange(of: selectedItem) { newItem in
+        .onChange(of: selectedItem) { _, newItem in
             guard let newItem else { return }
             
             Task {
@@ -146,12 +147,12 @@ struct WriteStoryView: View {
                 .ignoresSafeArea()
             }
         }
-        .onChange(of: viewModel.storyText) { newValue in
+        .onChange(of: viewModel.storyText) { _, newValue in
             if newValue.count > 100 {
                 viewModel.storyText = String(newValue.prefix(100))
             }
         }
-        .onChange(of: viewModel.didFinish) { didFinish in
+        .onChange(of: viewModel.didFinish) { _, didFinish in
             guard didFinish else { return }
             onFinish()
             dismiss()
@@ -159,7 +160,7 @@ struct WriteStoryView: View {
         .onAppear {
             updatePhotoAuthorizationStatus()
         }
-        .onChange(of: scenePhase) { phase in
+        .onChange(of: scenePhase) { _, phase in
             guard phase == .active else { return }
             updatePhotoAuthorizationStatus()
         }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Domain
 
 @MainActor
 final class WriteStoryViewModel: ObservableObject {

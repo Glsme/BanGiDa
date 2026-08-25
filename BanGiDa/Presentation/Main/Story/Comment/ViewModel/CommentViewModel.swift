@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import Domain
 
 @MainActor
 final class CommentViewModel: ObservableObject {

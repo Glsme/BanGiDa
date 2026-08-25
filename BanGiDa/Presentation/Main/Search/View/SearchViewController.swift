@@ -7,6 +7,7 @@
 
 import Combine
 import UIKit
+import DesignSystem
 
 final class SearchViewController: BaseViewController {
 

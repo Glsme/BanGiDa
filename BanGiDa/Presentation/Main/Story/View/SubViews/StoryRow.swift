@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import DesignSystem
+import Domain
 
 struct StoryRow: View {
     let storyID: String

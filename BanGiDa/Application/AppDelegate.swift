@@ -8,10 +8,8 @@
 import UIKit
 
 import IQKeyboardManagerSwift
-import FirebaseCore
-import FirebaseFirestore
-import FirebaseMessaging
-import RealmSwift
+import Domain
+import Data
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,12 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        configureRealmMigration()
+        RealmMigration.configureDefaultConfiguration()
         IQKeyboardManager.shared.enable = true
         _ = AppDIContainer.shared
         
-        FirebaseApp.configure()
-        _ = Firestore.firestore()
+        FirebaseBootstrap.shared.configure()
         
         //원격 알림 시스템에 앱을 등록
         if #available(iOS 10.0, *) {
@@ -45,13 +42,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerForRemoteNotifications()
         
         //메시지 대리자 설정
-        Messaging.messaging().delegate = self
+        FirebaseBootstrap.shared.onRegistrationTokenRefresh = { [weak self] fcmToken in
+            self?.handleFCMTokenRefresh(fcmToken)
+        }
+        FirebaseBootstrap.shared.startMessaging()
         
         return true
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Messaging.messaging().apnsToken = deviceToken
+        FirebaseBootstrap.shared.setAPNSToken(deviceToken)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -76,17 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return UIInterfaceOrientationMask.portrait
     }
     
-    private func configureRealmMigration() {
-        let config = Realm.Configuration(schemaVersion: 1, migrationBlock: { migration, oldVersion in
-            if oldVersion < 1 {
-                migration.enumerateObjects(ofType: Diary.className()) { _, newObject in
-                    newObject?["repeatRule"] = AlarmRepeat.none.rawValue
-                }
-            }
-        })
-        
-        Realm.Configuration.defaultConfiguration = config
-    }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
@@ -125,10 +114,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 }
 
-extension AppDelegate: MessagingDelegate {
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        guard let fcmToken, !fcmToken.isEmpty,
-              let updateFCMTokenUseCase = AppDIContainer.shared.container.resolve(UpdateFCMTokenUseCase.self) else {
+extension AppDelegate {
+    // 원래 MessagingDelegate 콜백이던 로직. 대리자 채택은 Data의 FirebaseBootstrap이 맡고
+    // 여기서는 토큰만 전달받는다. 분기·에러 처리 순서는 그대로다.
+    private func handleFCMTokenRefresh(_ fcmToken: String) {
+        guard let updateFCMTokenUseCase = AppDIContainer.shared.container.resolve(UpdateFCMTokenUseCase.self) else {
             return
         }
 

@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import Domain
 
 final class SearchViewModel {
 

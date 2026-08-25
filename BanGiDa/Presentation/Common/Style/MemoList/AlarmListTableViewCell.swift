@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignSystem
 
 /// Home UI 내 TableView 중 Alarm에 쓰이는 TableView Cell입니다.
 /**

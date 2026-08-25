@@ -5,6 +5,7 @@
 
 import Combine
 import Foundation
+import Domain
 
 @MainActor
 final class BlockedUsersViewModel: ObservableObject {

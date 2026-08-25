@@ -13,6 +13,9 @@ import UIKit
 
 import AcknowList
 import CropViewController
+import DesignSystem
+import Domain
+import Data
 
 final class SettingViewController: BaseViewController {
     

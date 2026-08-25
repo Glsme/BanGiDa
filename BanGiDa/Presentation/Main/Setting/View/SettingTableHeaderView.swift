@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import DesignSystem
 
 final class SettingTableHeaderView: BaseView {
     let titleLabel: UILabel = {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Domain
 
 extension Story {
     static let mock: [Story] = [

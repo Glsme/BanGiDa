@@ -21,6 +21,9 @@ let project = Project(
             "CURRENT_PROJECT_VERSION": "1",
             "CODE_SIGN_STYLE": "Automatic",
             "SWIFT_EXPLICITLY_BUILT_MODULES": "NO",
+            // package 접근 제어자는 같은 package name으로 컴파일된 모듈 사이에서만 보인다.
+            // 프로젝트 전 타깃에 동일하게 걸어 둔다.
+            "OTHER_SWIFT_FLAGS": "$(inherited) -package-name BanGiDa",
         ],
         configurations: [
             .debug(name: "Debug"),
@@ -29,11 +32,70 @@ let project = Project(
     ),
     targets: [
         .target(
+            name: "CoreKit",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "com.hsj.bangida.corekit",
+            deploymentTargets: .iOS("17.0"),
+            infoPlist: .default,
+            sources: ["Projects/Core/CoreKit/Sources/**/*.swift"],
+            dependencies: []
+        ),
+        .target(
+            name: "Domain",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "com.hsj.bangida.domain",
+            deploymentTargets: .iOS("17.0"),
+            infoPlist: .default,
+            sources: ["Projects/Domain/Sources/**/*.swift"],
+            dependencies: []
+        ),
+        .target(
+            name: "Data",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "com.hsj.bangida.data",
+            deploymentTargets: .iOS("17.0"),
+            infoPlist: .default,
+            sources: ["Projects/Data/Sources/**/*.swift"],
+            dependencies: [
+                .target(name: "Domain"),
+                .target(name: "CoreKit"),
+                .external(name: "Realm"),
+                .external(name: "RealmSwift"),
+                .external(name: "Zip"),
+                .package(product: "FirebaseAnalytics", type: .runtime),
+                .package(product: "FirebaseCrashlytics", type: .runtime),
+                .package(product: "FirebaseAuth", type: .runtime),
+                .package(product: "FirebaseFirestore", type: .runtime),
+                .package(product: "FirebaseStorage", type: .runtime),
+                .package(product: "FirebaseRemoteConfig", type: .runtime),
+                .package(product: "FirebaseMessaging", type: .runtime),
+            ],
+            settings: .settings(
+                base: [
+                    // Firebase의 Obj-C 카테고리가 링크에서 빠지지 않게 한다 (앱 타깃과 동일).
+                    "OTHER_LDFLAGS": "$(inherited) -ObjC",
+                ]
+            )
+        ),
+        .target(
+            name: "DesignSystem",
+            destinations: .iOS,
+            product: .framework,
+            bundleId: "com.hsj.bangida.designsystem",
+            deploymentTargets: .iOS("17.0"),
+            infoPlist: .default,
+            sources: ["Projects/Core/DesignSystem/Sources/**/*.swift"],
+            dependencies: []
+        ),
+        .target(
             name: "BanGiDa",
             destinations: .iOS,
             product: .app,
             bundleId: "com.hsj.bangida",
-            deploymentTargets: .iOS("16.0"),
+            deploymentTargets: .iOS("17.0"),
             infoPlist: .extendingDefault(with: [
                 "CFBundleShortVersionString": "$(MARKETING_VERSION)",
                 "CFBundleVersion": "$(CURRENT_PROJECT_VERSION)",
@@ -64,22 +126,19 @@ let project = Project(
             ],
             entitlements: .file(path: "BanGiDa/BanGiDa.entitlements"),
             dependencies: [
+                .target(name: "CoreKit"),
+                .target(name: "DesignSystem"),
+                .target(name: "Domain"),
+                .target(name: "Data"),
                 .external(name: "SnapKit"),
                 .external(name: "FSCalendar"),
-                .external(name: "Zip"),
                 .external(name: "AcknowList"),
                 .external(name: "IQKeyboardManagerSwift"),
                 .external(name: "CropViewController"),
                 .external(name: "Swinject"),
-                .external(name: "Realm"),
-                .external(name: "RealmSwift"),
-                .package(product: "FirebaseAnalytics", type: .runtime),
-                .package(product: "FirebaseCrashlytics", type: .runtime),
-                .package(product: "FirebaseMessaging", type: .runtime),
-                .package(product: "FirebaseAuth", type: .runtime),
-                .package(product: "FirebaseFirestore", type: .runtime),
-                .package(product: "FirebaseStorage", type: .runtime),
-                .package(product: "FirebaseRemoteConfig", type: .runtime),
+                // Realm·Zip·Firebase는 Data 모듈이 소유한다.
+                // Firebase 산출물이 정적이라 두 타깃이 함께 링크하면 어떤 구성으로도
+                // 링크가 성립하지 않는다. 앱 셸은 Firebase를 직접 참조하지 않는다.
             ],
             settings: .settings(
                 base: [
@@ -98,11 +157,14 @@ let project = Project(
             destinations: .iOS,
             product: .unitTests,
             bundleId: "com.hsj.bangida.tests",
-            deploymentTargets: .iOS("16.0"),
+            deploymentTargets: .iOS("17.0"),
             infoPlist: .default,
             sources: ["BanGiDaTests/**/*.swift"],
             dependencies: [
                 .target(name: "BanGiDa"),
+                .target(name: "Domain"),
+                .target(name: "Data"),
+                .target(name: "CoreKit"),
             ]
         ),
     ]
