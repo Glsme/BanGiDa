@@ -174,13 +174,13 @@ iOS 17 상향 때문인지 리팩토링 때문인지 구분할 수 없다.
 
 - [x] `Projects/` 잔재 디렉터리 정리 (파일 0개의 빈 껍데기였음, 2.2 참조)
 - [x] **`Core(CoreKit, DesignSystem)` 파일럿** — 6파일 최소 규모로 모듈 분리 절차와 `package` 전환을 먼저 검증
-- [ ] `Domain` 모듈 분리 (56파일, `package` 전환 필요 타입 50개)
-- [ ] `Data` 모듈 분리 (19파일, `package` 전환 필요 타입 16개)
-- [ ] Story 피처로 4타깃 템플릿 구성 후 확인
-- [ ] 나머지 6개 피처에 확산
+- [x] `Domain` 모듈 분리 (58파일. 실제 `package` 전환은 최상위 50 + 멤버 71개였다)
+- [x] `Data` 모듈 분리 (20파일, 최상위 17 + 멤버 60개). Firebase 링크 문제는 8.6 참조
+- [ ] ~~Story 피처로 4타깃 템플릿 구성~~ — **Phase 2 이후로 미룸.** 8.7 참조
+- [ ] ~~나머지 6개 피처에 확산~~ — 동일
 - [x] 의존성 방향 검증 수단 확정 — `tuist inspect dependencies` (3.2(b) 참조)
-- [ ] SwiftLint 도입 + Domain의 시스템 프레임워크 import 금지 커스텀 룰 (3.2(b) 참조)
-- [ ] `tuist cache` 세팅 (타깃 30개 이상 환경의 생성·빌드 시간 대응)
+- [x] ~~SwiftLint 도입~~ → **아키텍처 테스트로 대체.** SwiftLint가 미설치라 팀 전체에 새 도구를 강제하게 되어, 소스를 직접 훑는 `BanGiDaTests/Architecture/ArchitectureBoundaryTests.swift`로 같은 목적을 달성했다. 전량 테스트에 포함되므로 별도 명령이 필요 없다
+- [ ] `tuist cache` 세팅 — **보류.** 목적이 "타깃 30개 이상 환경 대응"인데 현재 5개다. 타깃이 실제로 늘어난 뒤에 한다
 
 > **파일럿 순서 변경**: 초안은 Story 피처를 파일럿으로 삼았으나, 실제로는 `Core`를 먼저 했다.
 > 모든 피처가 `Domain`에 의존하므로 하위 계층이 먼저 서야 피처 타깃이 의존할 대상이 생기기 때문이다.
@@ -323,6 +323,47 @@ Phase 0의 Seam 보강으로 `ImageRepositoryImpl`은 단위 테스트가 가능
 - `UserRepositoryImpl` — `UserDefaults`는 주입 가능해졌지만 `init`이 `Firestore` 인스턴스를 요구하고, 이는 `FirebaseApp.configure()`를 선행 요구한다. **UserDefaults seam만으로는 이 클래스가 테스트 가능해지지 않았다.**
 
 커버된 것으로 오해하지 않도록 명시한다. 상세는 `BanGiDaTests/Data/CHARACTERIZATION-NOTES.md`.
+
+### 8.6 Firebase는 한 타깃만 링크할 수 있다 (Phase 1 실측)
+Data를 별도 타깃으로 떼면 앱과 Data가 Firebase를 이중 링크하게 되는데, **어떤 구성으로도 링크가 성립하지 않는다.**
+
+| 구성 | 결과 |
+|---|---|
+| 앱·Data 양쪽에 선언 | duplicate symbol 9,234개 |
+| Data에만 선언 | `_OBJC_CLASS_$_FIRFirestore` 등 Obj-C 심볼 undefined |
+| `productTypes`로 동적 강제 | `FirebaseFirestore` 자체 링크 실패 (Swift 오버레이가 `FirebaseFirestoreInternal` 바이너리를 못 찾음) |
+
+덧붙여 Firebase는 `Project.swift`의 `packages:`로 **Xcode 네이티브 SPM** 통합이라
+`Tuist/Package.swift`의 `PackageSettings.productTypes` 관할 밖이다. 이 사실을 모르면 동적 강제 시도 자체가 무효다.
+
+**해결**: Firebase를 만지는 타깃을 Data 하나로 모은다. `AppDelegate`가 들고 있던
+`FirebaseApp.configure()`·`Messaging` 대리자·`MessagingDelegate` 채택을 Data의 `FirebaseBootstrap`으로 옮겼다.
+부수 효과로 앱 셸의 import에서 Firebase·Realm·Zip이 모두 사라져 프로젝트 자체 규칙에도 부합하게 됐다.
+
+**남은 위험**: 이 이관은 이번 작업에서 유일하게 테스트로 보호되지 않은 동작 변경이다.
+`UpdateFCMTokenUseCase`는 테스트 4건이 덮지만 "APNs 토큰 등록 → FCM 토큰 수신 → UseCase 호출" 배선은 단위 테스트가 없다.
+실기기 푸시 수신 확인이 필요하다.
+
+### 8.7 피처 모듈화는 DI 전환보다 뒤에 와야 한다 (Phase 1 실측)
+초안은 Phase 1에서 Story 4타깃을 만들고 Phase 2에서 TCA를 도입하는 순서였다. **이 순서는 성립하지 않는다.**
+
+레거시 화면은 `@Injected` propertyWrapper로 의존을 얻는데, 이것이 `AppDIContainer.shared`를 직접 참조하고
+`AppDIContainer`는 `import Data`로 모든 구현체를 등록한다. 즉 피처를 모듈로 떼면
+
+```
+Story 피처 → @Injected → AppDIContainer → Data
+```
+
+가 되어 피처가 Data에 전이 의존한다. 마이크로 피처 구조가 막으려는 바로 그 역전이다.
+
+우회하려면 `Injected`를 CoreKit으로 올리고 리졸버를 추상화해야 하는데, `AppDelegate`가 `@Injected` 저장 프로퍼티를
+갖고 있어 `didFinishLaunching`보다 먼저 해석이 일어난다. 리졸버 주입을 늦추면 기동이 깨지고, 지연 해석으로 바꾸면
+Service Locator 전반의 타이밍이 바뀌는데 이 배선에는 테스트가 없다.
+
+게다가 지금 Story를 MVVM+Swinject 상태로 4타깃화해도 Phase 3에서 TCA로 다시 쓴다 — §4.2가 피하려던 왕복이다.
+
+**결론**: 피처 모듈화를 Phase 3으로 옮긴다. 화면을 TCA로 전환할 때 그 피처의 4타깃을 함께 만들면
+Interface에 담을 실체(State/Action)가 생기고, `@Dependency`가 Swinject 의존도 끊어준다.
 
 ### 8.5 Swift 6 동시성
 현재 Swift 5.10 모드다. 모듈을 분리하면 모듈 간 `Sendable` 경계가 드러나 에러가 대량 발생할 수 있다.
