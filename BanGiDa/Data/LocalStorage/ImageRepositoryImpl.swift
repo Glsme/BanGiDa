@@ -19,6 +19,7 @@ final class ImageRepositoryImpl: ImageRepository {
     }
 
     func saveImageData(fileName: String, data: Data) throws {
+        guard !fileName.isEmpty else { throw DocumentError.saveImageError }
         documentManager.createImagesDirectoryPath()
 
         guard let documentDirectory = documentManager.documentDirectoryPath() else {
