@@ -21,7 +21,7 @@ final class DeleteDiaryUseCaseImpl: DeleteDiaryUseCase {
     }
 
     func execute(entry: DiaryEntry) throws {
-        if let photo = entry.photoFileName {
+        if let photo = entry.photoFileName, !photo.isEmpty {
             imageRepository.removeImage(fileName: photo)
         }
         try diaryRepository.delete(entry)

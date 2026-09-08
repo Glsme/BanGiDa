@@ -52,36 +52,36 @@ enum CodableError: Error {
 }
 
 struct DocumentManager {
+    /// 테스트에서 앱 Documents 대신 임시 디렉터리를 쓰기 위한 주입 지점. nil이면 앱 Documents를 쓴다.
+    private let baseDirectory: URL?
+
+    init(baseDirectory: URL? = nil) {
+        self.baseDirectory = baseDirectory
+    }
+
     func documentDirectoryPath() -> URL? {
+        if let baseDirectory {
+            return baseDirectory
+        }
         guard let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
         return documentDirectory
     }
     
     func loadImageFromDocument(fileName: String) -> UIImage? {
-        guard let documentDirectory = imageDirectoryPath() else { return UIImage(named: "BasicDog") }
-        let fileURL = documentDirectory.appendingPathComponent(fileName)
-        
-        if FileManager.default.fileExists(atPath: fileURL.path) {
-            return UIImage(contentsOfFile: fileURL.path)
-        } else {
+        guard let fileURL = imageFileURL(fileName: fileName), isRegularFile(at: fileURL) else {
             return UIImage(named: "BasicDog")
         }
+        return UIImage(contentsOfFile: fileURL.path)
     }
 
     func loadImageDataFromDocument(fileName: String) -> Data? {
-        guard let documentDirectory = imageDirectoryPath() else { return nil }
-        let fileURL = documentDirectory.appendingPathComponent(fileName)
-
-        if FileManager.default.fileExists(atPath: fileURL.path) {
-            return try? Data(contentsOf: fileURL)
-        }
-
-        return nil
+        guard let fileURL = imageFileURL(fileName: fileName), isRegularFile(at: fileURL) else { return nil }
+        return try? Data(contentsOf: fileURL)
     }
     
     func removeImageFromDocument(fileName: String) {
-        guard let imagesDirectory = imageDirectoryPath() else { return }
-        let fileURL = imagesDirectory.appendingPathComponent(fileName)
+        // 빈 파일명이면 `images/` 디렉터리 자체가 대상이 되어 사진 전체가 지워진다. 일반 파일일 때만 삭제한다.
+        guard let fileURL = imageFileURL(fileName: fileName), isRegularFile(at: fileURL) else { return }
 
         do {
             try FileManager.default.removeItem(at: fileURL)
@@ -107,8 +107,7 @@ struct DocumentManager {
     func saveImageDataFromDocument(fileName: String, image: Data) {
         createImagesDirectoryPath()
         
-        guard let documentDirectory = imageDirectoryPath() else { return }
-        let fileURL = documentDirectory.appendingPathComponent(fileName)
+        guard let fileURL = imageFileURL(fileName: fileName) else { return }
         
         do {
             try image.write(to: fileURL)
@@ -173,6 +172,17 @@ struct DocumentManager {
         let imagesDirectoryPath = documentPath.appendingPathComponent("images")
         
         return imagesDirectoryPath
+    }
+
+    /// 빈 파일명은 `images/` 디렉터리 자체를 가리켜 읽기 실패나 폴더 통째 삭제로 이어지므로 nil을 돌려준다.
+    private func imageFileURL(fileName: String) -> URL? {
+        guard !fileName.isEmpty, let imagesDirectory = imageDirectoryPath() else { return nil }
+        return imagesDirectory.appendingPathComponent(fileName)
+    }
+
+    private func isRegularFile(at url: URL) -> Bool {
+        var isDirectory: ObjCBool = false
+        return FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory) && !isDirectory.boolValue
     }
     
     private func isFileExist(path: URL) -> Bool {
