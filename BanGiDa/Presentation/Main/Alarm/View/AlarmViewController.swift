@@ -65,7 +65,7 @@ final class AlarmViewController: BaseViewController {
         
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.tintColor = .systemTintColor
-        navigationItem.rightBarButtonItem = saveButton
+        navigationItem.setPrimaryActionItem(saveButton, systemImageName: "checkmark")
         navigationController?.navigationBar.backgroundColor = currentColor
         view.backgroundColor = .backgroundColor
         

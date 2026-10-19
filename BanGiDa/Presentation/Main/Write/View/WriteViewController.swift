@@ -74,7 +74,7 @@ final class WriteViewController: BaseViewController {
         navigationItem.title = category.title
         navigationController?.navigationBar.topItem?.title = ""
         navigationItem.title = category.title
-        navigationItem.rightBarButtonItem = saveButton
+        navigationItem.setPrimaryActionItem(saveButton, systemImageName: "checkmark")
         navigationController?.navigationBar.backgroundColor = currentColor
         
         if #available(iOS 15.0, *) {
