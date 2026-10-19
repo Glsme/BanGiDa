@@ -17,7 +17,7 @@ final class HomeView: BaseView {
     }()
     
     let selectCollectionView: SelectButtonCollectionView = {
-        let view = SelectButtonCollectionView(frame: .zero, collectionViewLayout: selectCollectionViewLayout())
+        let view = SelectButtonCollectionView()
         view.register(SelectButtonCollectionViewCell.self, forCellWithReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier)
         return view
     }()
@@ -80,10 +80,9 @@ final class HomeView: BaseView {
         }
         
         selectCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide)
-            make.trailing.bottom.equalTo(headerView)
-            make.width.equalTo(self).multipliedBy(0.95)
-            make.centerX.equalTo(self)
+            make.top.bottom.equalTo(headerView)
+            make.width.equalTo(headerView).multipliedBy(0.95)
+            make.centerX.equalTo(headerView)
         }
         
         todayButton.snp.makeConstraints { make in
@@ -98,18 +97,5 @@ final class HomeView: BaseView {
             make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
             make.height.width.equalTo(50)
         }
-    }
-    
-    static func selectCollectionViewLayout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        let spacing: CGFloat = 10
-        let width = (UIScreen.main.bounds.width * 0.95) - (spacing * 5)
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: width / 6, height: width / 6)
-        layout.minimumLineSpacing = spacing
-        layout.minimumInteritemSpacing = 0
-//        layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
-        
-        return layout
     }
 }
