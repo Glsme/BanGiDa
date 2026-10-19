@@ -49,9 +49,15 @@ final class HomeView: BaseView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
     }
-    
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        homeTableView.updateCalendarHeight(AdaptiveLayout.calendarHeight(containerHeight: bounds.height))
+    }
+
     override func configureUI() {
         headerView.addSubview(selectCollectionView)
         homeTableView.calendar.addSubview(todayButton)

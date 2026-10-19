@@ -25,7 +25,10 @@ final class HomeTableView: UITableView {
         view.layer.shadowOpacity = 0.1 // alpha값
         return view
     }()
-    
+
+    private var calendarHeightConstraint: Constraint?
+    private var calendarHeight: CGFloat = 0
+
     //    let calendarView: UIView = {
     //        let view = UIView()
     //        view.backgroundColor = .blue
@@ -55,8 +58,7 @@ final class HomeTableView: UITableView {
     func configureUI() {
         self.addSubview(calendar)
         tableHeaderView = calendar
-        
-        tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.42
+
         backgroundColor = .backgroundColor
         separatorColor = .systemTintColor
         separatorStyle = .singleLine
@@ -71,10 +73,21 @@ final class HomeTableView: UITableView {
         //        }
         
         calendar.snp.makeConstraints { make in
-            make.height.equalTo(UIScreen.main.bounds.height * 0.42)
+            calendarHeightConstraint = make.height.equalTo(0).constraint
             make.width.equalTo(self.safeAreaLayoutGuide)
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.top.equalTo(self.snp.top)
         }
+    }
+
+    // 접기·펼치기로 컨테이너 높이가 바뀔 때마다 HomeView가 호출한다.
+    func updateCalendarHeight(_ height: CGFloat) {
+        guard height > 0, height != calendarHeight else { return }
+
+        calendarHeight = height
+        calendarHeightConstraint?.update(offset: height)
+        calendar.frame.size.height = height
+        // 테이블 헤더 높이 변경은 tableHeaderView를 다시 대입해야 반영된다.
+        tableHeaderView = calendar
     }
 }
