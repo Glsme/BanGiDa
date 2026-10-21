@@ -25,6 +25,7 @@ struct WriteStoryView: View {
     @State private var cropImage: UIImage?
     @State private var photoAlert: PhotoAlert?
     @State private var photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+    @State private var isVerticalBarPresented = false
     
     @FocusState private var isTextEditorFocused: Bool
     
@@ -36,11 +37,17 @@ struct WriteStoryView: View {
         NavigationStack {
             GeometryReader { geometry in
                 ScrollView {
-                    contentLayout {
-                        photoSection(maxImageHeight: isRegularWidth ? geometry.size.height * 0.6 : .infinity)
+                    VStack(spacing: 12) {
+                        // Duo에서는 사진 높이를 제한해 첫 화면에서 입력 칸까지 보이게 한다.
+                        photoSection(maxImageHeight: usesDuoLayout ? geometry.size.height * 0.4 : .infinity)
                         formSection
                     }
                     .padding(.horizontal, 16)
+                }
+            }
+            .background {
+                if #available(iOS 27.1, *) {
+                    VerticalBarObserver(isPresented: $isVerticalBarPresented)
                 }
             }
             .simultaneousGesture(
@@ -59,6 +66,19 @@ struct WriteStoryView: View {
                         Label("닫기", systemImage: "xmark")
                     }
                     .tint(Color.systemTintColor)
+                }
+
+                // Duo에서는 공유하기를 내비게이션 바(측면 세로 바)로 옮긴다. 세로 바에 들어가려면 심볼이 필요하다.
+                ToolbarItem(placement: sharePlacement) {
+                    if usesDuoLayout {
+                        Button {
+                            viewModel.writeStory()
+                        } label: {
+                            Label("공유하기", systemImage: "paperplane")
+                        }
+                        .tint(Color.greenblue)
+                        .disabled(!viewModel.isShareEnabled)
+                    }
                 }
             }
         }
@@ -126,15 +146,18 @@ struct WriteStoryView: View {
 }
 
 private extension WriteStoryView {
-    var isRegularWidth: Bool {
-        horizontalSizeClass == .regular
+    // 측면 세로 바가 있거나(Duo 바깥 화면·안쪽 가로) 넓은 화면(Duo 안쪽 화면)이면 Duo 배치를 쓴다.
+    // iPhone은 둘 다 아니라 기존 배치 그대로다.
+    var usesDuoLayout: Bool {
+        isVerticalBarPresented || horizontalSizeClass == .regular
     }
 
-    // iPhone·iPhone Duo 바깥 화면(compact)은 위아래, Duo 안쪽 화면(regular)은 사진 | 입력을 좌우로 놓는다.
-    var contentLayout: AnyLayout {
-        isRegularWidth
-            ? AnyLayout(HStackLayout(alignment: .top, spacing: 24))
-            : AnyLayout(VStackLayout(spacing: 12))
+    var sharePlacement: ToolbarItemPlacement {
+        if #available(iOS 27.0, *) {
+            return .topBarPinnedTrailing
+        } else {
+            return .confirmationAction
+        }
     }
 
     func photoSection(maxImageHeight: CGFloat) -> some View {
@@ -181,14 +204,16 @@ private extension WriteStoryView {
         VStack(spacing: 0) {
             textInputSection
 
-            Button {
-                viewModel.writeStory()
-            } label: {
-                shareCapsuleLabel
+            if !usesDuoLayout {
+                Button {
+                    viewModel.writeStory()
+                } label: {
+                    shareCapsuleLabel
+                }
+                .disabled(!viewModel.isShareEnabled)
+                .opacity(viewModel.isShareEnabled ? 1 : 0.5)
+                .padding(.top, 12)
             }
-            .disabled(!viewModel.isShareEnabled)
-            .opacity(viewModel.isShareEnabled ? 1 : 0.5)
-            .padding(.top, 12)
         }
         .frame(maxWidth: .infinity)
     }
@@ -199,7 +224,7 @@ private extension WriteStoryView {
                 .scrollContentBackground(.hidden)
                 .focused($isTextEditorFocused)
                 .font(.custom("HelveticaNeue-Medium", size: 12))
-                .frame(minHeight: 120)
+                .frame(minHeight: usesDuoLayout ? 200 : 120)
                 .padding(8)
                 .background(Color.memoBackgroundColor)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -339,6 +364,24 @@ private struct CropViewControllerRepresentable: UIViewControllerRepresentable {
                 onCancelled()
             }
         }
+    }
+}
+
+/// 시스템이 바를 측면 세로 축에 놓았는지 읽어 상위 뷰에 알린다.
+/// toolbarVerticalEdge는 iOS 27.1부터라 배포 타깃(iOS 16)의 뷰에 직접 둘 수 없어 별도 뷰로 분리한다.
+@available(iOS 27.1, *)
+private struct VerticalBarObserver: View {
+    @Environment(\.toolbarVerticalEdge) private var toolbarVerticalEdge
+    @Binding var isPresented: Bool
+
+    var body: some View {
+        Color.clear
+            .onAppear {
+                isPresented = toolbarVerticalEdge != nil
+            }
+            .onChange(of: toolbarVerticalEdge) { _, edge in
+                isPresented = edge != nil
+            }
     }
 }
 
