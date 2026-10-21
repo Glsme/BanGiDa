@@ -112,7 +112,7 @@ final class AlarmView: BaseView {
     override func setConstraints() {
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(15)
-            make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading).offset(10)
+            make.leading.equalTo(firstLine.snp.leading).offset(-10)
         }
         
         dateTextField.snp.makeConstraints { make in
@@ -121,8 +121,11 @@ final class AlarmView: BaseView {
             make.width.equalTo(firstLine.snp.width)
         }
         
+        // 입력 칸은 모두 firstLine 폭을 따른다. iPhone에서는 safe area의 90%가 그대로 쓰이고,
+        // iPhone Duo를 가로로 펼친 것처럼 넓은 화면에서는 읽기 좋은 폭(readableContentGuide)을 넘지 않는다.
         firstLine.snp.makeConstraints { make in
-            make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9)
+            make.width.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.9).priority(.high)
+            make.width.lessThanOrEqualTo(self.readableContentGuide.snp.width)
             make.top.equalTo(dateTextField.snp.bottom).offset(15)
             make.centerX.equalTo(dateTextField.snp.centerX)
             make.height.equalTo(1)
