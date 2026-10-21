@@ -15,7 +15,13 @@ final class MemoView: BaseView {
         view.backgroundColor = .backgroundColor
         return view
     }()
-    
+
+    let categoryHeaderView: MemoHeaderView = {
+        let view = MemoHeaderView()
+        view.headerLabel.accessibilityTraits = .header
+        return view
+    }()
+
     let imageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "BasicDog")
@@ -92,7 +98,7 @@ final class MemoView: BaseView {
     
     override func configureUI() {
         self.addSubview(memoView)
-        [imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine, thirdLine].forEach {
+        [categoryHeaderView, imageView, imageButton, dateTextField, dateLabel, textView, firstLine, secondLine, thirdLine].forEach {
             memoView.addSubview($0)
         }
         
@@ -107,10 +113,17 @@ final class MemoView: BaseView {
         
         // 화면 폭에 비례하면 iPhone Duo를 가로로 펼쳤을 때 사진이 400pt 가까이 커져 본문 칸이 거의 남지 않는다.
         // 기존 iPhone 17(폭 402pt × 0.45 ≈ 181pt)과 비슷한 크기로 고정하고 남는 공간은 본문이 쓰게 한다.
+        categoryHeaderView.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(12)
+            make.leading.equalTo(textView.snp.leading)
+            make.trailing.equalTo(textView.snp.trailing)
+            make.height.equalTo(30)
+        }
+
         imageView.snp.makeConstraints { make in
             make.width.height.equalTo(180)
             make.centerX.equalTo(self.safeAreaLayoutGuide)
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
+            make.top.equalTo(categoryHeaderView.snp.bottom).offset(8)
         }
         
         imageButton.snp.makeConstraints { make in
@@ -175,6 +188,14 @@ final class MemoView: BaseView {
 //        }
     }
     
+    // 카테고리 정체성은 내비게이션 바 대신 본문에서 표현한다.
+    // iPhone Duo에서는 바가 측면 세로 축으로 옮겨지고 iOS 26 바는 유리 재질이라 바 배경색이 일관되게 보이지 않는다.
+    func configureCategory(_ category: Category) {
+        categoryHeaderView.circle.backgroundColor = category.color
+        categoryHeaderView.headerLabel.text = category.title
+        textView.backgroundColor = category.color.withAlphaComponent(0.15)
+    }
+
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd EE"

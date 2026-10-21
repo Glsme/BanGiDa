@@ -19,7 +19,13 @@ import SnapKit
  - HelveticaNeue-Medium, 16
  */
 final class AlarmView: BaseView {
-    
+
+    let categoryHeaderView: MemoHeaderView = {
+        let view = MemoHeaderView()
+        view.headerLabel.accessibilityTraits = .header
+        return view
+    }()
+
     let dateLabel: UILabel = {
         let view = UILabel()
         view.text = "알람이 울릴 시간을 선택해주세요"
@@ -89,6 +95,7 @@ final class AlarmView: BaseView {
     
     override func configureUI() {
         [
+            categoryHeaderView,
             dateLabel,
             dateTextField,
             firstLine,
@@ -110,8 +117,14 @@ final class AlarmView: BaseView {
     }
     
     override func setConstraints() {
+        categoryHeaderView.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(12)
+            make.leading.trailing.equalTo(firstLine)
+            make.height.equalTo(30)
+        }
+
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(15)
+            make.top.equalTo(categoryHeaderView.snp.bottom).offset(8)
             make.leading.equalTo(firstLine.snp.leading).offset(-10)
         }
         
@@ -166,6 +179,14 @@ final class AlarmView: BaseView {
         }
     }
     
+    // 카테고리 정체성은 내비게이션 바 대신 본문에서 표현한다.
+    // iPhone Duo에서는 바가 측면 세로 축으로 옮겨지고 iOS 26 바는 유리 재질이라 바 배경색이 일관되게 보이지 않는다.
+    func configureCategory(_ category: Category) {
+        categoryHeaderView.circle.backgroundColor = category.color
+        categoryHeaderView.headerLabel.text = category.title
+        memoTextView.backgroundColor = category.color.withAlphaComponent(0.15)
+    }
+
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd EE hh:mm a"

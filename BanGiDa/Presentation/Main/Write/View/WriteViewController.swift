@@ -68,22 +68,12 @@ final class WriteViewController: BaseViewController {
     //MARK: - Private
     
     private func setNavigationStyle() {
-        let currentColor = category.color
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.tintColor = .systemTintColor
-        navigationItem.title = category.title
-        navigationController?.navigationBar.topItem?.title = ""
-        navigationItem.title = category.title
+        // 카테고리 이름·색은 본문 머리글이 보여주므로 바에는 제목과 배경색을 두지 않는다.
+        navigationItem.title = nil
         navigationItem.setPrimaryActionItem(saveButton, systemImageName: "checkmark")
-        navigationController?.navigationBar.backgroundColor = currentColor
-        
-        if #available(iOS 15.0, *) {
-            let navigationBarAppearance = UINavigationBarAppearance()
-            navigationBarAppearance.configureWithDefaultBackground()
-             navigationBarAppearance.backgroundColor = currentColor
-            
-            navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-        }
+        memoView.configureCategory(category)
     }
     
     private func bindValue() {
