@@ -40,10 +40,18 @@ final class MainTabViewController: UITabBarController {
         }
         
         if let items = tabBar.items {
-            items[0].image = UIImage(systemName: "square.and.pencil")
-            items[1].image = UIImage(systemName: "magnifyingglass")
-            items[2].image = UIImage(systemName: "photo.on.rectangle.angled")
-            items[3].image = UIImage(systemName: "gearshape")
+            setImage(of: items[0], systemName: "square.and.pencil")
+            setImage(of: items[1], systemName: "magnifyingglass")
+            setImage(of: items[2], systemName: "photo.on.rectangle.angled")
+            setImage(of: items[3], systemName: "gearshape")
         }
+    }
+
+    // iPhone Duo의 측면 세로 바는 tabBar.tintColor를 따르지 않고 기본 강조색(파랑)으로 그린다.
+    // 선택 아이콘에 색을 직접 입혀 가로·세로 바 모두 같은 강조색을 쓰게 한다.
+    private func setImage(of item: UITabBarItem, systemName: String) {
+        item.image = UIImage(systemName: systemName)
+        item.selectedImage = UIImage(systemName: systemName)?
+            .withTintColor(.red, renderingMode: .alwaysOriginal)
     }
 }
