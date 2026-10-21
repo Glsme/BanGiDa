@@ -85,7 +85,8 @@ private extension StoryView {
                                     viewModel.updateCommentPreview(storyID: story.id, comments: comments)
                                 }
                             )
-                            .padding(.top, index < gridColumns.count ? 0 : 44)
+                            // iPhone Duo처럼 상태 바가 측면으로 옮겨져 위쪽 safe area가 없으면 첫 글이 화면 끝에 붙으므로 첫 줄에도 여백을 둔다.
+                            .padding(.top, index < gridColumns.count ? 16 : 44)
                             .padding(.bottom, 44)
                             .padding(.horizontal, 16)
                             .overlay(alignment: .bottom) {
