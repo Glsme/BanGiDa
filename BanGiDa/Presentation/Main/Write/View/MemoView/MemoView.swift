@@ -109,7 +109,7 @@ final class MemoView: BaseView {
         // 기존 iPhone 17(폭 402pt × 0.45 ≈ 181pt)과 비슷한 크기로 고정하고 남는 공간은 본문이 쓰게 한다.
         imageView.snp.makeConstraints { make in
             make.width.height.equalTo(180)
-            make.centerX.equalTo(self)
+            make.centerX.equalTo(self.safeAreaLayoutGuide)
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
         }
         
