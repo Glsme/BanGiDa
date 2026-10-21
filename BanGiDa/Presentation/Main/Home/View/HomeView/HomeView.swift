@@ -55,7 +55,7 @@ final class HomeView: BaseView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        homeTableView.updateCalendarHeight(AdaptiveLayout.calendarHeight(containerHeight: bounds.height))
+        homeTableView.setInitialCalendarHeightIfNeeded(AdaptiveLayout.calendarHeight(containerHeight: bounds.height))
     }
 
     override func configureUI() {

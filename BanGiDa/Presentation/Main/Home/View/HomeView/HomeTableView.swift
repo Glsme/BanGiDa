@@ -80,9 +80,10 @@ final class HomeTableView: UITableView {
         }
     }
 
-    // 접기·펼치기로 컨테이너 높이가 바뀔 때마다 HomeView가 호출한다.
-    func updateCalendarHeight(_ height: CGFloat) {
-        guard height > 0, height != calendarHeight else { return }
+    // 처음 한 번만 컨테이너 기준 높이를 정한다. 이후 높이는 주/월 전환에 맞춰 FSCalendar가
+    // boundingRectWillChange로 조정하고, 행 높이도 처음 크기를 캐시해 쓰므로 여기서 다시 덮어쓰지 않는다.
+    func setInitialCalendarHeightIfNeeded(_ height: CGFloat) {
+        guard height > 0, calendarHeight == 0 else { return }
 
         calendarHeight = height
         calendarHeightConstraint?.update(offset: height)
