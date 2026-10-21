@@ -105,8 +105,10 @@ final class MemoView: BaseView {
             make.edges.equalTo(self.safeAreaLayoutGuide)
         }
         
+        // 화면 폭에 비례하면 iPhone Duo를 가로로 펼쳤을 때 사진이 400pt 가까이 커져 본문 칸이 거의 남지 않는다.
+        // 기존 iPhone 17(폭 402pt × 0.45 ≈ 181pt)과 비슷한 크기로 고정하고 남는 공간은 본문이 쓰게 한다.
         imageView.snp.makeConstraints { make in
-            make.width.height.equalTo(self.safeAreaLayoutGuide.snp.width).multipliedBy(0.45)
+            make.width.height.equalTo(180)
             make.centerX.equalTo(self)
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top).offset(20)
         }
