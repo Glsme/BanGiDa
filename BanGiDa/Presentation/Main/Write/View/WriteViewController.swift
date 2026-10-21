@@ -86,21 +86,6 @@ final class WriteViewController: BaseViewController {
         }
     }
     
-    private func configureEdgeGesture() {
-        let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self,
-                                                           action: #selector(leftSwipeGesture))
-        edgeGesture.edges = .left
-        edgeGesture.view?.becomeFirstResponder()
-        self.view.addGestureRecognizer(edgeGesture)
-    }
-    
-    @objc private func leftSwipeGesture(_ recognizer: UIScreenEdgePanGestureRecognizer) {
-        recognizer.state = .cancelled
-        if recognizer.edges == .left, recognizer.state == .cancelled {
-            navigationController?.popViewController(animated: true)
-        }
-    }
-    
     private func bindValue() {
         viewModel.diaryContent
             .sink { [weak self] text in
