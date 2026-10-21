@@ -13,6 +13,7 @@ import CropViewController
 
 struct WriteStoryView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var viewModel = WriteStoryViewModel()
     
@@ -32,77 +33,35 @@ struct WriteStoryView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack {
-                HStack {
-                    Spacer()
-                    
+        NavigationStack {
+            GeometryReader { geometry in
+                ScrollView {
+                    contentLayout {
+                        photoSection(maxImageHeight: isRegularWidth ? geometry.size.height * 0.6 : .infinity)
+                        formSection
+                    }
+                    .padding(.horizontal, 16)
+                }
+            }
+            .simultaneousGesture(
+                DragGesture().onChanged { _ in
+                    isTextEditorFocused = false
+                }
+            )
+            .background(Color.backgroundColor)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                // 닫기는 시스템 툴바의 취소 위치에 둔다. iPhone Duo에서는 측면 세로 바 맨 위로 자동 배치된다.
+                ToolbarItem(placement: .cancellationAction) {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "xmark")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(Color.systemTintColor)
-                            .frame(width: 16, height: 16)
+                        Label("닫기", systemImage: "xmark")
                     }
+                    .tint(Color.systemTintColor)
                 }
-                .padding(.bottom, 12)
-                
-                Group {
-                    if let imageData = viewModel.selectedImageData,
-                       let selectedImage = UIImage(data: imageData) {
-                        Image(uiImage: selectedImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                    } else {
-                        Image("BasicDog")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                    }
-                }
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                
-                Button {
-                    handlePhotoTap()
-                } label: {
-                    capsuleActionLabel(
-                        title: "앨범에서 선택",
-                        systemImage: "photo.on.rectangle"
-                    )
-                    .frame(maxWidth: .infinity)
-                }
-                .disabled(isPhotoAccessDenied)
-                .opacity(isPhotoAccessDenied ? 0.5 : 1)
-                .photosPicker(
-                    isPresented: $isPhotoPickerPresented,
-                    selection: $selectedItem,
-                    matching: .images,
-                    photoLibrary: .shared()
-                )
-                .padding(.top, 12)
-                
-                textInputSection
-                    .padding(.top, 12)
-                
-                Button {
-                    viewModel.writeStory()
-                } label: {
-                    shareCapsuleLabel
-                }
-                .disabled(!viewModel.isShareEnabled)
-                .opacity(viewModel.isShareEnabled ? 1 : 0.5)
-                .padding(.top, 12)
             }
-            .padding(.horizontal, 16)
         }
-        .simultaneousGesture(
-            DragGesture().onChanged { _ in
-                isTextEditorFocused = false
-            }
-        )
-        .background(Color.backgroundColor)
         .alert(item: $photoAlert) { alert in
             switch alert {
             case .denied:
@@ -167,6 +126,73 @@ struct WriteStoryView: View {
 }
 
 private extension WriteStoryView {
+    var isRegularWidth: Bool {
+        horizontalSizeClass == .regular
+    }
+
+    // iPhone·iPhone Duo 바깥 화면(compact)은 위아래, Duo 안쪽 화면(regular)은 사진 | 입력을 좌우로 놓는다.
+    var contentLayout: AnyLayout {
+        isRegularWidth
+            ? AnyLayout(HStackLayout(alignment: .top, spacing: 24))
+            : AnyLayout(VStackLayout(spacing: 12))
+    }
+
+    func photoSection(maxImageHeight: CGFloat) -> some View {
+        VStack(spacing: 0) {
+            Group {
+                if let imageData = viewModel.selectedImageData,
+                   let selectedImage = UIImage(data: imageData) {
+                    Image(uiImage: selectedImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                } else {
+                    Image("BasicDog")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            // 넓은 화면에서 세로 사진이 화면보다 길어지지 않도록 높이를 제한한다.
+            .frame(maxHeight: maxImageHeight)
+
+            Button {
+                handlePhotoTap()
+            } label: {
+                capsuleActionLabel(
+                    title: "앨범에서 선택",
+                    systemImage: "photo.on.rectangle"
+                )
+                .frame(maxWidth: .infinity)
+            }
+            .disabled(isPhotoAccessDenied)
+            .opacity(isPhotoAccessDenied ? 0.5 : 1)
+            .photosPicker(
+                isPresented: $isPhotoPickerPresented,
+                selection: $selectedItem,
+                matching: .images,
+                photoLibrary: .shared()
+            )
+            .padding(.top, 12)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    var formSection: some View {
+        VStack(spacing: 0) {
+            textInputSection
+
+            Button {
+                viewModel.writeStory()
+            } label: {
+                shareCapsuleLabel
+            }
+            .disabled(!viewModel.isShareEnabled)
+            .opacity(viewModel.isShareEnabled ? 1 : 0.5)
+            .padding(.top, 12)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
     var textInputSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             TextEditor(text: $viewModel.storyText)
