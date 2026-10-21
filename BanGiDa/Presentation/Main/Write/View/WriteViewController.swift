@@ -72,7 +72,7 @@ final class WriteViewController: BaseViewController {
         navigationController?.navigationBar.tintColor = .systemTintColor
         // 카테고리 이름·색은 본문 머리글이 보여주므로 바에는 제목과 배경색을 두지 않는다.
         navigationItem.title = nil
-        navigationItem.setPrimaryActionItem(saveButton, systemImageName: "checkmark")
+        navigationItem.setPrimaryActionItem(saveButton, systemImageName: "square.and.arrow.down")
         memoView.configureCategory(category)
     }
     
