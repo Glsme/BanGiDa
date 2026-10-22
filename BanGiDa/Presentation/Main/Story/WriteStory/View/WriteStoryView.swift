@@ -12,6 +12,7 @@ import Photos
 
 struct WriteStoryView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var viewModel = WriteStoryViewModel()
     
@@ -23,6 +24,7 @@ struct WriteStoryView: View {
     @State private var cropImage: UIImage?
     @State private var photoAlert: PhotoAlert?
     @State private var photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+    @State private var isVerticalBarPresented = false
     
     @FocusState private var isTextEditorFocused: Bool
     
@@ -31,77 +33,54 @@ struct WriteStoryView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack {
-                HStack {
-                    Spacer()
-                    
+        NavigationStack {
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(spacing: 12) {
+                        // Duo에서는 사진 높이를 제한해 첫 화면에서 입력 칸까지 보이게 한다.
+                        photoSection(maxImageHeight: usesDuoLayout ? geometry.size.height * 0.4 : .infinity)
+                        formSection
+                    }
+                    .padding(.horizontal, 16)
+                }
+            }
+            .background {
+                if #available(iOS 27.1, *) {
+                    VerticalBarObserver(isPresented: $isVerticalBarPresented)
+                }
+            }
+            .simultaneousGesture(
+                DragGesture().onChanged { _ in
+                    isTextEditorFocused = false
+                }
+            )
+            .background(Color.backgroundColor)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                // 닫기는 시스템 툴바의 취소 위치에 둔다. iPhone Duo에서는 측면 세로 바 맨 위로 자동 배치된다.
+                ToolbarItem(placement: .cancellationAction) {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "xmark")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(Color.systemTintColor)
-                            .frame(width: 16, height: 16)
+                        Label("닫기", systemImage: "xmark")
+                    }
+                    .tint(Color.systemTintColor)
+                }
+
+                // Duo에서는 공유하기를 내비게이션 바(측면 세로 바)로 옮긴다. 세로 바에 들어가려면 심볼이 필요하다.
+                ToolbarItem(placement: sharePlacement) {
+                    if usesDuoLayout {
+                        Button {
+                            viewModel.writeStory()
+                        } label: {
+                            Label("공유하기", systemImage: "paperplane")
+                        }
+                        .tint(Color.greenblue)
+                        .disabled(!viewModel.isShareEnabled)
                     }
                 }
-                .padding(.bottom, 12)
-                
-                Group {
-                    if let imageData = viewModel.selectedImageData,
-                       let selectedImage = UIImage(data: imageData) {
-                        Image(uiImage: selectedImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                    } else {
-                        Image("BasicDog")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                    }
-                }
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                
-                Button {
-                    handlePhotoTap()
-                } label: {
-                    capsuleActionLabel(
-                        title: "앨범에서 선택",
-                        systemImage: "photo.on.rectangle"
-                    )
-                    .frame(maxWidth: .infinity)
-                }
-                .disabled(isPhotoAccessDenied)
-                .opacity(isPhotoAccessDenied ? 0.5 : 1)
-                .photosPicker(
-                    isPresented: $isPhotoPickerPresented,
-                    selection: $selectedItem,
-                    matching: .images,
-                    photoLibrary: .shared()
-                )
-                .padding(.top, 12)
-                
-                textInputSection
-                    .padding(.top, 12)
-                
-                Button {
-                    viewModel.writeStory()
-                } label: {
-                    shareCapsuleLabel
-                }
-                .disabled(!viewModel.isShareEnabled)
-                .opacity(viewModel.isShareEnabled ? 1 : 0.5)
-                .padding(.top, 12)
             }
-            .padding(.horizontal, 16)
         }
-        .simultaneousGesture(
-            DragGesture().onChanged { _ in
-                isTextEditorFocused = false
-            }
-        )
-        .background(Color.backgroundColor)
         .alert(item: $photoAlert) { alert in
             switch alert {
             case .denied:
@@ -166,13 +145,85 @@ struct WriteStoryView: View {
 }
 
 private extension WriteStoryView {
+    // 측면 세로 바가 있거나(Duo 바깥 화면·안쪽 가로) 넓은 화면(Duo 안쪽 화면)이면 Duo 배치를 쓴다.
+    // iPhone은 둘 다 아니라 기존 배치 그대로다.
+    var usesDuoLayout: Bool {
+        isVerticalBarPresented || horizontalSizeClass == .regular
+    }
+
+    var sharePlacement: ToolbarItemPlacement {
+        if #available(iOS 27.0, *) {
+            return .topBarPinnedTrailing
+        } else {
+            return .confirmationAction
+        }
+    }
+
+    func photoSection(maxImageHeight: CGFloat) -> some View {
+        VStack(spacing: 0) {
+            Group {
+                if let imageData = viewModel.selectedImageData,
+                   let selectedImage = UIImage(data: imageData) {
+                    Image(uiImage: selectedImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                } else {
+                    Image("BasicDog")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            // 넓은 화면에서 세로 사진이 화면보다 길어지지 않도록 높이를 제한한다.
+            .frame(maxHeight: maxImageHeight)
+
+            Button {
+                handlePhotoTap()
+            } label: {
+                capsuleActionLabel(
+                    title: "앨범에서 선택",
+                    systemImage: "photo.on.rectangle"
+                )
+                .frame(maxWidth: .infinity)
+            }
+            .disabled(isPhotoAccessDenied)
+            .opacity(isPhotoAccessDenied ? 0.5 : 1)
+            .photosPicker(
+                isPresented: $isPhotoPickerPresented,
+                selection: $selectedItem,
+                matching: .images,
+                photoLibrary: .shared()
+            )
+            .padding(.top, 12)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    var formSection: some View {
+        VStack(spacing: 0) {
+            textInputSection
+
+            if !usesDuoLayout {
+                Button {
+                    viewModel.writeStory()
+                } label: {
+                    shareCapsuleLabel
+                }
+                .disabled(!viewModel.isShareEnabled)
+                .opacity(viewModel.isShareEnabled ? 1 : 0.5)
+                .padding(.top, 12)
+            }
+        }
+        .frame(maxWidth: .infinity)
+    }
+
     var textInputSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             TextEditor(text: $viewModel.storyText)
                 .scrollContentBackground(.hidden)
                 .focused($isTextEditorFocused)
                 .font(.custom("HelveticaNeue-Medium", size: 12))
-                .frame(minHeight: 120)
+                .frame(minHeight: usesDuoLayout ? 200 : 120)
                 .padding(8)
                 .background(Color.memoBackgroundColor)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -264,6 +315,24 @@ private extension WriteStoryView {
                 .stroke(Color.black.opacity(0.2), lineWidth: 1)
         )
         .clipShape(Capsule())
+    }
+}
+
+/// 시스템이 바를 측면 세로 축에 놓았는지 읽어 상위 뷰에 알린다.
+/// toolbarVerticalEdge는 iOS 27.1부터라 배포 타깃(iOS 16)의 뷰에 직접 둘 수 없어 별도 뷰로 분리한다.
+@available(iOS 27.1, *)
+private struct VerticalBarObserver: View {
+    @Environment(\.toolbarVerticalEdge) private var toolbarVerticalEdge
+    @Binding var isPresented: Bool
+
+    var body: some View {
+        Color.clear
+            .onAppear {
+                isPresented = toolbarVerticalEdge != nil
+            }
+            .onChange(of: toolbarVerticalEdge) { _, edge in
+                isPresented = edge != nil
+            }
     }
 }
 

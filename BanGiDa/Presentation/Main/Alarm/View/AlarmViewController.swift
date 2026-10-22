@@ -61,21 +61,13 @@ final class AlarmViewController: BaseViewController {
     //MARK: - Private
     
     private func setNavigationStyle() {
-        let currentColor = category.color
-        
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.tintColor = .systemTintColor
-        navigationItem.rightBarButtonItem = saveButton
-        navigationController?.navigationBar.backgroundColor = currentColor
+        // 카테고리 이름·색은 본문 머리글이 보여주므로 바에는 제목과 배경색을 두지 않는다.
+        navigationItem.title = nil
+        navigationItem.setPrimaryActionItem(saveButton, systemImageName: "square.and.arrow.down")
         view.backgroundColor = .backgroundColor
-        
-        if #available(iOS 15.0, *) {
-            let navigationBarAppearance = UINavigationBarAppearance()
-            navigationBarAppearance.configureWithDefaultBackground()
-             navigationBarAppearance.backgroundColor = currentColor
-            
-            navigationController?.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-        }
+        alarmView.configureCategory(category)
     }
     
     @objc private func saveButtonClicked() {

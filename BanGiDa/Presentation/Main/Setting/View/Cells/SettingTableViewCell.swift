@@ -45,25 +45,26 @@ final class SettingTableViewCell: BaseTableViewCell {
     override func configureUI() {
         backgroundColor = .memoBackgroundColor
         
+        // contentView는 테이블의 safe area만큼 안쪽에 놓이므로 세로 바 아래로 글자가 들어가지 않는다.
         [label, image, versionLabel].forEach {
-            self.addSubview($0)
+            contentView.addSubview($0)
         }
     }
-    
+
     override func setConstraints() {
         label.snp.makeConstraints { make in
-            make.centerY.equalTo(self.snp.centerY)
-            make.leading.equalTo(self.snp.leading).offset(20)
+            make.centerY.equalTo(contentView.snp.centerY)
+            make.leading.equalTo(contentView.snp.leading).offset(20)
         }
-        
+
         image.snp.makeConstraints { make in
-            make.centerY.equalTo(self.snp.centerY)
-            make.trailing.equalTo(self.snp.trailing).offset(-20)
+            make.centerY.equalTo(contentView.snp.centerY)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-20)
         }
-        
+
         versionLabel.snp.makeConstraints { make in
-            make.trailing.equalTo(self.snp.trailing).offset(-20)
-            make.centerY.equalTo(self.snp.centerY)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-20)
+            make.centerY.equalTo(contentView.snp.centerY)
         }
     }
 }

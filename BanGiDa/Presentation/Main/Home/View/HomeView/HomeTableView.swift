@@ -25,7 +25,10 @@ final class HomeTableView: UITableView {
         view.layer.shadowOpacity = 0.1 // alpha값
         return view
     }()
-    
+
+    private var calendarHeightConstraint: Constraint?
+    private var calendarHeight: CGFloat = 0
+
     //    let calendarView: UIView = {
     //        let view = UIView()
     //        view.backgroundColor = .blue
@@ -55,8 +58,7 @@ final class HomeTableView: UITableView {
     func configureUI() {
         self.addSubview(calendar)
         tableHeaderView = calendar
-        
-        tableHeaderView?.frame.size.height = UIScreen.main.bounds.height * 0.42
+
         backgroundColor = .backgroundColor
         separatorColor = .systemTintColor
         separatorStyle = .singleLine
@@ -71,10 +73,22 @@ final class HomeTableView: UITableView {
         //        }
         
         calendar.snp.makeConstraints { make in
-            make.height.equalTo(UIScreen.main.bounds.height * 0.42)
+            calendarHeightConstraint = make.height.equalTo(0).constraint
             make.width.equalTo(self.safeAreaLayoutGuide)
             make.centerX.equalTo(self.safeAreaLayoutGuide.snp.centerX)
             make.top.equalTo(self.snp.top)
         }
+    }
+
+    // 처음 한 번만 컨테이너 기준 높이를 정한다. 이후 높이는 주/월 전환에 맞춰 FSCalendar가
+    // boundingRectWillChange로 조정하고, 행 높이도 처음 크기를 캐시해 쓰므로 여기서 다시 덮어쓰지 않는다.
+    func setInitialCalendarHeightIfNeeded(_ height: CGFloat) {
+        guard height > 0, calendarHeight == 0 else { return }
+
+        calendarHeight = height
+        calendarHeightConstraint?.update(offset: height)
+        calendar.frame.size.height = height
+        // 테이블 헤더 높이 변경은 tableHeaderView를 다시 대입해야 반영된다.
+        tableHeaderView = calendar
     }
 }

@@ -62,7 +62,7 @@ final class ProfileView: UICollectionViewCell {
         imageView.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(8)
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(8)
-            make.leading.equalToSuperview().inset(16)
+            make.leading.equalTo(safeAreaLayoutGuide.snp.leading).inset(16)
             make.width.equalTo(imageView.snp.height)
         }
         

@@ -10,6 +10,7 @@ import SwiftUI
 struct StoryView: View {
     private static let spacing: CGFloat = 2
     
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @StateObject private var viewModel = StoryViewModel()
     @State private var isWriteStoryPresented = false
     @State private var shouldRefreshAfterWrite = false
@@ -17,51 +18,7 @@ struct StoryView: View {
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            ScrollView {
-                LazyVStack(spacing: Self.spacing) {
-                    ForEach(Array(viewModel.stories.enumerated()), id: \.element.id) { index, story in
-                        StoryRow(
-                            storyID: story.id,
-                            imageURL: story.imageURL,
-                            time: story.time,
-                            nickname: story.nickname,
-                            text: story.text,
-                            storyWriterUID: story.writerUID,
-                            showsHotBadge: index < 3 && story.heartCount > 0,
-                            isHearted: $viewModel.stories[index].isHearted,
-                            heartCount: story.heartCount,
-                            commentCount: story.commentCount,
-                            previewComments: story.previewComments,
-                            onHeartTap: {
-                                viewModel.toggleStoryLike(index: index)
-                            },
-                            onCommentChanged: { count, comments in
-                                viewModel.updateCommentCount(storyID: story.id, count: count)
-                                viewModel.updateCommentPreview(storyID: story.id, comments: comments)
-                            }
-                        )
-                        .padding(.top, index == 0 ? 0 : 44)
-                        .padding(.bottom, 44)
-                        .padding(.horizontal, 16)
-                        .onAppear {
-                            viewModel.loadMoreIfNeeded(currentStoryID: story.id)
-                            viewModel.prefetchImages(from: index)
-                        }
-                        
-                        Divider()
-                    }
-
-                    if viewModel.isEnd {
-                        Text("더 이상 불러올 스토리가 없어요.")
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                            .padding(.vertical, 24)
-                    }
-                }
-            }
-            .refreshable {
-                await viewModel.refresh()
-            }
+            feedView
             
             Button(action: presentWriteStoryView) {
                 Image(systemName: "plus")
@@ -101,6 +58,75 @@ struct StoryView: View {
 }
 
 private extension StoryView {
+    var feedView: some View {
+        GeometryReader { geometry in
+            ScrollView {
+                VStack(spacing: 0) {
+                    LazyVGrid(columns: gridColumns, alignment: .center, spacing: Self.spacing) {
+                        ForEach(Array(viewModel.stories.enumerated()), id: \.element.id) { index, story in
+                            StoryRow(
+                                storyID: story.id,
+                                imageURL: story.imageURL,
+                                time: story.time,
+                                nickname: story.nickname,
+                                text: story.text,
+                                storyWriterUID: story.writerUID,
+                                showsHotBadge: index < 3 && story.heartCount > 0,
+                                isHearted: $viewModel.stories[index].isHearted,
+                                heartCount: story.heartCount,
+                                commentCount: story.commentCount,
+                                previewComments: story.previewComments,
+                                maxImageHeight: isRegularWidth ? geometry.size.height * 0.6 : .infinity,
+                                onHeartTap: {
+                                    viewModel.toggleStoryLike(index: index)
+                                },
+                                onCommentChanged: { count, comments in
+                                    viewModel.updateCommentCount(storyID: story.id, count: count)
+                                    viewModel.updateCommentPreview(storyID: story.id, comments: comments)
+                                }
+                            )
+                            // iPhone Duo처럼 상태 바가 측면으로 옮겨져 위쪽 safe area가 없으면 첫 글이 화면 끝에 붙으므로 첫 줄에도 여백을 둔다.
+                            .padding(.top, index < gridColumns.count ? 16 : 44)
+                            .padding(.bottom, 44)
+                            .padding(.horizontal, 16)
+                            .overlay(alignment: .bottom) {
+                                // 2열에서는 좌우 글 높이가 달라 구분선이 어긋나므로 1열에서만 긋는다.
+                                if gridColumns.count == 1 {
+                                    Divider()
+                                }
+                            }
+                            .onAppear {
+                                viewModel.loadMoreIfNeeded(currentStoryID: story.id)
+                                viewModel.prefetchImages(from: index)
+                            }
+                        }
+                    }
+
+                    if viewModel.isEnd {
+                        Text("더 이상 불러올 스토리가 없어요.")
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                            .padding(.vertical, 24)
+                    }
+                }
+            }
+            .refreshable {
+                await viewModel.refresh()
+            }
+        }
+    }
+
+    var isRegularWidth: Bool {
+        horizontalSizeClass == .regular
+    }
+
+    // iPhone·iPhone Duo 바깥 화면(compact)은 1열, Duo 안쪽 화면(regular)은 2열로 보여준다.
+    // 짝수 열이면 Duo를 책처럼 반쯤 접었을 때 접힘선을 기준으로 깔끔하게 나뉜다(HIG — Designing for iPhone Duo).
+    var gridColumns: [GridItem] {
+        let count = isRegularWidth ? 2 : 1
+        return Array(repeating: GridItem(.flexible(), spacing: 0, alignment: .top), count: count)
+    }
+
     func presentWriteStoryView() {
         isWriteStoryPresented = true
     }
