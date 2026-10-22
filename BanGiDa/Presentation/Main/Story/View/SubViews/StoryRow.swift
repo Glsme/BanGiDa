@@ -19,6 +19,7 @@ struct StoryRow: View {
     let commentCount: Int
     let previewComments: [Comment]
     let showsHotBadge: Bool
+    let maxImageHeight: CGFloat
     let onHeartTap: () -> Void
     let onCommentChanged: (Int, [Comment]) -> Void
     
@@ -38,6 +39,7 @@ struct StoryRow: View {
         heartCount: Int,
         commentCount: Int,
         previewComments: [Comment],
+        maxImageHeight: CGFloat = .infinity,
         onHeartTap: @escaping () -> Void = {},
         onCommentChanged: @escaping (Int, [Comment]) -> Void = { _, _ in }
     ) {
@@ -52,46 +54,49 @@ struct StoryRow: View {
         self.heartCount = heartCount
         self.commentCount = commentCount
         self.previewComments = previewComments
+        self.maxImageHeight = maxImageHeight
         self.onHeartTap = onHeartTap
         self.onCommentChanged = onCommentChanged
     }
     
     var body: some View {
         VStack(spacing: 16) {
-            ZStack(alignment: .top) {
-                storyImageView
-                
-                HStack(alignment: .top) {
-                    if showsHotBadge {
-                        VStack(spacing: 2) {
-                            Image(systemName: "flame.fill")
+            storyImageView
+                // 넓은 화면에서 세로 사진이 화면보다 길어지지 않도록 높이를 제한한다.
+                .frame(maxHeight: maxImageHeight)
+                // 사진이 셀보다 좁아져도 배지·신고 버튼이 사진 모서리에 붙도록 사진 위에 겹친다.
+                .overlay(alignment: .top) {
+                    HStack(alignment: .top) {
+                        if showsHotBadge {
+                            VStack(spacing: 2) {
+                                Image(systemName: "flame.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 20, height: 20)
+                                    .foregroundStyle(Color.red)
+                            
+                                Text("HOT")
+                                    .font(.custom("HelveticaNeue-Bold", size: 8))
+                                    .foregroundStyle(Color.red)
+                            }
+                            .padding(12)
+                        }
+                    
+                        Spacer()
+                    
+                        Button {
+                            isReportSheetPresented = true
+                        } label: {
+                            Image(systemName: "light.beacon.max.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 20, height: 20)
-                                .foregroundStyle(Color.red)
-                            
-                            Text("HOT")
-                                .font(.custom("HelveticaNeue-Bold", size: 8))
-                                .foregroundStyle(Color.red)
+                                .frame(width: 24, height: 24)
+                                .foregroundStyle(.gray)
+                                .fontWeight(.bold)
                         }
                         .padding(12)
                     }
-                    
-                    Spacer()
-                    
-                    Button {
-                        isReportSheetPresented = true
-                    } label: {
-                        Image(systemName: "light.beacon.max.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(.gray)
-                            .fontWeight(.bold)
-                    }
-                    .padding(12)
                 }
-            }
             
             HStack {
                 heartView(count: heartCount)

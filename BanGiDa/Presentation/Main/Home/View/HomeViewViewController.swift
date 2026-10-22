@@ -61,9 +61,8 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
         mainView.homeTableView.calendar.delegate = self
         mainView.homeTableView.calendar.dataSource = self
 
-        //CollectionView
-        mainView.selectCollectionView.delegate = self
-        mainView.selectCollectionView.dataSource = self
+        //AddButton
+        mainView.addButton.menu = makeCategoryMenu()
 
         mainView.todayButton.addTarget(self, action: #selector(todayButtonClicked), for: .touchUpInside)
         mainView.dateSelectButton.addTarget(self, action: #selector(dateSelectButtonClcicked), for: .touchUpInside)
@@ -90,13 +89,6 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
                 guard let self = self else { return }
                 self.viewModel.inputDataIntoArrayToDate(date: date)
                 self.mainView.homeTableView.reloadData()
-            }
-            .store(in: &cancellables)
-
-        viewModel.$alarmPrivacy
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.mainView.selectCollectionView.reloadData()
             }
             .store(in: &cancellables)
     }
@@ -339,28 +331,23 @@ extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
 }
 
-extension HomeViewViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Category.allCases.count
+extension HomeViewViewController {
+    // 시스템 메뉴는 iPhone Duo의 접힘 영역·화면 가장자리를 피해 위치를 스스로 조정한다.
+    private func makeCategoryMenu() -> UIMenu {
+        let actions = Category.allCases.map { category in
+            UIAction(
+                title: category.title,
+                image: UIImage(systemName: category.image)?
+                    .withTintColor(category.color, renderingMode: .alwaysOriginal)
+            ) { [weak self] _ in
+                self?.startWriting(category)
+            }
+        }
+
+        return UIMenu(children: actions)
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: SelectButtonCollectionViewCell.reuseIdentifier,
-            for: indexPath
-        ) as? SelectButtonCollectionViewCell
-        else { return UICollectionViewCell() }
-
-        guard let category = Category(rawValue: indexPath.item) else { return cell }
-
-        cell.configureCell(bgColor: category.color, image: category.image)
-
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let category = Category(rawValue: indexPath.item) else { return }
-
+    private func startWriting(_ category: Category) {
         switch category {
         case .memo, .growth, .shower, .hospital, .abnormal:
             let vc = WriteViewController()

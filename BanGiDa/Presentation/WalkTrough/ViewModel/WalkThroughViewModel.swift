@@ -20,7 +20,7 @@ final class WalkthroughViewModel {
             try saveDiaryUseCase.execute(
                 type: .memo,
                 date: Date(),
-                content: "상단의 버튼을 클릭하여\n메모를 작성해보세요!",
+                content: "오른쪽 아래 + 버튼을 눌러\n메모를 작성해보세요!",
                 animalName: petName ?? "신원 미상",
                 photoData: nil,
                 alarmTitle: nil,

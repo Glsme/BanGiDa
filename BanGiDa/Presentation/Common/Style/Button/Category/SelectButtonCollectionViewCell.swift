@@ -26,7 +26,14 @@ class SelectButtonCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // 접기·펼치기로 셀 크기가 바뀌어도 원형을 유지한다.
+        layer.cornerRadius = bounds.height / 2
+    }
+
     func configureUI() {
         self.addSubview(imageView)
     }
