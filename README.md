@@ -19,7 +19,7 @@
 - `Swift`, `MVVM`, `UIKit`, `APNs`, `MessageUI`, `StoreKit`
 - `Realm`, `SnapKit`, `FirebaseAnalytics`, `FirebaseCrashlytics`, `FCM`, `FSCalendar`, `Zip`,
     
-    `IQKeybordManagerSwift`, `TOCropViewController`
+    `IQKeybordManagerSwift`
 </br><br/>
 </br><br/>
 

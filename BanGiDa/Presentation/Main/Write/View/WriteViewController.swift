@@ -8,7 +8,6 @@
 import Combine
 import UIKit
 import PhotosUI
-import CropViewController
 
 final class WriteViewController: BaseViewController {
     let viewModel = WriteViewModel()
@@ -206,22 +205,24 @@ extension WriteViewController: PHPickerViewControllerDelegate {
             itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                 DispatchQueue.main.async {
                     guard let image = image as? UIImage else { return }
-                    let cropVC = CropViewController(image: image)
-                    cropVC.delegate = self
-                    cropVC.doneButtonTitle = "완료"
-                    cropVC.cancelButtonTitle = "취소"
-                    self.transViewController(ViewController: cropVC, type: .present)
+                    let cropViewController = ImageCropViewController(
+                        image: image,
+                        onCropped: { [weak self] croppedImage in
+                            self?.didCropImage(croppedImage)
+                        },
+                        onCancelled: { [weak self] in
+                            self?.dismiss(animated: true)
+                        }
+                    )
+                    self.transViewController(ViewController: cropViewController, type: .presentFullscreen)
                 }
             }
         }
     }
 }
 
-extension WriteViewController: CropViewControllerDelegate {
-    func cropViewController(_ cropViewController: CropViewController,
-                            didCropToImage image: UIImage,
-                            withRect cropRect: CGRect,
-                            angle: Int) {
+private extension WriteViewController {
+    func didCropImage(_ image: UIImage) {
         memoView.imageView.image = image
         memoView.imageButton.setTitle("이미지 편집", for: .normal)
         dismiss(animated: true)

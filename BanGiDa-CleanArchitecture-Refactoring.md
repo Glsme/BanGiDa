@@ -726,4 +726,4 @@ Story 모듈은 이미 Clean Architecture를 따르고 있으므로 **모든 리
 | 레이아웃 | SnapKit | UIKit 화면 |
 | DI | Swinject + @Injected 프로퍼티 래퍼 | 커스텀 래퍼 |
 | 반응형 | Combine (@Published, CurrentValueSubject) + Custom Observable | Phase 8에서 통일 |
-| 기타 | FSCalendar, CropViewController, IQKeyboardManager, Zip, AcknowList | |
+| 기타 | FSCalendar, IQKeyboardManager, Zip, AcknowList | 사진 크롭은 자체 구현(ImageCropViewController) |

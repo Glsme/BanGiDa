@@ -12,7 +12,6 @@ import SwiftUI
 import UIKit
 
 import AcknowList
-import CropViewController
 
 final class SettingViewController: BaseViewController {
     
@@ -306,19 +305,24 @@ extension SettingViewController: PHPickerViewControllerDelegate {
             itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                 DispatchQueue.main.async {
                     guard let image = image as? UIImage else { return }
-                    let cropVC = CropViewController(image: image)
-                    cropVC.delegate = self
-                    cropVC.doneButtonTitle = "완료"
-                    cropVC.cancelButtonTitle = "취소"
-                    self.transViewController(ViewController: cropVC, type: .present)
+                    let cropViewController = ImageCropViewController(
+                        image: image,
+                        onCropped: { [weak self] croppedImage in
+                            self?.didCropProfileImage(croppedImage)
+                        },
+                        onCancelled: { [weak self] in
+                            self?.dismiss(animated: true)
+                        }
+                    )
+                    self.transViewController(ViewController: cropViewController, type: .presentFullscreen)
                 }
             }
         }
     }
 }
 
-extension SettingViewController: CropViewControllerDelegate {
-    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+private extension SettingViewController {
+    func didCropProfileImage(_ image: UIImage) {
         mainView.profileView.setProfileImage(image)
 
         var saveError: Error?
