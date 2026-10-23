@@ -16,7 +16,6 @@ let package = Package(
     name: "BanGiDa",
     dependencies: [
         .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.0.0"),
-        .package(url: "https://github.com/WenchaoD/FSCalendar", from: "2.0.0"),
         .package(url: "https://github.com/marmelroy/Zip.git", from: "2.0.0"),
         .package(url: "https://github.com/vtourraine/AcknowList.git", from: "3.0.0"),
         .package(url: "https://github.com/hackiftekhar/IQKeyboardManager.git", from: "6.5.0"),

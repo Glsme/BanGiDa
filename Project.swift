@@ -65,7 +65,6 @@ let project = Project(
             entitlements: .file(path: "BanGiDa/BanGiDa.entitlements"),
             dependencies: [
                 .external(name: "SnapKit"),
-                .external(name: "FSCalendar"),
                 .external(name: "Zip"),
                 .external(name: "AcknowList"),
                 .external(name: "IQKeyboardManagerSwift"),
