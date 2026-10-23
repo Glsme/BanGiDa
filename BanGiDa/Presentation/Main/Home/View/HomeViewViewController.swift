@@ -8,8 +8,6 @@
 import UIKit
 import Combine
 
-import FSCalendar
-
 final class HomeViewViewController: BaseViewController, UIGestureRecognizerDelegate {
 
     @Injected private var analyticsRepository: AnalyticsRepository
@@ -17,12 +15,25 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     let viewModel = HomeViewModel()
     private var cancellables = Set<AnyCancellable>()
 
+    private var calendarModel: HomeCalendarModel {
+        mainView.homeTableView.calendarModel
+    }
+
+    // 위아래로 끌어 주↔월을 바꾼다. 테이블 영역에서 끌어도 동작하도록 화면 전체에 붙인다.
     lazy var scopeGesture: UIPanGestureRecognizer = {
         [unowned self] in
-        let panGesture = UIPanGestureRecognizer(target: mainView.homeTableView.calendar, action: #selector(mainView.homeTableView.calendar.handleScopeGesture))
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleScopeGesture(_:)))
         panGesture.delegate = self
         panGesture.minimumNumberOfTouches = 1
         panGesture.maximumNumberOfTouches = 2
+        return panGesture
+    }()
+
+    // 캘린더를 좌우로 끌어 이전·다음 주(월)로 넘긴다.
+    lazy var pageGesture: UIPanGestureRecognizer = {
+        [unowned self] in
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePageGesture(_:)))
+        panGesture.delegate = self
         return panGesture
     }()
 
@@ -33,7 +44,7 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.currentDate = mainView.homeTableView.calendar.today ?? Date()
+        viewModel.currentDate = calendarModel.today
         bind()
         todayButtonClicked()
         sendFireBaseAnalytics("AppOpen")
@@ -58,19 +69,19 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
         mainView.homeTableView.dataSource = self
 
         //Calendar
-        mainView.homeTableView.calendar.delegate = self
-        mainView.homeTableView.calendar.dataSource = self
+        addChild(mainView.homeTableView.calendarHostingController)
+        mainView.homeTableView.calendarHostingController.didMove(toParent: self)
+        configureCalendar()
 
         //AddButton
         mainView.addButton.menu = makeCategoryMenu()
 
-        mainView.todayButton.addTarget(self, action: #selector(todayButtonClicked), for: .touchUpInside)
-        mainView.dateSelectButton.addTarget(self, action: #selector(dateSelectButtonClcicked), for: .touchUpInside)
-
         view.addGestureRecognizer(self.scopeGesture)
+        mainView.homeTableView.calendarView.addGestureRecognizer(self.pageGesture)
         mainView.homeTableView.panGestureRecognizer.require(toFail: scopeGesture)
+        mainView.homeTableView.panGestureRecognizer.require(toFail: pageGesture)
 
-        mainView.homeTableView.calendar.accessibilityIdentifier = "calendar"
+        mainView.homeTableView.calendarView.accessibilityIdentifier = "calendar"
     }
 
     func setData() {
@@ -78,7 +89,7 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
 
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.mainView.homeTableView.calendar.reloadData()
+            self.calendarModel.reloadEvents()
             self.mainView.homeTableView.reloadData()
         }
     }
@@ -94,9 +105,9 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
     }
 
     @objc func todayButtonClicked() {
-        mainView.homeTableView.calendar.setCurrentPage(Date(), animated: true)
-        mainView.homeTableView.calendar.select(Date(), scrollToDate: true)
-        calendar(mainView.homeTableView.calendar, didSelect: mainView.homeTableView.calendar.today ?? Date(), at: .current)
+        let today = calendarModel.today
+        calendarModel.select(today, scrollToDate: true)
+        didSelectCalendarDate(today)
     }
 
     @objc func dateSelectButtonClcicked() {
@@ -128,10 +139,8 @@ final class HomeViewViewController: BaseViewController, UIGestureRecognizerDeleg
             self.viewModel.currentDateString = self.dateFormatter.string(from: datePicker.date)
             self.viewModel.currentDate = self.dateFormatter.date(from: self.viewModel.currentDateString) ?? Date()
 
-            self.calendar(self.mainView.homeTableView.calendar, didSelect: self.viewModel.currentDate, at: .current)
-
-            self.mainView.homeTableView.calendar.setCurrentPage(self.viewModel.currentDate, animated: true)
-            self.mainView.homeTableView.calendar.select(self.viewModel.currentDate, scrollToDate: true)
+            self.didSelectCalendarDate(self.viewModel.currentDate)
+            self.calendarModel.select(self.viewModel.currentDate, scrollToDate: true)
         }
 
         alert.addAction(ok)
@@ -271,7 +280,7 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
             self.viewModel.deleteDiary(entry)
             self.viewModel.fetchData()
 
-            self.mainView.homeTableView.calendar.reloadData()
+            self.calendarModel.reloadEvents()
             self.mainView.homeTableView.reloadData()
         }
 
@@ -283,51 +292,82 @@ extension HomeViewViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension HomeViewViewController: FSCalendarDelegate, FSCalendarDataSource {
-    func minimumDate(for calendar: FSCalendar) -> Date {
-        return dateFormatterForCalendar.date(from: "1970.01.01")!
-    }
+// MARK: - Calendar
 
-    func maximumDate(for calendar: FSCalendar) -> Date {
-        return dateFormatterForCalendar.date(from: "2099.12.31")!
-    }
-
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        let shouldBegin = mainView.homeTableView.contentOffset.y <= -mainView.homeTableView.contentInset.top
-
-        if shouldBegin {
-            let velocity = self.scopeGesture.velocity(in: self.view)
-            switch mainView.homeTableView.calendar.scope {
-            case .month:
-                return velocity.y < 0
-            case .week:
-                return velocity.y > 0
-            @unknown default:
-                fatalError()
-            }
+extension HomeViewViewController {
+    private func configureCalendar() {
+        calendarModel.eventCount = { [weak self] date in
+            self?.viewModel.fetchEventCount(date: date) ?? 0
         }
-
-        return shouldBegin
-    }
-
-    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        return viewModel.fetchEventCount(date: date) == 0 ? 0 : 1
-    }
-
-    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
-        calendar.snp.updateConstraints { make in
-            make.height.equalTo(bounds.height)
+        calendarModel.onSelect = { [weak self] date in
+            self?.didSelectCalendarDate(date)
         }
-
-        self.view.layoutIfNeeded()
-        mainView.homeTableView.reloadData()
+        calendarModel.onTodayTap = { [weak self] in
+            self?.todayButtonClicked()
+        }
+        calendarModel.onDateSelectTap = { [weak self] in
+            self?.dateSelectButtonClcicked()
+        }
     }
 
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+    private func didSelectCalendarDate(_ date: Date) {
         viewModel.currentDate = date
         viewModel.inputDataIntoArrayToDate(date: viewModel.currentDate)
 
         mainView.homeTableView.reloadData()
+    }
+
+    @objc private func handleScopeGesture(_ gesture: UIPanGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            calendarModel.beginScopeTransition()
+        case .changed:
+            calendarModel.updateScopeTransition(translation: gesture.translation(in: view).y)
+        case .ended, .cancelled, .failed:
+            calendarModel.endScopeTransition(velocity: gesture.velocity(in: view).y)
+        default:
+            break
+        }
+    }
+
+    @objc private func handlePageGesture(_ gesture: UIPanGestureRecognizer) {
+        let calendarView = mainView.homeTableView.calendarView
+
+        switch gesture.state {
+        case .changed:
+            calendarModel.updatePageDrag(translation: gesture.translation(in: calendarView).x)
+        case .ended, .cancelled, .failed:
+            calendarModel.endPageDrag(
+                translation: gesture.translation(in: calendarView).x,
+                velocity: gesture.velocity(in: calendarView).x,
+                width: calendarView.bounds.width
+            )
+        default:
+            break
+        }
+    }
+
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer === pageGesture {
+            let velocity = pageGesture.velocity(in: view)
+            return abs(velocity.x) > abs(velocity.y)
+        }
+
+        guard gestureRecognizer === scopeGesture else { return true }
+
+        // 테이블이 맨 위에 있을 때만, 주 달력은 아래로·월 달력은 위로 끌 때 전환한다.
+        let isAtTop = mainView.homeTableView.contentOffset.y <= -mainView.homeTableView.contentInset.top
+        guard isAtTop else { return false }
+
+        let velocity = scopeGesture.velocity(in: view)
+        guard abs(velocity.y) > abs(velocity.x) else { return false }
+
+        switch calendarModel.scope {
+        case .month:
+            return velocity.y < 0
+        case .week:
+            return velocity.y > 0
+        }
     }
 }
 

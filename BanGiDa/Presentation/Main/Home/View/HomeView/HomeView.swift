@@ -27,21 +27,6 @@ final class HomeView: BaseView {
         return view
     }()
     
-    let todayButton: UIButton = {
-        let view = UIButton()
-        view.setTitle("Today", for: .normal)
-        view.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
-        view.setTitleColor(UIColor.greenblue, for: .normal)
-        return view
-    }()
-    
-    let dateSelectButton: UIButton = {
-        let view = UIButton()
-        view.setImage(UIImage(systemName: "calendar"), for: .normal)
-        view.tintColor = .memoDarkGray
-        return view
-    }()
-
     // 카테고리별 기록 작성 진입점. iPhone Duo에서 측면 세로 바와 겹치지 않도록
     // 상단 가로 행 대신 safe area 안 오른쪽 아래에 두고, 카테고리는 시스템 메뉴로 띄운다.
     let addButton: UIButton = {
@@ -75,12 +60,10 @@ final class HomeView: BaseView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        homeTableView.setInitialCalendarHeightIfNeeded(AdaptiveLayout.calendarHeight(containerHeight: bounds.height))
+        homeTableView.updateCalendarMonthHeight(AdaptiveLayout.calendarHeight(containerHeight: bounds.height))
     }
 
     override func configureUI() {
-        homeTableView.calendar.addSubview(todayButton)
-        homeTableView.calendar.addSubview(dateSelectButton)
 //        imageView.addSubview(imageButton)
         [homeTableView, addButton].forEach {
             self.addSubview($0)
@@ -95,19 +78,6 @@ final class HomeView: BaseView {
         addButton.snp.makeConstraints { make in
             make.trailing.bottom.equalTo(self.safeAreaLayoutGuide).inset(Self.addButtonMargin)
             make.width.height.equalTo(Self.addButtonSize)
-        }
-
-        todayButton.snp.makeConstraints { make in
-            make.centerY.equalTo(homeTableView.calendar.calendarHeaderView.snp.centerY).multipliedBy(1.1)
-            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-20)
-            make.height.equalTo(20)
-            make.width.equalTo(50)
-        }
-        
-        dateSelectButton.snp.makeConstraints { make in
-            make.centerY.equalTo(homeTableView.calendar.calendarHeaderView.snp.centerY).multipliedBy(1.2)
-            make.leading.equalTo(self.safeAreaLayoutGuide).offset(20)
-            make.height.width.equalTo(50)
         }
     }
 }
