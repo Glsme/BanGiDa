@@ -104,3 +104,80 @@ struct CalendarLayoutMetricsTests {
         #expect(metrics.gridOffset(progress: 1, focusRow: 3) == 0)
     }
 }
+
+@MainActor
+struct HomeCalendarModelTests {
+    private let math = CalendarDateMath(
+        calendar: CalendarDateMath.makeCalendar(timeZone: TimeZone(identifier: "Asia/Seoul")!)
+    )
+
+    private func date(_ year: Int, _ month: Int, _ day: Int) -> Date {
+        math.calendar.date(from: DateComponents(year: year, month: month, day: day))!
+    }
+
+    private func makeModel() -> HomeCalendarModel {
+        let model = HomeCalendarModel(dateMath: math, today: date(2026, 10, 23))
+        model.setMonthHeight(367)
+        return model
+    }
+
+    @Test func startsOnWeekOfToday() {
+        let model = makeModel()
+
+        #expect(model.scope == .week)
+        #expect(model.currentPage == date(2026, 10, 18))
+        #expect(model.selectedDate == date(2026, 10, 23))
+    }
+
+    @Test func programmaticSelectMovesPageWithoutNotifying() {
+        let model = makeModel()
+        var notified = false
+        model.onSelect = { _ in notified = true }
+
+        model.select(date(2026, 12, 25))
+
+        #expect(model.currentPage == date(2026, 12, 20))
+        #expect(!notified)
+    }
+
+    @Test func tapNotifiesSelection() {
+        let model = makeModel()
+        var selected: Date?
+        model.onSelect = { selected = $0 }
+
+        model.tap(date(2026, 10, 20))
+
+        #expect(selected == date(2026, 10, 20))
+        #expect(model.currentPage == date(2026, 10, 18))
+    }
+
+    @Test func scopeDragFollowsTranslation() {
+        let model = makeModel()
+        let weekHeight = model.height
+
+        #expect(model.beginScopeTransition())
+        // 10월은 5주이므로 4행만큼 끌면 월 달력이 다 펼쳐진다.
+        model.updateScopeTransition(translation: model.metrics.rowHeight * 2)
+
+        #expect(model.scopeTransition?.focusRow == 3)
+        #expect(abs((model.scopeTransition?.progress ?? 0) - 0.5) < 0.001)
+        #expect(abs(model.height - (weekHeight + model.metrics.rowHeight * 2)) < 0.001)
+    }
+
+    @Test func eventLookupIsCachedUntilReload() {
+        let model = makeModel()
+        var lookups = 0
+        model.eventCount = { _ in
+            lookups += 1
+            return 1
+        }
+
+        #expect(model.hasEvent(on: date(2026, 10, 23)))
+        #expect(model.hasEvent(on: date(2026, 10, 23)))
+        #expect(lookups == 1)
+
+        model.reloadEvents()
+        _ = model.hasEvent(on: date(2026, 10, 23))
+        #expect(lookups == 2)
+    }
+}
