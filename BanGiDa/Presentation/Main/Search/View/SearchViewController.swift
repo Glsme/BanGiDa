@@ -192,11 +192,7 @@ extension SearchViewController {
         var image = UIImage()
 
         if Category(rawValue: index) != .alarm {
-            if let imageData = viewModel.loadImage(for: entry) {
-                image = UIImage(data: imageData) ?? UIImage(named: "BasicDog")!
-            } else {
-                image = UIImage(named: "BasicDog")!
-            }
+            image = viewModel.loadImage(for: entry).flatMap(UIImage.init(data:)) ?? UIImage(named: "BasicDog") ?? UIImage()
         }
 
         completionHandler(dateText, contentText, alarmTitle, image)
