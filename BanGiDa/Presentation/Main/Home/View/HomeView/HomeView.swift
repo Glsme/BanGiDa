@@ -22,7 +22,6 @@ final class HomeView: BaseView {
         let bottomInset = HomeView.addButtonSize + HomeView.addButtonMargin * 2
         view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
         view.verticalScrollIndicatorInsets.bottom = bottomInset
-        view.contentInsetAdjustmentBehavior = .never
         view.rowHeight = 100
         return view
     }()
@@ -71,8 +70,11 @@ final class HomeView: BaseView {
     }
 
     override func setConstraints() {
+        // safe area 밖(iPhone Duo 측면 바·하단)에서도 스크롤되도록 좌우·아래는 끝까지 늘린다.
+        // 내비게이션 바가 없어 위는 상태 바 아래에서 시작한다.
         homeTableView.snp.makeConstraints { make in
-            make.edges.equalTo(self.safeAreaLayoutGuide)
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.leading.trailing.bottom.equalToSuperview()
         }
 
         addButton.snp.makeConstraints { make in

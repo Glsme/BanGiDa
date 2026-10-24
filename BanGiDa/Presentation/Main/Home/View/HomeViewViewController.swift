@@ -356,7 +356,7 @@ extension HomeViewViewController {
         guard gestureRecognizer === scopeGesture else { return true }
 
         // 테이블이 맨 위에 있을 때만, 주 달력은 아래로·월 달력은 위로 끌 때 전환한다.
-        let isAtTop = mainView.homeTableView.contentOffset.y <= -mainView.homeTableView.contentInset.top
+        let isAtTop = mainView.homeTableView.contentOffset.y <= -mainView.homeTableView.adjustedContentInset.top
         guard isAtTop else { return false }
 
         let velocity = scopeGesture.velocity(in: view)

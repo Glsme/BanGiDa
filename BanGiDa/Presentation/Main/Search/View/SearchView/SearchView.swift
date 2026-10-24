@@ -54,7 +54,9 @@ final class SearchView: BaseView {
         
         filterTableView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom)
-            make.bottom.leading.trailing.equalTo(self.safeAreaLayoutGuide)
+            // safe area 밖(iPhone Duo 측면 바·하단)에서도 스크롤되도록 프레임은 끝까지 늘리고,
+            // 셀은 테이블이 safe area 안으로 들여 놓는다.
+            make.bottom.leading.trailing.equalToSuperview()
         }
     }
 }
