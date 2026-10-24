@@ -20,7 +20,6 @@ let package = Package(
         .package(url: "https://github.com/marmelroy/Zip.git", from: "2.0.0"),
         .package(url: "https://github.com/vtourraine/AcknowList.git", from: "3.0.0"),
         .package(url: "https://github.com/hackiftekhar/IQKeyboardManager.git", from: "6.5.0"),
-        .package(url: "https://github.com/TimOliver/TOCropViewController.git", from: "2.0.0"),
         .package(url: "https://github.com/realm/realm-swift.git", from: "20.0.5"),
         .package(url: "https://github.com/Swinject/Swinject.git", from: "2.10.0"),
     ]

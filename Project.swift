@@ -69,7 +69,6 @@ let project = Project(
                 .external(name: "Zip"),
                 .external(name: "AcknowList"),
                 .external(name: "IQKeyboardManagerSwift"),
-                .external(name: "CropViewController"),
                 .external(name: "Swinject"),
                 .external(name: "Realm"),
                 .external(name: "RealmSwift"),
